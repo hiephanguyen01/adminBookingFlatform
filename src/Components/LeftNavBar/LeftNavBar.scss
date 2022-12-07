@@ -1,0 +1,12 @@
+.LeftNavBar {
+  height: calc(100vh - 80px);
+  overflow-y: scroll;
+  width: 256px;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+  padding-top: 10px;
+}
+.LeftNavBar::-webkit-scrollbar {
+  width: 0 !important;
+  display: none;
+}
