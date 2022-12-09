@@ -15,15 +15,20 @@ import DataExport from "./Page/DataExport/DataExport";
 import Dao from "./Page/Dao/Dao";
 import Notification from "./Page/Notification/Notification";
 import { Partner as NotiPartner } from "./Page/Notification/Partner/Partner";
+import PartnerNotificationDetail from "./Page/Notification/Partner/pages/PartnerNotificationDetail";
 import { Customer as NotiCustomer } from "./Page/Notification/Customer/Customer";
 import CreateNotification from "./Page/Notification/CreateNotification/CreateNotification";
 import Setting from "./Page/Notification/Setting/Setting";
 import PromoCode from "./Page/PromoCode/PromoCode";
 import PromoPartner from "./Page/PromoCode/PromoPartner/PromoPartner";
-import PromodeCustomer from "./Page/PromoCode/PromodeCustomer/PromodeCustomer";
-import PromodeCreate from "./Page/PromoCode/PromodeCreate/PromodeCreate";
+import PromoCustomer from "./Page/PromoCode/PromoCustomer/PromoCustomer";
+import PromoCreate from "./Page/PromoCode/PromoCreate/PromoCreate";
 import Dev from "./Page/CoreSetting/Dev";
 import CoreSetting from "./Page/CoreSetting/CoreSetting";
+import { PartnerDetail } from "./Page/ManageAccount/Partner/Detail";
+import { DetailEditPartner } from "./Page/ManageAccount/Partner/DetailEdit";
+import { CustomerDetail } from "./Page/ManageAccount/Customer/Detail";
+import { EditCustomer } from "./Page/ManageAccount/Customer/EditCustomer";
 
 const App = () => {
   return (
@@ -38,7 +43,12 @@ const App = () => {
           </Route>
           <Route path="manage" element={<ManageAccount />}>
             <Route path="partner" element={<Partner />}></Route>
+            <Route path="partner/:id" element={<PartnerDetail />}></Route>
+            <Route path="partner/edit/:id" element={<DetailEditPartner />}></Route>
+
             <Route path="customer" element={<Customer />}></Route>
+            <Route path="customer/:id" element={<CustomerDetail />}></Route>
+            <Route path="customer/edit/:id" element={<EditCustomer />}></Route>
           </Route>
           <Route path="rank-report" element={<RankReport />}></Route>
           <Route path="manage-order" element={<ManageOrder />}></Route>
@@ -49,11 +59,19 @@ const App = () => {
             <Route path="customer" element={<NotiCustomer />}></Route>
             <Route path="create" element={<CreateNotification />}></Route>
             <Route path="setting" element={<Setting />}></Route>
+            <Route
+              path="partner/view-detail"
+              element={<PartnerNotificationDetail />}
+            />
+            <Route
+              path="partner/edit"
+              element={<PartnerNotificationDetail edit={true} />}
+            />
           </Route>
           <Route path="promo-code" element={<PromoCode />}>
             <Route path="partner" element={<PromoPartner />}></Route>
-            <Route path="customer" element={<PromodeCustomer />}></Route>
-            <Route path="create" element={<PromodeCreate />}></Route>
+            <Route path="customer" element={<PromoCustomer />}></Route>
+            <Route path="create" element={<PromoCreate />}></Route>
           </Route>
           <Route path="setting" element={<CoreSetting />}>
             <Route path="city" element={<Dev />}></Route>

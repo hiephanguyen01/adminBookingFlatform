@@ -4,8 +4,10 @@
     height: calc(100vh - 80px);
     overflow-y: scroll;
     background-color: rgb(246, 246, 246);
+
     .papper {
       margin: 15px;
+      background-color: transparent;
     }
   }
 }

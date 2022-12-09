@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 const Notification = () => {
   return (
-    <div>
+    <div style={{ backgroundColor: "transparent" }}>
       <Outlet />
     </div>
   );

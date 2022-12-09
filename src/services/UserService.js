@@ -43,6 +43,9 @@ class UserService extends BaseService {
       Category,
     });
   };
+  getAllCustomerNotification = () => {
+    return this.get(`/api/notification/user?option=1`);
+  };
 }
 
 export const userService = new UserService();
