@@ -1,0 +1,30 @@
+.PartnerDetailEdit {
+    padding: 1rem 0;
+    .note {
+        padding: 0.75rem 2.5rem;
+        .title {
+            margin-bottom: 1rem;
+        }
+        p {
+            font-weight: normal;
+        }
+        p + p {
+            padding-top: 1rem;
+        }
+    }
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+}
+.modal {
+    .title {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+}
