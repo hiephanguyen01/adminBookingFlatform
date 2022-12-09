@@ -3,9 +3,10 @@
     width: calc(100vw - 256px);
     overflow-y: scroll;
     background-color: rgb(246, 246, 246);
+
     .papper {
       margin: 10px;
-      background-color: #fff;
+      background-color: transparent;
     }
   }
 }
