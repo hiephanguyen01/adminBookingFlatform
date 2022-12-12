@@ -13,7 +13,7 @@ export class BannerService extends BaseService {
   getDetailById = (id) => {
     return this.get(`/api/banner/${id}`);
   };
-  deteleBanner = (id) => {
+  deleteBanner = (id) => {
     return this.delete(`/api/banner/${id}`);
   };
 }

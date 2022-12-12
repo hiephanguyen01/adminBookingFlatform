@@ -29,6 +29,12 @@ import { PartnerDetail } from "./Page/ManageAccount/Partner/Detail";
 import { DetailEditPartner } from "./Page/ManageAccount/Partner/DetailEdit";
 import { CustomerDetail } from "./Page/ManageAccount/Customer/Detail";
 import { EditCustomer } from "./Page/ManageAccount/Customer/EditCustomer";
+import Banner from "./Page/CoreSetting/Banner/Banner";
+import CreateBanner from "./Page/CoreSetting/Banner/Components/CreateBanner/CreateBanner";
+import EditBanner from "./Page/CoreSetting/Banner/Components/EditBanner/EditBanner";
+import City from "./Page/CoreSetting/City/City";
+import District from "./Page/CoreSetting/District/District";
+import Ward from "./Page/CoreSetting/Ward/Ward";
 
 const App = () => {
   return (
@@ -44,7 +50,10 @@ const App = () => {
           <Route path="manage" element={<ManageAccount />}>
             <Route path="partner" element={<Partner />}></Route>
             <Route path="partner/:id" element={<PartnerDetail />}></Route>
-            <Route path="partner/edit/:id" element={<DetailEditPartner />}></Route>
+            <Route
+              path="partner/edit/:id"
+              element={<DetailEditPartner />}
+            ></Route>
 
             <Route path="customer" element={<Customer />}></Route>
             <Route path="customer/:id" element={<CustomerDetail />}></Route>
@@ -74,13 +83,18 @@ const App = () => {
             <Route path="create" element={<PromoCreate />}></Route>
           </Route>
           <Route path="setting" element={<CoreSetting />}>
-            <Route path="city" element={<Dev />}></Route>
-            <Route path="distric" element={<Dev />}></Route>
-            <Route path="ward" element={<Dev />}></Route>
+            <Route path="city" element={<City />}></Route>
+            <Route path="district" element={<District />}></Route>
+            <Route path="ward" element={<Ward />}></Route>
             <Route path="webhook" element={<Dev />}></Route>
             <Route path="banned-word" element={<Dev />}></Route>
             <Route path="question" element={<Dev />}></Route>
-            <Route path="banner" element={<Dev />}></Route>
+            <Route path="banner" element={<Banner />}></Route>
+            <Route path="banner/create" element={<CreateBanner />}></Route>
+            <Route
+              path="banner/edit"
+              element={<EditBanner edit={true} />}
+            ></Route>
           </Route>
         </Route>
       </Routes>

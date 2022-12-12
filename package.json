@@ -22,7 +22,7 @@
     "react-multi-select-component": "^4.3.4",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.4.4",
-    "recharts": "^2.1.16",
+    "recharts": "^2.2.0",
     "sass": "^1.56.1"
   },
   "devDependencies": {

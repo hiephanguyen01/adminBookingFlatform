@@ -83,7 +83,7 @@ const items = [
     children: [
       { label: "Banner", key: "/setting/banner" },
       { label: "Tỉnh / Thành phố", key: "/setting/city" },
-      { label: "Quận / Huyện", key: "/setting/distric" },
+      { label: "Quận / Huyện", key: "/setting/district" },
       { label: "Phường / Xã ", key: "/setting/ward" },
       { label: "Webhook", key: "/setting/webhook" },
       { label: "Từ cấm", key: "/setting/banned-word" },

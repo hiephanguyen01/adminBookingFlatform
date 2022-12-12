@@ -23,7 +23,8 @@ const renderCustomizedLabel = ({
       y={y}
       fill="white"
       textAnchor={x > cx ? "start" : "end"}
-      dominantBaseline="central">
+      dominantBaseline="central"
+    >
       {`${(percent * 100).toFixed(0)}%`}
     </text>
   );
@@ -46,13 +47,15 @@ const PieChartOrder = ({ date, totalCount }) => {
             <div className="item">
               <div
                 className="color"
-                style={{ backgroundColor: "#00C49F" }}></div>{" "}
+                style={{ backgroundColor: "#00C49F" }}
+              ></div>{" "}
               Thành công
             </div>
             <div className="item">
               <div
                 className="color"
-                style={{ backgroundColor: "#E97777" }}></div>{" "}
+                style={{ backgroundColor: "#E97777" }}
+              ></div>{" "}
               Thất bại
             </div>
           </div>
@@ -60,7 +63,8 @@ const PieChartOrder = ({ date, totalCount }) => {
         <Col
           lg={12}
           xs={24}
-          style={{ padding: " 0 0 20px 20px", textAlign: "center" }}>
+          style={{ padding: " 0 0 20px 20px", textAlign: "center" }}
+        >
           <div style={{ justifyContent: "center", display: "flex" }}>
             <PieChart width={200} height={200}>
               <Pie
@@ -71,7 +75,8 @@ const PieChartOrder = ({ date, totalCount }) => {
                 label={renderCustomizedLabel}
                 outerRadius={100}
                 fill="#8884d8"
-                dataKey="value">
+                dataKey="value"
+              >
                 {data.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
