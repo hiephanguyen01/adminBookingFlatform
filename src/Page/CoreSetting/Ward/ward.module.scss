@@ -1,0 +1,19 @@
+.district-filter {
+    padding: 20px 30px;
+    background-color: white;
+    margin-bottom: 20px;
+
+    .label-city {
+        margin-right: 10px;
+    }
+}
+
+.district-container {
+    background-color: white;
+    padding: 20px 30px;
+
+    .district-header {
+        display: flex;
+        justify-content: space-between;
+    }
+}

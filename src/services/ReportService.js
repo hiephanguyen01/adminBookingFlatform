@@ -7,6 +7,12 @@ class ReportService extends BaseService {
   createReportDao = (data) => {
     return this.post(`/api/dao-report/`, data);
   };
+  getAllRateReport = (query) => {
+    return this.get(`/api/rating&report/`, query);
+  };
+  getPostReportById = (id, category) => {
+    return this.get(`/api/rating&report/${id}?category=${category}`);
+  };
 }
 
 export const reportService = new ReportService();

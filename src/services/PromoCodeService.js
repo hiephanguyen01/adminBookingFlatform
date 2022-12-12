@@ -1,6 +1,9 @@
 import { BaseService } from "./baseService";
 
 class PromoCodeService extends BaseService {
+  createPromo = (data) => {
+    return this.post(`/api/promo-code`, data);
+  };
   getAllPromoCode = (limit, page) => {
     return this.get(`/api/promoCode?limit=${limit}&page=${page}`);
   };

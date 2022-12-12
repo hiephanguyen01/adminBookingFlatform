@@ -42,6 +42,7 @@ const NOTIFY_TYPE = [
 ];
 
 const CreateNotification = () => {
+  const [form] = Form.useForm();
   const [data, setData] = useState({
     Content: "",
     Object: 0,
@@ -154,6 +155,7 @@ const CreateNotification = () => {
 
   const handleSubmit = async () => {
     // console.log(value);
+
     try {
       let newData = { ...data },
         newException = "";
@@ -188,16 +190,6 @@ const CreateNotification = () => {
           newException = ":" + newData.Object;
         }
       }
-      console.log({
-        Title: newData.Title,
-        Content: newData.Content,
-        Type: newData.Type,
-        SendingTime: moment(newData.SendingTime["$d"])
-          .add(7, "hour")
-          .toISOString(),
-        Exception: newException,
-        image: data.image.file,
-      });
       // delete newNotification.image.preview;
       const formData = new FormData();
       formData.append("Title", newData.Title);
@@ -211,6 +203,7 @@ const CreateNotification = () => {
       formData.append("image", newData.image.file.originFileObj);
       await notifyService.createNotification(formData);
       toastMessage("Tạo thông báo thành công!", "success");
+      form.resetFields();
     } catch (error) {
       toastMessage("Tạo thông báo thất bại!", "error");
     }
@@ -221,11 +214,11 @@ const CreateNotification = () => {
       <Form
         // labelCol={{ span: 4 }}
         wrapperCol={{ span: 18 }}
+        form={form}
         layout="vertical"
         onValuesChange={onFormChange}
         // disabled={componentDisabled}
         size="large"
-        initialValues={data}
         onFinish={handleSubmit}
       >
         <Row>
