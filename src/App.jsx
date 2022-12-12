@@ -20,6 +20,9 @@ import Partner from "./Page/ManageAccount/Partner/Partner";
 import ManageOrder from "./Page/ManageOrder/ManageOrder";
 import CreateNotification from "./Page/Notification/CreateNotification/CreateNotification";
 import { Customer as NotiCustomer } from "./Page/Notification/Customer/Customer";
+import DetailOrder from "./Page/ManageOrder/Detail";
+import DataExport from "./Page/DataExport/DataExport";
+import Dao from "./Page/Dao";
 import Notification from "./Page/Notification/Notification";
 import PartnerNotificationDetail from "./Page/Notification/Partner/pages/PartnerNotificationDetail";
 import { Partner as NotiPartner } from "./Page/Notification/Partner/Partner";
@@ -47,7 +50,8 @@ const App = () => {
             <Route path="partner/:id" element={<PartnerDetail />}></Route>
             <Route
               path="partner/edit/:id"
-              element={<DetailEditPartner />}></Route>
+              element={<DetailEditPartner />}
+            ></Route>
 
             <Route path="customer" element={<Customer />}></Route>
             <Route path="customer/:id" element={<CustomerDetail />}></Route>
@@ -56,7 +60,12 @@ const App = () => {
 
           <Route path="rank-report" element={<RankReport />}></Route>
           <Route path="rank-report/:id" element={<DetailRateReport />}></Route>
-          <Route path="manage-order" element={<ManageOrder />}></Route>
+          <Route path="manage-order" element={<ManageOrder />} />
+          <Route path="manage-order/observe" element={<DetailOrder />} />
+          <Route
+            path="manage-order/modify"
+            element={<DetailOrder modify={true} />}
+          />
           <Route path="data-export" element={<DataExport />}></Route>
           <Route path="dao" element={<Dao />}></Route>
           <Route path="notification" element={<Notification />}>
