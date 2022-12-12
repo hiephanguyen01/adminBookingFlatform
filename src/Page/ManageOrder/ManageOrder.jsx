@@ -404,8 +404,7 @@ export const ManageOrder = () => {
           }}
           // onFinish={onFinish}
           onValuesChange={(e) => onChangeFilter(e)}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Form.Item>
             {expandHeader
               ? formItem.slice(2, 6).map((item, idx) => (
@@ -413,8 +412,7 @@ export const ManageOrder = () => {
                     key={idx}
                     name={item.name}
                     label={item.label}
-                    style={item.style}
-                  >
+                    style={item.style}>
                     {item.el}
                   </Form.Item>
                 ))
@@ -423,8 +421,7 @@ export const ManageOrder = () => {
                     key={idx}
                     name={item.name}
                     label={item.label}
-                    style={item.style}
-                  >
+                    style={item.style}>
                     {item.el}
                   </Form.Item>
                 ))}
