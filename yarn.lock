@@ -2764,7 +2764,7 @@ recharts-scale@^0.4.4:
   dependencies:
     decimal.js-light "^2.4.1"
 
-recharts@^2.1.16:
+recharts@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/recharts/-/recharts-2.2.0.tgz#1b8ba0799ff0feb96c87f009cd2ddd8cf5108817"
   integrity sha512-/uRJ0oaESGyz//PgAzvrwXEhrKaNha1ELLysEMRklbnsddiVQsSNicP7DWiz8qFcyYXy3BrDqrUjiLiVRTSMtA==

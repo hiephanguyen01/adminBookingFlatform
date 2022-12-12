@@ -1,0 +1,15 @@
+.create-banner-container {
+    background-color: white;
+    padding: 20px 30px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h2 {
+        font-size: 30px;
+    }
+}
