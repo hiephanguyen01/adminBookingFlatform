@@ -1,0 +1,109 @@
+.manage-order {
+  &__header {
+    background-color: #fff;
+    padding: 24px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 3px 6px #00000029;
+    .ant-form {
+      width: 100%;
+
+      .order-input {
+        input {
+          margin-left: 10px !important;
+        }
+      }
+      div {
+        margin-bottom: 0%;
+
+        .ant-select {
+          width: 100% !important;
+        }
+      }
+    }
+  }
+
+  &__table {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 24px;
+    background-color: #fff;
+    box-shadow: 0px 3px 6px #00000029;
+    .ant-table-cell-row-hover {
+      background: none !important;
+    }
+    .more {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      .more-logo {
+        width: 30px;
+        aspect-ratio: 1 /1;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+        &:hover {
+          background-color: #f4f4f4;
+        }
+      }
+
+      .more-modal {
+        width: fit-content;
+        position: absolute;
+        top: 70%;
+        left: -100%;
+        box-shadow: 0px 3px 6px #00000029;
+        background-color: #fff;
+        padding: 0%;
+        z-index: 10;
+        li {
+          padding: 7px 15px 6px 15px;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          &:hover {
+            background-color: #f4f4f4;
+          }
+          p {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+    :where(.css-dev-only-do-not-override-1x8djam).ant-table-wrapper .ant-table-thead > tr > th {
+      background: none !important;
+      //   border-bottom: 0 !important;
+    }
+    :where(.css-dev-only-do-not-override-1x8djam).ant-table-wrapper
+      .ant-table-container
+      table
+      > thead
+      > tr:first-child
+      th:first-child {
+      border-start-start-radius: 0px !important;
+    }
+    :where(.css-dev-only-do-not-override-1x8djam).ant-table-wrapper
+      .ant-table-container
+      table
+      > thead
+      > tr:first-child
+      th:last-child {
+      border-start-end-radius: 0px !important;
+    }
+    :where(.css-dev-only-do-not-override-1x8djam).ant-table-wrapper .ant-table-thead > tr > th {
+      border-bottom: 0px;
+    }
+    .ant-table-cell {
+      &::before {
+        height: 0 !important;
+      }
+      border: 1px solid #bcbcbc !important;
+    }
+  }
+}

@@ -10,9 +10,9 @@ import ManageAccount from "./Page/ManageAccount/ManageAccount";
 import Partner from "./Page/ManageAccount/Partner/Partner";
 import Customer from "./Page/ManageAccount/Customer/Customer";
 import RankReport from "./Page/RankReport/RankReport";
-import ManageOrder from "./Page/ManageOrder/ManageOrder";
+import DetailOrder from "./Page/ManageOrder/Detail";
 import DataExport from "./Page/DataExport/DataExport";
-import Dao from "./Page/Dao/Dao";
+import Dao from "./Page/Dao";
 import Notification from "./Page/Notification/Notification";
 import { Partner as NotiPartner } from "./Page/Notification/Partner/Partner";
 import PartnerNotificationDetail from "./Page/Notification/Partner/pages/PartnerNotificationDetail";
@@ -29,6 +29,7 @@ import { PartnerDetail } from "./Page/ManageAccount/Partner/Detail";
 import { DetailEditPartner } from "./Page/ManageAccount/Partner/DetailEdit";
 import { CustomerDetail } from "./Page/ManageAccount/Customer/Detail";
 import { EditCustomer } from "./Page/ManageAccount/Customer/EditCustomer";
+import { ManageOrder } from "./Page/ManageOrder/ManageOrder";
 
 const App = () => {
   return (
@@ -44,14 +45,22 @@ const App = () => {
           <Route path="manage" element={<ManageAccount />}>
             <Route path="partner" element={<Partner />}></Route>
             <Route path="partner/:id" element={<PartnerDetail />}></Route>
-            <Route path="partner/edit/:id" element={<DetailEditPartner />}></Route>
+            <Route
+              path="partner/edit/:id"
+              element={<DetailEditPartner />}
+            ></Route>
 
             <Route path="customer" element={<Customer />}></Route>
             <Route path="customer/:id" element={<CustomerDetail />}></Route>
             <Route path="customer/edit/:id" element={<EditCustomer />}></Route>
           </Route>
           <Route path="rank-report" element={<RankReport />}></Route>
-          <Route path="manage-order" element={<ManageOrder />}></Route>
+          <Route path="manage-order" element={<ManageOrder />} />
+          <Route path="manage-order/:id" element={<DetailOrder />} />
+          <Route
+            path="manage-order/edit/:id"
+            element={<DetailOrder modify={true} />}
+          />
           <Route path="data-export" element={<DataExport />}></Route>
           <Route path="dao" element={<Dao />}></Route>
           <Route path="notification" element={<Notification />}>
