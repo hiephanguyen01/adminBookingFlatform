@@ -1,62 +1,57 @@
-import {
-  EditOutlined,
-  EyeOutlined,
-  FileSearchOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, EyeOutlined, SearchOutlined } from "@ant-design/icons";
 import {
   Button,
+  DatePicker,
+  Form,
   Input,
   Pagination,
   Select,
   Space,
   Table,
   Tag,
-  DatePicker,
-  Form,
 } from "antd";
-import React, { useEffect, useState } from "react";
-import { registerPartnerService } from "../../../services/RegisterPartnerService";
-import moment from "moment";
-import "./Partner.scss";
-import { useNavigate } from "react-router-dom";
-import { Loading } from "../../../Components/Loading";
-const { RangePicker } = DatePicker;
 import classNames from "classnames/bind";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Partner.module.scss";
+import "./Partner.scss";
+import { registerPartnerService } from "../../services/RegisterPartnerService";
+import { Loading } from "../../Components/Loading";
+import { orderService } from "../../services/OrderService";
+const { RangePicker } = DatePicker;
 const cx = classNames.bind(styles);
-const Partner = () => {
+const ManagerOrder = () => {
   const [dataTale, setDataTable] = useState([]);
   const [loading, setLoading] = useState(true);
+  console.log("data ", dataTale);
   const [filter, setFilter] = useState({
-    keyString: "",
-    CreateDate: {
+    category: "1",
+    Identify_like: "",
+    PaymentTypeOnline: "",
+    BookingStatus: "",
+    EntryDate: {
       startDate: "",
       endDate: "",
     },
-    updateDate: {
-      startDate: "",
-      endDate: "",
-    },
-    IsDeleted: false,
   });
   const [pagination, setPagination] = useState();
   const navigate = useNavigate();
   useEffect(() => {
     (async () => {
-      await getAllPartner(1, 10,filter);
+      await getAllPartner(1, 10, filter);
       setLoading(false);
     })();
   }, []);
   useEffect(() => {
     (async () => {
-      await getAllPartner(1, 10,filter);
+      await getAllPartner(1, 10, filter);
     })();
   }, [filter]);
 
-  const getAllPartner = async (page, limit,filter) => {
+  const getAllPartner = async (page, limit, filter) => {
     try {
-      const { data } = await registerPartnerService.getAllPartner(page, limit,filter);
+      const { data } = await orderService.getAllBooking(page, limit, filter);
       setDataTable(data.data);
       setPagination(data.pagination);
     } catch (error) {
@@ -65,46 +60,69 @@ const Partner = () => {
   };
   const onChangePagination = (page) => {
     console.log(page);
-    getAllPartner(page, 10,filter);
+    getAllPartner(page, 10, filter);
   };
   const columns = [
     {
-      title: "Số định danh",
-      dataIndex: "IdentifierCode",
+      title: "Mã đơn đặt",
+      dataIndex: "id",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Số điện thoại",
-      dataIndex: "Phone",
+      title: "Số định danh",
+      dataIndex: "IdentifyCode",
     },
     {
-      title: "Email",
+      title: "Mã bài đăng",
       dataIndex: "Email",
     },
+
     {
-      title: "Số bài đăng",
-      dataIndex: "NumberOfPost",
-    },
-    {
-      title: "Ngày tạo",
+      title: "Ngày Thực hiện",
       dataIndex: "CreationTime",
       render: (item) => moment(item).format("DD-MM-YYYY HH:mm"),
     },
+    ,
     {
-      title: "Cập nhật gần nhất",
-      dataIndex: "LastModificationTime",
-      render: (item) => moment(item).format("DD-MM-YYYY HH:mm"),
-    },
-    {
-      title: "Trạng thái",
-      dataIndex: "IsDeleted",
+      title: "Hình thức thanh toán",
+      dataIndex: "PaymentType",
       render: (item) => {
         return (
           <>
-            {item === true ? (
-              <Tag color={"red"}>{"Cancel".toUpperCase()}</Tag>
+            {item == "1" ? (
+              <Tag color={"red"}>{"Online".toUpperCase()}</Tag>
             ) : (
-              <Tag color={"blue"}>{"Active".toUpperCase()}</Tag>
+              <Tag color={"green"}>{"Offline".toUpperCase()}</Tag>
+            )}
+          </>
+        );
+      },
+    },
+    {
+      title: "Trạng thái thanh toán",
+      dataIndex: "PaymentType",
+      render: (item) => {
+        return (
+          <>
+            {item == "1" ? (
+              <Tag color={"red"}>{"Online".toUpperCase()}</Tag>
+            ) : (
+              <Tag color={"green"}>{"Offline".toUpperCase()}</Tag>
+            )}
+          </>
+        );
+      },
+    },
+    {
+      title: "Trạng thái đơn đặt",
+      dataIndex: "PaymentType",
+      render: (item) => {
+        return (
+          <>
+            {item == "1" ? (
+              <Tag color={"red"}>{"Online".toUpperCase()}</Tag>
+            ) : (
+              <Tag color={"green"}>{"Offline".toUpperCase()}</Tag>
             )}
           </>
         );
@@ -135,27 +153,26 @@ const Partner = () => {
     { value: 0, label: "Active" },
     { value: 1, label: "Cancle" },
   ];
+  const CATEGORY = [
+    { value: 1, label: "STUDIO" },
+    { value: 2, label: "Nhiếp ảnh" },
+    { value: 3, label: "Trang phucj" },
+    { value: 4, label: "Makeup" },
+    { value: 5, label: "Thiết bị" },
+    { value: 6, label: "Người mẫu" },
+  ];
   console.log(filter);
   const onChangeFilter = (value) => {
     console.log(value);
     setFilter({ ...filter, ...value });
-    if (Object.keys(value)[0] === "CreateDate") {
-      const obj = value.CreateDate.reduce((acc, item, index) => {
+    if (Object.keys(value)[0] === "EntryDate") {
+      const obj = value.EntryDate.reduce((acc, item, index) => {
         console.log(index);
         const key = index === 0 ? "startDate" : "endDate";
         return { ...acc, [key]: moment(item.$d).format() };
       }, {});
       console.log(obj);
-      setFilter({ ...filter, CreateDate: obj });
-    }
-    if (Object.keys(value)[0] === "updateDate") {
-      const obj = value.updateDate.reduce((acc, item, index) => {
-        console.log(index);
-        const key = index === 0 ? "startDate" : "endDate";
-        return { ...acc, [key]: moment(item.$d).format() };
-      }, {});
-      console.log(obj);
-      setFilter({ ...filter, updateDate: obj });
+      setFilter({ ...filter, EntryDate: obj });
     }
   };
   if (loading) return <Loading />;
@@ -176,8 +193,23 @@ const Partner = () => {
         >
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
+              label="Loại đơn đặt"
+              name={"category"}
+              className={cx("form-custom")}
+            >
+              <Select defaultValue={1}>
+                {CATEGORY.map((item) => (
+                  <Select.Option value={item.value} key={item.value}>
+                    {item.label}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </div>
+          <div className={cx("w-25", "fs-16")}>
+            <Form.Item
               label="Tìm kiếm"
-              name="keyString"
+              name="Identify_like"
               className={cx("form-custom")}
             >
               <Input prefix={<SearchOutlined />} />
@@ -185,25 +217,47 @@ const Partner = () => {
           </div>
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
-              label="Ngày tạo"
-              name="CreateDate"
+              label="Ngày thực hiện"
+              name="EntryDate"
               className={cx("form-custom")}
             >
               <RangePicker />
             </Form.Item>
           </div>
+
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
-              label="Ngày cập nhật gần nhất"
-              name="updateDate"
+              label="Hình thức thanh toán"
+              name={"IsDeleted"}
               className={cx("form-custom")}
             >
-              <RangePicker />
+              <Select defaultValue={""}>
+                {NOTIFY_STATUS.map((item) => (
+                  <Select.Option value={item.value} key={item.value}>
+                    {item.label}
+                  </Select.Option>
+                ))}
+              </Select>
             </Form.Item>
           </div>
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
-              label="Trạng thái"
+              label="Trạng thái thanh toán"
+              name={"IsDeleted"}
+              className={cx("form-custom")}
+            >
+              <Select defaultValue={""}>
+                {NOTIFY_STATUS.map((item) => (
+                  <Select.Option value={item.value} key={item.value}>
+                    {item.label}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </div>
+          <div className={cx("w-25", "fs-16")}>
+            <Form.Item
+              label="Trạng thái dơn đặt"
               name={"IsDeleted"}
               className={cx("form-custom")}
             >
@@ -233,4 +287,4 @@ const Partner = () => {
   );
 };
 
-export default Partner;
+export default ManagerOrder;

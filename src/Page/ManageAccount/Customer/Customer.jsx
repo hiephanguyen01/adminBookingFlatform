@@ -1,36 +1,97 @@
 import { EditOutlined, EyeOutlined, SearchOutlined } from "@ant-design/icons";
-import { Button, Input, Pagination, Space, Table, Tag } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Pagination,
+  Select,
+  Space,
+  Table,
+  Tag,
+  DatePicker,
+} from "antd";
 import React, { useEffect, useState } from "react";
 import { registerPartnerService } from "../../../services/RegisterPartnerService";
 import moment from "moment";
 import "./Customer.scss";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "../../../Components/Loading";
+const { RangePicker } = DatePicker;
+import classNames from "classnames/bind";
+import styles from "../Partner/Partner.module.scss";
+const cx = classNames.bind(styles);
 const Customer = () => {
   const [dataTale, setDataTable] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState();
+  const [filter, setFilter] = useState({
+    keyString: "",
+    CreateDate: {
+      startDate: "",
+      endDate: "",
+    },
+    updateDate: {
+      startDate: "",
+      endDate: "",
+    },
+    IsDeleted: "",
+  });
   const navigate = useNavigate();
   console.log(dataTale);
   useEffect(() => {
     (async () => {
-      await getAllPartner(1, 10);
+      await getAllPartner(1, 10, filter);
       setLoading(false);
     })();
   }, []);
-
-  const getAllPartner = async (page, limit) => {
+  useEffect(() => {
+    (async () => {
+      await getAllPartner(1, 10, filter);
+    })();
+  }, [filter]);
+  const NOTIFY_STATUS = [
+    { value: "", label: "Tất cả" },
+    { value: 0, label: "Active" },
+    { value: 1, label: "Cancle" },
+  ];
+  const getAllPartner = async (page, limit, filter) => {
     try {
-      const { data } = await registerPartnerService.getAllCustomer(page, limit);
+      const { data } = await registerPartnerService.getAllCustomer(
+        page,
+        limit,
+        filter
+      );
       setDataTable(data.data);
       setPagination(data.pagination);
     } catch (error) {
       console.log(error);
     }
   };
+  const onChangeFilter = (value) => {
+    console.log(value);
+    setFilter({ ...filter, ...value });
+    if (Object.keys(value)[0] === "CreateDate") {
+      const obj = value.CreateDate.reduce((acc, item, index) => {
+        console.log(index);
+        const key = index === 0 ? "startDate" : "endDate";
+        return { ...acc, [key]: moment(item.$d).format() };
+      }, {});
+      console.log(obj);
+      setFilter({ ...filter, CreateDate: obj });
+    }
+    if (Object.keys(value)[0] === "updateDate") {
+      const obj = value.updateDate.reduce((acc, item, index) => {
+        console.log(index);
+        const key = index === 0 ? "startDate" : "endDate";
+        return { ...acc, [key]: moment(item.$d).format() };
+      }, {});
+      console.log(obj);
+      setFilter({ ...filter, updateDate: obj });
+    }
+  };
   const onChangePagination = (page) => {
     console.log(page);
-    getAllPartner(page, 10);
+    getAllPartner(page, 10, filter);
     // setCurrent(page);
   };
   const columns = [
@@ -75,7 +136,6 @@ const Customer = () => {
     {
       title: "Action",
       render: (item) => {
-        console.log(item);
         return (
           <Space size="middle">
             <Button
@@ -92,10 +152,63 @@ const Customer = () => {
       },
     },
   ];
-  if (loading) return <Loading/>;
+  if (loading) return <Loading />;
   return (
     <>
-      <div className="fillter"></div>
+      <div className={cx("filter-wrapper")}>
+        <Form
+          // labelCol={{ span:  }}
+          wrapperCol={{ span: 24 }}
+          layout="inline"
+          onValuesChange={(e) => onChangeFilter(e)}
+          size="large"
+          style={{ display: "flex" }}
+          labelWrap={true}
+        >
+          <div className={cx("w-25", "fs-16")}>
+            <Form.Item
+              label="Tìm kiếm"
+              name="keyString"
+              className={cx("form-custom")}
+            >
+              <Input prefix={<SearchOutlined />} />
+            </Form.Item>
+          </div>
+          <div className={cx("w-25", "fs-16")}>
+            <Form.Item
+              label="Ngày tạo"
+              name="CreateDate"
+              className={cx("form-custom")}
+            >
+              <RangePicker />
+            </Form.Item>
+          </div>
+          <div className={cx("w-25", "fs-16")}>
+            <Form.Item
+              label="Ngày cập nhật gần nhất"
+              name="updateDate"
+              className={cx("form-custom")}
+            >
+              <RangePicker />
+            </Form.Item>
+          </div>
+          <div className={cx("w-25", "fs-16")}>
+            <Form.Item
+              label="Trạng thái"
+              name={"IsDeleted"}
+              className={cx("form-custom")}
+            >
+              <Select defaultValue={""}>
+                {NOTIFY_STATUS.map((item) => (
+                  <Select.Option value={item.value} key={item.value}>
+                    {item.label}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </div>
+        </Form>
+      </div>
       <div className="dataTable">
         <Table columns={columns} pagination={false} dataSource={dataTale} />
         <Pagination
