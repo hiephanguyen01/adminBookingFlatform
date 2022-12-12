@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import "./manageOrder.scss";
 import moment from "moment";
 import { orderService } from "../../services/OrderService";
+import { Loading } from "../../Components/Loading";
 const { RangePicker } = DatePicker;
 
 export const ManageOrder = () => {
@@ -67,7 +68,6 @@ export const ManageOrder = () => {
     }
   };
   const onChangePagination = (page) => {
-    console.log(page);
     getAllPartner(page, 10, filter);
   };
   // Define Table Column ********************************
@@ -171,23 +171,7 @@ export const ManageOrder = () => {
     const tooEarly = dates[1] && dates[1].diff(current, "days") > 7;
     return !!tooEarly || !!tooLate;
   };
-  const onOpenChange = (open) => {
-    if (open) {
-      setDates([null, null]);
-    } else {
-      setDates(null);
-    }
-  };
-  //********************* */
 
-  // ****Select box******
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-  const handleChange2 = (value) => {
-    console.log(`selected ${value}`);
-  };
-  console.log(filter);
   const onChangeFilter = (value) => {
     console.log(value);
     setFilter({ ...filter, ...value });
@@ -218,7 +202,6 @@ export const ManageOrder = () => {
           style={{
             width: 120,
           }}
-          onChange={handleChange}
           options={[
             {
               value: "1",
@@ -279,7 +262,6 @@ export const ManageOrder = () => {
           disabledDate={disabledDate}
           onCalendarChange={(val) => setDates(val)}
           onChange={(val) => setValue(val)}
-          onOpenChange={onOpenChange}
         />
       ),
     },
@@ -298,7 +280,6 @@ export const ManageOrder = () => {
           style={{
             width: 120,
           }}
-          onChange={handleChange2}
           options={[
             {
               value: "",
@@ -331,7 +312,6 @@ export const ManageOrder = () => {
           style={{
             width: 120,
           }}
-          onChange={handleChange}
           options={[
             {
               value: "",
@@ -371,7 +351,6 @@ export const ManageOrder = () => {
           style={{
             width: 120,
           }}
-          onChange={handleChange}
           options={[
             {
               value: "",
@@ -399,7 +378,7 @@ export const ManageOrder = () => {
     },
   ];
   // *****************************************
-
+  if (loading) return <Loading />;
   return (
     <section className="manage-order">
       <header className="manage-order__header">
