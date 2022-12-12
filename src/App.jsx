@@ -1,9 +1,15 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 import AdminLayout from "./Layouts/AdminLayout/AdminLayout";
+import Banner from "./Page/CoreSetting/Banner/Banner";
+import CreateBanner from "./Page/CoreSetting/Banner/Components/CreateBanner/CreateBanner";
+import EditBanner from "./Page/CoreSetting/Banner/Components/EditBanner/EditBanner";
+import City from "./Page/CoreSetting/City/City";
 import CoreSetting from "./Page/CoreSetting/CoreSetting";
 import Dev from "./Page/CoreSetting/Dev";
-import Dao from "./Page/Dao/Dao";
+import District from "./Page/CoreSetting/District/District";
+import Ward from "./Page/CoreSetting/Ward/Ward";
+import Dao from "./Page/Dao";
 import AccessTime from "./Page/Dashboard/AccessTime/AccessTime";
 import Account from "./Page/Dashboard/Account/Account";
 import Dashboard from "./Page/Dashboard/Dashboard";
@@ -17,14 +23,12 @@ import ManageAccount from "./Page/ManageAccount/ManageAccount";
 import { PartnerDetail } from "./Page/ManageAccount/Partner/Detail";
 import { DetailEditPartner } from "./Page/ManageAccount/Partner/DetailEdit";
 import Partner from "./Page/ManageAccount/Partner/Partner";
+import DetailOrder from "./Page/ManageOrder/Detail";
 import Customer from "./Page/ManageAccount/Customer/Customer";
 import RankReport from "./Page/RankReport/RankReport";
 import ManageOrder from "./Page/ManageOrder/ManageOrder";
 import CreateNotification from "./Page/Notification/CreateNotification/CreateNotification";
 import { Customer as NotiCustomer } from "./Page/Notification/Customer/Customer";
-import DetailOrder from "./Page/ManageOrder/Detail";
-import DataExport from "./Page/DataExport/DataExport";
-import Dao from "./Page/Dao";
 import Notification from "./Page/Notification/Notification";
 import PartnerNotificationDetail from "./Page/Notification/Partner/pages/PartnerNotificationDetail";
 import { Partner as NotiPartner } from "./Page/Notification/Partner/Partner";
@@ -65,8 +69,7 @@ const App = () => {
             <Route path="partner/:id" element={<PartnerDetail />}></Route>
             <Route
               path="partner/edit/:id"
-              element={<DetailEditPartner />}
-            ></Route>
+              element={<DetailEditPartner />}></Route>
 
             <Route path="customer" element={<Customer />}></Route>
             <Route path="customer/:id" element={<CustomerDetail />}></Route>
@@ -113,8 +116,7 @@ const App = () => {
             <Route path="banner/create" element={<CreateBanner />}></Route>
             <Route
               path="banner/edit"
-              element={<EditBanner edit={true} />}
-            ></Route>
+              element={<EditBanner edit={true} />}></Route>
           </Route>
         </Route>
       </Routes>
