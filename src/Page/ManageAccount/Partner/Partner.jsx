@@ -14,6 +14,7 @@ import {
   Tag,
   DatePicker,
   Form,
+  Divider,
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { registerPartnerService } from "../../../services/RegisterPartnerService";
@@ -44,19 +45,23 @@ const Partner = () => {
   const navigate = useNavigate();
   useEffect(() => {
     (async () => {
-      await getAllPartner(1, 10,filter);
+      await getAllPartner(1, 10, filter);
       setLoading(false);
     })();
   }, []);
   useEffect(() => {
     (async () => {
-      await getAllPartner(1, 10,filter);
+      await getAllPartner(1, 10, filter);
     })();
   }, [filter]);
 
-  const getAllPartner = async (page, limit,filter) => {
+  const getAllPartner = async (page, limit, filter) => {
     try {
-      const { data } = await registerPartnerService.getAllPartner(page, limit,filter);
+      const { data } = await registerPartnerService.getAllPartner(
+        page,
+        limit,
+        filter
+      );
       setDataTable(data.data);
       setPagination(data.pagination);
     } catch (error) {
@@ -65,7 +70,7 @@ const Partner = () => {
   };
   const onChangePagination = (page) => {
     console.log(page);
-    getAllPartner(page, 10,filter);
+    getAllPartner(page, 10, filter);
   };
   const columns = [
     {
@@ -161,7 +166,7 @@ const Partner = () => {
   if (loading) return <Loading />;
   return (
     <>
-      <div className={cx("filter-wrapper")}>
+      <div className={cx("filter-wrapper chile")} style={{ padding: "20px" }}>
         <Form
           // labelCol={{ span:  }}
           wrapperCol={{ span: 24 }}
@@ -172,14 +177,12 @@ const Partner = () => {
           // onFinish={onFinish}
           size="large"
           style={{ display: "flex" }}
-          labelWrap={true}
-        >
+          labelWrap={true}>
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
               label="Tìm kiếm"
               name="keyString"
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <Input prefix={<SearchOutlined />} />
             </Form.Item>
           </div>
@@ -187,8 +190,7 @@ const Partner = () => {
             <Form.Item
               label="Ngày tạo"
               name="CreateDate"
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <RangePicker />
             </Form.Item>
           </div>
@@ -196,8 +198,7 @@ const Partner = () => {
             <Form.Item
               label="Ngày cập nhật gần nhất"
               name="updateDate"
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <RangePicker />
             </Form.Item>
           </div>
@@ -205,8 +206,7 @@ const Partner = () => {
             <Form.Item
               label="Trạng thái"
               name={"IsDeleted"}
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <Select defaultValue={""}>
                 {NOTIFY_STATUS.map((item) => (
                   <Select.Option value={item.value} key={item.value}>
@@ -218,7 +218,8 @@ const Partner = () => {
           </div>
         </Form>
       </div>
-      <div className="dataTable">
+      <Divider />
+      <div className="dataTable chile">
         <Table columns={columns} pagination={false} dataSource={dataTale} />
         <Pagination
           current={pagination?.currentPage}

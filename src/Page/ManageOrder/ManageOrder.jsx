@@ -9,6 +9,7 @@ import {
 import {
   Button,
   DatePicker,
+  Divider,
   Form,
   Input,
   Pagination,
@@ -438,6 +439,7 @@ export const ManageOrder = () => {
           />
         )}
       </header>
+      <Divider />
       <main
         className="manage-order__table chile"
         style={{ paddingBottom: "20px" }}>
