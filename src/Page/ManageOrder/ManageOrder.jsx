@@ -381,7 +381,7 @@ export const ManageOrder = () => {
   if (loading) return <Loading />;
   return (
     <section className="manage-order">
-      <header className="manage-order__header">
+      <header className="manage-order__header chile">
         {expandHeader && (
           <LeftOutlined
             size="large"
@@ -438,7 +438,9 @@ export const ManageOrder = () => {
           />
         )}
       </header>
-      <main className="manage-order__table">
+      <main
+        className="manage-order__table chile"
+        style={{ paddingBottom: "20px" }}>
         <Table columns={column} dataSource={dataTale} pagination={false} />
         <Pagination
           style={{ textAlign: "right" }}
