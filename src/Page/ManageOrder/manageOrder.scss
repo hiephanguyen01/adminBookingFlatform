@@ -25,6 +25,9 @@
   }
 
   &__table {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     padding: 24px;
     background-color: #fff;
     box-shadow: 0px 3px 6px #00000029;
@@ -73,10 +76,7 @@
         }
       }
     }
-    :where(.css-dev-only-do-not-override-1x8djam).ant-table-wrapper
-      .ant-table-thead
-      > tr
-      > th {
+    :where(.css-dev-only-do-not-override-1x8djam).ant-table-wrapper .ant-table-thead > tr > th {
       background: none !important;
       //   border-bottom: 0 !important;
     }
@@ -96,10 +96,7 @@
       th:last-child {
       border-start-end-radius: 0px !important;
     }
-    :where(.css-dev-only-do-not-override-1x8djam).ant-table-wrapper
-      .ant-table-thead
-      > tr
-      > th {
+    :where(.css-dev-only-do-not-override-1x8djam).ant-table-wrapper .ant-table-thead > tr > th {
       border-bottom: 0px;
     }
     .ant-table-cell {

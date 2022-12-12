@@ -26,6 +26,7 @@ export const PartnerDetail = () => {
       console.log(error);
     }
   };
+  
   if (loading) return <Loading/>;
   return (
     <div className="PartnerDetail">

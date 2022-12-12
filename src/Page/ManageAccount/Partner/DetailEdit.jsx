@@ -61,6 +61,7 @@ export const DetailEditPartner = () => {
       getPartnerDetailById(id);
     } catch (error) {
       console.log(error);
+      openNotification("error", "Cập nhật thất bại!");
       setLoadings({ ...loadings, save: false });
     }
   };
@@ -99,7 +100,7 @@ export const DetailEditPartner = () => {
       console.log(error);
     }
   };
-  if (loading) return <Loading/>;
+  if (loading) return <Loading />;
   return (
     <div className="PartnerDetailEdit">
       <Form
@@ -127,9 +128,7 @@ export const DetailEditPartner = () => {
             <Form.Item name={"Email"} label="Email">
               <Input />
             </Form.Item>
-            <Form.Item
-              label="Tổ chức"
-            >
+            <Form.Item label="Tổ chức">
               <Input value={""} />
             </Form.Item>
             <Form.Item

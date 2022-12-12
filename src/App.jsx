@@ -17,6 +17,8 @@ import ManageAccount from "./Page/ManageAccount/ManageAccount";
 import { PartnerDetail } from "./Page/ManageAccount/Partner/Detail";
 import { DetailEditPartner } from "./Page/ManageAccount/Partner/DetailEdit";
 import Partner from "./Page/ManageAccount/Partner/Partner";
+import Customer from "./Page/ManageAccount/Customer/Customer";
+import RankReport from "./Page/RankReport/RankReport";
 import ManageOrder from "./Page/ManageOrder/ManageOrder";
 import CreateNotification from "./Page/Notification/CreateNotification/CreateNotification";
 import { Customer as NotiCustomer } from "./Page/Notification/Customer/Customer";
@@ -35,6 +37,7 @@ import { PartnerDetail } from "./Page/ManageAccount/Partner/Detail";
 import { DetailEditPartner } from "./Page/ManageAccount/Partner/DetailEdit";
 import { CustomerDetail } from "./Page/ManageAccount/Customer/Detail";
 import { EditCustomer } from "./Page/ManageAccount/Customer/EditCustomer";
+import { ManageOrder } from "./Page/ManageOrder/ManageOrder";
 import Banner from "./Page/CoreSetting/Banner/Banner";
 import CreateBanner from "./Page/CoreSetting/Banner/Components/CreateBanner/CreateBanner";
 import EditBanner from "./Page/CoreSetting/Banner/Components/EditBanner/EditBanner";
@@ -73,9 +76,9 @@ const App = () => {
           <Route path="rank-report" element={<RankReport />}></Route>
           <Route path="rank-report/:id" element={<DetailRateReport />}></Route>
           <Route path="manage-order" element={<ManageOrder />} />
-          <Route path="manage-order/observe" element={<DetailOrder />} />
+          <Route path="manage-order/:id" element={<DetailOrder />} />
           <Route
-            path="manage-order/modify"
+            path="manage-order/edit/:id"
             element={<DetailOrder modify={true} />}
           />
           <Route path="data-export" element={<DataExport />}></Route>
