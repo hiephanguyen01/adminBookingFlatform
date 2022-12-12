@@ -16,6 +16,12 @@ class OrderService extends BaseService {
   updateOrder = (data, IdentifyCode) => {
     return this.put(`/api/booking/update/${IdentifyCode}`, data);
   };
+  updateOrderByid = (data, id, category) => {
+    return this.patch(`/api/booking/byid?id=${id}&category=${category}`, data);
+  };
+  getAllBooking = (page, limit, data) => {
+    return this.post(`/api/booking?page=${page}&limit=${limit}`, data);
+  };
 }
 
 export const orderService = new OrderService();

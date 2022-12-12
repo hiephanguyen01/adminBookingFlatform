@@ -1,96 +1,109 @@
-import { Form, Input, Select, DatePicker, Table } from "antd";
-import "./manageOrder.scss";
-import { useState } from "react";
 import {
-  SearchOutlined,
+  EditOutlined,
+  EyeOutlined,
+  LeftOutlined,
   MoreOutlined,
   RightOutlined,
-  LeftOutlined,
-  EyeOutlined,
-  EditOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  Pagination,
+  Select,
+  Space,
+  Table,
+  Tag,
+} from "antd";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./manageOrder.scss";
+import moment from "moment";
+import { orderService } from "../../services/OrderService";
+import { Loading } from "../../Components/Loading";
 const { RangePicker } = DatePicker;
 
-const DATA = [
-  {
-    key: 1,
-    code: "8912871298",
-    identityCode: "C2233445566",
-    postId: "P0914481315S",
-    startAt: "20/02/2022 15:00 - 18:39",
-    paymentTypeOnline: 1,
-    paymentStatus: 2,
-    bookingStatus: 4,
-  },
-  {
-    key: 2,
-    code: "8912871298",
-    identityCode: "C2233445566",
-    postId: "P0914481315S",
-    startAt: "20/02/2022 15:00 - 18:39",
-    paymentTypeOnline: 0,
-    paymentStatus: 4,
-    bookingStatus: 1,
-  },
-  {
-    key: 3,
-    code: "8912871298",
-    identityCode: "C2233445566",
-    postId: "P0914481315S",
-    startAt: "20/02/2022 15:00 - 18:39",
-    paymentTypeOnline: 1,
-    paymentStatus: 1,
-    bookingStatus: 4,
-  },
-  {
-    key: 4,
-    code: "8912871298",
-    identityCode: "C2233445566",
-    postId: "P0914481315S",
-    startAt: "20/02/2022 15:00 - 18:39",
-    paymentTypeOnline: 1,
-    paymentStatus: 3,
-    bookingStatus: 3,
-  },
-];
-
-const ManageOrder = () => {
+export const ManageOrder = () => {
   const [dates, setDates] = useState(null);
   const [value, setValue] = useState(null);
   const [expandHeader, setExpandHeader] = useState(false);
+  const [dataTale, setDataTable] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [openMore, setOpenMore] = useState(null);
+  const [pagination, setPagination] = useState();
+  console.log(openMore);
+  const [filter, setFilter] = useState({
+    BookingStatus: "",
+    EntryDate: {
+      startDate: "",
+      endDate: "",
+    },
+    Identify_like: "",
+    PaymentTypeOnline: "",
+    category: "1",
+    PaymentStatus: "",
+  });
   const navigate = useNavigate();
+  useEffect(() => {
+    (async () => {
+      await getAllPartner(1, 10, filter);
+      setLoading(false);
+    })();
+  }, []);
+  useEffect(() => {
+    (async () => {
+      await getAllPartner(1, 10, filter);
+    })();
+  }, [filter]);
 
+  const getAllPartner = async (page, limit, filter) => {
+    try {
+      const { data } = await orderService.getAllBooking(page, limit, filter);
+      setDataTable(data.data);
+      setPagination(data.pagination);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const onChangePagination = (page) => {
+    getAllPartner(page, 10, filter);
+  };
   // Define Table Column ********************************
   const column = [
     {
       title: "Mã đơn đặt",
-      dataIndex: "code",
+      dataIndex: "id",
       render: (value) => <strong>{value}</strong>,
     },
     {
       title: "Số định danh",
-      dataIndex: "identityCode",
+      dataIndex: "IdentifyCode",
     },
     {
       title: "Mã bài đăng",
       dataIndex: "postId",
     },
     {
-      title: "Ngày thực hiện",
-      dataIndex: "startAt",
+      title: "Ngày Thực hiện",
+      dataIndex: "CreationTime",
+      render: (item) => moment(item).format("DD-MM-YYYY HH:mm"),
     },
     {
       title: "Hình thức thanh toán",
-      dataIndex: "paymentTypeOnline",
+      dataIndex: "PaymentTypeOnline",
       render: (value) => {
-        return value ? <p>Online</p> : <p>Offline</p>;
+        return value ? (
+          <Tag color={"green"}>{"Online".toUpperCase()}</Tag>
+        ) : (
+          <Tag color={"red"}>{"Offline".toUpperCase()}</Tag>
+        );
       },
     },
     {
       title: "Trạng thái thanh toán",
-      dataIndex: "paymentStatus",
+      dataIndex: "PaymentStatus",
       render: (value) => {
         switch (value) {
           case 1:
@@ -98,7 +111,7 @@ const ManageOrder = () => {
           case 2:
             return <p>Đã cọc</p>;
           case 3:
-            return <p>Đã thanh toán</p>;
+            return <Tag color={"green"}>{"Đã thanh toán".toUpperCase()}</Tag>;
           case 4:
             return <p>Null</p>;
         }
@@ -106,13 +119,13 @@ const ManageOrder = () => {
     },
     {
       title: "Trạng thái đơn đặt",
-      dataIndex: "bookingStatus",
+      dataIndex: "BookingStatus",
       render: (value) => {
         switch (value) {
           case 1:
-            return <p>Đã hoàn thành</p>;
+            return <Tag color={"green"}>{"Đã hoàn thành".toUpperCase()}</Tag>;
           case 2:
-            return <p>Đã hủy</p>;
+            return <Tag color={"red"}>{"Đã huý".toUpperCase()}</Tag>;
           case 3:
             return <p>Vắng mặt</p>;
           case 4:
@@ -121,28 +134,28 @@ const ManageOrder = () => {
       },
     },
     {
-      title: "Thao tác",
-      render: (value) => (
-        <div className="more">
-          <MoreOutlined
-            onClick={() => setOpenMore(openMore ? null : value.key)}
-            style={{ fontSize: "25px" }}
-            className="more-logo"
-          />
-          {openMore && value.key === openMore && (
-            <ul className="more-modal">
-              <li onClick={() => navigate("observe")}>
-                <EyeOutlined style={{ fontSize: "16px" }} />
-                <p>Xem chi tiết</p>
-              </li>
-              <li onClick={() => navigate("modify")}>
-                <EditOutlined style={{ fontSize: "16px" }} />
-                <p>Chỉnh sửa</p>
-              </li>
-            </ul>
-          )}
-        </div>
-      ),
+      title: "Action",
+      render: (item) => {
+        return (
+          <Space size="middle">
+            <Button
+              onClick={() =>
+                navigate(`${item.id}`, { state: { category: filter.category } })
+              }
+              icon={<EyeOutlined />}
+            />
+            <Button
+              onClick={() =>
+                navigate(`edit/${item.id}`, {
+                  state: { category: filter.category },
+                })
+              }
+              type="primary"
+              icon={<EditOutlined />}
+            />
+          </Space>
+        );
+      },
     },
   ];
   // *****************************************************
@@ -158,29 +171,69 @@ const ManageOrder = () => {
     const tooEarly = dates[1] && dates[1].diff(current, "days") > 7;
     return !!tooEarly || !!tooLate;
   };
-  const onOpenChange = (open) => {
-    if (open) {
-      setDates([null, null]);
-    } else {
-      setDates(null);
-    }
-  };
-  //********************* */
 
-  // ****Select box******
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-  const handleChange2 = (value) => {
-    console.log(`selected ${value}`);
+  const onChangeFilter = (value) => {
+    console.log(value);
+    setFilter({ ...filter, ...value });
+    if (Object.keys(value)[0] === "EntryDate") {
+      const obj = value.EntryDate.reduce((acc, item, index) => {
+        const key = index === 0 ? "startDate" : "endDate";
+        return { ...acc, [key]: moment(item.$d).format() };
+      }, {});
+      setFilter({ ...filter, EntryDate: obj });
+    }
   };
   // *********************
 
   // Form item render ************************
   const formItem = [
     {
+      label: "Loại đơn đặt",
+      name: "category",
+      style: {
+        width: "20%",
+        display: "inline-block",
+        marginRight: "40px",
+      },
+      el: (
+        <Select
+          defaultValue="1"
+          size="large"
+          style={{
+            width: 120,
+          }}
+          options={[
+            {
+              value: "1",
+              label: "Studio",
+            },
+            {
+              value: "2",
+              label: "Photographer",
+            },
+            {
+              value: "3",
+              label: "Trang phục",
+            },
+            {
+              value: "4",
+              label: "Makeup",
+            },
+            {
+              value: "5",
+              label: "Thiết bị",
+            },
+            {
+              value: "6",
+              label: "Người mẫu",
+            },
+          ]}
+        />
+      ),
+    },
+    {
       label: "Tìm kiếm",
-      name: "keystring",
+      name: "Identify_like",
       style: {
         width: "20%",
         display: "inline-block",
@@ -196,7 +249,7 @@ const ManageOrder = () => {
     },
     {
       label: "Ngày thực hiện",
-      name: "",
+      name: "EntryDate",
       style: {
         width: "22%",
         display: "inline-block",
@@ -209,13 +262,12 @@ const ManageOrder = () => {
           disabledDate={disabledDate}
           onCalendarChange={(val) => setDates(val)}
           onChange={(val) => setValue(val)}
-          onOpenChange={onOpenChange}
         />
       ),
     },
     {
       label: "Hình thức thanh toán",
-      name: "paymentType",
+      name: "PaymentTypeOnline",
       style: {
         width: "22%",
         display: "inline-block",
@@ -228,8 +280,11 @@ const ManageOrder = () => {
           style={{
             width: 120,
           }}
-          onChange={handleChange2}
           options={[
+            {
+              value: "",
+              label: "Tất cả",
+            },
             {
               value: "1",
               label: "Online",
@@ -244,7 +299,7 @@ const ManageOrder = () => {
     },
     {
       label: "Trạng thái thanh toán",
-      name: "paymentStatus",
+      name: "PaymentStatus",
       style: {
         width: "22%",
         display: "inline-block",
@@ -257,8 +312,11 @@ const ManageOrder = () => {
           style={{
             width: 120,
           }}
-          onChange={handleChange}
           options={[
+            {
+              value: "",
+              label: "Tất cả",
+            },
             {
               value: "1",
               label: "Chờ thanh toán",
@@ -281,7 +339,7 @@ const ManageOrder = () => {
     },
     {
       label: "Trạng thái đơn đặt",
-      name: "bookingStatus",
+      name: "BookingStatus",
       style: {
         width: "20%",
         display: "inline-block",
@@ -293,8 +351,11 @@ const ManageOrder = () => {
           style={{
             width: 120,
           }}
-          onChange={handleChange}
           options={[
+            {
+              value: "",
+              label: "Tất cả",
+            },
             {
               value: "1",
               label: "Đã hoàn thành",
@@ -317,7 +378,7 @@ const ManageOrder = () => {
     },
   ];
   // *****************************************
-
+  if (loading) return <Loading />;
   return (
     <section className="manage-order">
       <header className="manage-order__header">
@@ -341,12 +402,13 @@ const ManageOrder = () => {
           initialValues={{
             remember: true,
           }}
-          onFinish={onFinish}
+          // onFinish={onFinish}
+          onValuesChange={(e) => onChangeFilter(e)}
           autoComplete="off"
         >
           <Form.Item>
             {expandHeader
-              ? formItem.slice(1, 5).map((item, idx) => (
+              ? formItem.slice(2, 6).map((item, idx) => (
                   <Form.Item
                     key={idx}
                     name={item.name}
@@ -380,10 +442,17 @@ const ManageOrder = () => {
         )}
       </header>
       <main className="manage-order__table">
-        <Table columns={column} dataSource={DATA} />
+        <Table columns={column} dataSource={dataTale} pagination={false} />
+        <Pagination
+          style={{ textAlign: "right" }}
+          current={pagination?.currentPage}
+          // defaultCurrent={1}
+          total={pagination?.total}
+          pageSize={pagination?.limit * 1}
+          onChange={onChangePagination}
+          showSizeChanger={false}
+        />
       </main>
     </section>
   );
 };
-
-export default ManageOrder;

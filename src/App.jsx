@@ -24,6 +24,8 @@ import { PartnerDetail } from "./Page/ManageAccount/Partner/Detail";
 import { DetailEditPartner } from "./Page/ManageAccount/Partner/DetailEdit";
 import Partner from "./Page/ManageAccount/Partner/Partner";
 import DetailOrder from "./Page/ManageOrder/Detail";
+import Customer from "./Page/ManageAccount/Customer/Customer";
+import RankReport from "./Page/RankReport/RankReport";
 import ManageOrder from "./Page/ManageOrder/ManageOrder";
 import CreateNotification from "./Page/Notification/CreateNotification/CreateNotification";
 import { Customer as NotiCustomer } from "./Page/Notification/Customer/Customer";
@@ -33,6 +35,19 @@ import { Partner as NotiPartner } from "./Page/Notification/Partner/Partner";
 import Setting from "./Page/Notification/Setting/Setting";
 import PromoCode from "./Page/PromoCode/PromoCode";
 import PromoCreate from "./Page/PromoCode/PromoCreate/PromoCreate";
+import Dev from "./Page/CoreSetting/Dev";
+import CoreSetting from "./Page/CoreSetting/CoreSetting";
+import { PartnerDetail } from "./Page/ManageAccount/Partner/Detail";
+import { DetailEditPartner } from "./Page/ManageAccount/Partner/DetailEdit";
+import { CustomerDetail } from "./Page/ManageAccount/Customer/Detail";
+import { EditCustomer } from "./Page/ManageAccount/Customer/EditCustomer";
+import { ManageOrder } from "./Page/ManageOrder/ManageOrder";
+import Banner from "./Page/CoreSetting/Banner/Banner";
+import CreateBanner from "./Page/CoreSetting/Banner/Components/CreateBanner/CreateBanner";
+import EditBanner from "./Page/CoreSetting/Banner/Components/EditBanner/EditBanner";
+import City from "./Page/CoreSetting/City/City";
+import District from "./Page/CoreSetting/District/District";
+import Ward from "./Page/CoreSetting/Ward/Ward";
 import PromoCustomer from "./Page/PromoCode/PromoCustomer/PromoCustomer";
 import PromoPartner from "./Page/PromoCode/PromoPartner/PromoPartner";
 import DetailRateReport from "./Page/RankReport/Detail/DetailRateReport";
@@ -64,9 +79,9 @@ const App = () => {
           <Route path="rank-report" element={<RankReport />}></Route>
           <Route path="rank-report/:id" element={<DetailRateReport />}></Route>
           <Route path="manage-order" element={<ManageOrder />} />
-          <Route path="manage-order/observe" element={<DetailOrder />} />
+          <Route path="manage-order/:id" element={<DetailOrder />} />
           <Route
-            path="manage-order/modify"
+            path="manage-order/edit/:id"
             element={<DetailOrder modify={true} />}
           />
           <Route path="data-export" element={<DataExport />}></Route>
