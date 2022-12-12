@@ -1,0 +1,19 @@
+.RatingReportCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  margin: 10px 0;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  .leftCard {
+    display: flex;
+    align-items: center;
+  }
+  .text {
+    margin-left: 20px;
+  }
+  .rightCard {
+    display: flex;
+    align-items: center;
+  }
+}
