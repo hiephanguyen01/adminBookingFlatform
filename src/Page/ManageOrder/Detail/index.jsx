@@ -1,14 +1,11 @@
-import { Button, Checkbox, Form, Input, Image, Tag, Select } from "antd";
-import { useLocation } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { registerPartnerService } from "../../../services/RegisterPartnerService";
-import "./detail.scss";
+import { Button, Checkbox, Form, Input, Select } from "antd";
 import moment from "moment";
-import { baseURL, fallBackImg } from "../../../../utils/baseURL";
+import React, { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { openNotification } from "../../../../utils/Notification";
 import { Loading } from "../../../Components/Loading";
 import { orderService } from "../../../services/OrderService";
-import { openNotification } from "../../../../utils/Notification";
+import "./detail.scss";
 
 import "./detail.scss";
 
@@ -91,8 +88,7 @@ const Detail = ({ modify = false }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}
-      >
+        style={{ marginTop: "20px" }}>
         <header className="booking-info">
           <p>THÔNG TIN ĐƠN ĐẶT</p>
 
@@ -142,8 +138,7 @@ const Detail = ({ modify = false }) => {
               marginLeft: "15px",
             }}
             label="Tên khách hàng"
-            name="BookingUserName"
-          >
+            name="BookingUserName">
             <Input
               disabled={modify ? false : true}
               style={{ padding: "10px" }}
@@ -170,8 +165,7 @@ const Detail = ({ modify = false }) => {
               marginLeft: "15px",
             }}
             label="Số điện thoại"
-            name="BookingPhone"
-          >
+            name="BookingPhone">
             <Input
               disabled={modify ? false : true}
               style={{ padding: "10px" }}
@@ -199,8 +193,7 @@ const Detail = ({ modify = false }) => {
               marginLeft: "15px",
             }}
             label="Email"
-            name="BookingEmail"
-          >
+            name="BookingEmail">
             <Input
               disabled={modify ? false : true}
               style={{ padding: "10px" }}
@@ -231,8 +224,7 @@ const Detail = ({ modify = false }) => {
               marginLeft: "15px",
             }}
             label="Trạng thái đơn đặt"
-            name="BookingStatus"
-          >
+            name="BookingStatus">
             <Select
               disabled={modify ? false : true}
               size="large"
@@ -324,8 +316,7 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
             }}
             label="Hình thức thanh toán"
-            name="PaymentTypeOnline"
-          >
+            name="PaymentTypeOnline">
             <Select
               disabled={modify ? false : true}
               size="large"
@@ -348,8 +339,7 @@ const Detail = ({ modify = false }) => {
               marginLeft: "15px",
             }}
             label="Trạng thái thanh toán"
-            name="PaymentStatus"
-          >
+            name="PaymentStatus">
             <Select
               disabled={modify ? false : true}
               size="large"
@@ -485,8 +475,7 @@ const Detail = ({ modify = false }) => {
                 display: "inline-block",
                 margin: "30px 0 0 15px",
               }}
-              name="IsRefund"
-            >
+              name="IsRefund">
               <Checkbox
                 disabled={modify ? false : true}
                 size="large"
@@ -518,14 +507,12 @@ const Detail = ({ modify = false }) => {
                   width: "49%",
                   display: "inline-block",
                   margin: "33px 0 0 15px",
-                }}
-              >
+                }}>
                 <Button
                   loading={loadingBtn}
                   size="large"
                   htmlType="submit"
-                  type="primary"
-                >
+                  type="primary">
                   Lưu thay đổi
                 </Button>
               </Form.Item>
