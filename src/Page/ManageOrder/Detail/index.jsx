@@ -24,6 +24,7 @@ const Detail = ({ modify = false }) => {
       setLoading(false);
     })();
   }, []);
+  console.log(data);
 
   const getPartnerDetailById = async (id) => {
     try {
@@ -38,8 +39,13 @@ const Detail = ({ modify = false }) => {
   const onFinish = async (value) => {
     setLoadingBtn(true);
     console.log(value);
+
     try {
-      await orderService.updateOrderByid(value, id, state.category);
+      await orderService.updateOrderByid(
+        { ...value, TenantId: data.TenantId },
+        id,
+        state.category
+      );
       await getPartnerDetailById(id);
       setLoadingBtn(false);
       openNotification("success", "Cập nhật thành công!");
