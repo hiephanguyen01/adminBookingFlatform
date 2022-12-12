@@ -1,35 +1,38 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 import AdminLayout from "./Layouts/AdminLayout/AdminLayout";
+import CoreSetting from "./Page/CoreSetting/CoreSetting";
+import Dev from "./Page/CoreSetting/Dev";
+import Dao from "./Page/Dao/Dao";
+import AccessTime from "./Page/Dashboard/AccessTime/AccessTime";
 import Account from "./Page/Dashboard/Account/Account";
 import Dashboard from "./Page/Dashboard/Dashboard";
-import Post from "./Page/Dashboard/Post/Post";
 import Order from "./Page/Dashboard/Order/Order";
-import AccessTime from "./Page/Dashboard/AccessTime/AccessTime";
-import ManageAccount from "./Page/ManageAccount/ManageAccount";
-import Partner from "./Page/ManageAccount/Partner/Partner";
+import Post from "./Page/Dashboard/Post/Post";
+import DataExport from "./Page/DataExport/DataExport";
 import Customer from "./Page/ManageAccount/Customer/Customer";
-import RankReport from "./Page/RankReport/RankReport";
+import { CustomerDetail } from "./Page/ManageAccount/Customer/Detail";
+import { EditCustomer } from "./Page/ManageAccount/Customer/EditCustomer";
+import ManageAccount from "./Page/ManageAccount/ManageAccount";
+import { PartnerDetail } from "./Page/ManageAccount/Partner/Detail";
+import { DetailEditPartner } from "./Page/ManageAccount/Partner/DetailEdit";
+import Partner from "./Page/ManageAccount/Partner/Partner";
 import ManageOrder from "./Page/ManageOrder/ManageOrder";
+import CreateNotification from "./Page/Notification/CreateNotification/CreateNotification";
+import { Customer as NotiCustomer } from "./Page/Notification/Customer/Customer";
 import DetailOrder from "./Page/ManageOrder/Detail";
 import DataExport from "./Page/DataExport/DataExport";
 import Dao from "./Page/Dao";
 import Notification from "./Page/Notification/Notification";
-import { Partner as NotiPartner } from "./Page/Notification/Partner/Partner";
 import PartnerNotificationDetail from "./Page/Notification/Partner/pages/PartnerNotificationDetail";
-import { Customer as NotiCustomer } from "./Page/Notification/Customer/Customer";
-import CreateNotification from "./Page/Notification/CreateNotification/CreateNotification";
+import { Partner as NotiPartner } from "./Page/Notification/Partner/Partner";
 import Setting from "./Page/Notification/Setting/Setting";
 import PromoCode from "./Page/PromoCode/PromoCode";
-import PromoPartner from "./Page/PromoCode/PromoPartner/PromoPartner";
-import PromoCustomer from "./Page/PromoCode/PromoCustomer/PromoCustomer";
 import PromoCreate from "./Page/PromoCode/PromoCreate/PromoCreate";
-import Dev from "./Page/CoreSetting/Dev";
-import CoreSetting from "./Page/CoreSetting/CoreSetting";
-import { PartnerDetail } from "./Page/ManageAccount/Partner/Detail";
-import { DetailEditPartner } from "./Page/ManageAccount/Partner/DetailEdit";
-import { CustomerDetail } from "./Page/ManageAccount/Customer/Detail";
-import { EditCustomer } from "./Page/ManageAccount/Customer/EditCustomer";
+import PromoCustomer from "./Page/PromoCode/PromoCustomer/PromoCustomer";
+import PromoPartner from "./Page/PromoCode/PromoPartner/PromoPartner";
+import DetailRateReport from "./Page/RankReport/Detail/DetailRateReport";
+import RankReport from "./Page/RankReport/RankReport";
 
 const App = () => {
   return (
@@ -54,7 +57,9 @@ const App = () => {
             <Route path="customer/:id" element={<CustomerDetail />}></Route>
             <Route path="customer/edit/:id" element={<EditCustomer />}></Route>
           </Route>
+
           <Route path="rank-report" element={<RankReport />}></Route>
+          <Route path="rank-report/:id" element={<DetailRateReport />}></Route>
           <Route path="manage-order" element={<ManageOrder />} />
           <Route path="manage-order/observe" element={<DetailOrder />} />
           <Route
