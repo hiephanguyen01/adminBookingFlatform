@@ -1,0 +1,23 @@
+.dataExport {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    .selectOption {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        background-color: #fff;
+        padding: 2rem 2rem;
+    }
+}
+
+.partnerExport {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: #fff;
+    padding: 2rem;
+    h3 {
+        color: #03ac84;
+    }
+}
