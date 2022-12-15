@@ -1,4 +1,5 @@
 import {
+  ApartmentOutlined,
   AreaChartOutlined,
   CalendarOutlined,
   CompassOutlined,
@@ -59,6 +60,11 @@ const items = [
     label: "Dạo",
     key: "/dao",
     icon: <CompassOutlined />,
+  },
+  {
+    label: "Quản lý quyền",
+    key: "/permission",
+    icon: <ApartmentOutlined />,
   },
   {
     label: "Thông báo",

@@ -1,5 +1,8 @@
-import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.scss";
+import { ProtectedRoute } from "./Components/ProtectedRoute/ProtectedRoute";
 import AdminLayout from "./Layouts/AdminLayout/AdminLayout";
 import AskedQuestion from "./Page/CoreSetting/AskedQuestion/AskedQuestion";
 import Banks from "./Page/CoreSetting/Banks/Banks";
@@ -24,6 +27,7 @@ import Dashboard from "./Page/Dashboard/Dashboard";
 import Order from "./Page/Dashboard/Order/Order";
 import Post from "./Page/Dashboard/Post/Post";
 import DataExport from "./Page/DataExport/DataExport";
+import Login from "./Page/Login/Login";
 import Customer from "./Page/ManageAccount/Customer/Customer";
 import { CustomerDetail } from "./Page/ManageAccount/Customer/Detail";
 import { EditCustomer } from "./Page/ManageAccount/Customer/EditCustomer";
@@ -41,18 +45,34 @@ import Notification from "./Page/Notification/Notification";
 import PartnerNotificationDetail from "./Page/Notification/Partner/pages/PartnerNotificationDetail";
 import { Partner as NotiPartner } from "./Page/Notification/Partner/Partner";
 import Setting from "./Page/Notification/Setting/Setting";
+import AdminDetail from "./Page/PermissionAccess/AdminDetail/AdminDetail";
+import Permission from "./Page/PermissionAccess/Permission";
 import PromoCode from "./Page/PromoCode/PromoCode";
 import PromoCreate from "./Page/PromoCode/PromoCreate/PromoCreate";
 import PromoCustomer from "./Page/PromoCode/PromoCustomer/PromoCustomer";
 import PromoPartner from "./Page/PromoCode/PromoPartner/PromoPartner";
 import DetailRateReport from "./Page/RankReport/Detail/DetailRateReport";
 import RankReport from "./Page/RankReport/RankReport";
+import CreateAccount from "./Page/PermissionAccess/CreateAccount/CreateAccount";
+import { getCurrentUser } from "./store/action/authAction";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, []);
+
   return (
     <div className="App">
       <Routes>
-        <Route path="" element={<AdminLayout />}>
+        <Route
+          path=""
+          element={
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }>
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="account" element={<Account />}></Route>
             <Route path="post" element={<Post />}></Route>
@@ -83,6 +103,9 @@ const App = () => {
           />
           <Route path="data-export" element={<DataExport />}></Route>
           <Route path="dao" element={<Dao />}></Route>
+          <Route path="permission" element={<Permission />}></Route>
+          <Route path="permission/create" element={<CreateAccount />}></Route>
+          <Route path="permission/:id" element={<AdminDetail />}></Route>
           <Route path="notification" element={<Notification />}>
             <Route path="partner" element={<NotiPartner />}></Route>
             <Route path="customer" element={<NotiCustomer />}></Route>
@@ -122,12 +145,14 @@ const App = () => {
             <Route path="webhook/create" element={<CreateWebHook />}></Route>
             <Route path="webhook/edit" element={<EditWebHook />}></Route>
           </Route>
-        </Route>
-        <Route path="posts">
+                  <Route path="posts">
           <Route index element={<ManagePost />} />
           <Route path=":id" element={<PostDetail />}></Route>
           <Route path="edit/:id" element={<PostDetail modify={true} />}></Route>
         </Route>
+        </Route>
+        <Route path="/login" element={<Login />}></Route>
+
       </Routes>
     </div>
   );
