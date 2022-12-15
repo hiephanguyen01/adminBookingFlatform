@@ -62,7 +62,7 @@ const Ward = () => {
   const handleDelete = async () => {
     try {
       await wardService.deleteWard(currentWard.id);
-      const res = await wardService.getAllWard(provinceId);
+      const res = await wardService.getAllWard(districtId);
       setWard(res.data);
       setIsDeleteModalOpen(false);
       toastMessage("Xóa thành công!", "success");
@@ -86,7 +86,7 @@ const Ward = () => {
   const handleCreate = async () => {
     try {
       await wardService.createWard({
-        ...ward,
+        ...currentWard,
         DistrictId: districtId,
         ProvinceId: provinceId,
       });

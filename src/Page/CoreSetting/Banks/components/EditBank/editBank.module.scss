@@ -1,0 +1,25 @@
+.create-banner-container {
+    background-color: white;
+    padding: 20px 30px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h2 {
+        font-size: 30px;
+    }
+}
+
+// .update-image {
+//     display: flex;
+//     width: 100%;
+//     margin-left: 130px;
+
+//     .ant-upload .ant-upload-select {
+//         margin-right: 50px;
+//     }
+// }

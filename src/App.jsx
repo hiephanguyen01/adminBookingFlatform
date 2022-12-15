@@ -1,6 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 import AdminLayout from "./Layouts/AdminLayout/AdminLayout";
+import AskedQuestion from "./Page/CoreSetting/AskedQuestion/AskedQuestion";
+import Banks from "./Page/CoreSetting/Banks/Banks";
+import CreateBank from "./Page/CoreSetting/Banks/components/CreateBank/CreateBank";
+import EditBank from "./Page/CoreSetting/Banks/components/EditBank/EditBank";
+import BannedWord from "./Page/CoreSetting/BannedWord/BannedWord";
 import Banner from "./Page/CoreSetting/Banner/Banner";
 import CreateBanner from "./Page/CoreSetting/Banner/Components/CreateBanner/CreateBanner";
 import EditBanner from "./Page/CoreSetting/Banner/Components/EditBanner/EditBanner";
@@ -9,6 +14,9 @@ import CoreSetting from "./Page/CoreSetting/CoreSetting";
 import Dev from "./Page/CoreSetting/Dev";
 import District from "./Page/CoreSetting/District/District";
 import Ward from "./Page/CoreSetting/Ward/Ward";
+import CreateWebHook from "./Page/CoreSetting/webHook/components/CreateWebHook/CreateWebHook";
+import EditWebHook from "./Page/CoreSetting/webHook/components/EditWebHook/EditWebHook";
+import WebHook from "./Page/CoreSetting/webHook/WebHook";
 import Dao from "./Page/Dao";
 import AccessTime from "./Page/Dashboard/AccessTime/AccessTime";
 import Account from "./Page/Dashboard/Account/Account";
@@ -98,15 +106,21 @@ const App = () => {
             <Route path="city" element={<City />}></Route>
             <Route path="district" element={<District />}></Route>
             <Route path="ward" element={<Ward />}></Route>
-            <Route path="webhook" element={<Dev />}></Route>
-            <Route path="banned-word" element={<Dev />}></Route>
-            <Route path="question" element={<Dev />}></Route>
+            <Route path="banned-word" element={<BannedWord />}></Route>
+            <Route path="question" element={<AskedQuestion />}></Route>
             <Route path="banner" element={<Banner />}></Route>
             <Route path="banner/create" element={<CreateBanner />}></Route>
             <Route
               path="banner/edit"
               element={<EditBanner edit={true} />}
             ></Route>
+            <Route path="banks" element={<Banks />} />
+            <Route path="banks/create" element={<CreateBank />} />
+            <Route path="banks/edit" element={<EditBank edit={true} />} />
+
+            <Route path="webhook" element={<WebHook />}></Route>
+            <Route path="webhook/create" element={<CreateWebHook />}></Route>
+            <Route path="webhook/edit" element={<EditWebHook />}></Route>
           </Route>
         </Route>
         <Route path="posts">
