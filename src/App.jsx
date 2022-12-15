@@ -85,8 +85,7 @@ const App = () => {
             <Route path="partner/:id" element={<PartnerDetail />}></Route>
             <Route
               path="partner/edit/:id"
-              element={<DetailEditPartner />}
-            ></Route>
+              element={<DetailEditPartner />}></Route>
 
             <Route path="customer" element={<Customer />}></Route>
             <Route path="customer/:id" element={<CustomerDetail />}></Route>
@@ -135,8 +134,7 @@ const App = () => {
             <Route path="banner/create" element={<CreateBanner />}></Route>
             <Route
               path="banner/edit"
-              element={<EditBanner edit={true} />}
-            ></Route>
+              element={<EditBanner edit={true} />}></Route>
             <Route path="banks" element={<Banks />} />
             <Route path="banks/create" element={<CreateBank />} />
             <Route path="banks/edit" element={<EditBank edit={true} />} />
@@ -145,14 +143,20 @@ const App = () => {
             <Route path="webhook/create" element={<CreateWebHook />}></Route>
             <Route path="webhook/edit" element={<EditWebHook />}></Route>
           </Route>
-                  <Route path="posts">
-          <Route index element={<ManagePost />} />
+        </Route>
+        <Route path="posts">
+          <Route
+            index
+            element={
+              <ProtectedRoute>
+                <ManagePost />
+              </ProtectedRoute>
+            }
+          />
           <Route path=":id" element={<PostDetail />}></Route>
           <Route path="edit/:id" element={<PostDetail modify={true} />}></Route>
         </Route>
-        </Route>
         <Route path="/login" element={<Login />}></Route>
-
       </Routes>
     </div>
   );
