@@ -9,7 +9,6 @@ const Dao = () => {
       <main className="dao__main">
         <Tabs
           defaultActiveKey="0"
-          // onChange={onChange}
           items={[
             {
               label: `Bài viết`,
