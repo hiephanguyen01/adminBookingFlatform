@@ -37,6 +37,11 @@ const items = [
     ],
   },
   {
+    label: "Quản lý bài đăng",
+    key: "/posts",
+    icon: <PicLeftOutlined />,
+  },
+  {
     label: "Xếp hạng báo cáo",
     key: "/rank-report",
     icon: <SolutionOutlined />,
@@ -87,6 +92,7 @@ const items = [
     key: "/setting",
     icon: <SettingOutlined />,
     children: [
+      { label: "Ngân hàng", key: "/setting/banks" },
       { label: "Banner", key: "/setting/banner" },
       { label: "Tỉnh / Thành phố", key: "/setting/city" },
       { label: "Quận / Huyện", key: "/setting/district" },

@@ -4,6 +4,11 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.scss";
 import { ProtectedRoute } from "./Components/ProtectedRoute/ProtectedRoute";
 import AdminLayout from "./Layouts/AdminLayout/AdminLayout";
+import AskedQuestion from "./Page/CoreSetting/AskedQuestion/AskedQuestion";
+import Banks from "./Page/CoreSetting/Banks/Banks";
+import CreateBank from "./Page/CoreSetting/Banks/components/CreateBank/CreateBank";
+import EditBank from "./Page/CoreSetting/Banks/components/EditBank/EditBank";
+import BannedWord from "./Page/CoreSetting/BannedWord/BannedWord";
 import Banner from "./Page/CoreSetting/Banner/Banner";
 import CreateBanner from "./Page/CoreSetting/Banner/Components/CreateBanner/CreateBanner";
 import EditBanner from "./Page/CoreSetting/Banner/Components/EditBanner/EditBanner";
@@ -12,6 +17,9 @@ import CoreSetting from "./Page/CoreSetting/CoreSetting";
 import Dev from "./Page/CoreSetting/Dev";
 import District from "./Page/CoreSetting/District/District";
 import Ward from "./Page/CoreSetting/Ward/Ward";
+import CreateWebHook from "./Page/CoreSetting/webHook/components/CreateWebHook/CreateWebHook";
+import EditWebHook from "./Page/CoreSetting/webHook/components/EditWebHook/EditWebHook";
+import WebHook from "./Page/CoreSetting/webHook/WebHook";
 import Dao from "./Page/Dao";
 import AccessTime from "./Page/Dashboard/AccessTime/AccessTime";
 import Account from "./Page/Dashboard/Account/Account";
@@ -29,6 +37,8 @@ import { DetailEditPartner } from "./Page/ManageAccount/Partner/DetailEdit";
 import Partner from "./Page/ManageAccount/Partner/Partner";
 import DetailOrder from "./Page/ManageOrder/Detail";
 import { ManageOrder } from "./Page/ManageOrder/ManageOrder";
+import { ManagePost } from "./Page/ManagePost";
+import { PostDetail } from "./Page/ManagePost/Detail/Detail";
 import CreateNotification from "./Page/Notification/CreateNotification/CreateNotification";
 import { Customer as NotiCustomer } from "./Page/Notification/Customer/Customer";
 import Notification from "./Page/Notification/Notification";
@@ -69,12 +79,14 @@ const App = () => {
             <Route path="order" element={<Order />}></Route>
             <Route path="access-times" element={<AccessTime />}></Route>
           </Route>
+
           <Route path="manage" element={<ManageAccount />}>
             <Route path="partner" element={<Partner />}></Route>
             <Route path="partner/:id" element={<PartnerDetail />}></Route>
             <Route
               path="partner/edit/:id"
-              element={<DetailEditPartner />}></Route>
+              element={<DetailEditPartner />}
+            ></Route>
 
             <Route path="customer" element={<Customer />}></Route>
             <Route path="customer/:id" element={<CustomerDetail />}></Route>
@@ -117,17 +129,30 @@ const App = () => {
             <Route path="city" element={<City />}></Route>
             <Route path="district" element={<District />}></Route>
             <Route path="ward" element={<Ward />}></Route>
-            <Route path="webhook" element={<Dev />}></Route>
-            <Route path="banned-word" element={<Dev />}></Route>
-            <Route path="question" element={<Dev />}></Route>
+            <Route path="banned-word" element={<BannedWord />}></Route>
+            <Route path="question" element={<AskedQuestion />}></Route>
             <Route path="banner" element={<Banner />}></Route>
             <Route path="banner/create" element={<CreateBanner />}></Route>
             <Route
               path="banner/edit"
-              element={<EditBanner edit={true} />}></Route>
+              element={<EditBanner edit={true} />}
+            ></Route>
+            <Route path="banks" element={<Banks />} />
+            <Route path="banks/create" element={<CreateBank />} />
+            <Route path="banks/edit" element={<EditBank edit={true} />} />
+
+            <Route path="webhook" element={<WebHook />}></Route>
+            <Route path="webhook/create" element={<CreateWebHook />}></Route>
+            <Route path="webhook/edit" element={<EditWebHook />}></Route>
           </Route>
+                  <Route path="posts">
+          <Route index element={<ManagePost />} />
+          <Route path=":id" element={<PostDetail />}></Route>
+          <Route path="edit/:id" element={<PostDetail modify={true} />}></Route>
+        </Route>
         </Route>
         <Route path="/login" element={<Login />}></Route>
+
       </Routes>
     </div>
   );

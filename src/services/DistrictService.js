@@ -16,6 +16,9 @@ export class DistrictService extends BaseService {
   deleteDistrict = (id) => {
     return this.delete(`/api/districts/districtById/${id}`);
   };
+  getAllprovinces = () => {
+    return this.get(`/api/provinces`);
+  };
 }
 
 export const districtService = new DistrictService();

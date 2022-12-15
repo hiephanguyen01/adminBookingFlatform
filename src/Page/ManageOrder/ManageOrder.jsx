@@ -34,7 +34,6 @@ export const ManageOrder = () => {
   const [loading, setLoading] = useState(true);
   const [openMore, setOpenMore] = useState(null);
   const [pagination, setPagination] = useState();
-  console.log(openMore);
   const [filter, setFilter] = useState({
     BookingStatus: "",
     EntryDate: {
