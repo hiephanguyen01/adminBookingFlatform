@@ -66,7 +66,7 @@ export const EditCustomer = () => {
       console.log(error);
     }
   };
-  if (loading) return <Loading/>;
+  if (loading) return <Loading />;
   return (
     <div className="CustomerDetail">
       <Form layout="vertical" autoComplete="off">

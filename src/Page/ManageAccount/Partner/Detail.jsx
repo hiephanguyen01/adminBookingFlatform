@@ -26,8 +26,8 @@ export const PartnerDetail = () => {
       console.log(error);
     }
   };
-  
-  if (loading) return <Loading/>;
+
+  if (loading) return <Loading />;
   return (
     <div className="PartnerDetail">
       <Row gutter={32}>

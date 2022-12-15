@@ -10,12 +10,25 @@ class StudioPostService extends BaseService {
   getPostByTenantId = (params) => {
     return this.get(`/api/studio-post/tenant-id`, { ...params });
   };
-  getAllStudioPost = (limit, page, category) => {
+  getAllStudioPost = (
+    page,
+    limit,
+    category,
+    IsVisible,
+    CreationTime,
+    LastModificationTime,
+    Name_like
+  ) => {
     return this.get(
-      `/api/studio-post?page=${page}&limit=${limit}&category=${category}`
+      `/api/studio-post?page=${page}&limit=${limit}&category=${category}&IsVisible=${IsVisible}&CreationTime=${CreationTime}&LastModificationTime=${LastModificationTime}&Name_like=${Name_like}`
     );
   };
-  getDetailStudio = (id, category, currentUser = "") => {
+  updateStudioPostDetail = (id, category, IsVisible, note) => {
+    return this.patch(
+      `/api/studio-post/byid?id=${id}&category=${category}&IsVisible=${IsVisible}&Note=${note}`
+    );
+  };
+  getDetailStudio = (id, category, currentUser = "166") => {
     if (currentUser.trim !== "") {
       return this.get(
         `/api/studio-post/byid?id=${id}&category=${category}&userId=${currentUser}`

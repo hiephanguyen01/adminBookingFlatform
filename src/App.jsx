@@ -33,6 +33,8 @@ import { DetailEditPartner } from "./Page/ManageAccount/Partner/DetailEdit";
 import Partner from "./Page/ManageAccount/Partner/Partner";
 import DetailOrder from "./Page/ManageOrder/Detail";
 import { ManageOrder } from "./Page/ManageOrder/ManageOrder";
+import { ManagePost } from "./Page/ManagePost";
+import { PostDetail } from "./Page/ManagePost/Detail/Detail";
 import CreateNotification from "./Page/Notification/CreateNotification/CreateNotification";
 import { Customer as NotiCustomer } from "./Page/Notification/Customer/Customer";
 import Notification from "./Page/Notification/Notification";
@@ -57,6 +59,7 @@ const App = () => {
             <Route path="order" element={<Order />}></Route>
             <Route path="access-times" element={<AccessTime />}></Route>
           </Route>
+
           <Route path="manage" element={<ManageAccount />}>
             <Route path="partner" element={<Partner />}></Route>
             <Route path="partner/:id" element={<PartnerDetail />}></Route>
@@ -111,7 +114,6 @@ const App = () => {
               path="banner/edit"
               element={<EditBanner edit={true} />}
             ></Route>
-
             <Route path="banks" element={<Banks />} />
             <Route path="banks/create" element={<CreateBank />} />
             <Route path="banks/edit" element={<EditBank edit={true} />} />
@@ -120,6 +122,11 @@ const App = () => {
             <Route path="webhook/create" element={<CreateWebHook />}></Route>
             <Route path="webhook/edit" element={<EditWebHook />}></Route>
           </Route>
+        </Route>
+        <Route path="posts">
+          <Route index element={<ManagePost />} />
+          <Route path=":id" element={<PostDetail />}></Route>
+          <Route path="edit/:id" element={<PostDetail modify={true} />}></Route>
         </Route>
       </Routes>
     </div>

@@ -36,6 +36,11 @@ const items = [
     ],
   },
   {
+    label: "Quản lý bài đăng",
+    key: "/posts",
+    icon: <PicLeftOutlined />,
+  },
+  {
     label: "Xếp hạng báo cáo",
     key: "/rank-report",
     icon: <SolutionOutlined />,
