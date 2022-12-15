@@ -81,6 +81,7 @@ const items = [
     key: "/setting",
     icon: <SettingOutlined />,
     children: [
+      { label: "Ngân hàng", key: "/setting/banks" },
       { label: "Banner", key: "/setting/banner" },
       { label: "Tỉnh / Thành phố", key: "/setting/city" },
       { label: "Quận / Huyện", key: "/setting/district" },
