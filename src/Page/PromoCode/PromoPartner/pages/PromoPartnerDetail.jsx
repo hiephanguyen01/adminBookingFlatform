@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import dayjs from "dayjs";
 import { MultiSelect } from "react-multi-select-component";
 
-import styles from "./promoCreate.module.scss";
+import styles from "./promoPartnerDetail.module.scss";
 import {
   Avatar,
   Button,
@@ -18,17 +18,19 @@ import {
   Space,
 } from "antd";
 import moment from "moment";
-import { CATEGORIES } from "../../../../utils/CONST";
+import { CATEGORIES } from "../../../../../utils/CONST";
 import { UserOutlined } from "@ant-design/icons";
-import { convertImage } from "../../../../utils/convert";
-import { partnerService } from "../../../services/PartnerService";
-import { userService } from "../../../services/UserService";
-import { promoCodeService } from "../../../services/PromoCodeService";
-import toastMessage from "../../../Components/ToastMessage";
+import { convertImage } from "../../../../../utils/convert";
+import { partnerService } from "../../../../services/PartnerService";
+import { userService } from "../../../../services/UserService";
+import { promoCodeService } from "../../../../services/PromoCodeService";
+import toastMessage from "../../../../Components/ToastMessage";
+import { useLocation } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
-const PromoCreate = () => {
+const PromoPartnerDetail = ({ edit = false }) => {
+  const location = useLocation();
   const [form] = Form.useForm();
   const [promo, setPromo] = useState({
     Category: "",
@@ -70,6 +72,15 @@ const PromoCreate = () => {
       setCustomers(res.data.map((item) => ({ ...item, value: item.id })));
     };
     getCustomer();
+    const getPromoDetail = async () => {
+      const res = await promoCodeService.getPromoCodeById(
+        location.state.promoPartnerId
+      );
+      console.log(res.data);
+      setPromo(res.data);
+      form.setFieldsValue(res.data);
+    };
+    getPromoDetail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -199,6 +210,7 @@ const PromoCreate = () => {
   return (
     <div className={cx("promo-create-container")}>
       <Form
+        disabled={!edit}
         // labelCol={{ span: 12 }}
         // wrapperCol={{ span: 24 }}
         layout="vertical"
@@ -302,7 +314,7 @@ const PromoCreate = () => {
               }}
             >
               <div className={cx("w-50")}>
-                <Form.Item
+                {/* <Form.Item
                   label="Ngày áp dụng"
                   name={"DateTimeApply"}
                   rules={[{ required: true }]}
@@ -313,10 +325,10 @@ const PromoCreate = () => {
                     disabledTime={disabledDateTime}
                     showTime={{ defaultValue: dayjs("00:00:00", "HH:mm") }}
                   />
-                </Form.Item>
+                </Form.Item> */}
               </div>
               <div className={cx("w-50")}>
-                <Form.Item
+                {/* <Form.Item
                   label="Ngày hết hạn"
                   name={"DateTimeExpire"}
                   rules={[{ required: true }]}
@@ -327,7 +339,7 @@ const PromoCreate = () => {
                     disabledTime={disabledDateTime}
                     showTime={{ defaultValue: dayjs("00:00:00", "HH:mm") }}
                   />
-                </Form.Item>
+                </Form.Item> */}
               </div>
             </div>
             <div className={cx("w-100")}>
@@ -561,7 +573,7 @@ const PromoCreate = () => {
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Form.Item wrapperCol={{ span: 16 }}>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
@@ -667,4 +679,4 @@ const PromoCreate = () => {
   );
 };
 
-export default PromoCreate;
+export default PromoPartnerDetail;

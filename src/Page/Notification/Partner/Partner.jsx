@@ -63,13 +63,13 @@ const columns = [
     title: "Ngày tạo",
     dataIndex: "createdAt",
     key: "createdAt",
-    render: (text) => <>{moment(text).format("HH:hh DD/MM/YYYY")}</>,
+    render: (text) => <>{moment(text).format("HH:mm DD/MM/YYYY")}</>,
   },
   {
     title: "Ngày gửi",
-    key: "SendingTime",
-    dataIndex: "SendingTime",
-    render: (text) => <>{moment(text).format("HH:hh DD/MM/YYYY")}</>,
+    key: "sendingTime",
+    dataIndex: "sendingTime",
+    render: (text) => <>{moment(text).format("HH:mm DD/MM/YYYY")}</>,
   },
   {
     title: "Trạng thái",
@@ -126,16 +126,10 @@ export const Partner = () => {
     limit: 5,
   });
   const [filter, setFilter] = useState({
-    createdAt: {
-      startDate: "",
-      endDate: "",
-    },
-    SendingTime: {
-      startDate: "",
-      endDate: "",
-    },
-    Type: "",
-    Status: "",
+    createdAt: [],
+    sendingTime: [],
+    type: "",
+    status: "",
   });
   const [pagination, setPagination] = useState({});
 
@@ -143,7 +137,18 @@ export const Partner = () => {
     const getNotifyPartner = async () => {
       const res = await notifyService.getNotifyPartner(
         queryString.stringify(filtersPage),
-        { ...filter, userType: 0 }
+        {
+          ...filter,
+          userType: 0,
+          createdAt: {
+            startDate: (filter.createdAt && filter?.createdAt[0]) || "",
+            endDate: (filter.createdAt && filter?.createdAt[1]) || "",
+          },
+          sendingTime: {
+            startDate: (filter.sendingTime && filter?.sendingTime[0]) || "",
+            endDate: (filter.sendingTime && filter?.sendingTime[1]) || "",
+          },
+        }
       );
       console.log(res.data);
       setData(res.data.data);
@@ -151,16 +156,11 @@ export const Partner = () => {
       // setFiltersPage({ ...filtersPage, page: res.data.pagination.currentPage });
     };
     getNotifyPartner();
-  }, [filtersPage]);
+  }, [filtersPage, filter]);
 
   const onValuesChangeForm = async (value) => {
-    const newFilter = { ...filter, ...value };
-    const res = await notifyService.getNotifyPartner(
-      queryString.stringify(filtersPage),
-      newFilter
-    );
-    setData(res.data.data);
-    setPagination(res.data.pagination);
+    setFilter({ ...filter, ...value });
+    setFiltersPage({ ...filtersPage, page: 1 });
   };
   return (
     <div className={cx("container")}>

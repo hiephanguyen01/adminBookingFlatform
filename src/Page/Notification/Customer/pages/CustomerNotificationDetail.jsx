@@ -2,48 +2,44 @@ import React, { useEffect, useState } from "react";
 import { Avatar, Button, Card, Modal, Space } from "antd";
 import classNames from "classnames/bind";
 import { MultiSelect } from "react-multi-select-component";
-import queryString from "query-string";
 import iconEvent from "../../../../assets/notification/event.png";
 import iconSale from "../../../../assets/notification/sale.png";
 
-import styles from "./partnerNotificationDetail.module.scss";
-import {
-  NotificationOutlined,
-  RightOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import styles from "./customerNotificationDetail.module.scss";
+import { RightOutlined, UserOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router-dom";
 import { notifyService } from "../../../../services/notifyService";
-import { partnerService } from "../../../../services/PartnerService";
 import { convertImage } from "../../../../../utils/convert";
 import "../../CreateNotification/replaceStyles.scss";
 import moment from "moment";
 import toastMessage from "../../../../Components/ToastMessage";
+import { userService } from "../../../../services/UserService";
 
 const cx = classNames.bind(styles);
 
-const PartnerNotificationDetail = ({ edit = false }) => {
+const CustomerNotificationDetail = ({ edit = false }) => {
   const { state } = useLocation();
   const [notifyDetail, setNotifyDetail] = useState({});
-  const [partners, setPartners] = useState([]);
+  const [partners, setCustomers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selected, setSelected] = useState([]);
 
   useEffect(() => {
     let newSelected;
     try {
-      const getNotifyPartnerDetail = async () => {
+      const getNotifyCustomerDetail = async () => {
         const res = await notifyService.getNotifyDetail(state.notificationId);
+        console.log(res.data.message);
         newSelected = res.data.message.Exception;
         setNotifyDetail(res.data.message);
       };
-      getNotifyPartnerDetail();
-      const getPartner = async () => {
-        const res = await partnerService.getAllPartnersNotification();
-        setPartners(res.data.map((item) => ({ ...item, value: item.id })));
+      getNotifyCustomerDetail();
+      const getCustomer = async () => {
+        const res = await userService.getAllCustomerNotification();
+        setCustomers(res.data.map((item) => ({ ...item, value: item.id })));
         setSelected(res.data.filter((item) => newSelected.includes(item.id)));
       };
-      getPartner();
+      getCustomer();
     } catch (error) {
       console.log(error);
     }
@@ -184,7 +180,7 @@ const PartnerNotificationDetail = ({ edit = false }) => {
                     icon={<UserOutlined />}
                     src={convertImage(option.Image || "")}
                   />
-                  <div>{option.PartnerName}</div>
+                  <div>{option.CustomerName}</div>
                 </div>
                 <input
                   className="Checkbox-input"
@@ -204,4 +200,4 @@ const PartnerNotificationDetail = ({ edit = false }) => {
   );
 };
 
-export default PartnerNotificationDetail;
+export default CustomerNotificationDetail;

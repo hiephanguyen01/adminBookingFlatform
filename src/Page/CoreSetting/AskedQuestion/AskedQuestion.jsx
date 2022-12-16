@@ -24,11 +24,11 @@ const cx = classNames.bind(styles);
 
 const QUESTION_CATEGORY = [
   { value: "", label: "Chọn danh mục" },
-  { value: "1", label: "Về hủy đơn đặt" },
-  { value: "2", label: "Về thanh toán" },
-  { value: "3", label: "Về chi tiết đơn đặt" },
-  { value: "4", label: "Về giá trị đơn đặt" },
-  { value: "5", label: "Về bảo mật và nhận thức" },
+  { value: 1, label: "Về hủy đơn đặt" },
+  { value: 2, label: "Về thanh toán" },
+  { value: 3, label: "Về chi tiết đơn đặt" },
+  { value: 4, label: "Về giá trị đơn đặt" },
+  { value: 5, label: "Về bảo mật và nhận thức" },
 ];
 
 const AskedQuestion = () => {
@@ -54,9 +54,9 @@ const AskedQuestion = () => {
   const handleDelete = async () => {
     setIsDeleteModalOpen(false);
     try {
-      await bannedWordService.deleteBannedWord(chooseBannedWord.id);
-      const res = await bannedWordService.getAllBannedWord(textSearch);
-      setQuestions(res.data);
+      await askedQuestionsService.deleteQuestion(question.id);
+      const res = await askedQuestionsService.getAllAskedQuestions(textSearch);
+      setQuestions(res.data.data);
       toastMessage("Xóa thành công!", "success");
     } catch (error) {
       toastMessage("Xóa thất bại!", "success");
@@ -66,13 +66,11 @@ const AskedQuestion = () => {
   const handleEdit = async () => {
     setIsEditModalOpen(false);
     try {
-      await bannedWordService.updateBannedWord(
-        chooseBannedWord.id,
-        chooseBannedWord
-      );
-      const res = await bannedWordService.getAllBannedWord(textSearch);
-      setBannedWords(res.data.data);
+      await askedQuestionsService.updateQuestion(question.id, question);
+      const res = await askedQuestionsService.getAllAskedQuestions(textSearch);
+      setQuestions(res.data.data);
       toastMessage("Cập nhật thông tin thành công!", "success");
+      // setQuestion({});
     } catch (error) {
       toastMessage("Cập nhật thông tin thất bại!", "error");
     }
@@ -80,17 +78,12 @@ const AskedQuestion = () => {
 
   const handleCreate = async () => {
     try {
-      for (let i = 0; i < bannedWordList.length; i++) {
-        await bannedWordService.createBannedWord({
-          Value: bannedWordList[i],
-          IsDeleted: false,
-        });
-      }
-      const res = await bannedWordService.getAllBannedWord(textSearch);
-      setBannedWords(res.data.data);
+      await askedQuestionsService.createQuestion(question);
+      const res = await askedQuestionsService.getAllAskedQuestions(textSearch);
+      setQuestions(res.data.data);
       toastMessage("Tạo thành công!", "success");
       setIsCreateOpenModal(false);
-      setBannedWordList([]);
+      // setQuestion({});
     } catch (error) {
       toastMessage("Tạo thất bại!", "error");
     }
@@ -136,7 +129,7 @@ const AskedQuestion = () => {
             icon={<DeleteOutlined />}
             onClick={() => {
               setIsDeleteModalOpen(true);
-              setChooseBannedWord(value);
+              setQuestion(value);
             }}
           />
           <Button
@@ -146,7 +139,8 @@ const AskedQuestion = () => {
             icon={<EditOutlined />}
             onClick={() => {
               setIsEditModalOpen(true);
-              setChooseBannedWord(value);
+              setQuestion(value);
+              form.setFieldsValue(value);
             }}
           />
         </Space>
@@ -154,6 +148,8 @@ const AskedQuestion = () => {
       width: 150,
     },
   ];
+
+  console.log(question);
 
   return (
     <>
@@ -176,6 +172,7 @@ const AskedQuestion = () => {
             size="large"
             onClick={() => {
               setIsCreateOpenModal(true);
+              setQuestion({});
               form.resetFields();
             }}
           >
@@ -213,12 +210,16 @@ const AskedQuestion = () => {
           onOk={() => handleEdit()}
           okText="Lưu"
           cancelText="Hủy"
-          onCancel={() => setIsEditModalOpen(false)}
+          onCancel={() => {
+            setIsEditModalOpen(false);
+            setQuestion({});
+          }}
         >
           <Form
             form={form}
             size="large"
-            initialValues={question}
+            // initialValues={question}
+            // defaultValue={question}
             style={{ marginTop: "20px" }}
             onValuesChange={(value) => setQuestion({ ...question, ...value })}
             // labelCol={{ span: "6" }}
@@ -250,24 +251,25 @@ const AskedQuestion = () => {
           <Form
             form={form}
             size="large"
-            // initialValues={currentDistrict}
-            style={{ marginTop: "30px" }}
-            onValuesChange={(value) =>
-              setCurrentDistrict({ ...currentDistrict, ...value })
-            }
-            labelCol={{ span: "6" }}
-            wrapperCol={{ span: "17" }}
+            // initialValues={question}
+            // defaultValue={question}
+            style={{ marginTop: "20px" }}
+            onValuesChange={(value) => setQuestion({ ...question, ...value })}
+            // labelCol={{ span: "6" }}
+            // wrapperCol={{ span: "" }}
           >
-            <Form.Item label="Loại" name={"Prefix"}>
-              <Select
-                options={[
-                  { value: "quận", label: "Quận" },
-                  { value: "huyện", label: "Huyện" },
-                ]}
-              />
+            <Form.Item name={"AskedQuestionCategory"}>
+              <Select defaultValue={""} options={QUESTION_CATEGORY} />
             </Form.Item>
-            <Form.Item label="Tên quận/huyện" name={"Name"}>
-              <Input />
+            <Form.Item name={"Question"}>
+              <Input placeholder="Nhập câu hỏi" />
+            </Form.Item>
+            <Form.Item name={"Answer"}>
+              <Input.TextArea
+                placeholder="Nhập câu trả lời"
+                rows={4}
+                style={{ resize: "none" }}
+              />
             </Form.Item>
           </Form>
         </Modal>

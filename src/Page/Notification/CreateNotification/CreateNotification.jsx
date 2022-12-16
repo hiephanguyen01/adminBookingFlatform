@@ -49,7 +49,7 @@ const CreateNotification = () => {
     Title: "",
     Type: 1,
     option: 1,
-    SendingTime: "",
+    SendingTime: moment(),
   });
   const [modalOpen, setModalOpen] = useState(false);
   const [partner, setPartner] = useState([]);
@@ -59,7 +59,6 @@ const CreateNotification = () => {
   useEffect(() => {
     const getPartner = async () => {
       const res = await partnerService.getAllPartnersNotification();
-      console.log(res.data);
       setPartner(res.data.map((item) => ({ ...item, value: item.id })));
     };
     getPartner();
@@ -73,7 +72,6 @@ const CreateNotification = () => {
   }, []);
 
   const handleChangeEditor = (html) => {
-    console.log(html);
     setText(html);
   };
   // const modules = {
@@ -133,7 +131,7 @@ const CreateNotification = () => {
     return result;
   };
 
-  const disabledDateTime = () => {
+  const disabledDateTime = (value) => {
     return {
       disabledHours: () => {
         if (value && moment(value["$d"]) > moment()) return [];
@@ -204,10 +202,21 @@ const CreateNotification = () => {
       await notifyService.createNotification(formData);
       toastMessage("Tạo thông báo thành công!", "success");
       form.resetFields();
+      setData({
+        Content: "",
+        Object: 0,
+        Title: "",
+        Type: 1,
+        option: 1,
+        SendingTime: moment(),
+      });
+      setSelected([]);
     } catch (error) {
       toastMessage("Tạo thông báo thất bại!", "error");
     }
   };
+
+  console.log(data);
 
   return (
     <div className={cx("create-notification-wrapper")}>
@@ -427,8 +436,14 @@ const CreateNotification = () => {
           </Col>
         </Row>
 
-        <Form.Item className={cx("")} htmlType="submit" onClick={handleSubmit}>
-          <Button type="primary">Gửi thông báo</Button>
+        <Form.Item
+          className={cx("")}
+          // onClick={handleSubmit}
+          wrapperCol={{ span: "6" }}
+        >
+          <Button type="primary" htmlType="submit">
+            Gửi thông báo
+          </Button>
         </Form.Item>
       </Form>
       <Modal

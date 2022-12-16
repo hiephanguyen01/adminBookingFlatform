@@ -20,6 +20,7 @@ import {
 } from "@ant-design/icons";
 import { notifyService } from "../../../services/notifyService";
 import moment from "moment/moment";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 const { RangePicker } = DatePicker;
@@ -62,13 +63,13 @@ const columns = [
     title: "Ngày tạo",
     dataIndex: "createdAt",
     key: "createdAt",
-    render: (text) => <>{moment(text).format("HH:hh DD/MM/YYYY")}</>,
+    render: (text) => <>{moment(text).format("HH:mm DD/MM/YYYY")}</>,
   },
   {
     title: "Ngày gửi",
-    key: "SendingTime",
-    dataIndex: "SendingTime",
-    render: (text) => <>{moment(text).format("HH:hh DD/MM/YYYY")}</>,
+    key: "sendingTime",
+    dataIndex: "sendingTime",
+    render: (text) => <>{moment(text).format("HH:mm DD/MM/YYYY")}</>,
   },
   {
     title: "Trạng thái",
@@ -87,19 +88,27 @@ const columns = [
   {
     title: "Thao tác",
     key: "action",
-    render: (_, record) => (
+    render: (value) => (
       <Popover
         placement="right"
         content={
           <>
-            <a href="" className={cx("action_more")}>
+            <Link
+              to={"view-detail"}
+              state={{ notificationId: value.id }}
+              className={cx("action_more")}
+            >
               <EyeOutlined className={cx("action_more_icon")} />
               Xem chi tiết
-            </a>
-            <a href="" className={cx("action_more")}>
+            </Link>
+            <Link
+              to={"edit"}
+              state={{ notificationId: value.id }}
+              className={cx("action_more")}
+            >
               <EditOutlined className={cx("action_more_icon")} />
               Chỉnh sửa
-            </a>
+            </Link>
           </>
         }
         trigger="click"
@@ -117,69 +126,43 @@ export const Customer = () => {
     limit: 5,
   });
   const [filter, setFilter] = useState({
-    createdAt: {
-      startDate: "",
-      endDate: "",
-    },
-    SendingTime: {
-      startDate: "",
-      endDate: "",
-    },
-    Type: "",
-    Status: "",
+    createdAt: [],
+    sendingTime: [],
+    type: "",
+    status: "",
   });
   const [pagination, setPagination] = useState({});
 
   useEffect(() => {
     const getNotifyCustomer = async () => {
-      const res = await notifyService.getNotifyPartner(
+      const res = await notifyService.getNotifyCustomer(
         queryString.stringify(filtersPage),
-        { ...filter }
+        {
+          ...filter,
+          userType: 1,
+          createdAt: {
+            startDate: (filter.createdAt && filter?.createdAt[0]) || "",
+            endDate: (filter.createdAt && filter?.createdAt[1]) || "",
+          },
+          sendingTime: {
+            startDate: (filter.sendingTime && filter?.sendingTime[0]) || "",
+            endDate: (filter.sendingTime && filter?.sendingTime[1]) || "",
+          },
+        }
       );
-      console.log(res.data);
       setData(res.data.data);
       setPagination(res.data.pagination);
       // setFiltersPage({ ...filtersPage, page: res.data.pagination.currentPage });
     };
     getNotifyCustomer();
-  }, [filtersPage]);
+  }, [filtersPage, filter]);
 
-  // const onFinish = (value) => {
-  //   console.log(value);
-  //   setFilter({
-  //     ...filter,
-  //     createdAt:
-  //       value.createdAt === undefined
-  //         ? filter.createdAt
-  //         : {
-  //             startDate:
-  //               value?.createdAt[0].format("YYYY-MM-DD HH:mm:ss") || "",
-  //             endDate: value?.createdAt[1].format("YYYY-MM-DD HH:mm:ss") || "",
-  //           },
-  //     SendingTime:
-  //       value.sendingTime === undefined
-  //         ? filter.SendingTime
-  //         : {
-  //             startDate:
-  //               value?.sendingTime[0].format("YYYY-MM-DD HH:mm:ss") || "",
-  //             endDate:
-  //               value?.sendingTime[1].format("YYYY-MM-DD HH:mm:ss") || "",
-  //           },
-  //     Type: value.type,
-  //     Status: value.status,
-  //   });
-  // };
-  // console.log(filter);
   const onValuesChangeForm = async (value) => {
-    const newFilter = { ...filter, ...value };
-    console.log(newFilter);
-    const res = await notifyService.getNotifyPartner(
-      queryString.stringify(filtersPage),
-      newFilter
-    );
-    setData(res.data.data);
-    setPagination(res.data.pagination);
+    console.log(value);
+    setFilter({ ...filter, ...value });
+    setFiltersPage({ ...filtersPage, page: 1 });
   };
+  console.log(filter);
   return (
     <div className={cx("container")}>
       <div className={cx("filter-wrapper")}>
