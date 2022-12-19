@@ -1,9 +1,20 @@
 import { Tabs } from "antd";
 import Article from "./Articles";
+import { useState } from "react";
 import ViolateArticle from "./ViolateArticle";
 import "./dao.scss";
+const filterCondition = [
+  "Studio",
+  "Thietbi",
+  "Trangphuc",
+  "Thietke",
+  "Nguoimau",
+  "Makeup",
+];
 
 const Dao = () => {
+  const [conditionSelected, setConditionSelected] = useState([]);
+
   return (
     <section className="dao">
       <main className="dao__main">
@@ -13,12 +24,24 @@ const Dao = () => {
             {
               label: `Bài viết`,
               key: "0",
-              children: <Article />,
+              children: (
+                <Article
+                  filterCondition={filterCondition}
+                  conditionSelected={conditionSelected}
+                  setConditionSelected={setConditionSelected}
+                />
+              ),
             },
             {
               label: `Báo cáo vi phạm`,
               key: "1",
-              children: <ViolateArticle />,
+              children: (
+                <ViolateArticle
+                  filterCondition={filterCondition}
+                  conditionSelected={conditionSelected}
+                  setConditionSelected={setConditionSelected}
+                />
+              ),
             },
           ]}
         />

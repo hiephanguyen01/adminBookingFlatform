@@ -6,7 +6,7 @@ import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import toastMessage from "../../../../../Components/ToastMessage";
 import { bankService } from "../../../../../services/BankService";
 import TextArea from "antd/es/input/TextArea";
-import { webHookService } from "../../../../../services/webHookService";
+import { webHookService } from "../../../../../services/WebHookService";
 import { useLocation } from "react-router-dom";
 
 const cx = classNames.bind(styles);
