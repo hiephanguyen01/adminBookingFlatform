@@ -1,5 +1,91 @@
 .dao-article {
   width: 100%;
+  height: 100vh;
   margin-top: 8px;
-  background-color: #fff;
+  .dao-filter {
+    padding: 26px 65px;
+    margin-bottom: 20px;
+    background: white !important;
+    box-shadow: 0px 3px 6px #00000029;
+
+    .ant-checkbox {
+      width: 25px !important;
+      height: 25px !important;
+
+      :where(.css-dev-only-do-not-override-1lmi9fx).ant-checkbox
+        .ant-checkbox-input {
+        top: -10% !important;
+        left: -18% !important;
+      }
+      &-inner {
+        width: 100% !important;
+        height: 100% !important;
+        &::after {
+          transform: rotate(45deg) scale(1) translate(-20%, -50%) !important;
+        }
+      }
+    }
+  }
+  .dao-new {
+    background: white !important;
+    box-shadow: 0px 3px 6px #00000029;
+    margin-bottom: 20px;
+    input,
+    textarea {
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  .dao-articles {
+    #infinity-list-post-dao {
+      min-height: 100vh;
+      min-width: 100%;
+      padding-left: 0 !important;
+      // overflow: auto;
+      .infinite-scroll-component {
+        overflow-x: hidden !important;
+      }
+    }
+  }
+}
+
+.ant-modal-content {
+  padding: 40px 40px !important;
+  textarea {
+    &:focus {
+      outline: none;
+    }
+  }
+  .ant-modal-header {
+    .ant-modal-title {
+      text-align: center;
+      font-size: 20px !important;
+      font-weight: 600 !important;
+    }
+  }
+  .ant-modal-footer {
+    .ant-btn-default {
+      border-color: #03ac84 !important;
+      span {
+        color: #03ac84 !important;
+      }
+    }
+  }
+  .ant-modal-close {
+    top: 40px !important;
+    inset-inline-end: 40px !important;
+    width: 30px !important;
+    height: 30px !important;
+    svg {
+      font-size: 30px !important;
+    }
+  }
+}
+
+:where(.css-dev-only-do-not-override-1lmi9fx).ant-modal
+  .ant-modal-footer
+  .ant-btn
+  + .ant-btn:not(.ant-dropdown-trigger) {
+  margin-inline-start: 0px !important;
 }
