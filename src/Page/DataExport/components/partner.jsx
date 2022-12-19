@@ -13,7 +13,7 @@ export const PartnerExport = ({ setData, data }) => {
       endDate: "",
     },
     ProvinceId: "",
-    isDelete: "",
+    IsDelete: "",
   });
   useEffect(() => {
     (async () => {
@@ -81,7 +81,7 @@ export const PartnerExport = ({ setData, data }) => {
 
     {
       label: "Trạng thái",
-      name: "IsStatus",
+      name: "IsDeleted",
       style: {
         width: "22%",
         display: "inline-block",
@@ -89,7 +89,7 @@ export const PartnerExport = ({ setData, data }) => {
       },
       el: (
         <Select
-          defaultValue="Tất cả"
+          defaultValue=""
           size="large"
           options={[
             {
@@ -97,11 +97,11 @@ export const PartnerExport = ({ setData, data }) => {
               label: "Tất cả",
             },
             {
-              value: "1",
+              value: false,
               label: "Active",
             },
             {
-              value: "0",
+              value: true,
               label: "Cancle",
             },
           ]}

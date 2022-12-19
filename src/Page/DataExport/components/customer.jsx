@@ -61,11 +61,11 @@ export const CustomerExport = ({ setData, data }) => {
               label: "Tất cả",
             },
             {
-              value: "0",
+              value: false,
               label: "Active",
             },
             {
-              value: "1",
+              value: true,
               label: "Cancle",
             },
           ]}

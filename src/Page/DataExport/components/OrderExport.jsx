@@ -4,7 +4,7 @@ import moment from "moment";
 import React, { useState } from "react";
 const { RangePicker } = DatePicker;
 import "../dataExport.scss";
-export const OrderExport = () => {
+export const OrderExport = ({ setData, data }) => {
   const [filter, setFilter] = useState({
     createDate: {
       startDate: "",
@@ -15,13 +15,13 @@ export const OrderExport = () => {
   console.log(filter);
   const onChangeFilter = (value) => {
     setFilter({ ...filter, ...value });
+    setData({ ...data, ...value });
     if (Object.keys(value)[0] === "createDate") {
       const obj = value?.createDate?.reduce((acc, item, index) => {
         const key = index === 0 ? "startDate" : "endDate";
         return { ...acc, [key]: moment(item.$d).format() };
       }, {});
       if (!obj) {
-        console.log("dsadsdsa");
         setFilter({
           ...filter,
           createDate: {
@@ -29,15 +29,23 @@ export const OrderExport = () => {
             endDate: "",
           },
         });
+        setData({
+          ...data,
+          createDate: {
+            startDate: "",
+            endDate: "",
+          },
+        });
       } else {
         setFilter({ ...filter, createDate: obj });
+        setData({ ...data, createDate: obj });
       }
     }
   };
   const formItem = [
     {
       label: "Mã bài đăng",
-      name: "Name_like",
+      name: "studioPostId",
       style: {
         width: "20%",
         display: "inline-block",
@@ -53,7 +61,7 @@ export const OrderExport = () => {
     },
     {
       label: "Số định danh",
-      name: "Name_like",
+      name: "IdentifyCode",
       style: {
         width: "20%",
         display: "inline-block",
@@ -69,7 +77,7 @@ export const OrderExport = () => {
     },
     {
       label: "Trạng thái",
-      name: "IsStatus",
+      name: "isStatus",
       style: {
         width: "22%",
         display: "inline-block",
@@ -85,12 +93,12 @@ export const OrderExport = () => {
               label: "Tất cả",
             },
             {
-              value: "1",
-              label: "Active",
+              value: 1,
+              label: "Hoàn tất",
             },
             {
-              value: "0",
-              label: "Cancle",
+              value: 0,
+              label: "Đã huỷ",
             },
           ]}
         />

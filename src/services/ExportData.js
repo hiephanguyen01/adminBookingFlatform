@@ -1,9 +1,17 @@
 import { BaseService } from "./baseService";
 
 export class ExportDataService extends BaseService {
-  exportData = (option, ProvinceId = "", IsDeleted = "", CreateDate = "") => {
+  exportData = (
+    option,
+    ProvinceId = "",
+    IsDeleted = "",
+    CreateDate = "",
+    isStatus = "",
+    IdentifyCode = "",
+    studioPostId = ""
+  ) => {
     return this.get(
-      `/api/filter?option=${option}&ProvinceId=${ProvinceId}&IsDeleted=${IsDeleted}&createDate=${CreateDate}`
+      `/api/filter?option=${option}&ProvinceId=${ProvinceId}&IsDeleted=${IsDeleted}&createDate=${CreateDate}&isStatus=${isStatus}&IdentifyCode=${IdentifyCode}&studioPostId=${studioPostId}`
     );
   };
 }
