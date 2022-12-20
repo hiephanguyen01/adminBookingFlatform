@@ -4,7 +4,7 @@ import moment from "moment";
 import React, { useState } from "react";
 const { RangePicker } = DatePicker;
 import "../dataExport.scss";
-export const CommissionFee = () => {
+export const CommissionFee = ({ setData, data }) => {
   const [filter, setFilter] = useState({
     createDate: {
       startDate: "",
@@ -15,6 +15,7 @@ export const CommissionFee = () => {
   console.log(filter);
   const onChangeFilter = (value) => {
     setFilter({ ...filter, ...value });
+    setData({ ...data, ...value });
     if (Object.keys(value)[0] === "createDate") {
       const obj = value?.createDate?.reduce((acc, item, index) => {
         const key = index === 0 ? "startDate" : "endDate";
@@ -28,15 +29,23 @@ export const CommissionFee = () => {
             endDate: "",
           },
         });
+        setData({
+          ...data,
+          createDate: {
+            startDate: "",
+            endDate: "",
+          },
+        });
       } else {
         setFilter({ ...filter, createDate: obj });
+        setData({ ...data, createDate: obj });
       }
     }
   };
   const formItem = [
     {
       label: "Trạng thái",
-      name: "IsStatus",
+      name: "isStatus",
       style: {
         width: "22%",
         display: "inline-block",
@@ -52,12 +61,12 @@ export const CommissionFee = () => {
               label: "Tất cả",
             },
             {
-              value: "1",
-              label: "Active",
+              value: 1,
+              label: "Hoàn tất",
             },
             {
-              value: "0",
-              label: "Cancle",
+              value: 0,
+              label: "Đã huỷ",
             },
           ]}
         />

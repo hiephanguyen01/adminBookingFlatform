@@ -19,7 +19,10 @@ const DataExport = () => {
     },
     IsDeleted: "",
     ProvinceId: "",
-    isDelete: "",
+    IsDelete: "",
+    isStatus: "",
+    IdentifyCode: "",
+    studioPostId: "",
   });
   const [loadingBtn, setLoadingBtn] = useState(false);
 
@@ -35,9 +38,24 @@ const DataExport = () => {
         option,
         data.ProvinceId,
         data.IsDeleted,
-        JSON.stringify(data.createDate)
+        JSON.stringify(data.createDate),
+        data.isStatus,
+        data.IdentifyCode,
+        data.studioPostId
       );
       setLoadingBtn(false);
+      SetData({
+        createDate: {
+          startDate: "",
+          endDate: "",
+        },
+        IsDeleted: "",
+        ProvinceId: "",
+        IsDelete: "",
+        isStatus: "",
+        IdentifyCode: "",
+        studioPostId: "",
+      });
       openNotification("success", "thanhf coong!");
     } catch (error) {
       setLoadingBtn(false);
@@ -93,10 +111,10 @@ const DataExport = () => {
       <div>
         {option === 1 && <PartnerExport setData={SetData} data={data} />}
         {option === 2 && <CustomerExport setData={SetData} data={data} />}
-        {option === 3 && <PostExport />}
-        {option === 4 && <PostExport />}
-        {option === 5 && <OrderExport />}
-        {option === 6 && <CommissionFee />}
+        {option === 3 && <PostExport setData={SetData} data={data} />}
+        {option === 4 && <PostExport setData={SetData} data={data} />}
+        {option === 5 && <OrderExport setData={SetData} data={data} />}
+        {option === 6 && <CommissionFee setData={SetData} data={data} />}
       </div>
       {option && (
         <div>
@@ -105,7 +123,13 @@ const DataExport = () => {
             style={{ float: "right", background: "red", color: "#fff" }}
             size="large"
             onClick={() => handleExportData()}
-            href="http://localhost:3003/api/filter?option=2&ProvinceId=&IsDeleted=0&createDate={%22startDate%22:%22%22,%22endDate%22:%22%22}"
+            href={`http://localhost:3003/api/filter?option=${option}&ProvinceId=${
+              data.ProvinceId
+            }&IsDeleted=${data.IsDeleted}&createDate=${JSON.stringify(
+              data.createDate
+            )}&isStatus=${data.isStatus}&IdentifyCode=${
+              data.IdentifyCode
+            }&studioPostId=${data.studioPostId}`}
             // icon={<ArrowDownOutlined />}
           >
             Xuất Báo Cáo

@@ -4,7 +4,7 @@ import moment from "moment";
 import React, { useState } from "react";
 const { RangePicker } = DatePicker;
 import "../dataExport.scss";
-export const PostExport = () => {
+export const PostExport = ({ setData, data }) => {
   const [filter, setFilter] = useState({
     createDate: {
       startDate: "",
@@ -14,8 +14,9 @@ export const PostExport = () => {
   console.log(filter);
   const onChangeFilter = (value) => {
     setFilter({ ...filter, ...value });
+    setData({ ...data, ...value });
     if (Object.keys(value)[0] === "createDate") {
-      const obj = value?.CreateDate?.reduce((acc, item, index) => {
+      const obj = value?.createDate?.reduce((acc, item, index) => {
         const key = index === 0 ? "startDate" : "endDate";
         return { ...acc, [key]: moment(item.$d).format() };
       }, {});
@@ -27,15 +28,23 @@ export const PostExport = () => {
             endDate: "",
           },
         });
+        setData({
+          ...data,
+          createDate: {
+            startDate: "",
+            endDate: "",
+          },
+        });
       } else {
-        setFilter({ ...filter, CreateDate: obj });
+        setFilter({ ...filter, createDate: obj });
+        setData({ ...data, createDate: obj });
       }
     }
   };
   const formItem = [
     {
       label: "Trạng thái",
-      name: "IsStatus",
+      name: "IsDeleted",
       style: {
         width: "22%",
         display: "inline-block",
@@ -43,7 +52,7 @@ export const PostExport = () => {
       },
       el: (
         <Select
-          defaultValue="Tất cả"
+          defaultValue=""
           size="large"
           options={[
             {
@@ -51,11 +60,11 @@ export const PostExport = () => {
               label: "Tất cả",
             },
             {
-              value: "1",
+              value: false,
               label: "Active",
             },
             {
-              value: "0",
+              value: true,
               label: "Cancle",
             },
           ]}
@@ -64,7 +73,7 @@ export const PostExport = () => {
     },
     {
       label: "Ngày tạo",
-      name: "CreateDate",
+      name: "createDate",
       style: {
         width: "22%",
         display: "inline-block",
