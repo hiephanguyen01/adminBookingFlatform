@@ -124,7 +124,7 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
                 })
                 .map((item) => (
                   <DaoPost
-                    key={item.Id}
+                    key={item.id}
                     item={item}
                     likePostList={likePostList}
                   />
@@ -174,7 +174,7 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
                 })
                 .map((item) => (
                   <DaoPost
-                    key={item.Id}
+                    key={item.id}
                     item={item}
                     likePostList={likePostList}
                   />

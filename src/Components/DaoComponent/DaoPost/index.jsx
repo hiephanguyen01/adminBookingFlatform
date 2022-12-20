@@ -82,8 +82,9 @@ const DaoPost = (props) => {
   const [chooseCommentDefault, setChooseCommentDefault] = useState({});
   const getComments = async (currentPage) => {
     try {
+      console.log("Goi GetComments");
       const { data } = await postDaoService.getComments(
-        item.Id,
+        item.id,
         currentPage || 1,
         5
       );
