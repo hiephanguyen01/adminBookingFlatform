@@ -54,7 +54,7 @@ const CommentSlider = ({ data = [], slidesPerView = 2.5 }) => {
                   className="me-12"
                   style={{ width: "100px", objectFit: "cover" }}
                 />
-                <div className="py-5 ">
+                <div style={{ padding: "10px" }}>
                   <div className="post_slider_item_name mb-5">{item.Name}</div>
                   <div className="post_slider_item_description">
                     {item.Description}
