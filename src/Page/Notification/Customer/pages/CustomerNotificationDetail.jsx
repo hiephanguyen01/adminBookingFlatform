@@ -2,13 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Avatar, Button, Card, Modal, Space } from "antd";
 import classNames from "classnames/bind";
 import { MultiSelect } from "react-multi-select-component";
+import queryString from "query-string";
 import iconEvent from "../../../../assets/notification/event.png";
 import iconSale from "../../../../assets/notification/sale.png";
 
 import styles from "./customerNotificationDetail.module.scss";
-import { RightOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  NotificationOutlined,
+  RightOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { useLocation } from "react-router-dom";
 import { notifyService } from "../../../../services/notifyService";
+import { partnerService } from "../../../../services/PartnerService";
 import { convertImage } from "../../../../../utils/convert";
 import "../../CreateNotification/replaceStyles.scss";
 import moment from "moment";
@@ -17,10 +23,10 @@ import { userService } from "../../../../services/UserService";
 
 const cx = classNames.bind(styles);
 
-const CustomerNotificationDetail = ({ edit = false }) => {
+const PartnerNotificationDetail = ({ edit = false }) => {
   const { state } = useLocation();
   const [notifyDetail, setNotifyDetail] = useState({});
-  const [partners, setCustomers] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selected, setSelected] = useState([]);
 
@@ -29,17 +35,16 @@ const CustomerNotificationDetail = ({ edit = false }) => {
     try {
       const getNotifyCustomerDetail = async () => {
         const res = await notifyService.getNotifyDetail(state.notificationId);
-        console.log(res.data.message);
         newSelected = res.data.message.Exception;
         setNotifyDetail(res.data.message);
       };
       getNotifyCustomerDetail();
-      const getCustomer = async () => {
+      const getCustomers = async () => {
         const res = await userService.getAllCustomerNotification();
         setCustomers(res.data.map((item) => ({ ...item, value: item.id })));
         setSelected(res.data.filter((item) => newSelected.includes(item.id)));
       };
-      getCustomer();
+      getCustomers();
     } catch (error) {
       console.log(error);
     }
@@ -105,7 +110,7 @@ const CustomerNotificationDetail = ({ edit = false }) => {
                 {"Tất cả đối tác NGOẠI TRỪ..."}
               </div>
               <div className={cx("row-item")}>
-                {selected.length}/{partners.length}
+                {selected.length}/{customers.length}
               </div>
             </Space>
             <Space>
@@ -164,7 +169,7 @@ const CustomerNotificationDetail = ({ edit = false }) => {
       >
         <MultiSelect
           className={""}
-          options={partners}
+          options={customers}
           value={selected}
           onChange={setSelected}
           labelledBy="selected"
@@ -180,7 +185,7 @@ const CustomerNotificationDetail = ({ edit = false }) => {
                     icon={<UserOutlined />}
                     src={convertImage(option.Image || "")}
                   />
-                  <div>{option.CustomerName}</div>
+                  <div>{option.PartnerName}</div>
                 </div>
                 <input
                   className="Checkbox-input"
@@ -200,4 +205,4 @@ const CustomerNotificationDetail = ({ edit = false }) => {
   );
 };
 
-export default CustomerNotificationDetail;
+export default PartnerNotificationDetail;

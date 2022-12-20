@@ -50,7 +50,7 @@ const PromoCreate = () => {
     TypeReduce: 1,
     createdAt: "",
     updatedAt: "",
-    partnerConfirm: 1,
+    PartnerConfirm: true,
   });
   const [partners, setPartners] = useState([]);
   const [customers, setCustomers] = useState([]);
@@ -128,7 +128,7 @@ const PromoCreate = () => {
 
     const newDataSend = {
       Category: newPromo.Category.join(","),
-      Confirm: newPromo.partnerConfirm,
+      PartnerConfirm: newPromo.PartnerConfirm,
       Content: newPromo.Content,
       CusApply: customerApply,
       DateTimeApply: moment(newPromo.DateTimeApply["$d"])
@@ -149,6 +149,7 @@ const PromoCreate = () => {
       SpendingPartner: Number(newPromo.SpendingPartner),
       Title: newPromo.Title,
       TypeReduce: newPromo.TypeReduce,
+      IsDeleted: false,
     };
     try {
       if (
@@ -188,7 +189,7 @@ const PromoCreate = () => {
       //   TypeReduce: 1,
       //   createdAt: "",
       //   updatedAt: "",
-      //   partnerConfirm: 1,
+      //   PartnerConfirm: 1,
       // });
       form.resetFields();
     } catch (error) {
@@ -546,15 +547,15 @@ const PromoCreate = () => {
             <div className={cx("join-object")}>
               YÊU CẦU XÁC NHẬN THAM GIA TỪ ĐỐI TÁC
             </div>
-            <Form.Item name={"partnerConfirm"} rules={[{ required: true }]}>
+            <Form.Item name={"PartnerConfirm"} rules={[{ required: true }]}>
               <Radio.Group className={cx("w-100")}>
                 <Row>
                   <Col span={12}>
-                    <Radio value={1}>Có</Radio>
+                    <Radio value={true}>Có</Radio>
                   </Col>
 
                   <Col span={12}>
-                    <Radio value={0}>Không</Radio>
+                    <Radio value={false}>Không</Radio>
                   </Col>
                 </Row>
               </Radio.Group>

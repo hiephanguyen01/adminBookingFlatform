@@ -11,6 +11,9 @@ class PromoCodeService extends BaseService {
   getPromoCodeById = (id) => {
     return this.get(`/api/promo-code/${id}`);
   };
+  updatePromoCode = (id, data) => {
+    return this.patch(`/api/promo-code/${id}`, data);
+  };
   getPromoCodeByStudioPost = (studioPostId) => {
     return this.get(`/api/promoCode/studio?StudioPostId=${studioPostId}`);
   };

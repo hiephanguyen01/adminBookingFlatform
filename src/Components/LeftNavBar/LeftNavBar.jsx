@@ -82,8 +82,9 @@ const items = [
     key: "/promo-code",
     icon: <SketchOutlined />,
     children: [
-      { label: "Đối tác", key: "/promo-code/partner" },
-      { label: "Khách hàng", key: "/promo-code/customer" },
+      { label: "Mã khuyến mãi", key: "/promo-code/partner" },
+      // { label: "Đối tác", key: "/promo-code/partner" },
+      // { label: "Khách hàng", key: "/promo-code/customer" },
       { label: "Tạo khuyến mãi", key: "/promo-code/create" },
     ],
   },

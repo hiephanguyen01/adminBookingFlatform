@@ -57,6 +57,7 @@ import CreateAccount from "./Page/PermissionAccess/CreateAccount/CreateAccount";
 import { getCurrentUser } from "./store/action/authAction";
 import CustomerNotificationDetail from "./Page/Notification/Customer/pages/CustomerNotificationDetail";
 import PromoPartnerDetail from "./Page/PromoCode/PromoPartner/pages/PromoPartnerDetail";
+import PromoCustomerDetail from "./Page/PromoCode/PromoCustomer/pages/PromoCustomerDetail";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -126,7 +127,7 @@ const App = () => {
               element={<CustomerNotificationDetail />}
             />
             <Route
-              path="partner/edit"
+              path="customer/edit"
               element={<CustomerNotificationDetail edit={true} />}
             />
 
@@ -139,8 +140,21 @@ const App = () => {
               path="partner/view-detail"
               element={<PromoPartnerDetail />}
             ></Route>
+            <Route
+              path="partner/edit"
+              element={<PromoPartnerDetail edit={true} />}
+            ></Route>
 
             <Route path="customer" element={<PromoCustomer />}></Route>
+            <Route
+              path="customer/view-detail"
+              element={<PromoCustomerDetail />}
+            ></Route>
+            <Route
+              path="customer/edit"
+              element={<PromoCustomerDetail edit={true} />}
+            ></Route>
+
             <Route path="create" element={<PromoCreate />}></Route>
           </Route>
           <Route path="setting" element={<CoreSetting />}>

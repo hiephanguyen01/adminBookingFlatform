@@ -67,8 +67,8 @@ const columns = [
   },
   {
     title: "Ngày gửi",
-    key: "sendingTime",
-    dataIndex: "sendingTime",
+    key: "SendingTime",
+    dataIndex: "SendingTime",
     render: (text) => <>{moment(text).format("HH:mm DD/MM/YYYY")}</>,
   },
   {

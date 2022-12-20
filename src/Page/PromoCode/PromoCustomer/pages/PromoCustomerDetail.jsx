@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import dayjs from "dayjs";
 import { MultiSelect } from "react-multi-select-component";
 
-import styles from "./promoPartnerDetail.module.scss";
+import styles from "./promoCustomerDetail.module.scss";
 import {
   Avatar,
   Button,
@@ -29,7 +29,7 @@ import { useLocation } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
-const PromoPartnerDetail = ({ edit = false }) => {
+const PromoCustomerDetail = ({ edit = false }) => {
   const location = useLocation();
   const [form] = Form.useForm();
   const [promo, setPromo] = useState({
@@ -121,6 +121,7 @@ const PromoPartnerDetail = ({ edit = false }) => {
     }
     return result;
   };
+  console.log(promo);
   const disabledDateTime = (value) => {
     return {
       disabledHours: () => {
@@ -143,31 +144,11 @@ const PromoPartnerDetail = ({ edit = false }) => {
   };
 
   const handleOnValuesChange = (value) => {
+    // console.log(value);
     setPromo({ ...promo, ...value });
   };
 
   const handleOnSubmit = async (value) => {
-    const newDataSend = {
-      IsDeleted: true,
-    };
-    try {
-      const res = await promoCodeService.updatePromoCode(
-        location.state.promoId,
-        newDataSend
-      );
-      if (res.data.success === false) {
-        toastMessage(res.data.message, "error");
-        return;
-      }
-      const newPromo = { ...promo, IsDeleted: true };
-      setPromo(newPromo);
-      toastMessage("Cập nhật mã khuyến mãi thành công!", "success");
-    } catch (error) {
-      toastMessage("Cập nhật mã khuyến mãi thất bại!", "error");
-    }
-  };
-
-  const handleSaveAndCreate = async () => {
     const newPromo = { ...promo };
     let customerApply, partnerApply;
     if (newPromo.selectCus === 3) {
@@ -210,8 +191,7 @@ const PromoPartnerDetail = ({ edit = false }) => {
       SpendingPartner: Number(newPromo.SpendingPartner),
       Title: newPromo.Title,
       TypeReduce: newPromo.TypeReduce,
-      IsDeleted: false,
-      PartnerConfirm: true,
+      PartnerConfirm: newPromo.PartnerConfirm,
     };
     try {
       if (
@@ -225,14 +205,39 @@ const PromoPartnerDetail = ({ edit = false }) => {
         );
         return;
       }
-      const res = await promoCodeService.createPromo(newDataSend);
+      const res = await promoCodeService.updatePromoCode(
+        location.state.promoId,
+        newDataSend
+      );
       if (res.data.success === false) {
         toastMessage(res.data.message, "error");
         return;
       }
-      toastMessage("Tạo mã khuyến mãi thành công!", "success");
+      toastMessage("Cập nhật mã khuyến mãi thành công!", "success");
+      // setPromo({
+      //   Category: "",
+      //   Content: "",
+      //   CusApply: "",
+      //   DateTimeApply: "",
+      //   DateTimeExpire: "",
+      //   MaxReduce: "",
+      //   MinApply: "",
+      //   NoOfCode: "",
+      //   NoOfJoin: "",
+      //   NoOfJoined: "",
+      //   Note: "",
+      //   ReduceValue: "",
+      //   SaleCode: "",
+      //   SpendingBookingStudio: "",
+      //   SpendingPartner: "",
+      //   Title: "",
+      //   TypeReduce: 1,
+      //   createdAt: "",
+      //   updatedAt: "",
+      //   partnerConfirm: 1,
+      // });
     } catch (error) {
-      toastMessage("Tạo mã khuyến mãi thất bại!", "error");
+      toastMessage("Cập nhật mã khuyến mãi thất bại!", "error");
     }
   };
 
@@ -259,7 +264,7 @@ const PromoPartnerDetail = ({ edit = false }) => {
                 name="SaleCode"
                 rules={[{ required: true }]}
               >
-                <Input disabled={!edit} />
+                <Input disabled={true} />
               </Form.Item>
             </div>
 
@@ -390,54 +395,6 @@ const PromoPartnerDetail = ({ edit = false }) => {
               <Form.Item label="Ghi chú" name={"Note"}>
                 <Input disabled={!edit} />
               </Form.Item>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "95%",
-              }}
-            >
-              <div className={cx("w-50")}>
-                <Form.Item label="Số mã còn lại" rules={[{ required: true }]}>
-                  <Input
-                    value={`${
-                      Number(promo?.NoOfCode) - Number(promo?.NoOfJoined)
-                    }/${promo?.NoOfCode}`}
-                    disabled={true}
-                  />
-                  {/* <DatePicker
-                    showTime
-                    // format={dayjs("YYYY-MM-DD HH:mm")}
-                    // value={moment(promo?.DateTimeApply).format(
-                    //   "YYYY-MM-DD HH:mm"
-                    // )}
-                    disabledDate={disabledDate}
-                    disabledTime={disabledDateTime}
-                    // showTime={{ defaultValue: dayjs("00:00:00", "HH:mm") }}
-                  /> */}
-                </Form.Item>
-              </div>
-              <div className={cx("w-50")}>
-                <Form.Item label="Trạng thái" rules={[{ required: true }]}>
-                  <Input
-                    value={
-                      promo?.IsDeleted
-                        ? "Đã hủy"
-                        : moment(promo?.DateTimeExpire) > moment()
-                        ? "Đang diễn ra"
-                        : "Hết hạn"
-                    }
-                    disabled={true}
-                  />
-                  {/* <DatePicker
-                    format="YYYY-MM-DD HH:mm"
-                    disabledDate={disabledDate}
-                    disabledTime={disabledDateTime}
-                    showTime={{ defaultValue: dayjs("00:00:00", "HH:mm") }}
-                  /> */}
-                </Form.Item>
-              </div>
             </div>
           </Col>
           <Col span={12}>
@@ -673,22 +630,11 @@ const PromoPartnerDetail = ({ edit = false }) => {
           </Col>
         </Row>
         {edit && (
-          <Space>
-            <Form.Item wrapperCol={{ span: 24 }}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                disabled={promo.IsDeleted}
-              >
-                Hủy mã
-              </Button>
-            </Form.Item>
-            <Form.Item wrapperCol={{ span: 24 }}>
-              <Button type="default" onClick={handleSaveAndCreate}>
-                Lưu và tạo mới
-              </Button>
-            </Form.Item>
-          </Space>
+          <Form.Item wrapperCol={{ span: 24 }}>
+            <Button type="primary" htmlType="submit">
+              Lưu
+            </Button>
+          </Form.Item>
         )}
       </Form>
       <Modal
@@ -793,4 +739,4 @@ const PromoPartnerDetail = ({ edit = false }) => {
   );
 };
 
-export default PromoPartnerDetail;
+export default PromoCustomerDetail;

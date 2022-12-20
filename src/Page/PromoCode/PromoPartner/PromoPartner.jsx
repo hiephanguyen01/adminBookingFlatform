@@ -9,6 +9,7 @@ import {
   Popover,
   Select,
   Table,
+  Tag,
 } from "antd";
 import queryString from "query-string";
 
@@ -38,7 +39,7 @@ const STATUS = [
   { value: "", label: "Tất cả" },
   { value: 1, label: "Đang diễn ra" },
   { value: 2, label: "Hết hạn" },
-  // { value: 3, label: "Đã hủy" },
+  { value: 3, label: "Đã hủy" },
 ];
 
 const columns = [
@@ -91,7 +92,13 @@ const columns = [
     // dataIndex: "DateTimeExpire",
     render: (value) => (
       <>
-        {moment(value.DateTimeExpire) > moment() ? "Đang diễn ra" : "Hết hạn"}
+        {value.IsDeleted ? (
+          <Tag color="#f50">Đã hủy</Tag>
+        ) : moment(value.DateTimeExpire) > moment() ? (
+          <Tag color="green">Đang diễn ra</Tag>
+        ) : (
+          <Tag color="red">Hết hạn</Tag>
+        )}
       </>
     ),
   },
@@ -105,7 +112,7 @@ const columns = [
           <>
             <Link
               to={"view-detail"}
-              state={{ promoPartnerId: value.id }}
+              state={{ promoId: value.id }}
               className={cx("action_more")}
             >
               <EyeOutlined className={cx("action_more_icon")} />
@@ -113,7 +120,7 @@ const columns = [
             </Link>
             <Link
               to={"edit"}
-              state={{ notificationId: value.id }}
+              state={{ promoId: value.id }}
               className={cx("action_more")}
             >
               <EditOutlined className={cx("action_more_icon")} />
