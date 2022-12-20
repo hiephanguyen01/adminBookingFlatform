@@ -6,34 +6,73 @@ import { PlusOutlined } from "@ant-design/icons";
 import { bannerService } from "../../../../../services/Banner";
 import toastMessage from "../../../../../Components/ToastMessage";
 import { bankService } from "../../../../../services/BankService";
+import * as XLSX from "xlsx";
 
 const cx = classNames.bind(styles);
 
 const CreateBank = () => {
   const [form] = Form.useForm();
   const [bank, setBank] = useState({});
+  const [fileData, setFileData] = useState([]);
   const handleOnChangeForm = (value) => {
     setBank({ ...bank, ...value });
   };
   const handleOnFinish = async () => {
     try {
-      if (!bank.Url.includes("http")) {
-        return toastMessage("Vui lòng điền đúng liên kết!", "warning");
+      // if (bank.Url && !bank?.Url?.includes("http")) {
+      //   return toastMessage("Vui lòng điền đúng liên kết!", "warning");
+      // }
+      if (fileData.length > 0) {
+        fileData.forEach(async (value) => {
+          const newBank = {
+            Address: value.Address || "",
+            BusinessName: value["Business Name"] || "",
+            EngName: value["Eng Name"] || "",
+            Url: value.Url || "",
+            VNName: value["VN Name"] || "",
+          };
+          if (newBank?.Url && !newBank?.Url?.includes("http")) {
+            newBank.Url = "https://" + newBank.Url;
+          }
+          // console.log(newBank);
+          await bankService.createBank(newBank);
+        });
+        toastMessage("Tạo ngân hàng thành công!", "success");
+      } else {
+        bank.Url = "https://" + bank.Url;
+        await bankService.createBank(bank);
+        toastMessage("Tạo ngân hàng thành công!", "success");
+        form.resetFields();
       }
-      await bankService.createBank(bank);
-      toastMessage("Tạo ngân hàng thành công!", "success");
-      form.resetFields();
-      console.log(bank);
-      // setBank({ name: "", description: "", image: null, isVisible: true });
+    } catch (error) {
+      toastMessage(error.response.data.message, "error");
+    }
+  };
+
+  const readFileExcel = async (fileExcel) => {
+    try {
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(fileExcel);
+      fileReader.onload = (e) => {
+        const bufferArray = e.target.result;
+        const wb = XLSX.read(bufferArray, { type: "buffer" });
+        const wsName = wb.SheetNames[0];
+        const ws = wb.Sheets[wsName];
+        const data = XLSX.utils.sheet_to_json(ws);
+        setFileData(data);
+      };
     } catch (error) {
       console.log(error);
     }
   };
 
+  console.log(bank);
+
   return (
     <div className={cx("create-banner-container")}>
       <div className={cx("header")}>
         <h2>Tạo ngân hàng</h2>
+        <input type="file" onChange={(e) => readFileExcel(e.target.files[0])} />
         <Button
           type="primary"
           style={{ backgroundColor: "#1677ff" }}

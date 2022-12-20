@@ -6,7 +6,7 @@ import queryString from "query-string";
 import iconEvent from "../../../../assets/notification/event.png";
 import iconSale from "../../../../assets/notification/sale.png";
 
-import styles from "./partnerNotificationDetail.module.scss";
+import styles from "./customerNotificationDetail.module.scss";
 import {
   NotificationOutlined,
   RightOutlined,
@@ -19,31 +19,32 @@ import { convertImage } from "../../../../../utils/convert";
 import "../../CreateNotification/replaceStyles.scss";
 import moment from "moment";
 import toastMessage from "../../../../Components/ToastMessage";
+import { userService } from "../../../../services/UserService";
 
 const cx = classNames.bind(styles);
 
 const PartnerNotificationDetail = ({ edit = false }) => {
   const { state } = useLocation();
   const [notifyDetail, setNotifyDetail] = useState({});
-  const [partners, setPartners] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selected, setSelected] = useState([]);
 
   useEffect(() => {
     let newSelected;
     try {
-      const getNotifyPartnerDetail = async () => {
+      const getNotifyCustomerDetail = async () => {
         const res = await notifyService.getNotifyDetail(state.notificationId);
         newSelected = res.data.message.Exception;
         setNotifyDetail(res.data.message);
       };
-      getNotifyPartnerDetail();
-      const getPartner = async () => {
-        const res = await partnerService.getAllPartnersNotification();
-        setPartners(res.data.map((item) => ({ ...item, value: item.id })));
+      getNotifyCustomerDetail();
+      const getCustomers = async () => {
+        const res = await userService.getAllCustomerNotification();
+        setCustomers(res.data.map((item) => ({ ...item, value: item.id })));
         setSelected(res.data.filter((item) => newSelected.includes(item.id)));
       };
-      getPartner();
+      getCustomers();
     } catch (error) {
       console.log(error);
     }
@@ -109,7 +110,7 @@ const PartnerNotificationDetail = ({ edit = false }) => {
                 {"Tất cả đối tác NGOẠI TRỪ..."}
               </div>
               <div className={cx("row-item")}>
-                {selected.length}/{partners.length}
+                {selected.length}/{customers.length}
               </div>
             </Space>
             <Space>
@@ -168,7 +169,7 @@ const PartnerNotificationDetail = ({ edit = false }) => {
       >
         <MultiSelect
           className={""}
-          options={partners}
+          options={customers}
           value={selected}
           onChange={setSelected}
           labelledBy="selected"

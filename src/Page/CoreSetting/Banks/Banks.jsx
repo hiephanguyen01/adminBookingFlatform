@@ -108,6 +108,11 @@ const Banks = () => {
         showTitle: false,
       },
       width: 200,
+      render: (url) => (
+        <a href={url} target={"_blank"}>
+          {url}
+        </a>
+      ),
     },
     {
       title: "Address",

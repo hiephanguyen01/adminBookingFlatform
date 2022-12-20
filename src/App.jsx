@@ -49,12 +49,15 @@ import AdminDetail from "./Page/PermissionAccess/AdminDetail/AdminDetail";
 import Permission from "./Page/PermissionAccess/Permission";
 import PromoCode from "./Page/PromoCode/PromoCode";
 import PromoCreate from "./Page/PromoCode/PromoCreate/PromoCreate";
-import PromoCustomer from "./Page/PromoCode/PromoCustomer/PromoCustomer";
-import PromoPartner from "./Page/PromoCode/PromoPartner/PromoPartner";
+import { PromoCustomer } from "./Page/PromoCode/PromoCustomer/PromoCustomer";
+import { PromoPartner } from "./Page/PromoCode/PromoPartner/PromoPartner";
 import DetailRateReport from "./Page/RankReport/Detail/DetailRateReport";
 import RankReport from "./Page/RankReport/RankReport";
 import CreateAccount from "./Page/PermissionAccess/CreateAccount/CreateAccount";
 import { getCurrentUser } from "./store/action/authAction";
+import CustomerNotificationDetail from "./Page/Notification/Customer/pages/CustomerNotificationDetail";
+import PromoPartnerDetail from "./Page/PromoCode/PromoPartner/pages/PromoPartnerDetail";
+import PromoCustomerDetail from "./Page/PromoCode/PromoCustomer/pages/PromoCustomerDetail";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -72,7 +75,8 @@ const App = () => {
             <ProtectedRoute>
               <AdminLayout />
             </ProtectedRoute>
-          }>
+          }
+        >
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="account" element={<Account />}></Route>
             <Route path="post" element={<Post />}></Route>
@@ -85,7 +89,8 @@ const App = () => {
             <Route path="partner/:id" element={<PartnerDetail />}></Route>
             <Route
               path="partner/edit/:id"
-              element={<DetailEditPartner />}></Route>
+              element={<DetailEditPartner />}
+            ></Route>
 
             <Route path="customer" element={<Customer />}></Route>
             <Route path="customer/:id" element={<CustomerDetail />}></Route>
@@ -107,9 +112,6 @@ const App = () => {
           <Route path="permission/:id" element={<AdminDetail />}></Route>
           <Route path="notification" element={<Notification />}>
             <Route path="partner" element={<NotiPartner />}></Route>
-            <Route path="customer" element={<NotiCustomer />}></Route>
-            <Route path="create" element={<CreateNotification />}></Route>
-            <Route path="setting" element={<Setting />}></Route>
             <Route
               path="partner/view-detail"
               element={<PartnerNotificationDetail />}
@@ -118,10 +120,41 @@ const App = () => {
               path="partner/edit"
               element={<PartnerNotificationDetail edit={true} />}
             />
+
+            <Route path="customer" element={<NotiCustomer />}></Route>
+            <Route
+              path="customer/view-detail"
+              element={<CustomerNotificationDetail />}
+            />
+            <Route
+              path="customer/edit"
+              element={<CustomerNotificationDetail edit={true} />}
+            />
+
+            <Route path="create" element={<CreateNotification />}></Route>
+            <Route path="setting" element={<Setting />}></Route>
           </Route>
           <Route path="promo-code" element={<PromoCode />}>
             <Route path="partner" element={<PromoPartner />}></Route>
+            <Route
+              path="partner/view-detail"
+              element={<PromoPartnerDetail />}
+            ></Route>
+            <Route
+              path="partner/edit"
+              element={<PromoPartnerDetail edit={true} />}
+            ></Route>
+
             <Route path="customer" element={<PromoCustomer />}></Route>
+            <Route
+              path="customer/view-detail"
+              element={<PromoCustomerDetail />}
+            ></Route>
+            <Route
+              path="customer/edit"
+              element={<PromoCustomerDetail edit={true} />}
+            ></Route>
+
             <Route path="create" element={<PromoCreate />}></Route>
           </Route>
           <Route path="setting" element={<CoreSetting />}>
@@ -134,7 +167,8 @@ const App = () => {
             <Route path="banner/create" element={<CreateBanner />}></Route>
             <Route
               path="banner/edit"
-              element={<EditBanner edit={true} />}></Route>
+              element={<EditBanner edit={true} />}
+            ></Route>
             <Route path="banks" element={<Banks />} />
             <Route path="banks/create" element={<CreateBank />} />
             <Route path="banks/edit" element={<EditBank edit={true} />} />

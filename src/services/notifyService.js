@@ -5,20 +5,21 @@ class NotifyService extends BaseService {
     return this.post(`/api/notification`, data);
   };
 
+  cancelNotification = (notifyId) => {
+    return this.patch(`/api/notification/${notifyId}`);
+  };
+
   getNotifyPartner = (paramString, data) => {
-    return this.post(`/api/notification/fillter?${paramString}`, {
-      ...data,
-      userType: 0,
-    });
+    console.log(data);
+    return this.post(`/api/notification/filter?${paramString}`, data);
   };
   getNotifyCustomer = (paramString, data) => {
-    return this.post(`/api/notification/fillter?${paramString}`, {
+    return this.post(`/api/notification/filter?${paramString}`, {
       ...data,
-      userType: 1,
     });
   };
 
-  getNotifyPartnerDetail = (id) => {
+  getNotifyDetail = (id) => {
     return this.get(`/api/notification/noti/${id}`);
   };
 }

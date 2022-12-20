@@ -1,14 +1,18 @@
 import { BaseService } from "./baseService";
+import queryString from "query-string";
 
 class PromoCodeService extends BaseService {
   createPromo = (data) => {
     return this.post(`/api/promo-code`, data);
   };
-  getAllPromoCode = (limit, page) => {
-    return this.get(`/api/promoCode?limit=${limit}&page=${page}`);
+  getAllPromoCode = (params) => {
+    return this.get(`/api/promo-code?${queryString.stringify(params)}`);
   };
   getPromoCodeById = (id) => {
-    return this.get(`/api/promoCode/${id}`);
+    return this.get(`/api/promo-code/${id}`);
+  };
+  updatePromoCode = (id, data) => {
+    return this.patch(`/api/promo-code/${id}`, data);
   };
   getPromoCodeByStudioPost = (studioPostId) => {
     return this.get(`/api/promoCode/studio?StudioPostId=${studioPostId}`);

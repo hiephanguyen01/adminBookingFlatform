@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import dayjs from "dayjs";
 import { MultiSelect } from "react-multi-select-component";
 
-import styles from "./promoCreate.module.scss";
+import styles from "./promoCustomerDetail.module.scss";
 import {
   Avatar,
   Button,
@@ -18,22 +18,25 @@ import {
   Space,
 } from "antd";
 import moment from "moment";
-import { CATEGORIES } from "../../../../utils/CONST";
+import { CATEGORIES } from "../../../../../utils/CONST";
 import { UserOutlined } from "@ant-design/icons";
-import { convertImage } from "../../../../utils/convert";
-import { partnerService } from "../../../services/PartnerService";
-import { userService } from "../../../services/UserService";
-import { promoCodeService } from "../../../services/PromoCodeService";
-import toastMessage from "../../../Components/ToastMessage";
+import { convertImage } from "../../../../../utils/convert";
+import { partnerService } from "../../../../services/PartnerService";
+import { userService } from "../../../../services/UserService";
+import { promoCodeService } from "../../../../services/PromoCodeService";
+import toastMessage from "../../../../Components/ToastMessage";
+import { useLocation } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
-const PromoCreate = () => {
+const PromoCustomerDetail = ({ edit = false }) => {
+  const location = useLocation();
   const [form] = Form.useForm();
   const [promo, setPromo] = useState({
     Category: "",
     Content: "",
     CusApply: "",
+    PartnerApply: "",
     DateTimeApply: "",
     DateTimeExpire: "",
     MaxReduce: "",
@@ -50,7 +53,7 @@ const PromoCreate = () => {
     TypeReduce: 1,
     createdAt: "",
     updatedAt: "",
-    PartnerConfirm: true,
+    partnerConfirm: null,
   });
   const [partners, setPartners] = useState([]);
   const [customers, setCustomers] = useState([]);
@@ -61,17 +64,55 @@ const PromoCreate = () => {
 
   useEffect(() => {
     const getPartner = async () => {
-      const res = await partnerService.getAllPartnersNotification();
-      setPartners(res.data.map((item) => ({ ...item, value: item.id })));
+      const resPartner = await partnerService.getAllPartnersNotification();
+      setPartners(resPartner.data.map((item) => ({ ...item, value: item.id })));
     };
-    getPartner();
+
     const getCustomer = async () => {
-      const res = await userService.getAllCustomerNotification();
-      setCustomers(res.data.map((item) => ({ ...item, value: item.id })));
+      const resCus = await userService.getAllCustomerNotification();
+      setCustomers(resCus.data.map((item) => ({ ...item, value: item.id })));
     };
+
+    getPartner();
     getCustomer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const getPromoDetail = async () => {
+      const res = await promoCodeService.getPromoCodeById(
+        location.state.promoId
+      );
+      // console.log(res.data);
+      // res.data.DateTimeApply = moment(res.data.DateTimeApply).format(
+      //   "YYYY-MM-DD HH:mm"
+      // );
+      if (res.data.CusApply === null) {
+        res.data.selectCus = 1;
+      } else {
+        res.data.selectCus = 3;
+      }
+      if (res.data.PartnerApply === null) {
+        res.data.selectPartner = 1;
+      } else {
+        res.data.selectPartner = 3;
+      }
+
+      const newSelectedPartner = res.data.PartnerApply || "";
+      setSelectedPartner(
+        partners?.filter((item) => newSelectedPartner.includes(item.id))
+      );
+
+      const newSelectedCus = res.data.CusApply || "";
+      setSelectedCus(
+        customers?.filter((item) => newSelectedCus.includes(item.id))
+      );
+      setPromo(res.data);
+      form.setFieldsValue(res.data);
+    };
+
+    getPromoDetail();
+  }, [partners, customers]);
 
   const range = (start, end) => {
     const result = [];
@@ -80,7 +121,7 @@ const PromoCreate = () => {
     }
     return result;
   };
-
+  console.log(promo);
   const disabledDateTime = (value) => {
     return {
       disabledHours: () => {
@@ -103,6 +144,7 @@ const PromoCreate = () => {
   };
 
   const handleOnValuesChange = (value) => {
+    // console.log(value);
     setPromo({ ...promo, ...value });
   };
 
@@ -128,7 +170,7 @@ const PromoCreate = () => {
 
     const newDataSend = {
       Category: newPromo.Category.join(","),
-      PartnerConfirm: newPromo.PartnerConfirm,
+      Confirm: newPromo.partnerConfirm,
       Content: newPromo.Content,
       CusApply: customerApply,
       DateTimeApply: moment(newPromo.DateTimeApply["$d"])
@@ -149,7 +191,7 @@ const PromoCreate = () => {
       SpendingPartner: Number(newPromo.SpendingPartner),
       Title: newPromo.Title,
       TypeReduce: newPromo.TypeReduce,
-      IsDeleted: false,
+      PartnerConfirm: newPromo.PartnerConfirm,
     };
     try {
       if (
@@ -163,12 +205,15 @@ const PromoCreate = () => {
         );
         return;
       }
-      const res = await promoCodeService.createPromo(newDataSend);
+      const res = await promoCodeService.updatePromoCode(
+        location.state.promoId,
+        newDataSend
+      );
       if (res.data.success === false) {
         toastMessage(res.data.message, "error");
         return;
       }
-      toastMessage("Tạo mã khuyến mãi thành công!", "success");
+      toastMessage("Cập nhật mã khuyến mãi thành công!", "success");
       // setPromo({
       //   Category: "",
       //   Content: "",
@@ -189,11 +234,10 @@ const PromoCreate = () => {
       //   TypeReduce: 1,
       //   createdAt: "",
       //   updatedAt: "",
-      //   PartnerConfirm: 1,
+      //   partnerConfirm: 1,
       // });
-      form.resetFields();
     } catch (error) {
-      toastMessage("Tạo mã khuyến mãi thất bại!", "error");
+      toastMessage("Cập nhật mã khuyến mãi thất bại!", "error");
     }
   };
 
@@ -220,7 +264,7 @@ const PromoCreate = () => {
                 name="SaleCode"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Input disabled={true} />
               </Form.Item>
             </div>
 
@@ -237,7 +281,7 @@ const PromoCreate = () => {
                   name={"NoOfCode"}
                   rules={[{ required: true }]}
                 >
-                  <Input />
+                  <Input disabled={!edit} />
                 </Form.Item>
               </div>
               <div className={cx("w-50")}>
@@ -246,7 +290,7 @@ const PromoCreate = () => {
                   name={"NoOfJoin"}
                   rules={[{ required: true }]}
                 >
-                  <Input />
+                  <Input disabled={!edit} />
                 </Form.Item>
               </div>
             </div>
@@ -257,7 +301,7 @@ const PromoCreate = () => {
                 name="Title"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Input disabled={!edit} />
               </Form.Item>
             </div>
             <div className={cx("w-100")}>
@@ -266,7 +310,7 @@ const PromoCreate = () => {
                 name={"Content"}
                 rules={[{ required: true }]}
               >
-                <Input.TextArea rows={4} />
+                <Input.TextArea rows={4} disabled={!edit} />
               </Form.Item>
             </div>
             <div
@@ -282,7 +326,7 @@ const PromoCreate = () => {
                   name="SpendingBookingStudio"
                   rules={[{ required: true }]}
                 >
-                  <Input />
+                  <Input disabled={!edit} />
                 </Form.Item>
               </div>
               <div className={cx("w-50")}>
@@ -291,7 +335,7 @@ const PromoCreate = () => {
                   name={"SpendingPartner"}
                   rules={[{ required: true }]}
                 >
-                  <Input />
+                  <Input disabled={!edit} />
                 </Form.Item>
               </div>
             </div>
@@ -305,35 +349,51 @@ const PromoCreate = () => {
               <div className={cx("w-50")}>
                 <Form.Item
                   label="Ngày áp dụng"
-                  name={"DateTimeApply"}
+                  // name={"DateTimeApply"}
                   rules={[{ required: true }]}
                 >
-                  <DatePicker
-                    format="YYYY-MM-DD HH:mm"
+                  <Input
+                    value={moment(promo?.DateTimeApply).format(
+                      "HH:hh DD-MM-YYYY"
+                    )}
+                    disabled={true}
+                  />
+                  {/* <DatePicker
+                    showTime
+                    // format={dayjs("YYYY-MM-DD HH:mm")}
+                    // value={moment(promo?.DateTimeApply).format(
+                    //   "YYYY-MM-DD HH:mm"
+                    // )}
                     disabledDate={disabledDate}
                     disabledTime={disabledDateTime}
-                    showTime={{ defaultValue: dayjs("00:00:00", "HH:mm") }}
-                  />
+                    // showTime={{ defaultValue: dayjs("00:00:00", "HH:mm") }}
+                  /> */}
                 </Form.Item>
               </div>
               <div className={cx("w-50")}>
                 <Form.Item
                   label="Ngày hết hạn"
-                  name={"DateTimeExpire"}
+                  // name={"DateTimeExpire"}
                   rules={[{ required: true }]}
                 >
-                  <DatePicker
+                  <Input
+                    value={moment(promo?.DateTimeExpire).format(
+                      "HH:hh DD-MM-YYYY"
+                    )}
+                    disabled={true}
+                  />
+                  {/* <DatePicker
                     format="YYYY-MM-DD HH:mm"
                     disabledDate={disabledDate}
                     disabledTime={disabledDateTime}
                     showTime={{ defaultValue: dayjs("00:00:00", "HH:mm") }}
-                  />
+                  /> */}
                 </Form.Item>
               </div>
             </div>
             <div className={cx("w-100")}>
               <Form.Item label="Ghi chú" name={"Note"}>
-                <Input />
+                <Input disabled={!edit} />
               </Form.Item>
             </div>
           </Col>
@@ -373,6 +433,7 @@ const PromoCreate = () => {
                         onClick={() => {
                           setSelectedPartner([]);
                         }}
+                        disabled={!edit && promo?.selectPartner !== 1}
                       >
                         <div>Tất cả đối tác</div>
                         <div>{partners.length} đối tác</div>
@@ -387,6 +448,7 @@ const PromoCreate = () => {
                           }
                           setModalPartnerOpen(true);
                         }}
+                        disabled={!edit && promo?.selectPartner !== 2}
                       >
                         <div>Tất cả đối tác NGOẠI TRỪ</div>
                         <div>
@@ -405,6 +467,7 @@ const PromoCreate = () => {
                           }
                           setModalPartnerOpen(true);
                         }}
+                        disabled={!edit && promo?.selectPartner !== 3}
                       >
                         <div>Tùy chọn đối tác</div>
                         <div>
@@ -428,7 +491,7 @@ const PromoCreate = () => {
                       <Radio
                         value={1}
                         className={cx("custom-radio")}
-                        onClick={() => {}}
+                        disabled={!edit && promo?.selectCus !== 1}
                       >
                         <div>Tất cả khách hàng</div>
                         <div>{customers.length} đối tác</div>
@@ -443,6 +506,7 @@ const PromoCreate = () => {
                           }
                           setModalCusOpen(true);
                         }}
+                        disabled={!edit && promo?.selectCus !== 2}
                       >
                         <div>Tất cả khách hàng NGOẠI TRỪ</div>
                         <div>
@@ -459,10 +523,11 @@ const PromoCreate = () => {
                           }
                           setModalCusOpen(true);
                         }}
+                        disabled={!edit && promo?.selectCus !== 3}
                       >
                         <div>Tùy chọn khách hàng</div>
                         <div>
-                          {promo.selectCus === 3 ? selectedCus.length : 0}/
+                          {promo.selectCus === 3 ? selectedCus?.length : 0}/
                           {customers.length} khách hàng
                         </div>
                       </Radio>
@@ -474,11 +539,13 @@ const PromoCreate = () => {
             <div className={cx("join-object")}>Loại hình đơn đặt áp dụng</div>
             <div className={cx("w-100")}>
               <Form.Item name={"Category"} rules={[{ required: true }]}>
-                <Checkbox.Group className={cx("w-100")}>
+                <Checkbox.Group className={cx("w-100")} disabled={!edit}>
                   <Row>
                     {CATEGORIES.map((item) => (
                       <Col span={8} key={item.id}>
-                        <Checkbox value={item.id}>{item.label}</Checkbox>
+                        <Checkbox value={item.id.toString()}>
+                          {item.label}
+                        </Checkbox>
                       </Col>
                     ))}
                   </Row>
@@ -489,7 +556,7 @@ const PromoCreate = () => {
             </div>
             <div className={cx("join-object")}>Hình thức khuyến mãi</div>
             <Form.Item name={"TypeReduce"} rules={[{ required: true }]}>
-              <Radio.Group className={cx("w-100")}>
+              <Radio.Group className={cx("w-100")} disabled={!edit}>
                 <Row>
                   <Col span={12}>
                     <Radio value={1}>Giảm tiền</Radio>
@@ -509,14 +576,14 @@ const PromoCreate = () => {
                   name={"ReduceValue"}
                   rules={[{ required: promo.TypeReduce === 1 ? true : false }]}
                 >
-                  <Input />
+                  <Input disabled={!edit} />
                 </Form.Item>
                 <Form.Item
                   label="Giá trị đơn đặt tối thiểu (VNĐ)"
                   name={"MinApply"}
                   rules={[{ required: promo.TypeReduce === 1 ? true : false }]}
                 >
-                  <Input />
+                  <Input disabled={!edit} />
                 </Form.Item>{" "}
               </>
             ) : (
@@ -526,21 +593,21 @@ const PromoCreate = () => {
                   name={"ReduceValue"}
                   rules={[{ required: promo.TypeReduce === 2 ? true : false }]}
                 >
-                  <Input />
+                  <Input disabled={!edit} />
                 </Form.Item>
                 <Form.Item
                   label="Giá trị đơn đặt tối đa (VNĐ)"
                   name={"MaxReduce"}
                   rules={[{ required: promo.TypeReduce === 2 ? true : false }]}
                 >
-                  <Input />
+                  <Input disabled={!edit} />
                 </Form.Item>
                 <Form.Item
                   label="Giá trị đơn đặt tối thiểu (VNĐ)"
                   name={"MinApply"}
                   rules={[{ required: promo.TypeReduce === 2 ? true : false }]}
                 >
-                  <Input />
+                  <Input disabled={!edit} />
                 </Form.Item>
               </>
             )}
@@ -548,7 +615,7 @@ const PromoCreate = () => {
               YÊU CẦU XÁC NHẬN THAM GIA TỪ ĐỐI TÁC
             </div>
             <Form.Item name={"PartnerConfirm"} rules={[{ required: true }]}>
-              <Radio.Group className={cx("w-100")}>
+              <Radio.Group className={cx("w-100")} disabled={!edit}>
                 <Row>
                   <Col span={12}>
                     <Radio value={true}>Có</Radio>
@@ -562,11 +629,13 @@ const PromoCreate = () => {
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
+        {edit && (
+          <Form.Item wrapperCol={{ span: 24 }}>
+            <Button type="primary" htmlType="submit">
+              Lưu
+            </Button>
+          </Form.Item>
+        )}
       </Form>
       <Modal
         // title={}
@@ -607,9 +676,9 @@ const PromoCreate = () => {
                   style={{ width: "20px", height: "20px" }}
                   type="checkbox"
                   onChange={onClick}
-                  checked={checked}
+                  checked={selectedCus.some((item) => item.id === option.id)}
                   tabIndex={-1}
-                  disabled={disabled}
+                  disabled={!edit}
                 />
               </div>
             );
@@ -655,9 +724,11 @@ const PromoCreate = () => {
                   style={{ width: "20px", height: "20px" }}
                   type="checkbox"
                   onChange={onClick}
-                  checked={checked}
+                  checked={selectedPartner.some(
+                    (item) => item.id === option.id
+                  )}
                   tabIndex={-1}
-                  disabled={disabled}
+                  disabled={!edit}
                 />
               </div>
             );
@@ -668,4 +739,4 @@ const PromoCreate = () => {
   );
 };
 
-export default PromoCreate;
+export default PromoCustomerDetail;
