@@ -19,7 +19,7 @@ import toastMessage from "../../../Components/ToastMessage";
 import { Link } from "react-router-dom";
 import { cityService } from "../../../services/CityService";
 import { districtService } from "../../../services/DistrictService";
-import { webHookService } from "../../../services/webHookService";
+import { webHookService } from "../../../services/WebHookService";
 
 const cx = classNames.bind(styles);
 

@@ -3,11 +3,14 @@
   &__main {
     width: 62.5%;
     margin: 16px auto;
-    background-color: #fff;
-    box-shadow: 0px 3px 6px #00000029;
-    .ant-tabs-nav-wrap {
-      .ant-tabs-nav-list {
-        width: 100% !important;
+    // background-color: #fff;
+    .ant-tabs-nav {
+      box-shadow: 0px 3px 6px #00000029;
+      background: white !important;
+      .ant-tabs-nav-wrap {
+        .ant-tabs-nav-list {
+          width: 100% !important;
+        }
       }
       .ant-tabs-tab {
         padding: 26px 86px 12px 89px !important;
@@ -30,5 +33,9 @@
         color: #03ac84 !important;
       }
     }
+    // .ant-tabs-content-holder {
+    //   background: white !important;
+    //   box-shadow: 0px 3px 6px #00000029;
+    // }
   }
 }
