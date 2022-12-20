@@ -16,9 +16,11 @@ import React, { useEffect, useState } from "react";
 import "./RankReport.scss";
 import { CATEGORIES } from "../../../utils/category";
 import { useNavigate } from "react-router-dom";
+import { openNotification } from "../../../utils/Notification";
 
 const RankReport = () => {
   const [category, setCategory] = useState(1);
+  const [keyString, setKeyString] = useState("");
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate([]);
 
@@ -77,14 +79,19 @@ const RankReport = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await reportService.getAllRateReport({ category });
-        console.log(data);
+        const { data } = await reportService.getAllRateReport({
+          category,
+          keyString,
+        });
         setPosts(data.data);
       } catch (error) {
-        console.log(error);
+        openNotification(
+          "error",
+          "Bạn không được cấp quyền, lên xin sếp đi nhé !"
+        );
       }
     })();
-  }, [category]);
+  }, [category, keyString]);
   const handleCategoryChange = (value) => {
     setCategory(value);
   };
@@ -98,7 +105,10 @@ const RankReport = () => {
                 style={{ margin: "20px" }}
                 name="keySearch"
                 label="Tìm kiếm">
-                <Input size="large" />
+                <Input
+                  size="large"
+                  onChange={(e) => setKeyString(e.target.value)}
+                />
               </Form.Item>
             </Col>
             <Col md={6}>
