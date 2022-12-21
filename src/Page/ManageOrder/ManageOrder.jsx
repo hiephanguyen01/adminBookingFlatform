@@ -8,11 +8,13 @@ import {
 } from "@ant-design/icons";
 import {
   Button,
+  Col,
   DatePicker,
   Divider,
   Form,
   Input,
   Pagination,
+  Row,
   Select,
   Space,
   Table,
@@ -382,17 +384,6 @@ export const ManageOrder = () => {
   return (
     <section className="manage-order">
       <header className="manage-order__header chile">
-        {expandHeader && (
-          <LeftOutlined
-            size="large"
-            onClick={() => setExpandHeader(!expandHeader)}
-            style={{
-              color: "#03AC84",
-              margin: "25px 16px 0 0",
-              fontSize: "20px",
-            }}
-          />
-        )}
         <Form
           name="basic"
           layout="vertical"
@@ -404,44 +395,58 @@ export const ManageOrder = () => {
           }}
           // onFinish={onFinish}
           onValuesChange={(e) => onChangeFilter(e)}
-          autoComplete="off">
-          <Form.Item>
+          autoComplete="off"
+        >
+          <Row gutter={[16, 16]}>
             {expandHeader
-              ? formItem.slice(2, 6).map((item, idx) => (
-                  <Form.Item
-                    key={idx}
-                    name={item.name}
-                    label={item.label}
-                    style={item.style}>
-                    {item.el}
-                  </Form.Item>
+              ? formItem.map((item, idx) => (
+                  <Col span={6}>
+                    <Form.Item
+                      key={idx}
+                      name={item.name}
+                      label={item.label}
+                      // style={item.style}
+                    >
+                      {item.el}
+                    </Form.Item>
+                  </Col>
                 ))
               : formItem.slice(0, 4).map((item, idx) => (
-                  <Form.Item
-                    key={idx}
-                    name={item.name}
-                    label={item.label}
-                    style={item.style}>
-                    {item.el}
-                  </Form.Item>
+                  <Col span={6}>
+                    <Form.Item
+                      key={idx}
+                      name={item.name}
+                      label={item.label}
+                      // style={item.style}
+                    >
+                      {item.el}
+                    </Form.Item>
+                  </Col>
                 ))}
-          </Form.Item>
+          </Row>
+          {!expandHeader ? (
+            <p
+              style={{ float: "right", marginTop: "1rem" }}
+              onClick={() => setExpandHeader(!expandHeader)}
+            >
+              xem thêm
+            </p>
+          ) : (
+            <p
+              style={{ float: "right", marginTop: "1rem" }}
+              onClick={() => setExpandHeader(!expandHeader)}
+            >
+              thu gọn
+            </p>
+          )}
         </Form>
-        {!expandHeader && (
-          <RightOutlined
-            onClick={() => setExpandHeader(!expandHeader)}
-            style={{
-              color: "#03AC84",
-              margin: "25px 16px 0 0",
-              fontSize: "20px",
-            }}
-          />
-        )}
       </header>
+
       <Divider />
       <main
         className="manage-order__table chile"
-        style={{ paddingBottom: "20px" }}>
+        style={{ paddingBottom: "20px" }}
+      >
         <Table columns={column} dataSource={dataTale} pagination={false} />
         <Pagination
           style={{ textAlign: "right" }}
