@@ -64,3 +64,33 @@
         }
     }
 }
+
+.join-object-view {
+    border: 2px solid rgb(117, 220, 117);
+    padding: 10px 10px;
+    width: 91.5%;
+    background-color: #d1fdd9;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+
+    .icon-arrow {
+        position: absolute;
+        top: 50%;
+        right: 0%;
+        transform: translate(-50%, -50%);
+        color: rgb(117, 220, 117);
+        font-weight: 900;
+    }
+}
+
+.circle-used {
+    background-color: #10b08a;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}

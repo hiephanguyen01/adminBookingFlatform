@@ -10,7 +10,6 @@ class NotifyService extends BaseService {
   };
 
   getNotifyPartner = (paramString, data) => {
-    console.log(data);
     return this.post(`/api/notification/filter?${paramString}`, data);
   };
   getNotifyCustomer = (paramString, data) => {

@@ -487,8 +487,12 @@ const PromoCreate = () => {
               {/* <div className={cx("w-50", "partner-title")}>Đối tác</div>
               <div className={cx("w-50", "cus-title")}>Khách hàng</div> */}
             </div>
-            <div className={cx("join-object")}>Hình thức khuyến mãi</div>
-            <Form.Item name={"TypeReduce"} rules={[{ required: true }]}>
+            {/* <div className={cx("join-object")}></div> */}
+            <Form.Item
+              name={"TypeReduce"}
+              label="Hình thức khuyến mãi"
+              rules={[{ required: true }]}
+            >
               <Radio.Group className={cx("w-100")}>
                 <Row>
                   <Col span={12}>
@@ -562,9 +566,9 @@ const PromoCreate = () => {
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Form.Item wrapperCol={{ span: 24 }}>
           <Button type="primary" htmlType="submit">
-            Submit
+            Tạo thông báo
           </Button>
         </Form.Item>
       </Form>

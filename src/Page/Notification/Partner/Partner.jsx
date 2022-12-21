@@ -8,6 +8,7 @@ import {
   Popover,
   Select,
   Table,
+  Tag,
 } from "antd";
 import queryString from "query-string";
 
@@ -77,11 +78,13 @@ const columns = [
     dataIndex: "Status",
     render: (text) => (
       <>
-        {Number(text) === 0
-          ? "Đã gửi"
-          : Number(text) === 1
-          ? "Chờ gửi"
-          : "Đã hủy"}
+        {Number(text) === 0 ? (
+          <Tag color="green">Đã gửi</Tag>
+        ) : Number(text) === 1 ? (
+          <Tag color="blue">Chờ gửi</Tag>
+        ) : (
+          <Tag color="#f50">Đã hủy</Tag>
+        )}
       </>
     ),
   },
@@ -150,7 +153,6 @@ export const Partner = () => {
           },
         }
       );
-      console.log(res.data);
       setData(res.data.data);
       setPagination(res.data.pagination);
       // setFiltersPage({ ...filtersPage, page: res.data.pagination.currentPage });
