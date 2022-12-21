@@ -20,7 +20,7 @@ class OrderService extends BaseService {
     return this.patch(`/api/booking/byid?id=${id}&category=${category}`, data);
   };
   getAllBooking = (page, limit, data) => {
-    return this.post(`/api/booking?page=${page}&limit=${limit}`, data);
+    return this.post(`/api/booking/all?page=${page}&limit=${limit}`, data);
   };
 }
 

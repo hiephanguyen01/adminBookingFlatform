@@ -117,7 +117,7 @@ export const ManagePost = () => {
           <Space size="middle">
             <Button
               onClick={() =>
-                navigate(`$${item.id}`, {
+                navigate(`${item.id}`, {
                   state: { category: filter.category },
                 })
               }
