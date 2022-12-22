@@ -84,7 +84,7 @@ export const ManagePost = () => {
     },
     {
       title: "Số định danh",
-      dataIndex: "TenantId",
+      dataIndex: "IdentifierCode",
     },
     {
       title: "Tiêu đề",
