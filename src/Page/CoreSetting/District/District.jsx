@@ -43,7 +43,6 @@ const District = () => {
   useEffect(() => {
     const getAllDistrict = async () => {
       const res = await districtService.getAllDistrict(city[0]?.id);
-      // console.log(res);
       setDistrict(res.data);
     };
     getAllDistrict();
@@ -193,10 +192,22 @@ const District = () => {
           }}
         />
         <Modal
-          title="Basic Modal"
+          title="Xác nhận"
           open={isDeleteModalOpen}
           onOk={() => handleDelete()}
           onCancel={() => setIsDeleteModalOpen(false)}
+          footer={[
+            <Button
+              type="default"
+              onClick={() => setIsDeleteModalOpen(false)}
+              style={{ marginRight: "15px" }}
+            >
+              Thoát
+            </Button>,
+            <Button type="primary" onClick={handleDelete}>
+              Đồng Ý
+            </Button>,
+          ]}
         >
           Bạn có muốn xóa {currentDistrict.Prefix} {currentDistrict.Name} này
           không?
@@ -206,6 +217,18 @@ const District = () => {
           open={isEditModalOpen}
           onOk={() => handleEdit()}
           onCancel={() => setIsEditModalOpen(false)}
+          footer={[
+            <Button
+              type="default"
+              onClick={() => setIsEditModalOpen(false)}
+              style={{ marginRight: "15px" }}
+            >
+              Thoát
+            </Button>,
+            <Button type="primary" onClick={handleEdit}>
+              Cập nhật
+            </Button>,
+          ]}
         >
           <Form
             form={form}
@@ -236,6 +259,18 @@ const District = () => {
           open={isCreateOpenModal}
           onOk={() => handleCreate()}
           onCancel={() => setIsCreateOpenModal(false)}
+          footer={[
+            <Button
+              type="default"
+              onClick={() => setIsCreateOpenModal(false)}
+              style={{ marginRight: "15px" }}
+            >
+              Thoát
+            </Button>,
+            <Button type="primary" onClick={handleCreate}>
+              Lưu
+            </Button>,
+          ]}
         >
           <Form
             form={form}

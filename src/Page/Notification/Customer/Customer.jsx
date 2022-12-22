@@ -246,6 +246,7 @@ export const Customer = () => {
           total={pagination?.totalPages * 10}
           onChange={(page) => setFiltersPage({ ...filtersPage, page })}
           style={{ margin: "30px 0" }}
+          showSizeChanger={false}
         />
       </div>
     </div>

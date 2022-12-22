@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import classNames from "classnames/bind";
 
 import styles from "./ward.module.scss";
@@ -33,11 +33,17 @@ const Ward = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isCreateOpenModal, setIsCreateOpenModal] = useState(false);
 
+  // const getAllDistrict = useCallback(async () => {
+  //   const res = await districtService.getAllDistrict(provinceId);
+  //   setDistrict(res.data);
+  // }, [provinceId]);
+
   useEffect(() => {
     const getAllCity = async () => {
       const res = await cityService.getAllCity();
       setCity(res.data);
       setProvinceId(res.data[0].id);
+      console.log("get city");
     };
     getAllCity();
   }, []);
@@ -46,17 +52,19 @@ const Ward = () => {
     const getDistrict = async () => {
       const res = await districtService.getAllDistrict(provinceId);
       setDistrict(res.data);
-      setDistrictId(res.data[0].id);
+      setDistrictId(res?.data[0]?.id);
+      console.log("get district", provinceId);
     };
     getDistrict();
   }, [provinceId]);
 
   useEffect(() => {
-    const getDistrict = async () => {
+    const getAllWard = async () => {
       const res = await wardService.getAllWard(districtId);
-      setWard(res.data);
+      setWard(res?.data);
+      console.log("get ward");
     };
-    getDistrict();
+    getAllWard();
   }, [districtId]);
 
   const handleDelete = async () => {
@@ -164,7 +172,7 @@ const Ward = () => {
     <>
       <div className={cx("district-filter")}>
         <Space direction="horizontal">
-          <Space>
+          <Space style={{ marginRight: "20px" }}>
             <span className={cx("label-city")}>Tỉnh/thành phố</span>
             {city.length > 0 && (
               <Select
@@ -222,10 +230,22 @@ const Ward = () => {
           }}
         />
         <Modal
-          title="Basic Modal"
+          title="Xác nhận"
           open={isDeleteModalOpen}
           onOk={() => handleDelete()}
           onCancel={() => setIsDeleteModalOpen(false)}
+          footer={[
+            <Button
+              type="default"
+              onClick={() => setIsDeleteModalOpen(false)}
+              style={{ marginRight: "15px" }}
+            >
+              Thoát
+            </Button>,
+            <Button type="primary" onClick={handleDelete}>
+              Xóa
+            </Button>,
+          ]}
         >
           Bạn có muốn xóa {currentWard.Prefix} {currentWard.Name} này không?
         </Modal>
@@ -234,6 +254,18 @@ const Ward = () => {
           open={isEditModalOpen}
           onOk={() => handleEdit()}
           onCancel={() => setIsEditModalOpen(false)}
+          footer={[
+            <Button
+              type="default"
+              onClick={() => setIsEditModalOpen(false)}
+              style={{ marginRight: "15px" }}
+            >
+              Thoát
+            </Button>,
+            <Button type="primary" onClick={handleEdit}>
+              Cập nhật
+            </Button>,
+          ]}
         >
           <Form
             form={form}
@@ -264,6 +296,18 @@ const Ward = () => {
           open={isCreateOpenModal}
           onOk={() => handleCreate()}
           onCancel={() => setIsCreateOpenModal(false)}
+          footer={[
+            <Button
+              type="default"
+              onClick={() => setIsCreateOpenModal(false)}
+              style={{ marginRight: "15px" }}
+            >
+              Thoát
+            </Button>,
+            <Button type="primary" onClick={handleCreate}>
+              Lưu
+            </Button>,
+          ]}
         >
           <Form
             form={form}

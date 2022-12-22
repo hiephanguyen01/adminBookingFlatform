@@ -201,6 +201,18 @@ const AskedQuestion = () => {
           open={isDeleteModalOpen}
           onOk={() => handleDelete()}
           onCancel={() => setIsDeleteModalOpen(false)}
+          footer={[
+            <Button
+              type="default"
+              onClick={() => setIsDeleteModalOpen(false)}
+              style={{ marginRight: "15px" }}
+            >
+              Thoát
+            </Button>,
+            <Button type="primary" onClick={handleDelete}>
+              Đồng ý
+            </Button>,
+          ]}
         >
           Bạn có muốn xóa từ câu hỏi này không?
         </Modal>
@@ -208,12 +220,22 @@ const AskedQuestion = () => {
           title="Chỉnh sửa câu hỏi và câu trả lời"
           open={isEditModalOpen}
           onOk={() => handleEdit()}
-          okText="Lưu"
-          cancelText="Hủy"
           onCancel={() => {
             setIsEditModalOpen(false);
             setQuestion({});
           }}
+          footer={[
+            <Button
+              type="default"
+              onClick={() => setIsEditModalOpen(false)}
+              style={{ marginRight: "15px" }}
+            >
+              Thoát
+            </Button>,
+            <Button type="primary" onClick={handleEdit}>
+              Cập nhật
+            </Button>,
+          ]}
         >
           <Form
             form={form}
@@ -244,9 +266,19 @@ const AskedQuestion = () => {
           title="Thêm câu hỏi"
           open={isCreateOpenModal}
           onOk={() => handleCreate()}
-          okText="Lưu"
-          cancelText="Hủy"
           onCancel={() => setIsCreateOpenModal(false)}
+          footer={[
+            <Button
+              type="default"
+              onClick={() => setIsCreateOpenModal(false)}
+              style={{ marginRight: "15px" }}
+            >
+              Thoát
+            </Button>,
+            <Button type="primary" onClick={handleCreate}>
+              Lưu
+            </Button>,
+          ]}
         >
           <Form
             form={form}

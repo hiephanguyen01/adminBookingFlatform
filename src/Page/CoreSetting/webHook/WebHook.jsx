@@ -117,7 +117,6 @@ const WebHook = () => {
         <Switch
           checked={value.IsActive}
           onChange={(checked) => {
-            console.log(123);
             handleOnChangeChecked(checked, value);
           }}
         ></Switch>
@@ -201,10 +200,22 @@ const WebHook = () => {
           onChange={(page) => setFilter({ ...filter, page })}
         />
         <Modal
-          title="Basic Modal"
+          title="Xác nhận"
           open={isDeleteModalOpen}
           onOk={() => handleDelete()}
           onCancel={() => setIsDeleteModalOpen(false)}
+          footer={[
+            <Button
+              type="default"
+              onClick={() => setIsDeleteModalOpen(false)}
+              style={{ marginRight: "15px" }}
+            >
+              Thoát
+            </Button>,
+            <Button type="primary" onClick={handleDelete}>
+              Đồng ý
+            </Button>,
+          ]}
         >
           Bạn có muốn xóa webhook này không?
         </Modal>
