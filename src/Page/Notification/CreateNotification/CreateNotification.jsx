@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
-import ReactQuill, { Quill, editor } from "react-quill";
-import { MultiSelect } from "react-multi-select-component";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import React, { useEffect, useState } from "react";
+import { MultiSelect } from "react-multi-select-component";
+import ReactQuill from "react-quill";
 dayjs.extend(customParseFormat);
 
 import "react-quill/dist/quill.snow.css";
@@ -11,6 +11,7 @@ import "react-quill/dist/quill.snow.css";
 import styles from "./createNotification.module.scss";
 import "./replaceStyles.scss";
 
+import { LoadingOutlined, PlusOutlined, UserOutlined } from "@ant-design/icons";
 import {
   Avatar,
   Button,
@@ -25,13 +26,12 @@ import {
   Space,
   Upload,
 } from "antd";
-import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import moment from "moment";
+import { convertImage } from "../../../../utils/convert";
+import { openNotification } from "../../../../utils/Notification";
+import { notifyService } from "../../../services/notifyService";
 import { partnerService } from "../../../services/PartnerService";
 import { userService } from "../../../services/UserService";
-import { convertImage } from "../../../../utils/convert";
-import { notifyService } from "../../../services/notifyService";
-import toastMessage from "../../../Components/ToastMessage";
 
 const cx = classNames.bind(styles);
 
@@ -101,23 +101,7 @@ const CreateNotification = () => {
     "video",
     "formula",
   ];
-  const [fileList, setFileList] = useState([]);
-
-  const handleCancel = () => setPreviewOpen(false);
-
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-
-    setPreviewImage(file.url || file.preview);
-    setPreviewOpen(true);
-    setPreviewTitle(
-      file.name || file.url?.substring(file.url?.lastIndexOf("/") + 1)
-    );
-  };
-
-  // const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const [loading, setLoading] = useState(false);
 
   const onFormChange = (value) => {
     setData({ ...data, ...value });
@@ -152,8 +136,7 @@ const CreateNotification = () => {
   };
 
   const handleSubmit = async () => {
-    // console.log(value);
-
+    setLoading(true);
     try {
       let newData = { ...data },
         newException = "";
@@ -195,12 +178,12 @@ const CreateNotification = () => {
       formData.append("Type", newData.Type);
       formData.append(
         "SendingTime",
-        moment(newData.SendingTime["$d"]).add(7, "hour").toISOString()
+        moment(newData.SendingTime["$d"]).toISOString()
       );
       formData.append("Exception", newException);
       formData.append("image", newData.image.file.originFileObj);
       await notifyService.createNotification(formData);
-      toastMessage("Tạo thông báo thành công!", "success");
+      openNotification("success", "Tạo thông báo thành công!");
       form.resetFields();
       setData({
         Content: "",
@@ -212,32 +195,28 @@ const CreateNotification = () => {
       });
       setSelected([]);
     } catch (error) {
-      toastMessage("Tạo thông báo thất bại!", "error");
+      openNotification("error", "Tạo thông báo thất bại!");
     }
+    setLoading(false);
   };
-
-  console.log(data);
 
   return (
     <div className={cx("create-notification-wrapper")}>
       <Form
-        // labelCol={{ span: 4 }}
-        wrapperCol={{ span: 18 }}
+        wrapperCol={{ span: 24 }}
         form={form}
         layout="vertical"
         onValuesChange={onFormChange}
-        // disabled={componentDisabled}
+        disabled={loading}
         size="large"
-        onFinish={handleSubmit}
-      >
-        <Row>
-          <Col span={12}>
+        onFinish={handleSubmit}>
+        <Row gutter={[20, 20]}>
+          <Col md={12} xs={24} sx={24}>
             <div className={cx("")}>
               <Form.Item
                 className={cx("form-custom")}
                 label="Loại thông báo"
-                name={"Type"}
-              >
+                name={"Type"}>
                 <Select>
                   {NOTIFY_TYPE.map((item) => (
                     <Select.Option key={item.value} value={item.value}>
@@ -249,15 +228,13 @@ const CreateNotification = () => {
               <Form.Item
                 className={cx("form-custom")}
                 label="Tiêu đề"
-                name={"Title"}
-              >
+                name={"Title"}>
                 <Input />
               </Form.Item>
               <Form.Item
                 className={cx("form-custom")}
                 label="Nội dung"
-                name={"Content"}
-              >
+                name={"Content"}>
                 <ReactQuill
                   className={cx("custom-quill")}
                   // style={{ height: "200px" }}
@@ -269,13 +246,12 @@ const CreateNotification = () => {
               </Form.Item>
             </div>
           </Col>
-          <Col span={12}>
+          <Col md={12} xs={24} sx={24}>
             <div>
               <Form.Item
                 className={cx("form-custom")}
                 label="Đối tượng nhận thông báo"
-                name={"Object"}
-              >
+                name={"Object"}>
                 <Radio.Group>
                   <Radio value={0} onClick={() => setSelected([])}>
                     Đối tác
@@ -290,16 +266,14 @@ const CreateNotification = () => {
                   <Radio.Group
                     // onChange={() => {}}
                     // value={""}
-                    className={cx("custom-radio-group")}
-                  >
+                    className={cx("custom-radio-group")}>
                     <Space direction="vertical" style={{ width: "100%" }}>
                       <Radio
                         value={1}
                         className={cx("custom-radio")}
                         onClick={() => {
                           setSelected([]);
-                        }}
-                      >
+                        }}>
                         <div>Tất cả đối tác</div>
                         <div>{partner.length} đối tác</div>
                       </Radio>
@@ -312,8 +286,7 @@ const CreateNotification = () => {
                           if (data.option !== 2) {
                             setSelected([]);
                           }
-                        }}
-                      >
+                        }}>
                         <div>Tất cả đối tác NGOẠI TRỪ</div>
                         <div>
                           {data.option === 2 ? selected.length : 0}/
@@ -328,8 +301,7 @@ const CreateNotification = () => {
                           if (data.option !== 3) {
                             setSelected([]);
                           }
-                        }}
-                      >
+                        }}>
                         <div>Tùy chọn đối tác</div>
                         <div>
                           {data.option === 3 ? selected.length : 0}/
@@ -344,16 +316,14 @@ const CreateNotification = () => {
                   <Radio.Group
                     // onChange={() => {}}
                     // value={""}
-                    className={cx("custom-radio-group")}
-                  >
+                    className={cx("custom-radio-group")}>
                     <Space direction="vertical" style={{ width: "100%" }}>
                       <Radio
                         value={1}
                         className={cx("custom-radio")}
                         onClick={() => {
                           setSelected([]);
-                        }}
-                      >
+                        }}>
                         <div>Tất cả khách hàng</div>
                         <div>{customer.length} khách hàng</div>
                       </Radio>
@@ -364,8 +334,7 @@ const CreateNotification = () => {
                         onClick={() => {
                           setModalOpen(true);
                           setSelected([]);
-                        }}
-                      >
+                        }}>
                         <div>Tất cả khách hàng NGOẠI TRỪ</div>
                         <div>
                           {data.option === 2 ? selected.length : 0}/
@@ -380,8 +349,7 @@ const CreateNotification = () => {
                           if (data.option !== 3) {
                             setSelected([]);
                           }
-                        }}
-                      >
+                        }}>
                         <div>Tùy chọn khách hàng</div>
                         <div>
                           {data.option === 3 ? selected.length : 0}/
@@ -396,8 +364,7 @@ const CreateNotification = () => {
               <Form.Item
                 label="Upload"
                 // valuePropName="fileList"
-                name={"image"}
-              >
+                name={"image"}>
                 {/* <Upload
                   // action="/upload.do"
                   listType="picture-card"
@@ -414,8 +381,7 @@ const CreateNotification = () => {
                   // fileList={fileList}
                   // onPreview={handlePreview}
                   // onChange={handleChange}
-                  directory={false}
-                >
+                  directory={false}>
                   {data?.image?.fileList.length >= 1 ? null : (
                     <div>
                       <PlusOutlined />
@@ -436,13 +402,14 @@ const CreateNotification = () => {
           </Col>
         </Row>
 
-        <Form.Item
-          className={cx("")}
-          // onClick={handleSubmit}
-          wrapperCol={{ span: "6" }}
-        >
-          <Button type="primary" htmlType="submit">
-            Gửi thông báo
+        <Form.Item className={cx("")} wrapperCol={{ span: "6" }}>
+          <Button
+            htmlType="submit"
+            disabled={loading}
+            size="large"
+            type="primary">
+            {loading && <LoadingOutlined />}
+            &nbsp;Gửi thông báo
           </Button>
         </Form.Item>
       </Form>
@@ -458,8 +425,7 @@ const CreateNotification = () => {
           setModalOpen(false);
         }}
         closable={false}
-        bodyStyle={{ height: "350px" }}
-      >
+        bodyStyle={{ height: "350px" }}>
         <MultiSelect
           className={""}
           options={data.Object === 0 ? partner : customer}
