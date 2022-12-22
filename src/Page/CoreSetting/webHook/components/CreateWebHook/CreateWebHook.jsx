@@ -1,13 +1,23 @@
 import React, { useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./createWebHook.module.scss";
-import { Button, Form, Input, Select, Switch, Tabs, Upload } from "antd";
+import {
+  Breadcrumb,
+  Button,
+  Form,
+  Input,
+  Select,
+  Switch,
+  Tabs,
+  Upload,
+} from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { bannerService } from "../../../../../services/Banner";
 import toastMessage from "../../../../../Components/ToastMessage";
 import { bankService } from "../../../../../services/BankService";
 import TextArea from "antd/es/input/TextArea";
 import { webHookService } from "../../../../../services/WebHookService";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -135,6 +145,20 @@ const CreateWebHook = () => {
 
   return (
     <div className={cx("create-banner-container")}>
+      <Breadcrumb
+        style={{
+          fontSize: "16px",
+          marginBottom: "10px",
+          fontWeight: "bold",
+        }}
+      >
+        <Breadcrumb.Item>
+          <Link to={"/setting/webhook"} style={{ color: "#10b08a" }}>
+            Quản lý webhook
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Tạo mới</Breadcrumb.Item>
+      </Breadcrumb>
       <div className={cx("header")}>
         <h2>CREATE WEBHOOK</h2>
         <Button

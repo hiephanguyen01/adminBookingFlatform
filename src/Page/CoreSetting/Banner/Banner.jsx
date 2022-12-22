@@ -2,7 +2,16 @@ import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 
 import styles from "./banner.module.scss";
-import { Button, Modal, Pagination, Space, Switch, Table, Tag } from "antd";
+import {
+  Breadcrumb,
+  Button,
+  Modal,
+  Pagination,
+  Space,
+  Switch,
+  Table,
+  Tag,
+} from "antd";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { convertImage } from "../../../../utils/convert";
 import { bannerService } from "../../../services/Banner";

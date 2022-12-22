@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Button, Card, Modal, Space } from "antd";
+import { Avatar, Breadcrumb, Button, Card, Modal, Space } from "antd";
 import classNames from "classnames/bind";
 import { MultiSelect } from "react-multi-select-component";
 import queryString from "query-string";
@@ -12,7 +12,7 @@ import {
   RightOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { notifyService } from "../../../../services/notifyService";
 import { partnerService } from "../../../../services/PartnerService";
 import { convertImage } from "../../../../../utils/convert";
@@ -64,6 +64,20 @@ const CustomerNotificationDetail = ({ edit = false }) => {
   console.log(notifyDetail);
   return (
     <div className={cx("notification-detail-container")}>
+      <Breadcrumb
+        style={{
+          fontSize: "16px",
+          marginBottom: "10px",
+          fontWeight: "bold",
+        }}
+      >
+        <Breadcrumb.Item>
+          <Link to={"/notification/customer"} style={{ color: "#10b08a" }}>
+            Thông báo khách hàng
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>{edit ? "Chỉnh sửa" : "Chi tiết"}</Breadcrumb.Item>
+      </Breadcrumb>
       <div style={{ width: "50%", margin: "auto" }}>
         <Card bordered={false} className={cx("card-wrapper")}>
           <Space direction="horizontal" size={180}>
@@ -100,7 +114,8 @@ const CustomerNotificationDetail = ({ edit = false }) => {
           bordered={false}
           className={cx("card-wrapper")}
           style={{ cursor: "pointer" }}
-          onClick={() => setModalOpen(true)}>
+          onClick={() => setModalOpen(true)}
+        >
           <Space align="center" size={270}>
             <Space direction="vertical" style={{ flex: "1" }}>
               <div className={cx("row-2-item")}>
@@ -145,7 +160,8 @@ const CustomerNotificationDetail = ({ edit = false }) => {
               className={cx("notifi-content")}
               dangerouslySetInnerHTML={{
                 __html: notifyDetail.Content,
-              }}></p>
+              }}
+            ></p>
           </Space>
         </Card>
       </div>
@@ -161,7 +177,8 @@ const CustomerNotificationDetail = ({ edit = false }) => {
           setModalOpen(false);
         }}
         closable={false}
-        bodyStyle={{ height: "350px" }}>
+        bodyStyle={{ height: "350px" }}
+      >
         <MultiSelect
           className={""}
           options={customers}

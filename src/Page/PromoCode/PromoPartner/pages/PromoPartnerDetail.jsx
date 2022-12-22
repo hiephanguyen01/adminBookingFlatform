@@ -6,6 +6,7 @@ import { MultiSelect } from "react-multi-select-component";
 import styles from "./promoPartnerDetail.module.scss";
 import {
   Avatar,
+  Breadcrumb,
   Button,
   Checkbox,
   Col,
@@ -27,7 +28,7 @@ import { partnerService } from "../../../../services/PartnerService";
 import { userService } from "../../../../services/UserService";
 import { promoCodeService } from "../../../../services/PromoCodeService";
 import toastMessage from "../../../../Components/ToastMessage";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -163,8 +164,6 @@ const PromoPartnerDetail = ({ edit = false }) => {
     setPromo({ ...promo, ...value });
   };
 
-  console.log(12345657);
-
   const handleOnSubmit = async (value) => {
     const newDataSend = {
       IsDeleted: true,
@@ -257,6 +256,20 @@ const PromoPartnerDetail = ({ edit = false }) => {
 
   return (
     <div className={cx("promo-create-container")}>
+      <Breadcrumb
+        style={{
+          fontSize: "16px",
+          marginBottom: "10px",
+          fontWeight: "bold",
+        }}
+      >
+        <Breadcrumb.Item>
+          <Link to={"/promo-code"} style={{ color: "#10b08a" }}>
+            Mã khuyến mãi
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>{edit ? "Chỉnh sửa" : "Chi tiết"}</Breadcrumb.Item>
+      </Breadcrumb>
       <Form
         // labelCol={{ span: 12 }}
         // wrapperCol={{ span: 24 }}

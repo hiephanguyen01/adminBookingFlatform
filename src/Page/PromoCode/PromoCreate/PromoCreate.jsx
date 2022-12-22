@@ -163,11 +163,7 @@ const PromoCreate = () => {
         );
         return;
       }
-      const res = await promoCodeService.createPromo(newDataSend);
-      if (res.data.success === false) {
-        toastMessage(res.data.message, "error");
-        return;
-      }
+      await promoCodeService.createPromo(newDataSend);
       toastMessage("Tạo mã khuyến mãi thành công!", "success");
       // setPromo({
       //   Category: "",
@@ -193,7 +189,7 @@ const PromoCreate = () => {
       // });
       form.resetFields();
     } catch (error) {
-      toastMessage("Tạo mã khuyến mãi thất bại!", "error");
+      toastMessage(error.response.data.message, "error");
     }
   };
 
@@ -568,7 +564,7 @@ const PromoCreate = () => {
         </Row>
         <Form.Item wrapperCol={{ span: 12 }}>
           <Button type="primary" htmlType="submit">
-            Tạo thông báo
+            Tạo khuyến mãi
           </Button>
         </Form.Item>
       </Form>

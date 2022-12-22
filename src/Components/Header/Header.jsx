@@ -1,6 +1,7 @@
 import { Button, Col, Popover, Row } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom/dist";
 import { logOut } from "../../store/action/authAction";
@@ -29,7 +30,9 @@ const Header = () => {
     <div className="Header">
       <Row style={{ width: "100%" }}>
         <Col md={4} sm={4} xs={4} style={{ textAlign: "start" }}>
-          <img src={logo} alt="logo" style={{ paddingLeft: "20px" }} />
+          <Link to={"/dashboard/account"}>
+            <img src={logo} alt="logo" style={{ paddingLeft: "20px" }} />
+          </Link>
         </Col>
         <Col
           md={16}
@@ -39,7 +42,8 @@ const Header = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-          }}>
+          }}
+        >
           <p>{time}</p>
         </Col>
         <Col
@@ -50,7 +54,8 @@ const Header = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "end",
-          }}>
+          }}
+        >
           <Popover
             placement="bottomRight"
             title={"Account"}
@@ -59,7 +64,8 @@ const Header = () => {
                 Log out
               </Button>
             }
-            trigger="click">
+            trigger="click"
+          >
             <div style={{ cursor: "pointer", marginRight: "20px" }}>
               Account
             </div>
