@@ -12,14 +12,16 @@ import {
   DatePicker,
   Form,
   Input,
+  List,
   Modal,
+  Progress,
   Radio,
   Row,
   Space,
 } from "antd";
 import moment from "moment";
 import { CATEGORIES } from "../../../../../utils/CONST";
-import { UserOutlined } from "@ant-design/icons";
+import { RightOutlined, UserOutlined } from "@ant-design/icons";
 import { convertImage } from "../../../../../utils/convert";
 import { partnerService } from "../../../../services/PartnerService";
 import { userService } from "../../../../services/UserService";
@@ -56,11 +58,15 @@ const PromoPartnerDetail = ({ edit = false }) => {
     partnerConfirm: null,
   });
   const [partners, setPartners] = useState([]);
+  const [partnerJoined, setPartnerJoined] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [selectedCus, setSelectedCus] = useState([]);
+  const [cusJoined, setCusJoined] = useState([]);
   const [selectedPartner, setSelectedPartner] = useState([]);
   const [modalCusOpen, setModalCusOpen] = useState(false);
   const [modalPartnerOpen, setModalPartnerOpen] = useState(false);
+  const [modalCusJoinedOpen, setModalCusJoinedOpen] = useState(false);
+  const [modalPartnerJoinedOpen, setModalPartnerJoinedOpen] = useState(false);
 
   useEffect(() => {
     const getPartner = async () => {
@@ -114,6 +120,17 @@ const PromoPartnerDetail = ({ edit = false }) => {
     getPromoDetail();
   }, [partners, customers]);
 
+  useEffect(() => {
+    const getCusJoinedPromo = async () => {
+      const res = await promoCodeService.getCustomerJoinedPromo(
+        location?.state?.promoId
+      );
+      setCusJoined(res.data.data);
+    };
+
+    getCusJoinedPromo();
+  }, []);
+
   const range = (start, end) => {
     const result = [];
     for (let i = start; i < end; i++) {
@@ -145,6 +162,8 @@ const PromoPartnerDetail = ({ edit = false }) => {
   const handleOnValuesChange = (value) => {
     setPromo({ ...promo, ...value });
   };
+
+  console.log(12345657);
 
   const handleOnSubmit = async (value) => {
     const newDataSend = {
@@ -474,7 +493,8 @@ const PromoPartnerDetail = ({ edit = false }) => {
                         value={1}
                         className={cx("custom-radio")}
                         onClick={() => {
-                          setSelectedPartner([]);
+                          setSelectedPartner([...partners]);
+                          setModalPartnerOpen(true);
                         }}
                         disabled={!edit && promo?.selectPartner !== 1}
                       >
@@ -534,10 +554,14 @@ const PromoPartnerDetail = ({ edit = false }) => {
                       <Radio
                         value={1}
                         className={cx("custom-radio")}
+                        onClick={() => {
+                          setSelectedCus([...customers]);
+                          setModalCusOpen(true);
+                        }}
                         disabled={!edit && promo?.selectCus !== 1}
                       >
                         <div>Tất cả khách hàng</div>
-                        <div>{customers.length} đối tác</div>
+                        <div>{customers.length} khách hàng</div>
                       </Radio>
 
                       <Radio
@@ -672,8 +696,32 @@ const PromoPartnerDetail = ({ edit = false }) => {
             </Form.Item>
           </Col>
         </Row>
+        <Row>
+          <Col span={12}>
+            <div
+              className={cx("join-object-view")}
+              onClick={() => setModalPartnerJoinedOpen(true)}
+            >
+              <span>
+                {partners.length}/{partners.length} đối tác tham gia
+              </span>
+              <RightOutlined className={cx("icon-arrow")} />
+            </div>
+          </Col>
+          <Col span={12}>
+            <div
+              className={cx("join-object-view")}
+              onClick={() => setModalCusJoinedOpen(true)}
+            >
+              <span>
+                {cusJoined.length}/{customers.length} khách hàng tham gia
+              </span>
+              <RightOutlined className={cx("icon-arrow")} />
+            </div>
+          </Col>
+        </Row>
         {edit && (
-          <Space>
+          <Space style={{ marginTop: "20px" }}>
             <Form.Item wrapperCol={{ span: 24 }}>
               <Button
                 type="primary"
@@ -703,6 +751,11 @@ const PromoPartnerDetail = ({ edit = false }) => {
           setModalCusOpen(false);
         }}
         closable={false}
+        footer={[
+          <Button type="primary" onClick={() => setModalCusOpen(false)}>
+            OK
+          </Button>,
+        ]}
         bodyStyle={{ height: "350px" }}
       >
         <MultiSelect
@@ -751,6 +804,11 @@ const PromoPartnerDetail = ({ edit = false }) => {
           setModalPartnerOpen(false);
         }}
         closable={false}
+        footer={[
+          <Button type="primary" onClick={() => setModalPartnerOpen(false)}>
+            OK
+          </Button>,
+        ]}
         bodyStyle={{ height: "350px" }}
       >
         <MultiSelect
@@ -788,6 +846,100 @@ const PromoPartnerDetail = ({ edit = false }) => {
             );
           }}
         />
+      </Modal>
+      <Modal
+        title={"Danh sách khách hàng tham gia"}
+        className={cx("modal-option")}
+        centered
+        open={modalCusJoinedOpen}
+        onOk={() => {
+          setModalCusJoinedOpen(false);
+        }}
+        onCancel={() => {
+          setModalCusJoinedOpen(false);
+        }}
+        // footer={[]}
+        footer={[
+          <Button type="primary" onClick={() => setModalCusJoinedOpen(false)}>
+            OK
+          </Button>,
+        ]}
+        closable={false}
+        bodyStyle={{ height: "350px" }}
+      >
+        <div
+          style={{
+            height: "100%",
+            overflow: "auto",
+            padding: "0 16px",
+            border: "1px solid rgba(140, 140, 140, 0.35)",
+          }}
+        >
+          <List
+            dataSource={cusJoined}
+            renderItem={(item) => (
+              <List.Item key={item.id}>
+                <List.Item.Meta
+                  avatar={<Avatar src={convertImage(item.Image)} size={40} />}
+                  title={item.Fullname}
+                  description={item.Phone}
+                />
+                <div className={cx("circle-used")}>
+                  {item.Used}/{promo.NoOfJoin}
+                </div>
+              </List.Item>
+            )}
+          />
+        </div>
+      </Modal>
+
+      <Modal
+        title={"Danh sách đối tác tham gia"}
+        className={cx("modal-option")}
+        centered
+        open={modalPartnerJoinedOpen}
+        onOk={() => {
+          setModalPartnerJoinedOpen(false);
+        }}
+        onCancel={() => {
+          setModalPartnerJoinedOpen(false);
+        }}
+        // footer={[]}
+        footer={[
+          <Button
+            type="primary"
+            onClick={() => setModalPartnerJoinedOpen(false)}
+          >
+            OK
+          </Button>,
+        ]}
+        closable={false}
+        bodyStyle={{ height: "350px" }}
+      >
+        <div
+          style={{
+            height: "100%",
+            overflow: "auto",
+            padding: "0 16px",
+            border: "1px solid rgba(140, 140, 140, 0.35)",
+          }}
+        >
+          <List
+            dataSource={partners}
+            renderItem={(item) => (
+              <List.Item key={item.id}>
+                <List.Item.Meta
+                  avatar={<Avatar src={convertImage(item.Image)} size={40} />}
+                  title={item.PartnerName}
+                  description={item.Phone}
+                />
+                <div className={cx("circle-used")}>
+                  {item.Used || 1}/{promo.NoOfJoin}
+                </div>
+              </List.Item>
+            )}
+          />
+        </div>
       </Modal>
     </div>
   );
