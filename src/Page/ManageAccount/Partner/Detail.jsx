@@ -1,6 +1,6 @@
-import { Col, Form, Image, Input, Row } from "antd";
+import { Breadcrumb, Col, Form, Image, Input, Row } from "antd";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { registerPartnerService } from "../../../services/RegisterPartnerService";
 import "./detail.scss";
 import moment from "moment";
@@ -31,6 +31,12 @@ export const PartnerDetail = () => {
   if (loading) return <Loading />;
   return (
     <div className="PartnerDetail">
+      <Breadcrumb style={{ marginBottom: "10px" }}>
+        <Breadcrumb.Item>
+          <Link to="/manage/partner">Quản lý tài khoản đối tác</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Chi tiết tài khoản</Breadcrumb.Item>
+      </Breadcrumb>
       <Row gutter={32}>
         <Col span={12}>
           <Form layout="vertical" autoComplete="off">

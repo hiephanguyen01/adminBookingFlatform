@@ -1,7 +1,7 @@
-import { Button, Checkbox, Form, Input, Select } from "antd";
+import { Breadcrumb, Button, Checkbox, Form, Input, Select } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { openNotification } from "../../../../utils/Notification";
 import { Loading } from "../../../Components/Loading";
 import { orderService } from "../../../services/OrderService";
@@ -66,6 +66,20 @@ const Detail = ({ modify = false }) => {
   };
   return (
     <section className="detail-order">
+      <Breadcrumb
+        style={{
+          fontSize: "16px",
+          marginBottom: "10px",
+          fontWeight: "bold",
+        }}
+      >
+        <Breadcrumb.Item>
+          <Link to={"/manage-order"} style={{ color: "#10b08a" }}>
+            Quản lý đơn đặt
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Chi tiết</Breadcrumb.Item>
+      </Breadcrumb>
       <Form
         initialValues={{
           // Id: data.id,

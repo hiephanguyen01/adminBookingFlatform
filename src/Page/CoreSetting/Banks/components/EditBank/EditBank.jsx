@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./editBank.module.scss";
-import { Button, Form, Image, Input, Modal, Space, Switch, Upload } from "antd";
+import {
+  Breadcrumb,
+  Button,
+  Form,
+  Image,
+  Input,
+  Modal,
+  Space,
+  Switch,
+  Upload,
+} from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { bannerService } from "../../../../../services/Banner";
 import toastMessage from "../../../../../Components/ToastMessage";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { convertImage } from "../../../../../../utils/convert";
 import { bankService } from "../../../../../services/BankService";
 
@@ -60,6 +70,20 @@ const EditBank = () => {
 
   return (
     <div className={cx("create-banner-container")}>
+      <Breadcrumb
+        style={{
+          fontSize: "16px",
+          marginBottom: "10px",
+          fontWeight: "bold",
+        }}
+      >
+        <Breadcrumb.Item>
+          <Link to={"/setting/banks"} style={{ color: "#10b08a" }}>
+            Quản lý ngân hàng
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Chỉnh sửa</Breadcrumb.Item>
+      </Breadcrumb>
       <div className={cx("header")}>
         <h2>Sửa ngân hàng</h2>
         <div>

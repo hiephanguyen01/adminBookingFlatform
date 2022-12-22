@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./createBank.module.scss";
-import { Button, Form, Input, Switch, Upload } from "antd";
+import { Breadcrumb, Button, Form, Input, Switch, Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { bannerService } from "../../../../../services/Banner";
 import toastMessage from "../../../../../Components/ToastMessage";
 import { bankService } from "../../../../../services/BankService";
 import * as XLSX from "xlsx";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -70,6 +71,20 @@ const CreateBank = () => {
 
   return (
     <div className={cx("create-banner-container")}>
+      <Breadcrumb
+        style={{
+          fontSize: "16px",
+          marginBottom: "10px",
+          fontWeight: "bold",
+        }}
+      >
+        <Breadcrumb.Item>
+          <Link to={"/setting/banks"} style={{ color: "#10b08a" }}>
+            Quản lý ngân hàng
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Tạo mới</Breadcrumb.Item>
+      </Breadcrumb>
       <div className={cx("header")}>
         <h2>Tạo ngân hàng</h2>
         <input type="file" onChange={(e) => readFileExcel(e.target.files[0])} />

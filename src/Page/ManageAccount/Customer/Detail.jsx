@@ -1,6 +1,6 @@
-import { Col, Form, Image, Input, Row } from "antd";
+import { Breadcrumb, Col, Form, Image, Input, Row } from "antd";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { registerPartnerService } from "../../../services/RegisterPartnerService";
 import "./detail.scss";
 import moment from "moment";
@@ -20,7 +20,6 @@ export const CustomerDetail = () => {
   const getCustomerDetailById = async (id) => {
     try {
       const { data } = await registerPartnerService.getCustomerById(id);
-      console.log(data);
       setData(data);
     } catch (error) {
       console.log(error);
@@ -29,6 +28,12 @@ export const CustomerDetail = () => {
   if (loading) return <Loading />;
   return (
     <div className="CustomerDetail">
+      <Breadcrumb style={{ marginBottom: "10px" }}>
+        <Breadcrumb.Item>
+          <Link to="/manage/customer">Quản lý tài khoản khách hàng</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Chi tiết tài khoản</Breadcrumb.Item>
+      </Breadcrumb>
       <Form layout="vertical" autoComplete="off">
         <Row gutter={64}>
           <Col span={12}>

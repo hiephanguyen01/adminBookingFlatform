@@ -1,6 +1,16 @@
-import { Button, Col, Form, Image, Input, Modal, Row, Upload } from "antd";
+import {
+  Breadcrumb,
+  Button,
+  Col,
+  Form,
+  Image,
+  Input,
+  Modal,
+  Row,
+  Upload,
+} from "antd";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { registerPartnerService } from "../../../services/RegisterPartnerService";
 import "./detail.scss";
 import moment from "moment";
@@ -127,6 +137,12 @@ export const DetailEditPartner = () => {
   if (loading) return <Loading />;
   return (
     <div className="PartnerDetailEdit">
+      <Breadcrumb style={{ marginBottom: "10px" }}>
+        <Breadcrumb.Item>
+          <Link to="/manage/partner">Quản lý tài khoản đối tác</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Chỉnh sửa tài khoản</Breadcrumb.Item>
+      </Breadcrumb>
       <Form
         initialValues={{
           Email: data.Email,
