@@ -1,19 +1,20 @@
-import { Button, Col, Popover, Row } from "antd";
+import { Button, Col, Popover, Row, Tag } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom/dist";
 import { logOut } from "../../store/action/authAction";
 import "./Header.scss";
 import logo from "../../assets/logo.svg";
-
+import { AliwangwangOutlined } from "@ant-design/icons";
 const Header = () => {
   const [time, setTime] = useState();
   const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.userReducer.currentUser);
   const navigate = useNavigate();
   useEffect(() => {
     const timee = setTimeout(() => {
-      setTime(moment().format("MMMM Do YYYY, h:mm:ss a"));
+      setTime(moment().format("Do MMMM YYYY, h:mm:ss a"));
     }, 1 * 1000);
 
     return () => {
@@ -24,7 +25,6 @@ const Header = () => {
   const handleLogOut = () => {
     dispatch(logOut(navigate));
   };
-
   return (
     <div className="Header">
       <Row style={{ width: "100%" }}>
@@ -61,7 +61,12 @@ const Header = () => {
             }
             trigger="click">
             <div style={{ cursor: "pointer", marginRight: "20px" }}>
-              Account
+              <Tag
+                style={{ fontSize: "18px", padding: "10px" }}
+                icon={<AliwangwangOutlined />}
+                color="magenta">
+                {currentUser?.user.name}
+              </Tag>
             </div>
           </Popover>
         </Col>
