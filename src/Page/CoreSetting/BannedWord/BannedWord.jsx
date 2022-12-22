@@ -192,10 +192,22 @@ const BannedWord = () => {
           onChange={(page) => setCurrentPage(page)}
         />
         <Modal
-          title="Basic Modal"
+          title="Xác nhận"
           open={isDeleteModalOpen}
           onOk={() => handleDelete()}
           onCancel={() => setIsDeleteModalOpen(false)}
+          footer={[
+            <Button
+              type="default"
+              onClick={() => setIsDeleteModalOpen(false)}
+              style={{ marginRight: "15px" }}
+            >
+              Thoát
+            </Button>,
+            <Button type="primary" onClick={handleDelete}>
+              Đồng ý
+            </Button>,
+          ]}
         >
           Bạn có muốn xóa từ "{chooseBannedWord.Value}" không?
         </Modal>
@@ -203,9 +215,19 @@ const BannedWord = () => {
           title="Sửa từ cấm"
           open={isEditModalOpen}
           onOk={() => handleEdit()}
-          okText="Lưu"
-          cancelText="Hủy"
           onCancel={() => setIsEditModalOpen(false)}
+          footer={[
+            <Button
+              type="default"
+              onClick={() => setIsEditModalOpen(false)}
+              style={{ marginRight: "15px" }}
+            >
+              Thoát
+            </Button>,
+            <Button type="primary" onClick={handleEdit}>
+              Cập nhật
+            </Button>,
+          ]}
         >
           <Form.Item label="Từ, cụm từ">
             <Input
@@ -223,9 +245,19 @@ const BannedWord = () => {
           title="Thêm từ cấm"
           open={isCreateOpenModal}
           onOk={() => handleCreate()}
-          okText="Lưu"
-          cancelText="Hủy"
           onCancel={() => setIsCreateOpenModal(false)}
+          footer={[
+            <Button
+              type="default"
+              onClick={() => setIsCreateOpenModal(false)}
+              style={{ marginRight: "15px" }}
+            >
+              Thoát
+            </Button>,
+            <Button type="primary" onClick={handleCreate}>
+              Lưu
+            </Button>,
+          ]}
         >
           <Form.Item>
             <Tooltip placement="right" title={"Nhấn enter để thêm từ mới"}>

@@ -150,7 +150,7 @@ const EditBanner = () => {
         </Form>
       )}
       <Modal
-        title="Basic Modal"
+        title="Xác nhận"
         open={isModalOpen}
         onOk={handleDeleteBanner}
         onCancel={handleCancel}

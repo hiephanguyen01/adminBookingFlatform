@@ -95,7 +95,7 @@ export const InfoRoom = ({ service }) => {
         // closable={false}
         footer={null}
         maskClosable={false}
-        // title="Basic Modal"
+        // title="Xác nhận"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}

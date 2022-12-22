@@ -16,6 +16,7 @@ const Banks = () => {
   const [bank, setBank] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentBank, setCurrentBank] = useState({});
 
   useEffect(() => {
     const getAllBanks = async () => {
@@ -34,8 +35,8 @@ const Banks = () => {
     setIsModalOpen(false);
   };
 
-  const handleOk = (bank) => {
-    handleDeleteBanks(bank);
+  const handleOk = () => {
+    handleDeleteBanks();
     setIsModalOpen(false);
   };
 
@@ -60,9 +61,9 @@ const Banks = () => {
     } catch (error) {}
   };
 
-  const handleDeleteBanks = async (bank) => {
+  const handleDeleteBanks = async () => {
     try {
-      const res = await bankService.deleteBank(bank.id);
+      const res = await bankService.deleteBank(currentBank?.id);
       if (res.data.success) {
         const res = await bankService.getAllBank();
         setBank(res.data.data);
@@ -131,16 +132,10 @@ const Banks = () => {
           <Button
             shape="circle"
             icon={<DeleteOutlined />}
-            onClick={showModal}
+            onClick={() => {
+              showModal(), setCurrentBank(value);
+            }}
           />
-          <Modal
-            title="Basic Modal"
-            open={isModalOpen}
-            onOk={() => handleOk(value)}
-            onCancel={handleCancel}
-          >
-            Bạn có muốn xóa ngân hàng này không?
-          </Modal>
           <Link to={"edit"} state={{ bankId: value.id }}>
             <Button
               type="primary"
@@ -183,7 +178,28 @@ const Banks = () => {
         total={Math.ceil(bank.length / limit) * 10}
         style={{ textAlign: "end", marginTop: "15px" }}
         onChange={(page) => setCurrentPage(page)}
+        showSizeChanger={false}
       />
+      <Modal
+        title="Xác nhận"
+        open={isModalOpen}
+        onOk={() => handleOk()}
+        onCancel={handleCancel}
+        footer={[
+          <Button
+            type="default"
+            onClick={() => setIsModalOpen(false)}
+            style={{ marginRight: "15px" }}
+          >
+            Thoát
+          </Button>,
+          <Button type="primary" onClick={handleOk}>
+            Đồng Ý
+          </Button>,
+        ]}
+      >
+        Bạn có muốn xóa ngân hàng "{currentBank.BusinessName}" này không?
+      </Modal>
     </div>
   );
 };

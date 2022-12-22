@@ -15,6 +15,7 @@ const Banner = () => {
   const limit = 4;
   const [banners, setBanners] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentBanner, setCurrentBanner] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -34,8 +35,8 @@ const Banner = () => {
     setIsModalOpen(false);
   };
 
-  const handleOk = (banner) => {
-    handleDeleteBanner(banner);
+  const handleOk = () => {
+    handleDeleteBanner();
     setIsModalOpen(false);
   };
 
@@ -60,9 +61,9 @@ const Banner = () => {
     } catch (error) {}
   };
 
-  const handleDeleteBanner = async (banner) => {
+  const handleDeleteBanner = async () => {
     try {
-      const res = await bannerService.deleteBanner(banner.id);
+      const res = await bannerService.deleteBanner(currentBanner.id);
       if (res.data.success) {
         const res = await bannerService.getAllBanner();
         setBanners(res.data.data);
@@ -117,16 +118,11 @@ const Banner = () => {
           <Button
             shape="circle"
             icon={<DeleteOutlined />}
-            onClick={showModal}
+            onClick={() => {
+              showModal();
+              setCurrentBanner(value);
+            }}
           />
-          <Modal
-            title="Basic Modal"
-            open={isModalOpen}
-            onOk={() => handleOk(value)}
-            onCancel={handleCancel}
-          >
-            Bạn có muốn xóa banner này không?
-          </Modal>
           <Link to={"edit"} state={{ bannerId: value.id }}>
             <Button
               type="primary"
@@ -172,7 +168,21 @@ const Banner = () => {
         total={Math.ceil(banners.length / limit) * 10}
         style={{ textAlign: "end", marginTop: "15px" }}
         onChange={(page) => setCurrentPage(page)}
+        showSizeChanger={false}
       />
+      <Modal
+        title="Xác nhận"
+        open={isModalOpen}
+        onOk={() => handleOk()}
+        onCancel={handleCancel}
+        footer={[
+          <Button type="primary" onClick={handleOk}>
+            Đồng ý
+          </Button>,
+        ]}
+      >
+        Bạn có muốn xóa banner "{currentBanner.Name}" này không?
+      </Modal>
     </div>
   );
 };

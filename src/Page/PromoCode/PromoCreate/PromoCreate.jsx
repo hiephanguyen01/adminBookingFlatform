@@ -566,7 +566,7 @@ const PromoCreate = () => {
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item wrapperCol={{ span: 24 }}>
+        <Form.Item wrapperCol={{ span: 12 }}>
           <Button type="primary" htmlType="submit">
             Tạo thông báo
           </Button>

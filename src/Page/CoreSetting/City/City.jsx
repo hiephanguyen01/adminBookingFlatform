@@ -23,7 +23,6 @@ const City = () => {
   useEffect(() => {
     const getAllCity = async () => {
       const res = await cityService.getAllCity();
-      console.log(res.data);
       setCity(res.data);
     };
     getAllCity();
@@ -143,10 +142,22 @@ const City = () => {
         }}
       />
       <Modal
-        title="Basic Modal"
+        title="Xác nhận"
         open={isDeleteModalOpen}
         onOk={() => handleDelete()}
         onCancel={() => setIsDeleteModalOpen(false)}
+        footer={[
+          <Button
+            type="default"
+            onClick={() => setIsDeleteModalOpen(false)}
+            style={{ marginRight: "15px" }}
+          >
+            Thoát
+          </Button>,
+          <Button type="primary" onClick={handleDelete}>
+            Đồng Ý
+          </Button>,
+        ]}
       >
         Bạn có muốn xóa tỉnh {currentCity.Name} này không?
       </Modal>
@@ -155,6 +166,18 @@ const City = () => {
         open={isEditModalOpen}
         onOk={() => handleEditCity()}
         onCancel={() => setIsEditModalOpen(false)}
+        footer={[
+          <Button
+            type="default"
+            onClick={() => setIsEditModalOpen(false)}
+            style={{ marginRight: "15px" }}
+          >
+            Thoát
+          </Button>,
+          <Button type="primary" onClick={handleEditCity}>
+            Cập nhật
+          </Button>,
+        ]}
       >
         <Form
           form={form}
@@ -178,6 +201,18 @@ const City = () => {
         open={isCreateOpenModal}
         onOk={() => handleCreateCity()}
         onCancel={() => setIsCreateOpenModal(false)}
+        footer={[
+          <Button
+            type="default"
+            onClick={() => setIsCreateOpenModal(false)}
+            style={{ marginRight: "15px" }}
+          >
+            Thoát
+          </Button>,
+          <Button type="primary" onClick={handleCreateCity}>
+            Lưu
+          </Button>,
+        ]}
       >
         <Form
           form={form}
@@ -187,7 +222,7 @@ const City = () => {
           onValuesChange={(value) =>
             setCurrentCity({ ...currentCity, ...value })
           }
-          labelCol={{ span: "4" }}
+          labelCol={{ span: "8" }}
         >
           <Form.Item label="Tên tỉnh/thành phố" name={"Name"}>
             <Input />

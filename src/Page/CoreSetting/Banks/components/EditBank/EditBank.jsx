@@ -112,10 +112,22 @@ const EditBank = () => {
         </Form>
       )}
       <Modal
-        title="Basic Modal"
+        title="Xác nhận"
         open={isModalOpen}
         onOk={handleDeleteBank}
         onCancel={handleCancel}
+        footer={[
+          <Button
+            type="default"
+            onClick={() => setIsModalOpen(false)}
+            style={{ marginRight: "15px" }}
+          >
+            Thoát
+          </Button>,
+          <Button type="primary" onClick={handleDeleteBank}>
+            Đồng Ý
+          </Button>,
+        ]}
       >
         Bạn có muốn xóa banner này không?
       </Modal>
