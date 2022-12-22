@@ -57,7 +57,7 @@ export const InfoGeneral = ({ data }) => {
               label="Số định danh "
               // name="Id"
             >
-              <Input value={""} style={{ padding: "10px" }} />
+              <Input value={data.IdentifierCode} style={{ padding: "10px" }} />
             </Form.Item>
             <Form.Item
               label="Tiêu đề"
@@ -72,7 +72,7 @@ export const InfoGeneral = ({ data }) => {
               <Input style={{ padding: "10px" }} />
             </Form.Item>{" "}
             <Form.Item
-              label="Thời gian làm việc (Buổi sáng)"
+              label="Thời gian làm việc (Buổi chiều)"
               // name="Id"
             >
               <Input style={{ padding: "10px" }} />
