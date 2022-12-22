@@ -16,6 +16,8 @@ import {
   Divider,
   Tag,
   Space,
+  Row,
+  Col,
 } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -117,7 +119,7 @@ export const ManagePost = () => {
           <Space size="middle">
             <Button
               onClick={() =>
-                navigate(`$${item.id}`, {
+                navigate(`${item.id}`, {
                   state: { category: filter.category },
                 })
               }
@@ -326,7 +328,7 @@ export const ManagePost = () => {
           <div className="papper">
             <>
               <header className="manage-order__header chile">
-                {expandHeader && (
+                {/* {expandHeader && (
                   <LeftOutlined
                     size="large"
                     onClick={() => setExpandHeader(!expandHeader)}
@@ -336,7 +338,7 @@ export const ManagePost = () => {
                       fontSize: "20px",
                     }}
                   />
-                )}
+                )} */}
                 <Form
                   name="basic"
                   layout="vertical"
@@ -350,31 +352,52 @@ export const ManagePost = () => {
                   onValuesChange={(e) => onChangeFilter(e)}
                   autoComplete="off"
                 >
-                  <Form.Item>
+                  <Row gutter={[16, 16]}>
+                    {/* <Form.Item> */}
                     {expandHeader
-                      ? formItem.slice(2, 6).map((item, idx) => (
-                          <Form.Item
-                            key={idx}
-                            name={item.name}
-                            label={item.label}
-                            style={item.style}
-                          >
-                            {item.el}
-                          </Form.Item>
+                      ? formItem.map((item, idx) => (
+                          <Col span={6}>
+                            <Form.Item
+                              key={idx}
+                              name={item.name}
+                              label={item.label}
+                              // style={item.style}
+                            >
+                              {item.el}
+                            </Form.Item>
+                          </Col>
                         ))
                       : formItem.slice(0, 4).map((item, idx) => (
-                          <Form.Item
-                            key={idx}
-                            name={item.name}
-                            label={item.label}
-                            style={item.style}
-                          >
-                            {item.el}
-                          </Form.Item>
+                          <Col span={6}>
+                            <Form.Item
+                              key={idx}
+                              name={item.name}
+                              label={item.label}
+                              // style={item.style}
+                            >
+                              {item.el}
+                            </Form.Item>
+                          </Col>
                         ))}
-                  </Form.Item>
+                    {/* </Form.Item> */}
+                  </Row>
+                  {!expandHeader ? (
+                    <p
+                      style={{ float: "right", marginTop: "1rem" }}
+                      onClick={() => setExpandHeader(!expandHeader)}
+                    >
+                      xem thêm
+                    </p>
+                  ) : (
+                    <p
+                      style={{ float: "right", marginTop: "1rem" }}
+                      onClick={() => setExpandHeader(!expandHeader)}
+                    >
+                      thu gọn
+                    </p>
+                  )}
                 </Form>
-                {!expandHeader && (
+                {/* {!expandHeader && (
                   <RightOutlined
                     onClick={() => setExpandHeader(!expandHeader)}
                     style={{
@@ -383,8 +406,9 @@ export const ManagePost = () => {
                       fontSize: "20px",
                     }}
                   />
-                )}
+                )} */}
               </header>
+
               <Divider />
               <main
                 className="manage-order__table chile"
