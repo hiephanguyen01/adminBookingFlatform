@@ -178,7 +178,7 @@ const AdminDetail = () => {
           type="primary"
           onClick={saveChange}>
           {loading && <LoadingOutlined />}
-          &nbsp; Create
+          &nbsp;Update
         </Button>
       </article>
     </div>

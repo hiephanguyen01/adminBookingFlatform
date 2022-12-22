@@ -59,8 +59,6 @@ const PartnerNotificationDetail = ({ edit = false }) => {
       toastMessage("Hủy thông báo thất bại!", "error");
     }
   };
-
-  console.log(notifyDetail);
   return (
     <div className={cx("notification-detail-container")}>
       <div style={{ width: "50%", margin: "auto" }}>
@@ -88,21 +86,18 @@ const PartnerNotificationDetail = ({ edit = false }) => {
                 </span>
               </div>
             </div>
-            {edit &&
-              notifyDetail.SendingTime > moment().toISOString() &&
-              notifyDetail.Status !== 2 && (
-                <Button type="primary" onClick={() => handleCancelNotify()}>
-                  Hủy thông báo
-                </Button>
-              )}
+            {edit && notifyDetail.Status === 1 && (
+              <Button type="primary" onClick={() => handleCancelNotify()}>
+                Hủy thông báo
+              </Button>
+            )}
           </Space>
         </Card>
         <Card
           bordered={false}
           className={cx("card-wrapper")}
           style={{ cursor: "pointer" }}
-          onClick={() => setModalOpen(true)}
-        >
+          onClick={() => setModalOpen(true)}>
           <Space align="center" size={270}>
             <Space direction="vertical" style={{ flex: "1" }}>
               <div className={cx("row-2-item")}>
@@ -147,8 +142,7 @@ const PartnerNotificationDetail = ({ edit = false }) => {
               className={cx("notifi-content")}
               dangerouslySetInnerHTML={{
                 __html: notifyDetail.Content,
-              }}
-            ></p>
+              }}></p>
           </Space>
         </Card>
       </div>
@@ -164,8 +158,7 @@ const PartnerNotificationDetail = ({ edit = false }) => {
           setModalOpen(false);
         }}
         closable={false}
-        bodyStyle={{ height: "350px" }}
-      >
+        bodyStyle={{ height: "350px" }}>
         <MultiSelect
           className={""}
           options={partners}
