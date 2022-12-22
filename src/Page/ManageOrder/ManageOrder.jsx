@@ -86,6 +86,10 @@ export const ManageOrder = () => {
     {
       title: "Mã bài đăng",
       dataIndex: "postId",
+      render: (_, value) => {
+        console.log(value);
+        return <p>{value?.StudioRoom?.StudioPostId}</p>;
+      },
     },
     {
       title: "Ngày Thực hiện",
@@ -178,11 +182,23 @@ export const ManageOrder = () => {
     console.log(value);
     setFilter({ ...filter, ...value });
     if (Object.keys(value)[0] === "EntryDate") {
-      const obj = value.EntryDate.reduce((acc, item, index) => {
+      const obj = value?.EntryDate?.reduce((acc, item, index) => {
         const key = index === 0 ? "startDate" : "endDate";
         return { ...acc, [key]: moment(item.$d).format() };
       }, {});
-      setFilter({ ...filter, EntryDate: obj });
+      console.log("obj", obj);
+      if (!obj) {
+        setFilter({
+          ...filter,
+          EntryDate: {
+            startDate: "",
+            endDate: "",
+          },
+        });
+      } else {
+        setFilter({ ...filter, EntryDate: obj });
+      }
+      // setFilter({ ...filter, EntryDate: obj });
     }
   };
   // *********************

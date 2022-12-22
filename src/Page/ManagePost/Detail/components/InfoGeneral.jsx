@@ -58,7 +58,7 @@ export const InfoGeneral = ({ data }) => {
               label="Số định danh "
               // name="Id"
             >
-              <Input value={""} style={{ padding: "10px" }} />
+              <Input value={data.IdentifierCode} style={{ padding: "10px" }} />
             </Form.Item>
             <Form.Item
               label="Tiêu đề"
@@ -73,7 +73,7 @@ export const InfoGeneral = ({ data }) => {
               <Input style={{ padding: "10px" }} />
             </Form.Item>{" "}
             <Form.Item
-              label="Thời gian làm việc (Buổi sáng)"
+              label="Thời gian làm việc (Buổi chiều)"
               // name="Id"
             >
               <Input style={{ padding: "10px" }} />
@@ -101,8 +101,24 @@ export const InfoGeneral = ({ data }) => {
               // name="Id"
             >
               <div style={{ display: "flex", gap: "1rem" }}>
-                {data.Image.map((item) => {
+                {data.Image.slice(0, 1).map((item) => {
                   return <Image width={200} src={`${BASEURL_IMG}/${item}`} />;
+                })}
+              </div>
+            </Form.Item>
+            <Form.Item
+              label="Hình Ảnh"
+              // name="Id"
+            >
+              <div style={{ display: "flex", gap: "1rem" }}>
+                {data.Image.slice(1).map((item) => {
+                  return (
+                    <Image
+                      style={{ objectFit: "cover" }}
+                      width={200}
+                      src={`${BASEURL_IMG}/${item}`}
+                    />
+                  );
                 })}
               </div>
             </Form.Item>

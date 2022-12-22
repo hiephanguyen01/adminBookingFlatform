@@ -28,7 +28,7 @@ export const DetailEditPartner = () => {
   const [loadings, setLoadings] = useState({ save: false, delete: false });
   const [files, setFiles] = useState([null, null, null, null]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(files);
+  console.log(data);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -54,14 +54,33 @@ export const DetailEditPartner = () => {
     }
   };
   const onFinish = async (values) => {
-    values = { ...values, SignalImage: "[0, 1, 2, 3]" };
     let formData = new FormData();
-    for (let file of files) {
-      console.log("filesssds", file);
-      formData.append(
-        "IdentifyLicenses",
-        file !== null ? file.originFileObj : null
-      );
+    for (let [idex, file] of files.entries()) {
+      console.log("filesssds", idex, file);
+      if (idex == 0) {
+        formData.append(
+          "ImageGPKD1",
+          file !== null ? file.originFileObj : null
+        );
+      }
+      if (idex == 1) {
+        formData.append(
+          "ImageGPKD2",
+          file !== null ? file.originFileObj : null
+        );
+      }
+      if (idex == 2) {
+        formData.append(
+          "ImageCCCD1",
+          file !== null ? file.originFileObj : null
+        );
+      }
+      if (idex == 3) {
+        formData.append(
+          "ImageCCCD2",
+          file !== null ? file.originFileObj : null
+        );
+      }
     }
     for (let key in values) {
       formData.append(key, values[key]);
@@ -139,8 +158,7 @@ export const DetailEditPartner = () => {
         }}
         onFinish={onFinish}
         layout="vertical"
-        autoComplete="off"
-      >
+        autoComplete="off">
         <Row style={{ padding: "1rem" }} gutter={32}>
           <Col span={12}>
             <Form.Item label="Số định danh">
@@ -154,8 +172,7 @@ export const DetailEditPartner = () => {
             </Form.Item>
             <Form.Item
               name={"BusinessRegistrationLicenseNumber"}
-              label="Số GPĐKKD"
-            >
+              label="Số GPĐKKD">
               <Input value={data?.BusinessRegistrationLicenseNumber} />
             </Form.Item>
             <Form.Item name={"RepresentativeName"} label="Người đại diện">
@@ -171,22 +188,19 @@ export const DetailEditPartner = () => {
             <Form.Item
               name={"BankAccount"}
               label="Số tài khoản
-"
-            >
+">
               <Input />
             </Form.Item>
             <Form.Item
               name={"BankAccountOwnerName"}
               label="Chủ tài khoản:
-"
-            >
+">
               <Input />
             </Form.Item>
             <Form.Item
               name={"BankBranchName"}
               label="Ngân hàng:
-"
-            >
+">
               <Input />
             </Form.Item>
 
@@ -194,8 +208,7 @@ export const DetailEditPartner = () => {
               <Col span={12}>
                 <Form.Item
                   label="Ngày tạo
-"
-                >
+">
                   <Input
                     disabled
                     value={moment(data?.CreationTime).format("L")}
@@ -203,8 +216,7 @@ export const DetailEditPartner = () => {
                 </Form.Item>
                 <Form.Item
                   label="Số bài đăng
-"
-                >
+">
                   <Input disabled value={data?.NumberOfPost} />
                 </Form.Item>
               </Col>
@@ -212,8 +224,7 @@ export const DetailEditPartner = () => {
                 <Form.Item
                   label="Ngày cập nhật gần nhất
 
-"
-                >
+">
                   <Input
                     disabled
                     value={moment(data?.LastModificationTime).format("L")}
@@ -223,8 +234,7 @@ export const DetailEditPartner = () => {
                   label="Trạng thái
                   
 
-"
-                >
+">
                   <Input
                     disabled
                     value={
@@ -239,8 +249,7 @@ export const DetailEditPartner = () => {
             <Form.Item
               name={"PartnerName"}
               label="Tên đối tác
-"
-            >
+">
               <Input />
             </Form.Item>
             <Form.Item name={"Phone"} label="Số điện thoại">
@@ -248,12 +257,103 @@ export const DetailEditPartner = () => {
             </Form.Item>
             <div style={{ margin: ".5rem 4rem" }}>
               <Row gutter={[16, 16]}>
-                {data.IdentifyLicenses.map((item, idx) => (
+                <Col span={12} style={{ textAlign: "center" }}>
+                  <h5 style={{ textAlign: "center" }}>
+                    Hình chụp GPKD mặt trước
+                  </h5>
+                  <Upload
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    onChange={(e) => onChangeFile(e, 0)}
+                  >
+                    <Image
+                      width={"100%"}
+                      height={100}
+                      preview={false}
+                      src={
+                        files[0] === null
+                          ? `${baseURL}/api/image/${data.ImageGPKD1}`
+                          : files[0].preview
+                      }
+                      fallback={fallBackImg}
+                    />
+                  </Upload>
+                </Col>
+                <Col span={12} style={{ textAlign: "center" }}>
+                  <h5 style={{ textAlign: "center" }}>
+                    Hình chụp GPKD mặt sau
+                  </h5>
+                  <Upload
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    onChange={(e) => onChangeFile(e, 1)}
+                  >
+                    <Image
+                      width={"100%"}
+                      height={100}
+                      preview={false}
+                      src={
+                        files[1] === null
+                          ? `${baseURL}/api/image/${data.ImageGPKD2}`
+                          : files[1].preview
+                      }
+                      fallback={fallBackImg}
+                    />
+                  </Upload>
+                </Col>
+                <Col span={12} style={{ textAlign: "center" }}>
+                  <h5 style={{ textAlign: "center" }}>CMND/CCCD mặt truoc</h5>
+                  <Upload
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    onChange={(e) => onChangeFile(e, 2)}
+                  >
+                    <Image
+                      width={"100%"}
+                      height={100}
+                      preview={false}
+                      src={
+                        files[2] === null
+                          ? `${baseURL}/api/image/${data.ImageCCCD1}`
+                          : files[2].preview
+                      }
+                      fallback={fallBackImg}
+                    />
+                  </Upload>
+                </Col>
+                <Col span={12} style={{ textAlign: "center" }}>
+                  <h5 style={{ textAlign: "center" }}>CMND/CCCD mặt sau</h5>
+                  <Upload
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    onChange={(e) => onChangeFile(e, 3)}
+                  >
+                    <Image
+                      width={"100%"}
+                      height={100}
+                      preview={false}
+                      src={
+                        files[3] === null
+                          ? `${baseURL}/api/image/${data.ImageCCCD2}`
+                          : files[3].preview
+                      }
+                      fallback={fallBackImg}
+                    />
+                  </Upload>
+                </Col>
+                {/* {data.IdentifyLicenses.map((item, idx) => (
                   <Col
                     key={item.Image}
                     span={12}
-                    style={{ textAlign: "center" }}
-                  >
+                    style={{ textAlign: "center" }}>
                     {idx === 0 && (
                       <h5 style={{ textAlign: "center" }}>
                         Hình chụp GPKD mặt trước
@@ -278,28 +378,26 @@ export const DetailEditPartner = () => {
                       className="avatar-uploader"
                       showUploadList={false}
                       action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                      onChange={(e) => onChangeFile(e, idx)}
-                    >
+                      onChange={(e) => onChangeFile(e, idx)}>
                       <Image
                         width={"100%"}
                         height={100}
                         preview={false}
                         src={
                           files[idx] === null
-                            ? `${baseURL}/api/image-license/${item.Image}`
+                            ? `${baseURL}/api/image/${item.Image}`
                             : files[idx].preview
                         }
                         fallback={fallBackImg}
                       />
                     </Upload>
                   </Col>
-                ))}
+                ))} */}
               </Row>
             </div>
             <Form.Item
               label="Hợp đồng đối tác
-"
-            >
+">
               <Input disabled value={data?.BusinessRegistrationLicenseNumber} />
             </Form.Item>
             <Form.Item label="Câu hỏi bảo mật">
@@ -307,14 +405,12 @@ export const DetailEditPartner = () => {
             </Form.Item>
             <Form.Item
               label="Trả lời câu hỏi bảo mật
-"
-            >
+">
               <Input disabled value={""} />
             </Form.Item>
             <Form.Item
               label="Ghi chú
-"
-            >
+">
               <Input disabled value={data.Note} />
             </Form.Item>
           </Col>
@@ -326,8 +422,7 @@ export const DetailEditPartner = () => {
               background: "#ffeded",
               display: "flex",
               justifyContent: "space-between",
-            }}
-          >
+            }}>
             <div>
               <LockOutlined style={{ color: "#e22828" }} />
               <span style={{ color: "#e22828" }}>Tài khoản đang bị khóa</span>
@@ -335,8 +430,7 @@ export const DetailEditPartner = () => {
             <Button
               loading={loadings.delete}
               onClick={() => handleLockAccount(false)}
-              danger
-            >
+              danger>
               MỞ KHÓA TÀI KHOẢN
             </Button>
           </div>
@@ -370,8 +464,7 @@ export const DetailEditPartner = () => {
                   loading={loadings.save}
                   size="large"
                   color="green"
-                  style={{ background: "rgb(3, 172, 132)", color: "#fff" }}
-                >
+                  style={{ background: "rgb(3, 172, 132)", color: "#fff" }}>
                   Lưu Thay Đổi
                 </Button>
                 <Button onClick={() => showModal()} size="large" type="primary">
@@ -389,8 +482,7 @@ export const DetailEditPartner = () => {
         onCancel={handleCancel}
         closable={false}
         footer={null}
-        maskClosable={false}
-      >
+        maskClosable={false}>
         <>
           <div className="title">
             <QuestionCircleOutlined />
@@ -406,8 +498,7 @@ export const DetailEditPartner = () => {
 
           <div
             className="buttons"
-            style={{ display: "flex", justifyContent: "right", gap: ".5rem" }}
-          >
+            style={{ display: "flex", justifyContent: "right", gap: ".5rem" }}>
             <Button
               htmlType="submit"
               loading={loadings.save}
@@ -422,8 +513,7 @@ export const DetailEditPartner = () => {
               onClick={() => handleLockAccount(true)}
               size="large"
               type="primary"
-              loading={loadings.delete}
-            >
+              loading={loadings.delete}>
               Khoá tài khoản
             </Button>
           </div>

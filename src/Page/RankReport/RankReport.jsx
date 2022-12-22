@@ -27,14 +27,8 @@ const RankReport = () => {
   const columns = [
     {
       title: "Số định danh",
-      dataIndex: "TenantId",
-      key: "TenantId",
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Mã bài đăng",
-      dataIndex: "TenantId",
-      key: "TenantId",
+      dataIndex: "IdentifyCode",
+      key: "IdentifyCode",
     },
     {
       title: "Tiêu đề",

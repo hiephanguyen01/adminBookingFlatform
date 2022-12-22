@@ -10,6 +10,7 @@ export const PartnerDetail = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState();
+  console.log(data);
   useEffect(() => {
     (async () => {
       await getPartnerDetailById(id);
@@ -59,7 +60,7 @@ export const PartnerDetail = () => {
               <Input disabled value={data?.BusinessRegistrationLicenseNumber} />
             </Form.Item>
             <Form.Item label="Người đại diện">
-              <Input disabled value={data?.PartnerName} />
+              <Input disabled value={data?.BankAccountOwnerName} />
             </Form.Item>
             <Form.Item label="Số CMND/CCCD">
               <Input disabled value={data?.BusinessRegistrationLicenseNumber} />
@@ -134,19 +135,50 @@ export const PartnerDetail = () => {
             </Form.Item>
             <div style={{ margin: ".5rem 4rem" }}>
               <Row gutter={[16, 16]}>
-                {data.IdentifyLicenses.map((item) => {
-                  console.log(item);
-                  return (
-                    <Col span={12}>
-                      <Image
-                        width={"100%"}
-                        height={100}
-                        src={`${baseURL}/api/image-license/${item.Image}`}
-                        fallback={fallBackImg}
-                      />
-                    </Col>
-                  );
-                })}
+                <Col span={12} style={{ textAlign: "center" }}>
+                  <h5 style={{ textAlign: "center" }}>
+                    Hình chụp GPKD mặt trước
+                  </h5>
+                  <Image
+                    width={100}
+                    height={100}
+                    preview={true}
+                    src={`${baseURL}/api/image/${data.ImageGPKD1}`}
+                    fallback={fallBackImg}
+                  />
+                </Col>
+                <Col span={12} style={{ textAlign: "center" }}>
+                  <h5 style={{ textAlign: "center" }}>
+                    Hình chụp GPKD mặt sau
+                  </h5>
+                  <Image
+                    width={"100%"}
+                    height={100}
+                    preview={<i class="fas fa-tablet-rugged    "></i>}
+                    src={`${baseURL}/api/image/${data.ImageGPKD2}`}
+                    fallback={fallBackImg}
+                  />
+                </Col>
+                <Col span={12} style={{ textAlign: "center" }}>
+                  <h5 style={{ textAlign: "center" }}>CMND/CCCD mặt trước</h5>
+                  <Image
+                    width={"100%"}
+                    height={100}
+                    preview={<i class="fas fa-tablet-rugged    "></i>}
+                    src={`${baseURL}/api/image/${data.ImageCCCD1}`}
+                    fallback={fallBackImg}
+                  />
+                </Col>
+                <Col span={12} style={{ textAlign: "center" }}>
+                  <h5 style={{ textAlign: "center" }}>CMND/CCCD mặt sau</h5>
+                  <Image
+                    width={"100%"}
+                    height={100}
+                    preview={false}
+                    src={`${baseURL}/api/image/${data.ImageCCCD2}`}
+                    fallback={fallBackImg}
+                  />
+                </Col>
               </Row>
             </div>
             <Form.Item

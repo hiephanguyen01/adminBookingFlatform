@@ -21,7 +21,7 @@ const Detail = ({ modify = false }) => {
       setLoading(false);
     })();
   }, []);
-  console.log(data);
+  console.log("dsadsads{",data);
 
   const getPartnerDetailById = async (id) => {
     try {
@@ -130,11 +130,11 @@ const Detail = ({ modify = false }) => {
               marginLeft: "15px",
             }}
             label="Số định danh"
-            // name="IdentifyCode"
+            // name="IdentifierCode"
           >
             <Input
               disabled
-              value={data.IdentifyCode}
+              value={data.IdentifierCode}
               style={{ padding: "10px" }}
             />
           </Form.Item>

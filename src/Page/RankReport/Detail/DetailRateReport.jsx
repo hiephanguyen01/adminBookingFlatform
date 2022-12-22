@@ -65,18 +65,7 @@ const DetailRateReport = () => {
                   style={{ margin: "20px" }}
                   name="id"
                   label="Số định danh"
-                  initialValue={info?.id}
-                >
-                  <Input disabled size="large" />
-                </Form.Item>
-              </Col>
-              <Col md={12}>
-                <Form.Item
-                  style={{ margin: "20px" }}
-                  name="id"
-                  label="Mã bài đăng"
-                  initialValue={info?.id}
-                >
+                  initialValue={info?.IdentifyCode}>
                   <Input disabled size="large" />
                 </Form.Item>
               </Col>
