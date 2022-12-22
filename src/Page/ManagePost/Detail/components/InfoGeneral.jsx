@@ -100,8 +100,24 @@ export const InfoGeneral = ({ data }) => {
               // name="Id"
             >
               <div style={{ display: "flex", gap: "1rem" }}>
-                {data.Image.map((item) => {
+                {data.Image.slice(0, 1).map((item) => {
                   return <Image width={200} src={`${BASEURL_IMG}/${item}`} />;
+                })}
+              </div>
+            </Form.Item>
+            <Form.Item
+              label="Hình Ảnh"
+              // name="Id"
+            >
+              <div style={{ display: "flex", gap: "1rem" }}>
+                {data.Image.slice(1).map((item) => {
+                  return (
+                    <Image
+                      style={{ objectFit: "cover" }}
+                      width={200}
+                      src={`${BASEURL_IMG}/${item}`}
+                    />
+                  );
                 })}
               </div>
             </Form.Item>

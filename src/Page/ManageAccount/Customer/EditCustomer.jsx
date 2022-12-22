@@ -87,7 +87,7 @@ export const EditCustomer = () => {
           </Col>
           <Col span={12}>
             <Form.Item label="Số điện thoại">
-              <Input disabled type={"text"} defaultValue={data?.Email} />
+              <Input disabled type={"text"} defaultValue={data?.Phone} />
             </Form.Item>
           </Col>
           <Col span={12}>
