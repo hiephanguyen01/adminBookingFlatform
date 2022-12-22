@@ -18,6 +18,7 @@ export const DetailEditPartner = () => {
   const [loadings, setLoadings] = useState({ save: false, delete: false });
   const [files, setFiles] = useState([null, null, null, null]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  console.log(files);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -46,8 +47,11 @@ export const DetailEditPartner = () => {
     values = { ...values, SignalImage: "[0, 1, 2, 3]" };
     let formData = new FormData();
     for (let file of files) {
-      console.log(file);
-      formData.append("IdentifyLicenses", file ? file.originFileObj : null);
+      console.log("filesssds", file);
+      formData.append(
+        "IdentifyLicenses",
+        file !== null ? file.originFileObj : null
+      );
     }
     for (let key in values) {
       formData.append(key, values[key]);
@@ -71,6 +75,7 @@ export const DetailEditPartner = () => {
     const newFiles = [...files];
     file.preview = URL.createObjectURL(file.originFileObj);
     newFiles[b] = file;
+    console.log("newFiles", newFiles);
     setFiles([...newFiles]);
   };
   const handleLockAccount = async (value) => {
