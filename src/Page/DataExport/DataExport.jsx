@@ -1,6 +1,7 @@
 import { ArrowDownOutlined } from "@ant-design/icons";
 import { Button, Select } from "antd";
 import React, { useState } from "react";
+import { baseURL } from "../../../utils/baseURL";
 import { openNotification } from "../../../utils/Notification";
 import { exportDataService } from "../../services/ExportData";
 import { CommissionFee } from "./components/commissionFee";
@@ -97,8 +98,7 @@ const DataExport = () => {
           defaultValue={""}
           style={{ width: 440 }}
           size="large"
-          onChange={handleChange}
-        >
+          onChange={handleChange}>
           <Option value={""}>Chọn...</Option>
           {options.map((item) => (
             <Option value={item.value} key={item.label}>
@@ -123,7 +123,7 @@ const DataExport = () => {
             style={{ float: "right", background: "red", color: "#fff" }}
             size="large"
             onClick={() => handleExportData()}
-            href={`http://localhost:3003/api/filter?option=${option}&ProvinceId=${
+            href={`${baseURL}/api/filter?option=${option}&ProvinceId=${
               data.ProvinceId
             }&IsDeleted=${data.IsDeleted}&createDate=${JSON.stringify(
               data.createDate

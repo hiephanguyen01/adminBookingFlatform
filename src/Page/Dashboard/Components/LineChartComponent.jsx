@@ -43,7 +43,7 @@ const LineChartComponent = ({
           <LineChart width={500} height={300} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey={y1} padding={{ left: 30, right: 30 }} />
-            <YAxis />
+            <YAxis allowDecimals={false} />
             <Tooltip />
             <Legend />
             <Line
