@@ -26,7 +26,7 @@ export const CustomerDetail = () => {
       console.log(error);
     }
   };
-  if (loading) return <Loading/>;
+  if (loading) return <Loading />;
   return (
     <div className="CustomerDetail">
       <Form layout="vertical" autoComplete="off">
@@ -47,7 +47,7 @@ export const CustomerDetail = () => {
           </Col>
           <Col span={12}>
             <Form.Item label="Số điện thoại">
-              <Input disabled type={"text"} defaultValue={data?.Email} />
+              <Input disabled type={"text"} defaultValue={data?.Phone} />
             </Form.Item>
           </Col>
           <Col span={12}>

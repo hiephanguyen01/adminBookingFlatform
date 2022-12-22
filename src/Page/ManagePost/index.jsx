@@ -84,7 +84,7 @@ export const ManagePost = () => {
     },
     {
       title: "Số định danh",
-      dataIndex: "IdentifierCode",
+      dataIndex: "TenantId",
     },
     {
       title: "Tiêu đề",
@@ -328,17 +328,7 @@ export const ManagePost = () => {
           <div className="papper">
             <>
               <header className="manage-order__header chile">
-                {/* {expandHeader && (
-                  <LeftOutlined
-                    size="large"
-                    onClick={() => setExpandHeader(!expandHeader)}
-                    style={{
-                      color: "#03AC84",
-                      margin: "25px 16px 0 0",
-                      fontSize: "20px",
-                    }}
-                  />
-                )} */}
+              
                 <Form
                   name="basic"
                   layout="vertical"
@@ -397,16 +387,7 @@ export const ManagePost = () => {
                     </p>
                   )}
                 </Form>
-                {/* {!expandHeader && (
-                  <RightOutlined
-                    onClick={() => setExpandHeader(!expandHeader)}
-                    style={{
-                      color: "#03AC84",
-                      margin: "25px 16px 0 0",
-                      fontSize: "20px",
-                    }}
-                  />
-                )} */}
+              
               </header>
 
               <Divider />

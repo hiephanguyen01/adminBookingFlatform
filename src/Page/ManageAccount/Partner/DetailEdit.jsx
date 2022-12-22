@@ -18,7 +18,7 @@ export const DetailEditPartner = () => {
   const [loadings, setLoadings] = useState({ save: false, delete: false });
   const [files, setFiles] = useState([null, null, null, null]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(files);
+  console.log(data);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -44,14 +44,33 @@ export const DetailEditPartner = () => {
     }
   };
   const onFinish = async (values) => {
-    values = { ...values, SignalImage: "[0, 1, 2, 3]" };
     let formData = new FormData();
-    for (let file of files) {
-      console.log("filesssds", file);
-      formData.append(
-        "IdentifyLicenses",
-        file !== null ? file.originFileObj : null
-      );
+    for (let [idex, file] of files.entries()) {
+      console.log("filesssds", idex, file);
+      if (idex == 0) {
+        formData.append(
+          "ImageGPKD1",
+          file !== null ? file.originFileObj : null
+        );
+      }
+      if (idex == 1) {
+        formData.append(
+          "ImageGPKD2",
+          file !== null ? file.originFileObj : null
+        );
+      }
+      if (idex == 2) {
+        formData.append(
+          "ImageCCCD1",
+          file !== null ? file.originFileObj : null
+        );
+      }
+      if (idex == 3) {
+        formData.append(
+          "ImageCCCD2",
+          file !== null ? file.originFileObj : null
+        );
+      }
     }
     for (let key in values) {
       formData.append(key, values[key]);
@@ -232,7 +251,99 @@ export const DetailEditPartner = () => {
             </Form.Item>
             <div style={{ margin: ".5rem 4rem" }}>
               <Row gutter={[16, 16]}>
-                {data.IdentifyLicenses.map((item, idx) => (
+                <Col span={12} style={{ textAlign: "center" }}>
+                  <h5 style={{ textAlign: "center" }}>
+                    Hình chụp GPKD mặt trước
+                  </h5>
+                  <Upload
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    onChange={(e) => onChangeFile(e, 0)}
+                  >
+                    <Image
+                      width={"100%"}
+                      height={100}
+                      preview={false}
+                      src={
+                        files[0] === null
+                          ? `${baseURL}/api/image/${data.ImageGPKD1}`
+                          : files[0].preview
+                      }
+                      fallback={fallBackImg}
+                    />
+                  </Upload>
+                </Col>
+                <Col span={12} style={{ textAlign: "center" }}>
+                  <h5 style={{ textAlign: "center" }}>
+                    Hình chụp GPKD mặt sau
+                  </h5>
+                  <Upload
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    onChange={(e) => onChangeFile(e, 1)}
+                  >
+                    <Image
+                      width={"100%"}
+                      height={100}
+                      preview={false}
+                      src={
+                        files[1] === null
+                          ? `${baseURL}/api/image/${data.ImageGPKD2}`
+                          : files[1].preview
+                      }
+                      fallback={fallBackImg}
+                    />
+                  </Upload>
+                </Col>
+                <Col span={12} style={{ textAlign: "center" }}>
+                  <h5 style={{ textAlign: "center" }}>CMND/CCCD mặt truoc</h5>
+                  <Upload
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    onChange={(e) => onChangeFile(e, 2)}
+                  >
+                    <Image
+                      width={"100%"}
+                      height={100}
+                      preview={false}
+                      src={
+                        files[2] === null
+                          ? `${baseURL}/api/image/${data.ImageCCCD1}`
+                          : files[2].preview
+                      }
+                      fallback={fallBackImg}
+                    />
+                  </Upload>
+                </Col>
+                <Col span={12} style={{ textAlign: "center" }}>
+                  <h5 style={{ textAlign: "center" }}>CMND/CCCD mặt sau</h5>
+                  <Upload
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    onChange={(e) => onChangeFile(e, 3)}
+                  >
+                    <Image
+                      width={"100%"}
+                      height={100}
+                      preview={false}
+                      src={
+                        files[3] === null
+                          ? `${baseURL}/api/image/${data.ImageCCCD2}`
+                          : files[3].preview
+                      }
+                      fallback={fallBackImg}
+                    />
+                  </Upload>
+                </Col>
+                {/* {data.IdentifyLicenses.map((item, idx) => (
                   <Col
                     key={item.Image}
                     span={12}
@@ -270,14 +381,14 @@ export const DetailEditPartner = () => {
                         preview={false}
                         src={
                           files[idx] === null
-                            ? `${baseURL}/api/image-license/${item.Image}`
+                            ? `${baseURL}/api/image/${item.Image}`
                             : files[idx].preview
                         }
                         fallback={fallBackImg}
                       />
                     </Upload>
                   </Col>
-                ))}
+                ))} */}
               </Row>
             </div>
             <Form.Item

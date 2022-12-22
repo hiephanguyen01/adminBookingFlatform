@@ -102,12 +102,12 @@ const Customer = () => {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Tên tài khoản",
-      dataIndex: "Email",
+      title: "Họ và Tên",
+      dataIndex: "Fullname",
     },
     {
-      title: "Số bài đăng",
-      dataIndex: "NumberOfPost",
+      title: "Số đơn đặt",
+      dataIndex: "NumberOfBooking",
     },
     {
       title: "Ngày tạo",
@@ -164,12 +164,14 @@ const Customer = () => {
           onValuesChange={(e) => onChangeFilter(e)}
           size="large"
           style={{ display: "flex" }}
-          labelWrap={true}>
+          labelWrap={true}
+        >
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
               label="Tìm kiếm"
               name="keyString"
-              className={cx("form-custom")}>
+              className={cx("form-custom")}
+            >
               <Input prefix={<SearchOutlined />} />
             </Form.Item>
           </div>
@@ -177,7 +179,8 @@ const Customer = () => {
             <Form.Item
               label="Ngày tạo"
               name="CreateDate"
-              className={cx("form-custom")}>
+              className={cx("form-custom")}
+            >
               <RangePicker />
             </Form.Item>
           </div>
@@ -185,7 +188,8 @@ const Customer = () => {
             <Form.Item
               label="Ngày cập nhật gần nhất"
               name="updateDate"
-              className={cx("form-custom")}>
+              className={cx("form-custom")}
+            >
               <RangePicker />
             </Form.Item>
           </div>
@@ -193,7 +197,8 @@ const Customer = () => {
             <Form.Item
               label="Trạng thái"
               name={"IsDeleted"}
-              className={cx("form-custom")}>
+              className={cx("form-custom")}
+            >
               <Select defaultValue={""}>
                 {NOTIFY_STATUS.map((item) => (
                   <Select.Option value={item.value} key={item.value}>

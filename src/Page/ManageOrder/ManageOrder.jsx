@@ -81,11 +81,15 @@ export const ManageOrder = () => {
     },
     {
       title: "Số định danh",
-      dataIndex: "IdentifyCode",
+      dataIndex: "BookingUserId",
     },
     {
       title: "Mã bài đăng",
       dataIndex: "postId",
+      render: (_, value) => {
+        console.log(value);
+        return <p>{value.StudioRoom.StudioPostId}</p>;
+      },
     },
     {
       title: "Ngày Thực hiện",
