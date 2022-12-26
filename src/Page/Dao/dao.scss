@@ -1,8 +1,9 @@
 .dao {
   width: 100%;
   &__main {
-    width: 62.5%;
-    margin: 16px auto;
+    width: min(100vw - 256px, 700px);
+    height: 100vh;
+    margin-inline: auto;
     // background-color: #fff;
     .ant-tabs-nav {
       box-shadow: 0px 3px 6px #00000029;

@@ -14,6 +14,7 @@ const initialState = {
   listPost: [],
   listPostForSearching: [],
   listReportedDao: [],
+  listOfReportReasons: [],
   pagination: {},
   postDetail: {},
   selectSearch: [],
@@ -29,6 +30,8 @@ export const postDaoReducer = (state = initialState, action) => {
       return { ...state, postDetail: action.data };
     case "GET_REPORTED":
       return { ...state, listReportedDao: action.data };
+    case "GET_REASON_REPORTED":
+      return { ...state, listOfReportReasons: action.data };
     case DELETE_DETAIL_POST:
       return { ...state, postDetail: {} };
     case GET_PAGINATE_POSIBILITY:

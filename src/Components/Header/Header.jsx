@@ -70,7 +70,8 @@ const Header = () => {
               <Tag
                 style={{ fontSize: "18px", padding: "10px" }}
                 icon={<AliwangwangOutlined />}
-                color="magenta">
+                color="magenta"
+              >
                 {currentUser?.user.name}
               </Tag>
             </div>

@@ -1,11 +1,13 @@
 import { Modal } from "antd";
 import React, { useState } from "react";
 import CustomModalFooter from "../../../../Components/DaoComponent/CustomModalFooter";
-
+import logo from "../../../../assets/dao/Iconic-02.svg";
+import addLogo from "../../../../assets/dao/Mask Group 130.svg";
 const NewArticle = (props) => {
   const { filterCondition } = props;
   const [modal, setModal] = useState(false);
   const [selectedTag, setSelectedTag] = useState([]);
+  const [content, setContent] = useState("");
 
   const showModal = () => {
     setModal(true);
@@ -34,7 +36,8 @@ const NewArticle = (props) => {
         onOk={handleOk}
         onCancel={handleCancel}
         width={800}
-        footer={<CustomModalFooter />}
+        footer={<CustomModalFooter disable={content.length < 1} />}
+        className="create-post-modal"
       >
         <header
           style={{
@@ -43,11 +46,7 @@ const NewArticle = (props) => {
             marginTop: "30px",
           }}
         >
-          <img
-            src="https://am.bookingstudio.vn/media/svg/post/taoBaiDang.svg"
-            alt=""
-            style={{ width: "40px", height: "40px" }}
-          />
+          <img src={logo} alt="" style={{ width: "40px", height: "40px" }} />
           <p
             style={{
               fontSize: "16.25px",
@@ -112,6 +111,7 @@ const NewArticle = (props) => {
           }}
         >
           <textarea
+            onChange={(e) => setContent(e.target.value)}
             style={{
               width: "100%",
               height: "141px",
@@ -122,14 +122,10 @@ const NewArticle = (props) => {
           />
         </main>
       </Modal>
-      <img
-        src="https://am.bookingstudio.vn/media/svg/post/taoBaiDang.svg"
-        alt=""
-        style={{ width: "40px", height: "40px" }}
-      />
+      <img src={logo} alt="" style={{ width: "40px", height: "40px" }} />
       <div
         style={{
-          width: "88%",
+          width: "85%",
           borderRadius: "50px",
           padding: "10px 20px",
           backgroundColor: "#F4F4F4",
@@ -143,10 +139,7 @@ const NewArticle = (props) => {
           style={{ width: "100%", backgroundColor: "#F4F4F4", border: "none" }}
           placeholder="Tạo bài viết..."
         />
-        <img
-          src="https://am.bookingstudio.vn/media/svg/post/upLoadImgPost.svg"
-          alt=""
-        />
+        <img src={addLogo} alt="" />
       </div>
     </article>
   );

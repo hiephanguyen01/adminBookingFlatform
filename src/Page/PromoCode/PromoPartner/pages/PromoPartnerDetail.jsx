@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import dayjs from "dayjs";
 import { MultiSelect } from "react-multi-select-component";
 
-import styles from "./promoPartnerDetail.module.scss";
+import styles from "./PromoPartnerDetail.module.scss";
 import {
   Avatar,
   Breadcrumb,
