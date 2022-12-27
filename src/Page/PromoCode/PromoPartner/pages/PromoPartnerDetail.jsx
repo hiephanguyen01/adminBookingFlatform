@@ -380,9 +380,9 @@ const PromoPartnerDetail = ({ edit = false }) => {
                   rules={[{ required: true }]}
                 >
                   <Input
-                    value={moment(promo?.DateTimeApply).format(
-                      "HH:hh DD-MM-YYYY"
-                    )}
+                    value={moment(promo?.DateTimeApply)
+                      .utc()
+                      .format("HH:hh DD-MM-YYYY")}
                     disabled={true}
                   />
                   {/* <DatePicker
@@ -404,12 +404,15 @@ const PromoPartnerDetail = ({ edit = false }) => {
                   rules={[{ required: true }]}
                 >
                   <Input
-                    value={moment(promo?.DateTimeExpire).format(
-                      "HH:hh DD-MM-YYYY"
-                    )}
+                    value={moment(promo?.DateTimeExpire)
+                      .utc()
+                      .format("HH:hh DD-MM-YYYY")}
                     disabled={true}
                   />
                   {/* <DatePicker
+                    defaultValue={
+                      promo?.DateTimeExpire ? moment(promo?.DateTimeExpire) : ""
+                    }
                     format="YYYY-MM-DD HH:mm"
                     disabledDate={disabledDate}
                     disabledTime={disabledDateTime}

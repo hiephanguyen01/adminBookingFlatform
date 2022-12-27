@@ -529,7 +529,7 @@ const PromoCreate = () => {
                   <Input />
                 </Form.Item>
                 <Form.Item
-                  label="Giá trị đơn đặt tối đa (VNĐ)"
+                  label="Giá trị đơn đặt giảm tối đa (VNĐ)"
                   name={"MaxReduce"}
                   rules={[{ required: promo.TypeReduce === 2 ? true : false }]}
                 >

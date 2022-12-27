@@ -72,7 +72,7 @@ const Header = () => {
                 icon={<AliwangwangOutlined />}
                 color="magenta"
               >
-                {currentUser?.user.name}
+                {currentUser?.user?.name}
               </Tag>
             </div>
           </Popover>
