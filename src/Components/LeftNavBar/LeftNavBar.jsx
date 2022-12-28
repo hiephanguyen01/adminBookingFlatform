@@ -108,7 +108,7 @@ const items = [
 const LeftNavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname);
+
   // const openKey = `/${location.pathname.split("/")[1] || ""}`;
   const onClick = (e) => {
     navigate(e.key);
