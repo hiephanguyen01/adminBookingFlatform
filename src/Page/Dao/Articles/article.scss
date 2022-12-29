@@ -89,9 +89,10 @@
     padding: 0 !important;
   }
 }
-
-.ant-btn,
-.ant-upload,
-.ant-upload-select {
-  width: 100% !important;
+.create-post-modal {
+  .ant-btn,
+  .ant-upload,
+  .ant-upload-select {
+    width: 100% !important;
+  }
 }

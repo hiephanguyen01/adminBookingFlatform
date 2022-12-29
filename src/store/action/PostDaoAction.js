@@ -94,7 +94,7 @@ export const updatePostDaoAction = (id, form) => {
   return async (dispatch) => {
     try {
       const { data } = await postDaoService.updatePost(id, form);
-      dispatch({ type: GET_LIST_POST, data: data.data });
+      // dispatch({ type: GET_LIST_POST, data: data.data });
     } catch (error) {
       console.error(error);
     }
