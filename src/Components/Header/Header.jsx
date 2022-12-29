@@ -42,8 +42,7 @@ const Header = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-          }}
-        >
+          }}>
           <p>{time}</p>
         </Col>
         <Col
@@ -54,8 +53,7 @@ const Header = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "end",
-          }}
-        >
+          }}>
           <Popover
             placement="bottomRight"
             title={"Account"}
@@ -64,14 +62,13 @@ const Header = () => {
                 Log out
               </Button>
             }
-            trigger="click"
-          >
+            trigger="click">
             <div style={{ cursor: "pointer", marginRight: "20px" }}>
               <Tag
                 style={{ fontSize: "18px", padding: "10px" }}
                 icon={<AliwangwangOutlined />}
                 color="magenta">
-                {currentUser?.user.name}
+                {currentUser?.user?.name}
               </Tag>
             </div>
           </Popover>
