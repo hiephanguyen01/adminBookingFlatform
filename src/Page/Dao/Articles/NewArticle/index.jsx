@@ -42,6 +42,7 @@ const NewArticle = (props) => {
     for (let file of files) {
       formData.append("image", file.originFileObj);
     }
+    formData.append("id", 2);
     formData.append("Description", content);
     formData.append("Tags", selectedTag.join(","));
     if (filesDrive.length > 0) {
@@ -52,7 +53,7 @@ const NewArticle = (props) => {
       formData.append("imageDrive", newImgDrive.join(","));
     }
 
-    const data = await postDaoService.createPost(2, formData);
+    const data = await postDaoService.createPost(formData);
     setModal(false);
   };
   const handleCancel = () => {
