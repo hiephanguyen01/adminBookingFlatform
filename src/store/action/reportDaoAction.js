@@ -1,29 +1,12 @@
 import { reportService } from "../../services/ReportService";
-import {
-  GET_LIST_POST,
-  GET_DETAIL_POST,
-  GET_PAGINATE_POSIBILITY,
-  GET_ALL_DEFAULT_CMT,
-  SET_RELATED_SERVICE,
-} from "../types/postDaoType";
 
-export const getAllReportedDao = async (currentListPost = [], filter) => {
+export const getReportedReasonDaoPostByPostId = async (postId) => {
   return async (dispatch) => {
     try {
-      const { data } = await reportService.getAllReportedDao(
-        filter?.limit,
-        filter?.page,
-        filter?.tags.join(",")
-      );
-
-      let temp = [...currentListPost, ...data.data];
+      const { data } = await reportService.getAllReportedDaoByPostId(postId);
       dispatch({
-        type: GET_LIST_POST,
-        data: temp,
-      });
-      dispatch({
-        type: GET_PAGINATE_POSIBILITY,
-        data: data.pagination,
+        type: "GET_REASON_REPORTED",
+        data: data.data,
       });
     } catch (err) {
       console.error(err);

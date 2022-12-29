@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "antd";
 
-const CustomModalFooter = () => {
+const CustomModalFooter = ({ disable }) => {
   return (
     <footer
       style={{
@@ -12,7 +12,12 @@ const CustomModalFooter = () => {
       }}
     >
       <Button size="large">Thêm Ảnh/Video</Button>
-      <Button size="large" style={{ marginTop: "25px" }} type="primary">
+      <Button
+        disabled={disable}
+        size="large"
+        style={{ marginTop: "25px", marginInlineStart: "0" }}
+        type="primary"
+      >
         Đăng
       </Button>
     </footer>

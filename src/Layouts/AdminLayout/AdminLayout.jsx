@@ -10,7 +10,7 @@ const AdminLayout = () => {
       <div style={{ display: "flex" }}>
         <LeftNavBar />
         <div className="right">
-          <div className="papper">
+          <div className="papper" id="paper">
             <Outlet />
           </div>
         </div>

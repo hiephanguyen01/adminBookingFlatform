@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import dayjs from "dayjs";
 import { MultiSelect } from "react-multi-select-component";
 
-import styles from "./promoPartnerDetail.module.scss";
+import styles from "./PromoPartnerDetail.module.scss";
 import {
   Avatar,
   Breadcrumb,
@@ -380,9 +380,9 @@ const PromoPartnerDetail = ({ edit = false }) => {
                   rules={[{ required: true }]}
                 >
                   <Input
-                    value={moment(promo?.DateTimeApply).format(
-                      "HH:hh DD-MM-YYYY"
-                    )}
+                    value={moment(promo?.DateTimeApply)
+                      .utc()
+                      .format("HH:hh DD-MM-YYYY")}
                     disabled={true}
                   />
                   {/* <DatePicker
@@ -404,12 +404,15 @@ const PromoPartnerDetail = ({ edit = false }) => {
                   rules={[{ required: true }]}
                 >
                   <Input
-                    value={moment(promo?.DateTimeExpire).format(
-                      "HH:hh DD-MM-YYYY"
-                    )}
+                    value={moment(promo?.DateTimeExpire)
+                      .utc()
+                      .format("HH:hh DD-MM-YYYY")}
                     disabled={true}
                   />
                   {/* <DatePicker
+                    defaultValue={
+                      promo?.DateTimeExpire ? moment(promo?.DateTimeExpire) : ""
+                    }
                     format="YYYY-MM-DD HH:mm"
                     disabledDate={disabledDate}
                     disabledTime={disabledDateTime}

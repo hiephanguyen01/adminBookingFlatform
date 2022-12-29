@@ -2,7 +2,7 @@ import "./reportPostDao.scss";
 import { useState } from "react";
 import { Modal, Radio, Space } from "antd";
 import TextArea from "antd/lib/input/TextArea";
-import { reportService } from "../../services/ReportService";
+import { reportService } from "../../../services/ReportService";
 
 const data = [
   { label: "Nội dung trùng lặp, spam", value: "Nội dung trùng lặp, spam" },

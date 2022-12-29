@@ -3,12 +3,12 @@ const { RangePicker } = DatePicker;
 const Filter = (props) => {
   const { conditionSelected, setConditionSelected, filterCondition } = props;
   const onRangeChange = (dates, dateStrings) => {
-    if (dateStrings) {
+    if (dateStrings[0] !== "" && dateStrings !== undefined) {
       setConditionSelected([...conditionSelected, dateStrings]);
     } else {
       setConditionSelected([
         ...conditionSelected.filter((item) => {
-          if (item.includes("-")) return false;
+          if (item[0] !== undefined && item[0].includes("-")) return false;
           return true;
         }),
       ]);
@@ -16,7 +16,7 @@ const Filter = (props) => {
   };
   return (
     <article className="dao-filter">
-      <Row style={{ width: "90%", margin: "0 auto" }} gutter={[30, 20]}>
+      <Row style={{ width: "90%", margin: "0" }} gutter={[30, 20]}>
         {filterCondition.map((item, idx) => (
           <Col lg={8} key={idx}>
             <Checkbox
@@ -57,7 +57,7 @@ const Filter = (props) => {
       <Row
         style={{
           width: "50%",
-          margin: "50px auto auto",
+          margin: "50px 0 0 0",
           display: "flex",
           flexDirection: "column",
           // alignItems: "center",
