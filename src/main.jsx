@@ -15,8 +15,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             token: {
               colorPrimary: "#e22828",
             },
-          }}
-        >
+          }}>
           <App />
         </ConfigProvider>
       </BrowserRouter>
