@@ -118,14 +118,17 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
                   }
                   return false;
                 })
-                .map((item) => (
-                  <DaoPost
-                    violate={violate}
-                    key={item.id}
-                    item={item}
-                    likePostList={likePostList}
-                  />
-                ))
+                .map(
+                  (item) =>
+                    !item.IsDeleted && (
+                      <DaoPost
+                        violate={violate}
+                        key={item.id}
+                        item={item}
+                        likePostList={likePostList}
+                      />
+                    )
+                )
             : listPost
                 .filter((item) => {
                   if (conditionSelected.length === 0) {
@@ -169,13 +172,16 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
                   }
                   return false;
                 })
-                .map((item) => (
-                  <DaoPost
-                    key={item.id}
-                    item={item}
-                    likePostList={likePostList}
-                  />
-                ))}
+                .map(
+                  (item) =>
+                    !item.IsDeleted && (
+                      <DaoPost
+                        key={item.id}
+                        item={item}
+                        likePostList={likePostList}
+                      />
+                    )
+                )}
         </InfiniteScroll>
       </ul>
     </section>

@@ -3,16 +3,56 @@ import React, { useState } from "react";
 import CustomModalFooter from "../../../../Components/DaoComponent/CustomModalFooter";
 import logo from "../../../../assets/dao/Iconic-02.svg";
 import addLogo from "../../../../assets/dao/Mask Group 130.svg";
+import { postDaoService } from "../../../../services/PostDaoService";
+
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+
 const NewArticle = (props) => {
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
   const { filterCondition } = props;
   const [modal, setModal] = useState(false);
   const [selectedTag, setSelectedTag] = useState([]);
   const [content, setContent] = useState("");
+  const [filesDrive, setFilesDrive] = useState([]);
+  const [files, setFiles] = useState([]);
 
   const showModal = () => {
     setModal(true);
   };
-  const handleOk = () => {
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
+  };
+  const handleOk = async () => {
+    const formData = new FormData();
+    for (let file of files) {
+      formData.append("image", file.originFileObj);
+    }
+    formData.append("Description", content);
+    formData.append("Tags", selectedTag.join(","));
+    if (filesDrive.length > 0) {
+      const newImgDrive = filesDrive.reduce(
+        (newImgs, img) => [...newImgs, img.preview],
+        []
+      );
+      formData.append("imageDrive", newImgDrive.join(","));
+    }
+
+    const data = await postDaoService.createPost(2, formData);
     setModal(false);
   };
   const handleCancel = () => {
@@ -33,10 +73,18 @@ const NewArticle = (props) => {
       <Modal
         title="TẠO BÀI VIẾT"
         open={modal}
-        onOk={handleOk}
+        // onOk={handleOk}
         onCancel={handleCancel}
         width={800}
-        footer={<CustomModalFooter disable={content.length < 1} />}
+        footer={
+          <CustomModalFooter
+            handleOk={handleOk}
+            onPreview={handlePreview}
+            files={files}
+            setFiles={setFiles}
+            disable={content.length < 1}
+          />
+        }
         className="create-post-modal"
       >
         <header
@@ -69,7 +117,7 @@ const NewArticle = (props) => {
           {filterCondition.map((item, idx) => (
             <li
               style={
-                selectedTag.includes(idx)
+                selectedTag.indexOf(item.toLowerCase()) > -1
                   ? {
                       backgroundColor: "#e3faf4",
                       borderRadius: "50px",
@@ -89,11 +137,13 @@ const NewArticle = (props) => {
                     }
               }
               onClick={() =>
-                selectedTag.includes(idx)
+                selectedTag.indexOf(item.toLowerCase()) > -1
                   ? setSelectedTag([
-                      ...selectedTag.filter((item2) => item2 != idx),
+                      ...selectedTag.filter(
+                        (item2) => !item2.includes(item.toLowerCase())
+                      ),
                     ])
-                  : setSelectedTag([...selectedTag, idx])
+                  : setSelectedTag([...selectedTag, item.toLowerCase()])
               }
               key={idx}
             >

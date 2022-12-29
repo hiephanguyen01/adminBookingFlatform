@@ -21,7 +21,7 @@ const Detail = ({ modify = false }) => {
       setLoading(false);
     })();
   }, []);
-  console.log("dsadsads{",data);
+  // console.log("dsadsads{",data);
 
   const getPartnerDetailById = async (id) => {
     try {

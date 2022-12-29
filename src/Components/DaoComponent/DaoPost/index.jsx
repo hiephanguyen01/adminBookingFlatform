@@ -28,6 +28,7 @@ import {
   toggleNotificationDaoAction,
   getAllReportedDaoAction,
   deletePostDaoAction,
+  updatePostDaoAction,
 } from "../../../store/action/PostDaoAction";
 import { convertTime } from "../../../../utils/convert";
 import { userService } from "../../../services/UserService";
@@ -441,7 +442,9 @@ const DaoPost = (props) => {
                             open={removePost}
                             className="remove-post-modal"
                             onOk={() => {
-                              dispatch(deletePostDaoAction(id, message));
+                              dispatch(
+                                updatePostDaoAction(id, { IsDeleted: true })
+                              );
                               setRemovePost(false);
                             }}
                             onCancel={() => setRemovePost(false)}
