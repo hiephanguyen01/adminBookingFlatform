@@ -16,8 +16,8 @@ class PostDaoService extends BaseService {
   getReported = (limit, page) => {
     return this.get(`/api/post-post/report?limit=${limit}&page=${page}`);
   };
-  createPost = (userId, data) => {
-    return this.post(`/api/post-post?userId=${userId}`, data);
+  createPost = (data) => {
+    return this.post(`/api/post-post`, data);
   };
   updatePost = (id, data) => {
     return this.patch(`/api/post-post/${id}`, data);
