@@ -18,6 +18,7 @@ import toastMessage from "../../../Components/ToastMessage";
 import { cityService } from "../../../services/CityService";
 import { districtService } from "../../../services/DistrictService";
 import { wardService } from "../../../services/WardService";
+import * as XLSX from "xlsx";
 
 const cx = classNames.bind(styles);
 
@@ -26,51 +27,49 @@ const Ward = () => {
   const [city, setCity] = useState([]);
   const [district, setDistrict] = useState([]);
   const [ward, setWard] = useState([]);
-  const [provinceId, setProvinceId] = useState();
-  const [districtId, setDistrictId] = useState();
+  const [provinceCode, setProvinceCode] = useState();
+  const [districtCode, setDistrictCode] = useState();
   const [currentWard, setCurrentWard] = useState({});
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isCreateOpenModal, setIsCreateOpenModal] = useState(false);
+  const [fileData, setFileData] = useState([]);
 
   // const getAllDistrict = useCallback(async () => {
-  //   const res = await districtService.getAllDistrict(provinceId);
+  //   const res = await districtService.getAllDistrict(provinceCode);
   //   setDistrict(res.data);
-  // }, [provinceId]);
+  // }, [provinceCode]);
 
   useEffect(() => {
     const getAllCity = async () => {
       const res = await cityService.getAllCity();
       setCity(res.data);
-      setProvinceId(res.data[0].id);
-      console.log("get city");
+      setProvinceCode(res.data[0].Code);
     };
     getAllCity();
   }, []);
 
   useEffect(() => {
     const getDistrict = async () => {
-      const res = await districtService.getAllDistrict(provinceId);
+      const res = await districtService.getAllDistrict(provinceCode);
       setDistrict(res.data);
-      setDistrictId(res?.data[0]?.id);
-      console.log("get district", provinceId);
+      setDistrictCode(res?.data[0]?.Code);
     };
     getDistrict();
-  }, [provinceId]);
+  }, [provinceCode]);
 
   useEffect(() => {
     const getAllWard = async () => {
-      const res = await wardService.getAllWard(districtId, provinceId);
+      const res = await wardService.getAllWard(districtCode);
       setWard(res?.data);
-      console.log("get ward");
     };
     getAllWard();
-  }, [districtId, provinceId]);
+  }, [districtCode]);
 
   const handleDelete = async () => {
     try {
       await wardService.deleteWard(currentWard.id);
-      const res = await wardService.getAllWard(districtId);
+      const res = await wardService.getAllWard(districtCode);
       setWard(res.data);
       setIsDeleteModalOpen(false);
       toastMessage("Xóa thành công!", "success");
@@ -82,7 +81,7 @@ const Ward = () => {
   const handleEdit = async () => {
     try {
       await wardService.updateWard(currentWard.id, currentWard);
-      const res = await wardService.getAllWard(districtId);
+      const res = await wardService.getAllWard(districtCode);
       setWard(res.data);
       setIsEditModalOpen(false);
       toastMessage("Cập nhật thông tin thành công!", "success");
@@ -93,12 +92,18 @@ const Ward = () => {
 
   const handleCreate = async () => {
     try {
-      await wardService.createWard({
-        ...currentWard,
-        DistrictId: districtId,
-        ProvinceId: provinceId,
-      });
-      const res = await wardService.getAllWard(districtId);
+      if (fileData.length > 0) {
+        for (let i = 0; i < fileData.length; i++) {
+          await wardService.createWard(fileData[i]);
+        }
+        setFileData([]);
+      } else {
+        await wardService.createWard({
+          ...currentWard,
+          DistrictCode: districtCode,
+        });
+      }
+      const res = await wardService.getAllWard(districtCode);
       setWard(res.data);
       setIsCreateOpenModal(false);
       toastMessage("Tạo thành công!", "success");
@@ -162,10 +167,39 @@ const Ward = () => {
   ];
 
   const handleProvinceChange = async (value) => {
-    setProvinceId(value);
+    setProvinceCode(value);
     // const res = await districtService.getAllWard(value);
     // // console.log(res);
     // setWard(res.data);
+  };
+
+  const readFileExcel = async (fileExcel) => {
+    try {
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(fileExcel);
+      fileReader.onload = (e) => {
+        const bufferArray = e.target.result;
+        const wb = XLSX.read(bufferArray, { type: "buffer" });
+        const wsName = wb.SheetNames[2];
+        const ws = wb.Sheets[wsName];
+        const data = XLSX.utils.sheet_to_json(ws);
+        const formatData = data.reduce(
+          (newArr, d) => [
+            ...newArr,
+            {
+              Name: d["Phường/Xã"],
+              Prefix: d["Prefix"] || "",
+              DistrictCode: d["Mã Quận/Huyện"],
+            },
+          ],
+          []
+        );
+        console.log(formatData);
+        setFileData(formatData);
+      };
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -176,13 +210,18 @@ const Ward = () => {
             <span className={cx("label-city")}>Tỉnh/thành phố</span>
             {city.length > 0 && (
               <Select
-                value={provinceId}
+                showSearch
+                value={provinceCode}
                 style={{ width: 200 }}
                 onChange={handleProvinceChange}
                 options={city.map((ct) => ({
                   label: ct.Name,
-                  value: ct.id,
+                  value: ct.Code,
                 }))}
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.label.toLowerCase().includes(input.toLowerCase())
+                }
                 size="large"
               />
             )}
@@ -191,13 +230,18 @@ const Ward = () => {
             <span className={cx("label-city")}>Quận/huyện</span>
             {district.length > 0 && (
               <Select
-                value={districtId}
+                value={districtCode}
                 style={{ width: 200 }}
-                onChange={(value) => setDistrictId(value)}
+                onChange={(value) => setDistrictCode(value)}
                 options={district.map((dt) => ({
                   label: dt.Name,
-                  value: dt.id,
+                  value: dt.Code,
                 }))}
+                showSearch
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.label.toLowerCase().includes(input.toLowerCase())
+                }
                 size="large"
               />
             )}
@@ -297,6 +341,10 @@ const Ward = () => {
           onOk={() => handleCreate()}
           onCancel={() => setIsCreateOpenModal(false)}
           footer={[
+            <input
+              type="file"
+              onChange={(e) => readFileExcel(e.target.files[0])}
+            />,
             <Button
               type="default"
               onClick={() => setIsCreateOpenModal(false)}

@@ -19,6 +19,7 @@ import toastMessage from "../../../Components/ToastMessage";
 import { districtService } from "../../../services/DistrictService";
 import { bannedWordService } from "../../../services/BannedWord";
 import moment from "moment";
+import * as XLSX from "xlsx";
 
 const cx = classNames.bind(styles);
 
@@ -34,6 +35,7 @@ const BannedWord = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isCreateOpenModal, setIsCreateOpenModal] = useState(false);
+  const [fileData, setFileData] = useState([]);
 
   useEffect(() => {
     const getAllBannedWord = async () => {
@@ -73,11 +75,21 @@ const BannedWord = () => {
 
   const handleCreate = async () => {
     try {
-      for (let i = 0; i < bannedWordList.length; i++) {
-        await bannedWordService.createBannedWord({
-          Value: bannedWordList[i],
-          IsDeleted: false,
-        });
+      if (fileData.length > 0) {
+        for (let i = 0; i < fileData.length; i++) {
+          await bannedWordService.createBannedWord({
+            Value: fileData[i].Value,
+            IsDeleted: false,
+          });
+        }
+        setFileData([]);
+      } else {
+        for (let i = 0; i < bannedWordList.length; i++) {
+          await bannedWordService.createBannedWord({
+            Value: bannedWordList[i],
+            IsDeleted: false,
+          });
+        }
       }
       const res = await bannedWordService.getAllBannedWord(textSearch);
       setBannedWords(res.data.data);
@@ -146,6 +158,33 @@ const BannedWord = () => {
       width: 150,
     },
   ];
+
+  const readFileExcel = async (fileExcel) => {
+    try {
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(fileExcel);
+      fileReader.onload = (e) => {
+        const bufferArray = e.target.result;
+        const wb = XLSX.read(bufferArray, { type: "buffer" });
+        const wsName = wb.SheetNames[0];
+        const ws = wb.Sheets[wsName];
+        const data = XLSX.utils.sheet_to_json(ws);
+        const formatData = data.reduce(
+          (newArr, d) => [
+            ...newArr,
+            {
+              Value: d["Từ cấm"],
+            },
+          ],
+          []
+        );
+        console.log(formatData);
+        setFileData(formatData);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -247,6 +286,10 @@ const BannedWord = () => {
           onOk={() => handleCreate()}
           onCancel={() => setIsCreateOpenModal(false)}
           footer={[
+            <input
+              type="file"
+              onChange={(e) => readFileExcel(e.target.files[0])}
+            />,
             <Button
               type="default"
               onClick={() => setIsCreateOpenModal(false)}

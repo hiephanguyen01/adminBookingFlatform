@@ -8,6 +8,7 @@ import { convertImage } from "../../../../utils/convert";
 import toastMessage from "../../../Components/ToastMessage";
 import { Link } from "react-router-dom";
 import { cityService } from "../../../services/CityService";
+import * as XLSX from "xlsx";
 
 const cx = classNames.bind(styles);
 
@@ -19,6 +20,7 @@ const City = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isCreateOpenModal, setIsCreateOpenModal] = useState(false);
+  const [fileData, setFileData] = useState([]);
 
   useEffect(() => {
     const getAllCity = async () => {
@@ -51,7 +53,14 @@ const City = () => {
 
   const handleCreateCity = async () => {
     try {
-      await cityService.createCity(currentCity);
+      if (fileData.length > 0) {
+        for (let i = 0; i < fileData.length; i++) {
+          await cityService.createCity(fileData[i]);
+        }
+        setFileData([]);
+      } else {
+        await cityService.createCity(currentCity);
+      }
       const res = await cityService.getAllCity();
       setCity(res.data);
       setIsCreateOpenModal(false);
@@ -114,6 +123,30 @@ const City = () => {
       width: 200,
     },
   ];
+
+  const readFileExcel = async (fileExcel) => {
+    try {
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(fileExcel);
+      fileReader.onload = (e) => {
+        const bufferArray = e.target.result;
+        const wb = XLSX.read(bufferArray, { type: "buffer" });
+        const wsName = wb.SheetNames[0];
+        const ws = wb.Sheets[wsName];
+        const data = XLSX.utils.sheet_to_json(ws);
+        const formatData = data.reduce(
+          (newArr, d) => [
+            ...newArr,
+            { Name: d["Tỉnh/Thành phố"], Code: d["Mã Tỉnh/Thành phố"] },
+          ],
+          []
+        );
+        setFileData(formatData);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className={cx("city-container")}>
@@ -202,6 +235,10 @@ const City = () => {
         onOk={() => handleCreateCity()}
         onCancel={() => setIsCreateOpenModal(false)}
         footer={[
+          <input
+            type="file"
+            onChange={(e) => readFileExcel(e.target.files[0])}
+          />,
           <Button
             type="default"
             onClick={() => setIsCreateOpenModal(false)}
