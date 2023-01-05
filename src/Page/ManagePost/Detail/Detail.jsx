@@ -12,10 +12,10 @@ import { InfoRoom } from "./components/InfoRoom";
 import "./Detail.scss";
 export const PostDetail = ({ modify }) => {
   const { id } = useParams();
+  const { state } = useLocation();
   const [loading, setLoading] = useState(true);
   const [loadingBtn, setLoadingBtn] = useState(false);
   const [data, setData] = useState();
-  const { state } = useLocation();
   const [text, setText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -90,8 +90,14 @@ export const PostDetail = ({ modify }) => {
 
   // if (loading) return <Loading />;
   const tabs = [
-    { label: "Thông tin chung", children: <InfoGeneral data={data?.data} /> },
-    { label: "Thông tin phòng",children:<InfoRoom service={data?.service} /> },
+    {
+      label: "Thông tin chung",
+      children: <InfoGeneral data={data?.data} />,
+    },
+    {
+      label: "Thông tin phòng",
+      children: <InfoRoom category={state.category} service={data?.service} />,
+    },
     { label: "Lịch và giá" },
     { label: "Khuyến mãi" },
   ];

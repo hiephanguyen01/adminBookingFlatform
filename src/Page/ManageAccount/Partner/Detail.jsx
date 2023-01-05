@@ -79,7 +79,7 @@ export const PartnerDetail = () => {
                 >
                   <Input
                     disabled
-                    value={moment(data?.CreationTime).format("L")}
+                    value={moment(data?.CreationTime).format("DD-MM-YYYY HH:mm")}
                   />
                 </Form.Item>
                 <Form.Item
@@ -97,7 +97,9 @@ export const PartnerDetail = () => {
                 >
                   <Input
                     disabled
-                    value={moment(data?.LastModificationTime).format("L")}
+                    value={moment(data?.LastModificationTime).format(
+                      "DD-MM-YYYY HH:mm"
+                    )}
                   />
                 </Form.Item>
                 <Form.Item
@@ -168,7 +170,7 @@ export const PartnerDetail = () => {
                   <Image
                     width={"100%"}
                     height={100}
-                    preview={false}
+                    preview={true}
                     src={`${baseURL}/api/image/${data.ImageCCCD2}`}
                     fallback={fallBackImg}
                   />
