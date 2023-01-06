@@ -28,9 +28,7 @@ export const InfoGeneral = ({ data }) => {
       <Breadcrumb style={{ fontSize: "17px" }}>
         <Breadcrumb.Item
           onClick={() => navigate("/posts")}
-          style={{ color: "#03ac84" }}
-        >
-          Quản lí bài đăng
+          style={{ color: "#03ac84" }}>
           <Link to={"/posts"}> Quản lí bài đăng</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>Thông tin chung</Breadcrumb.Item>
@@ -55,8 +53,7 @@ export const InfoGeneral = ({ data }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}
-      >
+        style={{ marginTop: "20px" }}>
         <Row gutter={32}>
           <Col span={12}>
             <Form.Item
