@@ -47,6 +47,7 @@ export const ManageOrder = () => {
     category: "1",
     PaymentStatus: "",
   });
+  console.log("dataTYbale", dataTale);
   const navigate = useNavigate();
   useEffect(() => {
     (async () => {
@@ -76,12 +77,12 @@ export const ManageOrder = () => {
   const column = [
     {
       title: "Mã đơn đặt",
-      dataIndex: "id",
+      dataIndex: "IdentifyCode",
       render: (value) => <strong>{value}</strong>,
     },
     {
       title: "Số định danh",
-      dataIndex: "IdentifyCode",
+      // dataIndex: "IdentifyCode",
     },
     {
       title: "Mã bài đăng",
@@ -93,8 +94,12 @@ export const ManageOrder = () => {
     },
     {
       title: "Ngày Thực hiện",
-      dataIndex: "CreationTime",
-      render: (item) => moment(item).format("DD-MM-YYYY HH:mm"),
+      // dataIndex: "CreationTime",
+      render: (item) => {
+        console.log("item", item);
+        const date = item.OrderByDateFrom ?? item.OrderByTimeFrom;
+        return moment(date).format("DD-MM-YYYY HH:mm");
+      },
     },
     {
       title: "Hình thức thanh toán",

@@ -21,7 +21,6 @@ const Detail = ({ modify = false }) => {
       setLoading(false);
     })();
   }, []);
-  // console.log("dsadsads{",data);
 
   const getPartnerDetailById = async (id) => {
     try {
@@ -121,7 +120,11 @@ const Detail = ({ modify = false }) => {
             label="Mã đơn đặt"
             // name="Id"
           >
-            <Input disabled value={data.id} style={{ padding: "10px" }} />
+            <Input
+              disabled
+              value={data.IdentifyCode}
+              style={{ padding: "10px" }}
+            />
           </Form.Item>
           <Form.Item
             style={{
@@ -148,7 +151,12 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={data.StudioRoom.StudioPostId}
+              value={
+                data?.StudioRoom?.StudioPostId ||
+                data?.PhotographerServicePackage?.PhotographerPostId ||
+                data?.MakeupServicePackage?.MakeupPostId ||
+                data?.ModelServicePackage?.ModelPostId
+              }
               style={{ padding: "10px" }}
             />
           </Form.Item>
@@ -176,7 +184,12 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={data.StudioRoom.Name}
+              value={
+                data?.StudioRoom?.Name ||
+                data?.PhotographerServicePackage?.Name ||
+                data?.MakeupServicePackage?.Name ||
+                data?.ModelServicePackage?.Name
+              }
               style={{ padding: "10px" }}
             />
           </Form.Item>
@@ -205,7 +218,7 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={moment(data.CreationTime).format("L")}
+              value={moment(data.CreationTime).format("DD-MM-YYYY HH:mm")}
               style={{ padding: "10px" }}
             />
           </Form.Item>
@@ -230,13 +243,19 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
             }}
             label="Ngày thực hiện"
-            // name="OrderByDateFrom"
           >
             <Input
               disabled
               value={
-                moment(data.OrderByDateFrom).format("L") ||
-                moment(data.OrderByTimeFrom).format("L")
+                data.OrderByTime
+                  ? `${moment(data.OrderByTimeFrom).format(
+                      "DD-MM-YYYY HH:mm"
+                    )} - ${moment(data.OrderByTimeTo).format(
+                      "DD-MM-YYYY HH:mm"
+                    )} `
+                  : `${moment(data.OrderByDateFrom).format(
+                      "DD-MM-YYYY "
+                    )} - ${moment(data.OrderByDateTo).format("DD-MM-YYYY")} `
               }
               style={{ padding: "10px" }}
             />
@@ -410,7 +429,11 @@ const Detail = ({ modify = false }) => {
             label="Tiền cọc"
             // name="deposit"
           >
-            <Input disabled style={{ padding: "10px" }} />
+            <Input
+              disabled
+              value={data.DepositValue}
+              style={{ padding: "10px" }}
+            />
           </Form.Item>
         </article>
         <article className="cancel-info">
@@ -425,7 +448,11 @@ const Detail = ({ modify = false }) => {
               label="Ngày hủy"
               // name="cancelDate"
             >
-              <Input disabled style={{ padding: "10px" }} />
+              <Input
+                disabled
+                value={data.DeletionTime}
+                style={{ padding: "10px" }}
+              />
             </Form.Item>
             <Form.Item
               style={{
@@ -448,7 +475,11 @@ const Detail = ({ modify = false }) => {
               label="Lý do hủy đơn"
               // name="reasonForCancelation"
             >
-              <Input disabled style={{ padding: "10px" }} />
+              <Input
+                disabled
+                value={data.DeletedNote}
+                style={{ padding: "10px" }}
+              />
             </Form.Item>
             <Form.Item
               style={{

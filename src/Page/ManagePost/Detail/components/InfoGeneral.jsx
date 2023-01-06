@@ -17,15 +17,20 @@ import { orderService } from "../../../../services/OrderService";
 import moment from "moment";
 import TextArea from "antd/es/input/TextArea";
 import { BASEURL_IMG } from "../../../../../utils/baseURL";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export const InfoGeneral = ({ data }) => {
   if (!data) return null;
-
+  const navigate = useNavigate();
   return (
     <>
       <Breadcrumb style={{ fontSize: "17px" }}>
-        <Breadcrumb.Item style={{ color: "#03ac84" }}>
+        <Breadcrumb.Item
+          onClick={() => navigate("/posts")}
+          style={{ color: "#03ac84" }}
+        >
+          Quản lí bài đăng
           <Link to={"/posts"}> Quản lí bài đăng</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>Thông tin chung</Breadcrumb.Item>

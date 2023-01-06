@@ -57,7 +57,7 @@ const DataExport = () => {
         IdentifyCode: "",
         studioPostId: "",
       });
-      openNotification("success", "thanhf coong!");
+      openNotification("success", "Thành công!");
     } catch (error) {
       setLoadingBtn(false);
       console.log(error);
@@ -82,7 +82,7 @@ const DataExport = () => {
       value: 4,
     },
     {
-      lable: "Danh sách đơn đặt pháp sinh",
+      lable: "Danh sách đơn đặt phát sinh",
       value: 5,
     },
     {
@@ -98,7 +98,8 @@ const DataExport = () => {
           defaultValue={""}
           style={{ width: 440 }}
           size="large"
-          onChange={handleChange}>
+          onChange={handleChange}
+        >
           <Option value={""}>Chọn...</Option>
           {options.map((item) => (
             <Option value={item.value} key={item.label}>
