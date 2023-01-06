@@ -64,7 +64,7 @@ const columns = [
     title: "Ngày áp dụng",
     dataIndex: "DateTimeApply",
     key: "DateTimeApply",
-    render: (text) => <>{moment(text).format("HH:mm DD/MM/YYYY")}</>,
+    render: (text) => <>{moment(text).utc().format("HH:mm DD/MM/YYYY")}</>,
     width: 150,
     ellipsis: {
       showTitle: false,
@@ -74,7 +74,7 @@ const columns = [
     title: "Ngày hết hạn",
     key: "DateTimeExpire",
     dataIndex: "DateTimeExpire",
-    render: (text) => <>{moment(text).format("HH:mm DD/MM/YYYY")}</>,
+    render: (text) => <>{moment(text).utc().format("HH:mm DD/MM/YYYY")}</>,
     width: 150,
     ellipsis: {
       showTitle: false,

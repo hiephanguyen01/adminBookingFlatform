@@ -11,8 +11,8 @@ import {
   SolutionOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useCallback } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./LeftNavBar.scss";
 const items = [
   {
@@ -82,7 +82,7 @@ const items = [
     key: "/promo-code",
     icon: <SketchOutlined />,
     children: [
-      { label: "Mã khuyến mãi", key: "/promo-code/partner" },
+      { label: "Mã khuyến mãi", key: "/promo-code" },
       // { label: "Đối tác", key: "/promo-code/partner" },
       // { label: "Khách hàng", key: "/promo-code/customer" },
       { label: "Tạo khuyến mãi", key: "/promo-code/create" },
@@ -107,12 +107,32 @@ const items = [
 
 const LeftNavBar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // const openKey = `/${location.pathname.split("/")[1] || ""}`;
   const onClick = (e) => {
     navigate(e.key);
   };
   return (
     <div className="LeftNavBar">
-      <Menu onClick={onClick} mode="inline" items={items} />
+      <Menu
+        onClick={onClick}
+        mode="inline"
+        items={items}
+        defaultSelectedKeys={[`${location.pathname && location.pathname}`]}
+        // defaultOpenKeys={`${
+        //   location.pathname &&
+        //   location?.pathname.split("/").length >= 3 &&
+        //   location?.pathname.split("/")[1]
+        // }`}
+        defaultOpenKeys={[
+          `/${
+            location.pathname &&
+            location?.pathname?.split("/").length >= 3 &&
+            (location?.pathname?.split("/")[1] || "")
+          }`,
+        ]}
+      />
     </div>
   );
 };

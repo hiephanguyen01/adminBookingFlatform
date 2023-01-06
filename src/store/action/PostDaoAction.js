@@ -15,20 +15,11 @@ export const getAllPostDaoAction = (currentListPost = [], filter) => {
         filter?.page,
         filter?.tags.join(",")
       );
-      // if (filter.page === 1) {
-      //   let temp = [...data.data];
-      //   dispatch({
-      //     type: GET_LIST_POST,
-      //     data: temp,
-      //   });
-      // } else {
-      //   let temp = [...currentListPost, ...data.data];
-      //   dispatch({
-      //     type: GET_LIST_POST,
-      //     data: temp,
-      //   });
-      // }
-      let temp = [...currentListPost, ...data.data];
+
+      let temp = [
+        ...currentListPost,
+        ...data.data.filter((item) => item.IsDeleted === false),
+      ];
       dispatch({
         type: GET_LIST_POST,
         data: temp,
@@ -48,11 +39,14 @@ export const getAllReportedDaoAction = (currentListPost = [], filter) => {
   return async (dispatch) => {
     try {
       const { data } = await postDaoService.getReported(
-        filter?.limit,
-        filter?.page,
-        filter?.tags.join(",")
+        filter.limit,
+        filter.page
       );
-      let temp = [...currentListPost, ...data.data];
+
+      let temp = [
+        ...currentListPost,
+        ...data.data.filter((item) => item.IsDeleted === false),
+      ];
       dispatch({
         type: "GET_REPORTED",
         data: temp,
@@ -100,19 +94,20 @@ export const updatePostDaoAction = (id, form) => {
   return async (dispatch) => {
     try {
       const { data } = await postDaoService.updatePost(id, form);
-      dispatch({ type: GET_LIST_POST, data: data.data });
+      // dispatch({ type: GET_LIST_POST, data: data.data });
     } catch (error) {
       console.error(error);
     }
   };
 };
-export const deletePostDaoAction = (id) => {
+export const deletePostDaoAction = (id, message) => {
   return async (dispatch) => {
     try {
-      const { data } = await postDaoService.deletePost(id);
-      dispatch({ type: GET_LIST_POST, data: data.data });
+      await postDaoService.deletePost(id);
+      message.success("Xóa bài viết thành công");
     } catch (error) {
       console.error(error);
+      message.error("Xóa thất bại");
     }
   };
 };

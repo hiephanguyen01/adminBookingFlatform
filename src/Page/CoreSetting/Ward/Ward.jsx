@@ -60,12 +60,12 @@ const Ward = () => {
 
   useEffect(() => {
     const getAllWard = async () => {
-      const res = await wardService.getAllWard(districtId);
+      const res = await wardService.getAllWard(districtId, provinceId);
       setWard(res?.data);
       console.log("get ward");
     };
     getAllWard();
-  }, [districtId]);
+  }, [districtId, provinceId]);
 
   const handleDelete = async () => {
     try {

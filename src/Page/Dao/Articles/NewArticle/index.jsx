@@ -1,16 +1,59 @@
 import { Modal } from "antd";
 import React, { useState } from "react";
 import CustomModalFooter from "../../../../Components/DaoComponent/CustomModalFooter";
+import logo from "../../../../assets/dao/Iconic-02.svg";
+import addLogo from "../../../../assets/dao/Mask Group 130.svg";
+import { postDaoService } from "../../../../services/PostDaoService";
+
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 
 const NewArticle = (props) => {
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
   const { filterCondition } = props;
   const [modal, setModal] = useState(false);
   const [selectedTag, setSelectedTag] = useState([]);
+  const [content, setContent] = useState("");
+  const [filesDrive, setFilesDrive] = useState([]);
+  const [files, setFiles] = useState([]);
 
   const showModal = () => {
     setModal(true);
   };
-  const handleOk = () => {
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
+  };
+  const handleOk = async () => {
+    const formData = new FormData();
+    for (let file of files) {
+      formData.append("image", file.originFileObj);
+    }
+    formData.append("id", 2);
+    formData.append("Description", content);
+    formData.append("Tags", selectedTag.join(","));
+    if (filesDrive.length > 0) {
+      const newImgDrive = filesDrive.reduce(
+        (newImgs, img) => [...newImgs, img.preview],
+        []
+      );
+      formData.append("imageDrive", newImgDrive.join(","));
+    }
+
+    const data = await postDaoService.createPost(formData);
     setModal(false);
   };
   const handleCancel = () => {
@@ -31,10 +74,19 @@ const NewArticle = (props) => {
       <Modal
         title="TẠO BÀI VIẾT"
         open={modal}
-        onOk={handleOk}
+        // onOk={handleOk}
         onCancel={handleCancel}
         width={800}
-        footer={<CustomModalFooter />}
+        footer={
+          <CustomModalFooter
+            handleOk={handleOk}
+            onPreview={handlePreview}
+            files={files}
+            setFiles={setFiles}
+            disable={content.length < 1}
+          />
+        }
+        className="create-post-modal"
       >
         <header
           style={{
@@ -43,11 +95,7 @@ const NewArticle = (props) => {
             marginTop: "30px",
           }}
         >
-          <img
-            src="https://am.bookingstudio.vn/media/svg/post/taoBaiDang.svg"
-            alt=""
-            style={{ width: "40px", height: "40px" }}
-          />
+          <img src={logo} alt="" style={{ width: "40px", height: "40px" }} />
           <p
             style={{
               fontSize: "16.25px",
@@ -70,7 +118,7 @@ const NewArticle = (props) => {
           {filterCondition.map((item, idx) => (
             <li
               style={
-                selectedTag.includes(idx)
+                selectedTag.indexOf(item.toLowerCase()) > -1
                   ? {
                       backgroundColor: "#e3faf4",
                       borderRadius: "50px",
@@ -90,11 +138,13 @@ const NewArticle = (props) => {
                     }
               }
               onClick={() =>
-                selectedTag.includes(idx)
+                selectedTag.indexOf(item.toLowerCase()) > -1
                   ? setSelectedTag([
-                      ...selectedTag.filter((item2) => item2 != idx),
+                      ...selectedTag.filter(
+                        (item2) => !item2.includes(item.toLowerCase())
+                      ),
                     ])
-                  : setSelectedTag([...selectedTag, idx])
+                  : setSelectedTag([...selectedTag, item.toLowerCase()])
               }
               key={idx}
             >
@@ -112,6 +162,7 @@ const NewArticle = (props) => {
           }}
         >
           <textarea
+            onChange={(e) => setContent(e.target.value)}
             style={{
               width: "100%",
               height: "141px",
@@ -122,14 +173,10 @@ const NewArticle = (props) => {
           />
         </main>
       </Modal>
-      <img
-        src="https://am.bookingstudio.vn/media/svg/post/taoBaiDang.svg"
-        alt=""
-        style={{ width: "40px", height: "40px" }}
-      />
+      <img src={logo} alt="" style={{ width: "40px", height: "40px" }} />
       <div
         style={{
-          width: "88%",
+          width: "85%",
           borderRadius: "50px",
           padding: "10px 20px",
           backgroundColor: "#F4F4F4",
@@ -143,10 +190,7 @@ const NewArticle = (props) => {
           style={{ width: "100%", backgroundColor: "#F4F4F4", border: "none" }}
           placeholder="Tạo bài viết..."
         />
-        <img
-          src="https://am.bookingstudio.vn/media/svg/post/upLoadImgPost.svg"
-          alt=""
-        />
+        <img src={addLogo} alt="" />
       </div>
     </article>
   );

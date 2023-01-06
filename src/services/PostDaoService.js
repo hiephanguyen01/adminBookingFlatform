@@ -10,13 +10,14 @@ class PostDaoService extends BaseService {
   getImage = (url) => {
     return this.get(`/image/${url}`);
   };
-  getReported = (limit, page, tags) => {
-    return this.get(
-      `/api/post-post/report?limit=${limit}&page=${page}&tags=${tags}`
-    );
+  getReportedById = (id) => {
+    return this.get(`/api/dao-report/${id}`);
   };
-  createPost = (userId, data) => {
-    return this.post(`/api/post-post?userId=${userId}`, data);
+  getReported = (limit, page) => {
+    return this.get(`/api/post-post/report?limit=${limit}&page=${page}`);
+  };
+  createPost = (data) => {
+    return this.post(`/api/post-post`, data);
   };
   updatePost = (id, data) => {
     return this.patch(`/api/post-post/${id}`, data);

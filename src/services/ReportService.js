@@ -10,6 +10,9 @@ class ReportService extends BaseService {
   getAllReportedDao = (limit, page, tags) => {
     return this.get(`/api/dao-report?limit=${limit}&page=${page}&tags=${tags}`);
   };
+  getAllReportedDaoByPostId = (id) => {
+    return this.get(`/api/dao-report/${id}`);
+  };
   getAllRateReport = (query) => {
     return this.get(`/api/rating&report/`, query);
   };

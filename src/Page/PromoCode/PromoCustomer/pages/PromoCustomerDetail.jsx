@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import dayjs from "dayjs";
 import { MultiSelect } from "react-multi-select-component";
+import styles from "./PromoPartnerDetail.module.scss";
 
-import styles from "./promoCustomerDetail.module.scss";
 import {
   Avatar,
   Button,
@@ -253,8 +253,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
         // disabled={componentDisabled}
         // initialValues={promo}
         onFinish={handleOnSubmit}
-        colon={false}
-      >
+        colon={false}>
         <Row>
           <Col span={12}>
             <div className={cx("w-100")}>
@@ -262,8 +261,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
                 label="Mã khuyến mãi"
                 wrapperCol={{ span: 24 }}
                 name="SaleCode"
-                rules={[{ required: true }]}
-              >
+                rules={[{ required: true }]}>
                 <Input disabled={true} />
               </Form.Item>
             </div>
@@ -273,14 +271,12 @@ const PromoCustomerDetail = ({ edit = false }) => {
                 display: "flex",
                 justifyContent: "space-between",
                 width: "95%",
-              }}
-            >
+              }}>
               <div className={cx("w-50")}>
                 <Form.Item
                   label="Số lượng mã"
                   name={"NoOfCode"}
-                  rules={[{ required: true }]}
-                >
+                  rules={[{ required: true }]}>
                   <Input disabled={!edit} />
                 </Form.Item>
               </div>
@@ -288,8 +284,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
                 <Form.Item
                   label="Số lượng mã/đối tượng"
                   name={"NoOfJoin"}
-                  rules={[{ required: true }]}
-                >
+                  rules={[{ required: true }]}>
                   <Input disabled={!edit} />
                 </Form.Item>
               </div>
@@ -299,8 +294,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
                 label="Tiêu đề"
                 wrapperCol={{ span: 24 }}
                 name="Title"
-                rules={[{ required: true }]}
-              >
+                rules={[{ required: true }]}>
                 <Input disabled={!edit} />
               </Form.Item>
             </div>
@@ -308,8 +302,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
               <Form.Item
                 label="Nội dung"
                 name={"Content"}
-                rules={[{ required: true }]}
-              >
+                rules={[{ required: true }]}>
                 <Input.TextArea rows={4} disabled={!edit} />
               </Form.Item>
             </div>
@@ -318,14 +311,12 @@ const PromoCustomerDetail = ({ edit = false }) => {
                 display: "flex",
                 justifyContent: "space-between",
                 width: "95%",
-              }}
-            >
+              }}>
               <div className={cx("w-50")}>
                 <Form.Item
                   label="Hỗ trợ booking studio (%)"
                   name="SpendingBookingStudio"
-                  rules={[{ required: true }]}
-                >
+                  rules={[{ required: true }]}>
                   <Input disabled={!edit} />
                 </Form.Item>
               </div>
@@ -333,8 +324,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
                 <Form.Item
                   label="Đối tác (%)"
                   name={"SpendingPartner"}
-                  rules={[{ required: true }]}
-                >
+                  rules={[{ required: true }]}>
                   <Input disabled={!edit} />
                 </Form.Item>
               </div>
@@ -344,14 +334,12 @@ const PromoCustomerDetail = ({ edit = false }) => {
                 display: "flex",
                 justifyContent: "space-between",
                 width: "95%",
-              }}
-            >
+              }}>
               <div className={cx("w-50")}>
                 <Form.Item
                   label="Ngày áp dụng"
                   // name={"DateTimeApply"}
-                  rules={[{ required: true }]}
-                >
+                  rules={[{ required: true }]}>
                   <Input
                     value={moment(promo?.DateTimeApply).format(
                       "HH:hh DD-MM-YYYY"
@@ -374,8 +362,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
                 <Form.Item
                   label="Ngày hết hạn"
                   // name={"DateTimeExpire"}
-                  rules={[{ required: true }]}
-                >
+                  rules={[{ required: true }]}>
                   <Input
                     value={moment(promo?.DateTimeExpire).format(
                       "HH:hh DD-MM-YYYY"
@@ -404,8 +391,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
                 display: "flex",
                 justifyContent: "space-between",
                 width: "95%",
-              }}
-            >
+              }}>
               <div className={cx("w-50", "partner-title")}>Đối tác</div>
               <div className={cx("w-50", "cus-title")}>Khách hàng</div>
             </div>
@@ -414,18 +400,15 @@ const PromoCustomerDetail = ({ edit = false }) => {
                 display: "flex",
                 justifyContent: "space-between",
                 width: "95%",
-              }}
-            >
+              }}>
               <div className={cx("w-50")}>
                 <Form.Item
                   className={cx("form-custom-radio")}
-                  name={"selectPartner"}
-                >
+                  name={"selectPartner"}>
                   <Radio.Group
                     // onChange={() => {}}
                     // value={""}
-                    className={cx("custom-radio-group")}
-                  >
+                    className={cx("custom-radio-group")}>
                     <Space direction="vertical" style={{ width: "100%" }}>
                       <Radio
                         value={1}
@@ -433,8 +416,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
                         onClick={() => {
                           setSelectedPartner([]);
                         }}
-                        disabled={!edit && promo?.selectPartner !== 1}
-                      >
+                        disabled={!edit && promo?.selectPartner !== 1}>
                         <div>Tất cả đối tác</div>
                         <div>{partners.length} đối tác</div>
                       </Radio>
@@ -448,8 +430,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
                           }
                           setModalPartnerOpen(true);
                         }}
-                        disabled={!edit && promo?.selectPartner !== 2}
-                      >
+                        disabled={!edit && promo?.selectPartner !== 2}>
                         <div>Tất cả đối tác NGOẠI TRỪ</div>
                         <div>
                           {promo.selectPartner === 2
@@ -467,8 +448,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
                           }
                           setModalPartnerOpen(true);
                         }}
-                        disabled={!edit && promo?.selectPartner !== 3}
-                      >
+                        disabled={!edit && promo?.selectPartner !== 3}>
                         <div>Tùy chọn đối tác</div>
                         <div>
                           {promo.selectPartner === 3
@@ -484,15 +464,13 @@ const PromoCustomerDetail = ({ edit = false }) => {
               <div className={cx("w-50")}>
                 <Form.Item
                   className={cx("form-custom-radio")}
-                  name={"selectCus"}
-                >
+                  name={"selectCus"}>
                   <Radio.Group className={cx("custom-radio-group")}>
                     <Space direction="vertical" style={{ width: "100%" }}>
                       <Radio
                         value={1}
                         className={cx("custom-radio")}
-                        disabled={!edit && promo?.selectCus !== 1}
-                      >
+                        disabled={!edit && promo?.selectCus !== 1}>
                         <div>Tất cả khách hàng</div>
                         <div>{customers.length} đối tác</div>
                       </Radio>
@@ -506,8 +484,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
                           }
                           setModalCusOpen(true);
                         }}
-                        disabled={!edit && promo?.selectCus !== 2}
-                      >
+                        disabled={!edit && promo?.selectCus !== 2}>
                         <div>Tất cả khách hàng NGOẠI TRỪ</div>
                         <div>
                           {promo.selectCus === 2 ? selectedCus.length : 0}/
@@ -523,8 +500,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
                           }
                           setModalCusOpen(true);
                         }}
-                        disabled={!edit && promo?.selectCus !== 3}
-                      >
+                        disabled={!edit && promo?.selectCus !== 3}>
                         <div>Tùy chọn khách hàng</div>
                         <div>
                           {promo.selectCus === 3 ? selectedCus?.length : 0}/
@@ -574,15 +550,13 @@ const PromoCustomerDetail = ({ edit = false }) => {
                 <Form.Item
                   label="Số tiền giảm (VNĐ)"
                   name={"ReduceValue"}
-                  rules={[{ required: promo.TypeReduce === 1 ? true : false }]}
-                >
+                  rules={[{ required: promo.TypeReduce === 1 ? true : false }]}>
                   <Input disabled={!edit} />
                 </Form.Item>
                 <Form.Item
                   label="Giá trị đơn đặt tối thiểu (VNĐ)"
                   name={"MinApply"}
-                  rules={[{ required: promo.TypeReduce === 1 ? true : false }]}
-                >
+                  rules={[{ required: promo.TypeReduce === 1 ? true : false }]}>
                   <Input disabled={!edit} />
                 </Form.Item>{" "}
               </>
@@ -591,22 +565,19 @@ const PromoCustomerDetail = ({ edit = false }) => {
                 <Form.Item
                   label="Tỉ lệ giảm (%)"
                   name={"ReduceValue"}
-                  rules={[{ required: promo.TypeReduce === 2 ? true : false }]}
-                >
+                  rules={[{ required: promo.TypeReduce === 2 ? true : false }]}>
                   <Input disabled={!edit} />
                 </Form.Item>
                 <Form.Item
                   label="Giá trị đơn đặt tối đa (VNĐ)"
                   name={"MaxReduce"}
-                  rules={[{ required: promo.TypeReduce === 2 ? true : false }]}
-                >
+                  rules={[{ required: promo.TypeReduce === 2 ? true : false }]}>
                   <Input disabled={!edit} />
                 </Form.Item>
                 <Form.Item
                   label="Giá trị đơn đặt tối thiểu (VNĐ)"
                   name={"MinApply"}
-                  rules={[{ required: promo.TypeReduce === 2 ? true : false }]}
-                >
+                  rules={[{ required: promo.TypeReduce === 2 ? true : false }]}>
                   <Input disabled={!edit} />
                 </Form.Item>
               </>
@@ -649,8 +620,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
           setModalCusOpen(false);
         }}
         closable={false}
-        bodyStyle={{ height: "350px" }}
-      >
+        bodyStyle={{ height: "350px" }}>
         <MultiSelect
           className={""}
           options={customers}
@@ -697,8 +667,7 @@ const PromoCustomerDetail = ({ edit = false }) => {
           setModalPartnerOpen(false);
         }}
         closable={false}
-        bodyStyle={{ height: "350px" }}
-      >
+        bodyStyle={{ height: "350px" }}>
         <MultiSelect
           className={""}
           options={partners}

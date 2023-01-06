@@ -38,7 +38,7 @@ const Customer = () => {
     IsDeleted: "",
   });
   const navigate = useNavigate();
-  console.log(dataTale);
+  // console.log(dataTale);
   useEffect(() => {
     (async () => {
       await getAllPartner(1, 10, filter);
@@ -69,29 +69,30 @@ const Customer = () => {
     }
   };
   const onChangeFilter = (value) => {
-    console.log(value);
+    // console.log(value);
     setFilter({ ...filter, ...value });
+
     if (Object.keys(value)[0] === "CreateDate") {
       const obj = value.CreateDate.reduce((acc, item, index) => {
-        console.log(index);
+        // console.log(index);
         const key = index === 0 ? "startDate" : "endDate";
         return { ...acc, [key]: moment(item.$d).format() };
       }, {});
-      console.log(obj);
+      // console.log(obj);
       setFilter({ ...filter, CreateDate: obj });
     }
     if (Object.keys(value)[0] === "updateDate") {
       const obj = value.updateDate.reduce((acc, item, index) => {
-        console.log(index);
+        // console.log(index);
         const key = index === 0 ? "startDate" : "endDate";
         return { ...acc, [key]: moment(item.$d).format() };
       }, {});
-      console.log(obj);
+      // console.log(obj);
       setFilter({ ...filter, updateDate: obj });
     }
   };
   const onChangePagination = (page) => {
-    console.log(page);
+    // console.log(page);
     getAllPartner(page, 10, filter);
     // setCurrent(page);
   };

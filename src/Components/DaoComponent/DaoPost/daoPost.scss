@@ -80,6 +80,8 @@
 
         &__likes,
         &__comments {
+          margin-right: 30px;
+
           svg {
             cursor: pointer;
             margin-right: 5px;
@@ -93,19 +95,20 @@
             }
           }
         }
+        &__comments {
+          svg {
+            width: 20px;
+            height: 21px;
+          }
+        }
 
         &__likes {
+          margin-bottom: 2px;
           &:hover {
             svg {
               fill: red;
             }
           }
-
-          svg {
-            margin-bottom: 3px;
-          }
-
-          margin-right: 30px;
         }
       }
     }
@@ -322,7 +325,14 @@
   li {
     width: 100%;
     cursor: pointer;
-
+    &:nth-child(1) {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+    &:nth-child(2) {
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
     &:hover {
       background-color: $neutral-50;
     }
@@ -387,6 +397,7 @@
   .ant-modal-content {
     width: 100%;
     height: 100% !important;
+    padding: 0 !important;
 
     .ant-modal-close {
       // display: none;
@@ -487,55 +498,23 @@
           }
         }
       }
-
-      // .post_slider_container {
-      //   margin-top: 20px;
-      //   height: 80px;
-
-      //   .post_slider {
-      //     height: 100%;
-
-      //     .post_slider_item {
-      //       height: 100%;
-      //       border: 1px solid #e7e7e7;
-      //       border-radius: 8px;
-      //       overflow: hidden;
-
-      //       text-align: start;
-
-      //       // cursor: pointer;
-
-      //       &_name {
-      //         font-weight: 400;
-      //         font-size: 12px;
-      //         line-height: 16px;
-      //         color: $neutral-500;
-      //       }
-
-      //       &_description {
-      //         font-weight: 400;
-      //         font-size: 14px;
-      //         line-height: 19px;
-      //         color: $neutral-700;
-      //       }
-      //     }
-
-      //     .swiper-button-prev,
-      //     .swiper-button-next {
-      //       width: 36px;
-      //       height: 36px;
-      //       background: #ffffff;
-      //       box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.18);
-      //       border-radius: 50%;
-
-      //       &::after {
-      //         font-size: 18px;
-      //         color: #000000;
-      //         font-weight: 900;
-      //       }
-      //     }
-      //   }
-      // }
     }
   }
+}
+
+.remove-post-modal {
+  :where(.css-dev-only-do-not-override-1lmi9fx).ant-modal
+    .ant-modal-footer
+    .ant-btn
+    + .ant-btn:not(.ant-dropdown-trigger) {
+    margin-inline-start: auto !important;
+  }
+  .ant-modal-footer {
+    .ant-btn {
+      margin-left: 10px !important;
+    }
+  }
+}
+.ant-popover-inner {
+  padding: 0 !important;
 }

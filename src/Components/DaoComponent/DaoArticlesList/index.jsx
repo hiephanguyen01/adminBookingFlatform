@@ -28,7 +28,7 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
     if (violate) {
       dispatch(
         getAllReportedDaoAction(listReportedDao, {
-          ...filter,
+          limit: filter.limit,
           page: pagination.currentPage + 1,
         })
       );
@@ -44,11 +44,7 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
 
   useEffect(() => {
     if (violate) {
-      dispatch(
-        getAllReportedDaoAction(listReportedDao, {
-          ...filter,
-        })
-      );
+      dispatch(getAllReportedDaoAction(listReportedDao, { ...filter }));
     } else {
       dispatch(
         getAllPostDaoAction(listPost, {
@@ -62,11 +58,11 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
     <section className="dao-articles">
       <ul id="infinity-list-post-dao">
         <InfiniteScroll
-          dataLength={violate ? listReportedDao.length : listPost.length} //This is important field to render the next data
+          dataLength={violate ? listReportedDao?.length : listPost?.length} //This is important field to render the next data
           next={() => {
             getData();
           }}
-          height={800}
+          height={"100vh"}
           hasMore={pagination.hasNextPage}
           loader={<h4 style={{ textAlign: "center" }}>Loading...</h4>}
           endMessage={
@@ -74,7 +70,7 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
               <b>Yay! You have seen it all</b>
             </div>
           }
-          scrollableTarget="infinity-list-post-dao"
+          scrollableTarget="paper"
         >
           {violate
             ? listReportedDao
@@ -122,13 +118,17 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
                   }
                   return false;
                 })
-                .map((item) => (
-                  <DaoPost
-                    key={item.id}
-                    item={item}
-                    likePostList={likePostList}
-                  />
-                ))
+                .map(
+                  (item) =>
+                    !item.IsDeleted && (
+                      <DaoPost
+                        violate={violate}
+                        key={item.id}
+                        item={item}
+                        likePostList={likePostList}
+                      />
+                    )
+                )
             : listPost
                 .filter((item) => {
                   if (conditionSelected.length === 0) {
@@ -172,13 +172,16 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
                   }
                   return false;
                 })
-                .map((item) => (
-                  <DaoPost
-                    key={item.id}
-                    item={item}
-                    likePostList={likePostList}
-                  />
-                ))}
+                .map(
+                  (item) =>
+                    !item.IsDeleted && (
+                      <DaoPost
+                        key={item.id}
+                        item={item}
+                        likePostList={likePostList}
+                      />
+                    )
+                )}
         </InfiniteScroll>
       </ul>
     </section>
