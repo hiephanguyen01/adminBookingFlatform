@@ -7,7 +7,7 @@ const filterCondition = [
   "Studio",
   "Thietbi",
   "Trangphuc",
-  "Thietke",
+  "Nhiepanh",
   "Nguoimau",
   "Makeup",
 ];
