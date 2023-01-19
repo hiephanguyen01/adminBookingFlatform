@@ -1,11 +1,11 @@
-import { BASEURL_IMG } from "./baseURL";
+import { IMG } from "./baseURL";
 
 export const convertImage = (url = "") => {
   if (url !== "" && url !== undefined) {
     if (url?.includes("http")) {
       return url;
     } else {
-      const img = `${BASEURL_IMG}/${url}`;
+      const img = IMG(url);
       return img;
     }
   }

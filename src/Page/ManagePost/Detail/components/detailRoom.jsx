@@ -1,27 +1,9 @@
-import { Breadcrumb, Col, Divider, Image, Row } from "antd";
-import React, { useEffect, useState } from "react";
-import { EditOutlined, EyeOutlined, SearchOutlined } from "@ant-design/icons";
-import {
-  Button,
-  DatePicker,
-  Form,
-  Input,
-  Pagination,
-  Select,
-  Space,
-  Table,
-  Tag,
-  Checkbox,
-} from "antd";
-import { orderService } from "../../../../services/OrderService";
-import moment from "moment";
-import TextArea from "antd/es/input/TextArea";
-import { BASEURL_IMG } from "../../../../../utils/baseURL";
+import React from "react";
 import "../Detail.scss";
-import { StudioRoom } from "./studioRoom";
-import { PhotographerRoom } from "./photographerRoom";
 import { MakeupRoom } from "./makeupRoom";
 import { ModelRoom } from "./modelRoom";
+import { PhotographerRoom } from "./photographerRoom";
+import { StudioRoom } from "./studioRoom";
 
 export const DetailRoom = ({ data, category }) => {
   console.log("detal", data);
@@ -70,7 +52,7 @@ export const DetailRoom = ({ data, category }) => {
       return <StudioRoom data={data} />;
     case 2:
       // code block
-      return <PhotographerRoom data={data}/>;
+      return <PhotographerRoom data={data} />;
     case 4:
       return <MakeupRoom data={data} />;
     // code block
