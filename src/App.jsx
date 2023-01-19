@@ -58,6 +58,7 @@ import { getCurrentUser } from "./store/action/authAction";
 import CustomerNotificationDetail from "./Page/Notification/Customer/pages/CustomerNotificationDetail";
 import PromoPartnerDetail from "./Page/PromoCode/PromoPartner/pages/PromoPartnerDetail";
 import PromoCustomerDetail from "./Page/PromoCode/PromoCustomer/pages/PromoCustomerDetail";
+import HotKey from "./Page/CoreSetting/HotKey/HotKey";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -75,8 +76,7 @@ const App = () => {
             <ProtectedRoute>
               <AdminLayout />
             </ProtectedRoute>
-          }
-        >
+          }>
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="account" element={<Account />}></Route>
             <Route path="post" element={<Post />}></Route>
@@ -89,8 +89,7 @@ const App = () => {
             <Route path="partner/:id" element={<PartnerDetail />}></Route>
             <Route
               path="partner/edit/:id"
-              element={<DetailEditPartner />}
-            ></Route>
+              element={<DetailEditPartner />}></Route>
 
             <Route path="customer" element={<Customer />}></Route>
             <Route path="customer/:id" element={<CustomerDetail />}></Route>
@@ -139,18 +138,15 @@ const App = () => {
             <Route path="view-detail" element={<PromoPartnerDetail />}></Route>
             <Route
               path="edit"
-              element={<PromoPartnerDetail edit={true} />}
-            ></Route>
+              element={<PromoPartnerDetail edit={true} />}></Route>
 
             <Route path="customer" element={<PromoCustomer />}></Route>
             <Route
               path="customer/view-detail"
-              element={<PromoCustomerDetail />}
-            ></Route>
+              element={<PromoCustomerDetail />}></Route>
             <Route
               path="customer/edit"
-              element={<PromoCustomerDetail edit={true} />}
-            ></Route>
+              element={<PromoCustomerDetail edit={true} />}></Route>
 
             <Route path="create" element={<PromoCreate />}></Route>
           </Route>
@@ -160,12 +156,12 @@ const App = () => {
             <Route path="ward" element={<Ward />}></Route>
             <Route path="banned-word" element={<BannedWord />}></Route>
             <Route path="question" element={<AskedQuestion />}></Route>
+            <Route path="hot-key" element={<HotKey />}></Route>
             <Route path="banner" element={<Banner />}></Route>
             <Route path="banner/create" element={<CreateBanner />}></Route>
             <Route
               path="banner/edit"
-              element={<EditBanner edit={true} />}
-            ></Route>
+              element={<EditBanner edit={true} />}></Route>
             <Route path="banks" element={<Banks />} />
             <Route path="banks/create" element={<CreateBank />} />
             <Route path="banks/edit" element={<EditBank edit={true} />} />
