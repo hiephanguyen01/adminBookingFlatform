@@ -1,22 +1,7 @@
+import { Breadcrumb, Table } from "antd";
 import React, { useEffect, useState } from "react";
-import {
-  Space,
-  Table,
-  Tag,
-  Breadcrumb,
-  Modal,
-  Form,
-  Row,
-  Col,
-  Input,
-  Image,
-} from "antd";
-import { SearchOutlined } from "@ant-design/icons";
-import moment from "moment";
-import TextArea from "antd/es/input/TextArea";
-import { BASEURL_IMG } from "../../../../../utils/baseURL";
-import { DetailRoom } from "./detailRoom";
 import { useNavigate } from "react-router-dom";
+import { DetailRoom } from "./detailRoom";
 const { Column, ColumnGroup } = Table;
 
 export const InfoRoom = ({ service, category }) => {
@@ -48,8 +33,7 @@ export const InfoRoom = ({ service, category }) => {
       <Breadcrumb style={{ fontSize: "17px" }}>
         <Breadcrumb.Item
           onClick={() => navigate("/posts")}
-          style={{ color: "#03ac84" }}
-        >
+          style={{ color: "#03ac84" }}>
           Quản lí bài đăng
         </Breadcrumb.Item>
         <Breadcrumb.Item
@@ -57,8 +41,7 @@ export const InfoRoom = ({ service, category }) => {
             color: `${visible ? "#03ac84" : ""}`,
             cursor: `${visible ? "pointer" : ""}`,
           }}
-          onClick={() => setVisible(false)}
-        >
+          onClick={() => setVisible(false)}>
           Thông tin phòng
         </Breadcrumb.Item>
         {visible && <Breadcrumb.Item>Chi tiết phòng</Breadcrumb.Item>}
@@ -106,8 +89,7 @@ export const InfoRoom = ({ service, category }) => {
                       setDetail(record);
                       // setData(record);
                       // showModal();
-                    }}
-                  >
+                    }}>
                     xem chi tiết
                   </a>
                 );

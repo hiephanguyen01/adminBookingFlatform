@@ -1,9 +1,16 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 import { ProtectedRoute } from "./Components/ProtectedRoute/ProtectedRoute";
 import AdminLayout from "./Layouts/AdminLayout/AdminLayout";
+import AffiliateAccount from "./Page/AffiliateAccount/AffiliateAccount";
+import AffiliateDetail from "./Page/AffiliateAccount/AffiliateDetail/AffiliateDetail";
+import AffiliateCommission from "./Page/AffiliateCommission/AffiliateCommission";
+import AffiliateLink from "./Page/AffiliateLink/AffiliateLink";
+import LinkDetail from "./Page/AffiliateLink/LinkDetail/LinkDetail";
+import AffiliateOrder from "./Page/AffiliateOrder/AffiliateOrder";
+import OrderDetail from "./Page/AffiliateOrder/OrderDetail/OrderDetail";
 import AskedQuestion from "./Page/CoreSetting/AskedQuestion/AskedQuestion";
 import Banks from "./Page/CoreSetting/Banks/Banks";
 import CreateBank from "./Page/CoreSetting/Banks/components/CreateBank/CreateBank";
@@ -14,8 +21,8 @@ import CreateBanner from "./Page/CoreSetting/Banner/Components/CreateBanner/Crea
 import EditBanner from "./Page/CoreSetting/Banner/Components/EditBanner/EditBanner";
 import City from "./Page/CoreSetting/City/City";
 import CoreSetting from "./Page/CoreSetting/CoreSetting";
-import Dev from "./Page/CoreSetting/Dev";
 import District from "./Page/CoreSetting/District/District";
+import HotKey from "./Page/CoreSetting/HotKey/HotKey";
 import Ward from "./Page/CoreSetting/Ward/Ward";
 import CreateWebHook from "./Page/CoreSetting/webHook/components/CreateWebHook/CreateWebHook";
 import EditWebHook from "./Page/CoreSetting/webHook/components/EditWebHook/EditWebHook";
@@ -41,23 +48,23 @@ import { ManagePost } from "./Page/ManagePost";
 import { PostDetail } from "./Page/ManagePost/Detail/Detail";
 import CreateNotification from "./Page/Notification/CreateNotification/CreateNotification";
 import { Customer as NotiCustomer } from "./Page/Notification/Customer/Customer";
+import CustomerNotificationDetail from "./Page/Notification/Customer/pages/CustomerNotificationDetail";
 import Notification from "./Page/Notification/Notification";
 import PartnerNotificationDetail from "./Page/Notification/Partner/pages/PartnerNotificationDetail";
 import { Partner as NotiPartner } from "./Page/Notification/Partner/Partner";
 import Setting from "./Page/Notification/Setting/Setting";
 import AdminDetail from "./Page/PermissionAccess/AdminDetail/AdminDetail";
+import CreateAccount from "./Page/PermissionAccess/CreateAccount/CreateAccount";
 import Permission from "./Page/PermissionAccess/Permission";
 import PromoCode from "./Page/PromoCode/PromoCode";
 import PromoCreate from "./Page/PromoCode/PromoCreate/PromoCreate";
+import PromoCustomerDetail from "./Page/PromoCode/PromoCustomer/pages/PromoCustomerDetail";
 import { PromoCustomer } from "./Page/PromoCode/PromoCustomer/PromoCustomer";
+import PromoPartnerDetail from "./Page/PromoCode/PromoPartner/pages/PromoPartnerDetail";
 import { PromoPartner } from "./Page/PromoCode/PromoPartner/PromoPartner";
 import DetailRateReport from "./Page/RankReport/Detail/DetailRateReport";
 import RankReport from "./Page/RankReport/RankReport";
-import CreateAccount from "./Page/PermissionAccess/CreateAccount/CreateAccount";
 import { getCurrentUser } from "./store/action/authAction";
-import CustomerNotificationDetail from "./Page/Notification/Customer/pages/CustomerNotificationDetail";
-import PromoPartnerDetail from "./Page/PromoCode/PromoPartner/pages/PromoPartnerDetail";
-import PromoCustomerDetail from "./Page/PromoCode/PromoCustomer/pages/PromoCustomerDetail";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -73,10 +80,9 @@ const App = () => {
           path=""
           element={
             <ProtectedRoute>
-              <AdminLayout />
+              <AdminLayout type="root" />
             </ProtectedRoute>
-          }
-        >
+          }>
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="account" element={<Account />}></Route>
             <Route path="post" element={<Post />}></Route>
@@ -89,14 +95,12 @@ const App = () => {
             <Route path="partner/:id" element={<PartnerDetail />}></Route>
             <Route
               path="partner/edit/:id"
-              element={<DetailEditPartner />}
-            ></Route>
+              element={<DetailEditPartner />}></Route>
 
             <Route path="customer" element={<Customer />}></Route>
             <Route path="customer/:id" element={<CustomerDetail />}></Route>
             <Route path="customer/edit/:id" element={<EditCustomer />}></Route>
           </Route>
-
           <Route path="rank-report" element={<RankReport />}></Route>
           <Route path="rank-report/:id" element={<DetailRateReport />}></Route>
           <Route path="manage-order" element={<ManageOrder />} />
@@ -139,18 +143,15 @@ const App = () => {
             <Route path="view-detail" element={<PromoPartnerDetail />}></Route>
             <Route
               path="edit"
-              element={<PromoPartnerDetail edit={true} />}
-            ></Route>
+              element={<PromoPartnerDetail edit={true} />}></Route>
 
             <Route path="customer" element={<PromoCustomer />}></Route>
             <Route
               path="customer/view-detail"
-              element={<PromoCustomerDetail />}
-            ></Route>
+              element={<PromoCustomerDetail />}></Route>
             <Route
               path="customer/edit"
-              element={<PromoCustomerDetail edit={true} />}
-            ></Route>
+              element={<PromoCustomerDetail edit={true} />}></Route>
 
             <Route path="create" element={<PromoCreate />}></Route>
           </Route>
@@ -160,12 +161,12 @@ const App = () => {
             <Route path="ward" element={<Ward />}></Route>
             <Route path="banned-word" element={<BannedWord />}></Route>
             <Route path="question" element={<AskedQuestion />}></Route>
+            <Route path="hot-key" element={<HotKey />}></Route>
             <Route path="banner" element={<Banner />}></Route>
             <Route path="banner/create" element={<CreateBanner />}></Route>
             <Route
               path="banner/edit"
-              element={<EditBanner edit={true} />}
-            ></Route>
+              element={<EditBanner edit={true} />}></Route>
             <Route path="banks" element={<Banks />} />
             <Route path="banks/create" element={<CreateBank />} />
             <Route path="banks/edit" element={<EditBank edit={true} />} />
@@ -186,6 +187,22 @@ const App = () => {
           />
           <Route path=":id" element={<PostDetail />}></Route>
           <Route path="edit/:id" element={<PostDetail modify={true} />}></Route>
+        </Route>
+
+        <Route
+          path="/affiliate"
+          element={
+            <ProtectedRoute>
+              <AdminLayout type="affiliate" />
+            </ProtectedRoute>
+          }>
+          <Route path="manage" element={<AffiliateAccount />}></Route>
+          <Route path="manage/:id" element={<AffiliateDetail />}></Route>
+          <Route path="link" element={<AffiliateLink />}></Route>
+          <Route path="link/:id" element={<LinkDetail />}></Route>
+          <Route path="order" element={<AffiliateOrder />}></Route>
+          <Route path="order/:id" element={<OrderDetail />}></Route>
+          <Route path="commission" element={<AffiliateCommission />}></Route>
         </Route>
         <Route path="/login" element={<Login />}></Route>
       </Routes>

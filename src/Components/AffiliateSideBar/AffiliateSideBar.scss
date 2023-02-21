@@ -1,0 +1,12 @@
+.AffiliateSideBar {
+  height: calc(100vh - 80px - 20px);
+  overflow-y: scroll;
+  width: 256px;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+  padding-top: 20px;
+}
+.AffiliateSideBar::-webkit-scrollbar {
+  width: 0 !important;
+  display: none;
+}

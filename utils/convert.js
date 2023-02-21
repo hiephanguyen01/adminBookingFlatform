@@ -1,5 +1,5 @@
-import { BASEURL_IMG } from "./baseURL";
 import Moment from "moment";
+import { IMG } from "./baseURL";
 
 export const convertImage = (url = "") => {
   if (url !== "" && url !== undefined) {
@@ -8,7 +8,7 @@ export const convertImage = (url = "") => {
     } else if (url === null) {
       return image;
     } else {
-      const img = `${BASEURL_IMG}/${url}`;
+      const img = IMG(url);
       return img;
     }
   }

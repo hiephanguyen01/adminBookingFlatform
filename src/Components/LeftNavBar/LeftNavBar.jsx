@@ -101,6 +101,7 @@ const items = [
       { label: "Webhook", key: "/setting/webhook" },
       { label: "Từ cấm", key: "/setting/banned-word" },
       { label: "Câu hỏi thường gặp", key: "/setting/question" },
+      { label: "Hot key search", key: "/setting/hot-key" },
     ],
   },
 ];

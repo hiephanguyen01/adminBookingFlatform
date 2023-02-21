@@ -1,24 +1,9 @@
-import { Breadcrumb, Col, Image, Row } from "antd";
-import React, { useEffect, useState } from "react";
-import { EditOutlined, EyeOutlined, SearchOutlined } from "@ant-design/icons";
-import {
-  Button,
-  DatePicker,
-  Form,
-  Input,
-  Pagination,
-  Select,
-  Space,
-  Table,
-  Tag,
-  Checkbox,
-} from "antd";
-import { orderService } from "../../../../services/OrderService";
-import moment from "moment";
+import { Breadcrumb, Col, Form, Image, Input, Row } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { BASEURL_IMG } from "../../../../../utils/baseURL";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import moment from "moment";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { IMG } from "../../../../../utils/baseURL";
 
 export const InfoGeneral = ({ data }) => {
   if (!data) return null;
@@ -104,7 +89,7 @@ export const InfoGeneral = ({ data }) => {
             >
               <div style={{ display: "flex", gap: "1rem" }}>
                 {data.Image.slice(0, 1).map((item) => {
-                  return <Image width={200} src={`${BASEURL_IMG}/${item}`} />;
+                  return <Image width={200} src={IMG(item)} />;
                 })}
               </div>
             </Form.Item>
@@ -118,7 +103,7 @@ export const InfoGeneral = ({ data }) => {
                     <Image
                       style={{ objectFit: "cover" }}
                       width={200}
-                      src={`${BASEURL_IMG}/${item}`}
+                      src={IMG(item)}
                     />
                   );
                 })}

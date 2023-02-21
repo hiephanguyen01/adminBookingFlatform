@@ -1,22 +1,6 @@
-import { Breadcrumb, Col, Divider, Image, Row } from "antd";
-import React, { useEffect, useState } from "react";
-import { EditOutlined, EyeOutlined, SearchOutlined } from "@ant-design/icons";
-import {
-  Button,
-  DatePicker,
-  Form,
-  Input,
-  Pagination,
-  Select,
-  Space,
-  Table,
-  Tag,
-  Checkbox,
-} from "antd";
-import { orderService } from "../../../../services/OrderService";
-import moment from "moment";
-import TextArea from "antd/es/input/TextArea";
-import { BASEURL_IMG } from "../../../../../utils/baseURL";
+import { Col, Divider, Form, Image, Input, Row } from "antd";
+import React from "react";
+import { IMG } from "../../../../../utils/baseURL";
 import "../Detail.scss";
 
 export const MakeupRoom = ({ data, category }) => {
@@ -75,8 +59,7 @@ export const MakeupRoom = ({ data, category }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}
-      >
+        style={{ marginTop: "20px" }}>
         <Row gutter={32}>
           <Col span={12}>
             <Form.Item
@@ -178,8 +161,7 @@ export const MakeupRoom = ({ data, category }) => {
               // name="Id"
             >
               <div
-                style={{ display: "flex", gap: "1rem", alignItems: "stretch" }}
-              >
+                style={{ display: "flex", gap: "1rem", alignItems: "stretch" }}>
                 {data.Image.map((item, idx) => {
                   if (idx === 0) {
                     return (
@@ -188,9 +170,8 @@ export const MakeupRoom = ({ data, category }) => {
                           display: "flex",
                           flexDirection: "column",
                           gap: ".5rem",
-                        }}
-                      >
-                        <Image height={100} src={`${BASEURL_IMG}/${item}`} />
+                        }}>
+                        <Image height={100} src={IMG(item)} />
                         <span>Ảnh bìa</span>
                       </div>
                     );
@@ -201,12 +182,11 @@ export const MakeupRoom = ({ data, category }) => {
                         display: "flex",
                         flexDirection: "column",
                         gap: ".5rem",
-                      }}
-                    >
+                      }}>
                       <Image
                         style={{ objectFit: "cover" }}
                         height={100}
-                        src={`${BASEURL_IMG}/${item}`}
+                        src={IMG(item)}
                       />
                       <span>Ảnh {idx}</span>
                     </div>
