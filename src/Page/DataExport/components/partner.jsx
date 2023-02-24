@@ -102,7 +102,7 @@ export const PartnerExport = ({ setData, data }) => {
             },
             {
               value: true,
-              label: "Cancle",
+              label: "Cancel",
             },
           ]}
         />
@@ -133,15 +133,13 @@ export const PartnerExport = ({ setData, data }) => {
         }}
         // onFinish={onFinish}
         onValuesChange={(e) => onChangeFilter(e)}
-        autoComplete="off"
-      >
+        autoComplete="off">
         {formItem.map((item, idx) => (
           <Form.Item
             key={idx}
             name={item.name}
             label={item.label}
-            style={item.style}
-          >
+            style={item.style}>
             {item.el}
           </Form.Item>
         ))}

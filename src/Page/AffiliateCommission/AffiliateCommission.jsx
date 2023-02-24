@@ -49,6 +49,7 @@ const timeDate = [
     label: "Chọn ngày cụ thể",
   },
 ];
+
 const AffiliateCommission = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);

@@ -2,7 +2,7 @@ import { BaseService } from "./baseService";
 
 class Affiliate extends BaseService {
   all = (key) => {
-    return this.get(`/api/affiliate/all?keyString=${key || ""}`);
+    return this.get(`/api/affiliate/all`, key);
   };
   activate = (id, option) => {
     return this.get(`/api/affiliate/activate/${id}?option=${option || true}`);

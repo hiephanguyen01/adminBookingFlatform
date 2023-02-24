@@ -1,24 +1,34 @@
 import { EyeOutlined, LockOutlined } from "@ant-design/icons";
-import { Button, Divider, Input, Space, Switch, Table, Tag } from "antd";
+import {
+  Button,
+  Divider,
+  Input,
+  Select,
+  Space,
+  Switch,
+  Table,
+  Tag,
+} from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { affiliateService } from "../../services/AffiliateService";
 import "./AffiliateAccount.scss";
 const { Search } = Input;
+const { Option } = Select;
 
 const AffiliateAccount = () => {
   const [tableDate, setTableDate] = useState([]);
   const [onLoadingSwitch, setOnLoadingSwitch] = useState(false);
   const [selectList, setSelectList] = useState([]);
+  const [searchParams, setSearchParams] = useState({
+    keyString: "",
+    isActivate: "",
+  });
   const onSearch = async (value) => {
-    try {
-      setOnLoadingSwitch(true);
-      const { data } = await affiliateService.all(value);
-      setTableDate(data.map((val) => ({ ...val, key: val.id })));
-    } catch (error) {
-      console.log("🚀 ~ onSearch ~ error", error);
-    }
-    setOnLoadingSwitch(false);
+    setSearchParams({ ...searchParams, keyString: value });
+  };
+  const onChange = (value) => {
+    setSearchParams({ ...searchParams, isActivate: value });
   };
   const navigate = useNavigate();
   const onChangeCheck = async (data) => {
@@ -37,6 +47,7 @@ const AffiliateAccount = () => {
     } catch (error) {}
     setOnLoadingSwitch(false);
   };
+
   const columns = [
     {
       title: "ID tài khoản",
@@ -61,6 +72,10 @@ const AffiliateAccount = () => {
     {
       title: "Kích hoạt",
       dataIndex: "isActivate",
+      sorter: {
+        compare: (a, b) => a.isActivate - b.isActivate,
+        multiple: 1,
+      },
       render: (_, record) => (
         <Switch
           disabled={onLoadingSwitch}
@@ -91,11 +106,11 @@ const AffiliateAccount = () => {
   useEffect(() => {
     if (!onLoadingSwitch) {
       (async () => {
-        const { data } = await affiliateService.all();
+        const { data } = await affiliateService.all(searchParams);
         setTableDate(data.map((val) => ({ ...val, key: val.id })));
       })();
     }
-  }, [onLoadingSwitch]);
+  }, [onLoadingSwitch, searchParams]);
 
   return (
     <div className="AffiliateAccount">
@@ -111,6 +126,15 @@ const AffiliateAccount = () => {
               style={{ marginRight: "20px" }}>
               Khoá tài khoản
             </Button>
+            <Select
+              size="large"
+              style={{ marginRight: "20px", width: 130 }}
+              defaultValue={searchParams.isActivate}
+              onChange={onChange}>
+              <Option value="">Tât cả</Option>
+              <Option value="1">Đã kích hoạt</Option>
+              <Option value="0">Chưa kích hoạt</Option>
+            </Select>
             <Search
               size="large"
               placeholder="Tìm theo tên hoặc số điện thoại"
