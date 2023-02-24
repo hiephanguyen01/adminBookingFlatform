@@ -11,6 +11,7 @@ import AffiliateLink from "./Page/AffiliateLink/AffiliateLink";
 import LinkDetail from "./Page/AffiliateLink/LinkDetail/LinkDetail";
 import AffiliateOrder from "./Page/AffiliateOrder/AffiliateOrder";
 import OrderDetail from "./Page/AffiliateOrder/OrderDetail/OrderDetail";
+import { AffiliateStatistic } from "./Page/affiliateStatistic";
 import AskedQuestion from "./Page/CoreSetting/AskedQuestion/AskedQuestion";
 import Banks from "./Page/CoreSetting/Banks/Banks";
 import CreateBank from "./Page/CoreSetting/Banks/components/CreateBank/CreateBank";
@@ -82,7 +83,8 @@ const App = () => {
             <ProtectedRoute>
               <AdminLayout type="root" />
             </ProtectedRoute>
-          }>
+          }
+        >
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="account" element={<Account />}></Route>
             <Route path="post" element={<Post />}></Route>
@@ -95,7 +97,8 @@ const App = () => {
             <Route path="partner/:id" element={<PartnerDetail />}></Route>
             <Route
               path="partner/edit/:id"
-              element={<DetailEditPartner />}></Route>
+              element={<DetailEditPartner />}
+            ></Route>
 
             <Route path="customer" element={<Customer />}></Route>
             <Route path="customer/:id" element={<CustomerDetail />}></Route>
@@ -143,15 +146,18 @@ const App = () => {
             <Route path="view-detail" element={<PromoPartnerDetail />}></Route>
             <Route
               path="edit"
-              element={<PromoPartnerDetail edit={true} />}></Route>
+              element={<PromoPartnerDetail edit={true} />}
+            ></Route>
 
             <Route path="customer" element={<PromoCustomer />}></Route>
             <Route
               path="customer/view-detail"
-              element={<PromoCustomerDetail />}></Route>
+              element={<PromoCustomerDetail />}
+            ></Route>
             <Route
               path="customer/edit"
-              element={<PromoCustomerDetail edit={true} />}></Route>
+              element={<PromoCustomerDetail edit={true} />}
+            ></Route>
 
             <Route path="create" element={<PromoCreate />}></Route>
           </Route>
@@ -166,7 +172,8 @@ const App = () => {
             <Route path="banner/create" element={<CreateBanner />}></Route>
             <Route
               path="banner/edit"
-              element={<EditBanner edit={true} />}></Route>
+              element={<EditBanner edit={true} />}
+            ></Route>
             <Route path="banks" element={<Banks />} />
             <Route path="banks/create" element={<CreateBank />} />
             <Route path="banks/edit" element={<EditBank edit={true} />} />
@@ -195,7 +202,8 @@ const App = () => {
             <ProtectedRoute>
               <AdminLayout type="affiliate" />
             </ProtectedRoute>
-          }>
+          }
+        >
           <Route path="manage" element={<AffiliateAccount />}></Route>
           <Route path="manage/:id" element={<AffiliateDetail />}></Route>
           <Route path="link" element={<AffiliateLink />}></Route>
@@ -203,6 +211,7 @@ const App = () => {
           <Route path="order" element={<AffiliateOrder />}></Route>
           <Route path="order/:id" element={<OrderDetail />}></Route>
           <Route path="commission" element={<AffiliateCommission />}></Route>
+          <Route path="statistic" element={<AffiliateStatistic />}></Route>
         </Route>
         <Route path="/login" element={<Login />}></Route>
       </Routes>
