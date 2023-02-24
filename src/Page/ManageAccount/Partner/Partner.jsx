@@ -138,7 +138,7 @@ const Partner = () => {
   const NOTIFY_STATUS = [
     { value: "", label: "Tất cả" },
     { value: 0, label: "Active" },
-    { value: 1, label: "Cancle" },
+    { value: 1, label: "Cancel" },
   ];
   console.log(filter);
   const onChangeFilter = (value) => {

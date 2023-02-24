@@ -1,11 +1,4 @@
-import {
-  EditOutlined,
-  EyeOutlined,
-  LeftOutlined,
-  MoreOutlined,
-  RightOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, EyeOutlined, SearchOutlined } from "@ant-design/icons";
 import {
   Button,
   Col,
@@ -20,12 +13,12 @@ import {
   Table,
   Tag,
 } from "antd";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./manageOrder.scss";
-import moment from "moment";
-import { orderService } from "../../services/OrderService";
 import { Loading } from "../../Components/Loading";
+import { orderService } from "../../services/OrderService";
+import "./manageOrder.scss";
 const { RangePicker } = DatePicker;
 
 export const ManageOrder = () => {
@@ -82,7 +75,10 @@ export const ManageOrder = () => {
     },
     {
       title: "Số định danh",
-      // dataIndex: "IdentifyCode",
+      dataIndex: "BookingUserId",
+      render: (_) => {
+        return <p>{`CUS-${("0000000000" + _).slice(-10)}`}</p>;
+      },
     },
     {
       title: "Mã bài đăng",
@@ -416,8 +412,7 @@ export const ManageOrder = () => {
           }}
           // onFinish={onFinish}
           onValuesChange={(e) => onChangeFilter(e)}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Row gutter={[16, 16]}>
             {expandHeader
               ? formItem.map((item, idx) => (
@@ -448,15 +443,13 @@ export const ManageOrder = () => {
           {!expandHeader ? (
             <p
               style={{ float: "right", marginTop: "1rem" }}
-              onClick={() => setExpandHeader(!expandHeader)}
-            >
+              onClick={() => setExpandHeader(!expandHeader)}>
               xem thêm
             </p>
           ) : (
             <p
               style={{ float: "right", marginTop: "1rem" }}
-              onClick={() => setExpandHeader(!expandHeader)}
-            >
+              onClick={() => setExpandHeader(!expandHeader)}>
               thu gọn
             </p>
           )}
@@ -466,8 +459,7 @@ export const ManageOrder = () => {
       <Divider />
       <main
         className="manage-order__table chile"
-        style={{ paddingBottom: "20px" }}
-      >
+        style={{ paddingBottom: "20px" }}>
         <Table columns={column} dataSource={dataTale} pagination={false} />
         <Pagination
           style={{ textAlign: "right" }}
