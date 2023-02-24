@@ -36,3 +36,22 @@ export const CATEGORIES = [
     linkTo: "model",
   },
 ];
+
+export const handlerNameCategory = (category1) => {
+  switch (String(category1)) {
+    case "1":
+      return "studio";
+    case "2":
+      return "photographer";
+    case "3":
+      return "clothes";
+    case "4":
+      return "makeup";
+    case "5":
+      return "device";
+    case "6":
+      return "model";
+    default:
+      return;
+  }
+};

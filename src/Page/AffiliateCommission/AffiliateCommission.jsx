@@ -1,16 +1,17 @@
-import { EyeOutlined } from "@ant-design/icons";
 import {
+  AutoComplete,
   Button,
   DatePicker,
   Divider,
   Input,
   Modal,
   Select,
-  Space,
   Table,
 } from "antd";
-import React, { useState } from "react";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { affiliateService } from "../../services/AffiliateService";
 import "./AffiliateCommission.scss";
 const { RangePicker } = DatePicker;
 const { Search } = Input;
@@ -53,7 +54,21 @@ const AffiliateCommission = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [picker, setPicker] = useState();
+  const [dataTable, setDataTable] = useState([]);
+  const [filter, setFilter] = useState({ oid: "", pid: "" });
+  const [optionFilter, setOptionFilter] = useState(1);
 
+  useEffect(() => {
+    (async () => {
+      const { data } = await affiliateService.getAllOrdersPublisher(
+        "",
+        filter.oid,
+        filter.pid,
+        ""
+      );
+      setDataTable(data.orders);
+    })();
+  }, [filter]);
   const handleChange = (value) => {
     if (value === 8) {
       setOpen(true);
@@ -68,90 +83,67 @@ const AffiliateCommission = () => {
   const onSearch = async (value) => {
     console.log("🚀 ~ onSearch ~ value", value);
   };
-
-  const dataSource = [
+  const optionSelect = [
     {
-      Id: 1,
-      affiliateId: "234543",
-      bookingId: "093793",
-      postId: "299909",
-      name: "Wisteria Studio - Cho thuê studio chụp hình...",
-      bookingDate: "20/02/2022",
-      bookingValue: "12.300.000",
-      percentCommision: "5%",
-      commission: "750.000 VND",
+      label: "Tìm theo mã đơn đặt",
+      value: "1",
     },
     {
-      Id: 2,
-      affiliateId: "234543",
-      bookingId: "093793",
-      postId: "299909",
-      name: "Wisteria Studio - Cho thuê studio chụp hình...",
-      bookingDate: "20/02/2022",
-      bookingValue: "12.300.000",
-      percentCommision: "5%",
-      commission: "750.000 VND",
-    },
-    {
-      Id: 3,
-      affiliateId: "234543",
-      bookingId: "093793",
-      postId: "299909",
-      name: "Wisteria Studio - Cho thuê studio chụp hình...",
-      bookingDate: "20/02/2022",
-      bookingValue: "12.300.000",
-      percentCommision: "5%",
-      commission: "750.000 VND",
-    },
-    {
-      Id: 4,
-      affiliateId: "234543",
-      bookingId: "093793",
-      postId: "299909",
-      name: "Wisteria Studio - Cho thuê studio chụp hình...",
-      bookingDate: "20/02/2022",
-      bookingValue: "12.300.000",
-      percentCommision: "5%",
-      commission: "750.000 VND",
+      label: "Tìm theo mã bài đăng",
+      value: "2",
     },
   ];
-
   const columns = [
     {
       title: "ID publisher",
       dataIndex: "affiliateId",
       key: "affiliateId",
-      render: (_, record) => <p style={{ color: "#5D5FEF" }}>{_}</p>,
+      render: (_, record) => (
+        <p style={{ color: "#5D5FEF" }}>{record.AffiliateUserId}</p>
+      ),
     },
     {
       title: "ID đơn đặt",
-      dataIndex: "bookingId",
-      key: "bookingId",
+      dataIndex: "Id",
+      key: "Id",
       render: (_, record) => <p style={{ color: "#03AC84" }}>{_}</p>,
     },
     {
       title: "ID bài đăng",
       dataIndex: "postId",
       key: "postId",
+      render: (_, record) => <p>{record?.StudioRoom?.StudioPost?.id}</p>,
     },
 
     {
       title: "Ngày đặt",
-      dataIndex: "bookingDate",
-      key: "bookingDate",
+      dataIndex: "CreationTime",
+      key: "CreationTime",
       sorter: {
-        compare: (a, b) => a.bookingDate - b.bookingDate,
+        compare: (a, b) => a?.CreationTime - b?.CreationTime,
         multiple: 2,
       },
+      render: (_, record) => (
+        <p>{moment(record?.CreationTime).format("DD-MM-YYYY HH:mm")}</p>
+      ),
     },
     {
       title: "Giá trị đơn đặt",
-      dataIndex: "bookingValue",
-      key: "bookingValue",
+      dataIndex: "BookingValueBeforeDiscount",
+      key: "BookingValueBeforeDiscount",
       sorter: {
-        compare: (a, b) => a.bookingValue - b.bookingValue,
+        compare: (a, b) =>
+          a.BookingValueBeforeDiscount - b.BookingValueBeforeDiscount,
         multiple: 1,
       },
+      render: (_, record) => (
+        <p>
+          {record?.BookingValueBeforeDiscount?.toLocaleString("it-IT", {
+            style: "currency",
+            currency: "VND",
+          }) || 0}
+        </p>
+      ),
     },
     {
       title: "%Hoa hồng",
@@ -167,11 +159,34 @@ const AffiliateCommission = () => {
       dataIndex: "commission",
       key: "commission",
       sorter: {
-        compare: (a, b) => a.commission - b.commission,
+        compare: (a, b) => a.AffiliateCommission - b.AffiliateCommission,
         multiple: 1,
       },
+      render: (_, record) => (
+        <p>
+          {record?.AffiliateCommission?.toLocaleString("it-IT", {
+            style: "currency",
+            currency: "VND",
+          }) || 0}
+        </p>
+      ),
     },
   ];
+  const optionSearchHandler = (e) => {
+    console.log(e);
+    setOptionFilter(e);
+  };
+  const searchFilterHandler = (e) => {
+    console.log(e.target.value);
+    switch (Number(optionFilter)) {
+      case 1:
+        setFilter({ oid: e.target.value, pid: "" });
+        break;
+      case 2:
+        setFilter({ oid: "", pid: e.target.value });
+        break;
+    }
+  };
   return (
     <div className="AffiliateCommission">
       <div className="chile" style={{ padding: "20px" }}>
@@ -185,19 +200,41 @@ const AffiliateCommission = () => {
               onChange={handleChange}
               options={timeDate}
             />
-            <Search
+            {/* <Search
               size="large"
               placeholder="Tìm theo tên hoặc số điện thoại"
               onSearch={onSearch}
               style={{ width: 300 }}
-            />
+            /> */}
+            <Input.Group compact style={{ display: "flex" }}>
+              <Select
+                defaultValue={"1"}
+                size="large"
+                onChange={optionSearchHandler}
+                // style={{
+                //   width: "50%",
+                // }}
+              >
+                {optionSelect.map((item, idx) => {
+                  return (
+                    <Option key={idx} value={item.value}>
+                      {item.label}
+                    </Option>
+                  );
+                })}
+              </Select>
+              <Input
+                onChange={searchFilterHandler}
+                placeholder="Tìm theo mã đơn đặt"
+              />
+            </Input.Group>
           </div>
         </div>
       </div>
       <Divider />
 
       <div className="chile">
-        <Table dataSource={dataSource} columns={columns} />
+        <Table dataSource={dataTable} columns={columns} />
       </div>
 
       <ModalTime
@@ -223,13 +260,15 @@ function ModalTime({ open, handleOk, setOpen, onChange }) {
           OK
         </Button>,
       ]}
-      onCancel={() => setOpen(false)}>
+      onCancel={() => setOpen(false)}
+    >
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           padding: "20px",
-        }}>
+        }}
+      >
         <RangePicker onChange={onChange} />
       </div>
     </Modal>

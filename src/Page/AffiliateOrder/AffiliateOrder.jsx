@@ -9,8 +9,10 @@ import {
   Space,
   Table,
 } from "antd";
-import React, { useState } from "react";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { affiliateService } from "../../services/AffiliateService";
 import "./AffiliateOrder.scss";
 const { RangePicker } = DatePicker;
 const { Search } = Input;
@@ -52,8 +54,23 @@ const timeDate = [
 const AffiliateOrder = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [dataTable, setDataTable] = useState([]);
   const [picker, setPicker] = useState();
-
+  const [filter, setFilter] = useState({ afla: "", oid: "", np: "", pid: "" });
+  const [optionFilter, setOptionFilter] = useState(1);
+  // afla, oid, pid, np
+  useEffect(() => {
+    (async () => {
+      const { data } = await affiliateService.getAllOrdersPublisher(
+        filter.afla,
+        filter.oid,
+        filter.pid,
+        filter.np
+      );
+      console.log(data);
+      setDataTable(data.orders);
+    })();
+  }, [filter]);
   const handleChange = (value) => {
     if (value === 8) {
       setOpen(true);
@@ -69,80 +86,64 @@ const AffiliateOrder = () => {
     console.log("🚀 ~ onSearch ~ value", value);
   };
 
-  const dataSource = [
-    {
-      Id: 1,
-      affiliateId: "234543",
-      bookingId: "093793",
-      postId: "299909",
-      name: "Wisteria Studio - Cho thuê studio chụp hình...",
-      bookingDate: "20/02/2022",
-      status: "Hoàn tất",
-      bookingValue: "12.300.000",
-    },
-    {
-      Id: 2,
-      affiliateId: "234543",
-      bookingId: "093793",
-      postId: "299909",
-      name: "Wisteria Studio - Cho thuê studio chụp hình...",
-      bookingDate: "20/02/2022",
-      status: "Hoàn tất",
-      bookingValue: "12.300.000",
-    },
-    {
-      Id: 3,
-      affiliateId: "234543",
-      bookingId: "093793",
-      postId: "299909",
-      name: "Wisteria Studio - Cho thuê studio chụp hình...",
-      bookingDate: "20/02/2022",
-      status: "Hoàn tất",
-      bookingValue: "12.300.000",
-    },
-    {
-      Id: 4,
-      affiliateId: "234543",
-      bookingId: "093793",
-      postId: "299909",
-      name: "Wisteria Studio - Cho thuê studio chụp hình...",
-      bookingDate: "20/02/2022",
-      status: "Hoàn tất",
-      bookingValue: "12.300.000",
-    },
-  ];
+  const statusHandler = (bookingStatus, paymentStatus) => {
+    bookingStatus = Number(bookingStatus);
+    paymentStatus = Number(paymentStatus);
+    if (bookingStatus === 4 && paymentStatus === 1) {
+      return "Chờ thanh toán";
+    } else if (
+      bookingStatus === 4 &&
+      [4, 3, 2].some((item) => item === paymentStatus)
+    ) {
+      return "Sắp tời";
+    } else if (
+      bookingStatus === 1 &&
+      [4, 3].some((item) => item === paymentStatus)
+    ) {
+      return "Đã hoàn tất";
+    } else if (bookingStatus === 2) {
+      return "Đã huỷ";
+    }
+  };
 
   const columns = [
     {
       title: "ID publisher",
       dataIndex: "affiliateId",
       key: "affiliateId",
-      render: (_, record) => <p style={{ color: "#5D5FEF" }}>{_}</p>,
+      render: (_, record) => (
+        <p style={{ color: "#5D5FEF" }}>{record.AffiliateUserId}</p>
+      ),
     },
     {
       title: "ID đơn đặt",
-      dataIndex: "bookingId",
-      key: "bookingId",
+      dataIndex: "Id",
+      key: "Id",
       render: (_, record) => <p style={{ color: "#03AC84" }}>{_}</p>,
     },
     {
       title: "ID bài đăng",
       dataIndex: "postId",
       key: "postId",
+      render: (_, record) => <p>{record?.StudioRoom?.StudioPost?.id}</p>,
     },
     {
       title: "Tên dịch vụ/sản phẩm",
       dataIndex: "name",
       key: "name",
+      render: (_, record) => <p>{record?.StudioRoom?.StudioPost?.Name}</p>,
     },
     {
       title: "Ngày đặt",
-      dataIndex: "bookingDate",
-      key: "bookingDate",
+      dataIndex: "CreationTime",
+      key: "CreationTime",
       sorter: {
-        compare: (a, b) => a.bookingDate - b.bookingDate,
+        compare: (a, b) => a?.CreationTime - b?.CreationTime,
         multiple: 2,
       },
+      render: (_, record) => (
+        <p>{moment(record?.CreationTime).format("DD-MM-YYYY HH:mm")}</p>
+      ),
     },
     {
       title: "Trạng thái",
@@ -152,15 +153,27 @@ const AffiliateOrder = () => {
         compare: (a, b) => a.status - b.status,
         multiple: 1,
       },
+      render: (_, record) => (
+        <p>{statusHandler(record?.BookingStatus, record?.PaymentStatus)}</p>
+      ),
     },
     {
       title: "Giá trị đơn đặt",
-      dataIndex: "bookingValue",
-      key: "bookingValue",
+      dataIndex: "BookingValueBeforeDiscount",
+      key: "BookingValueBeforeDiscount",
       sorter: {
-        compare: (a, b) => a.bookingValue - b.bookingValue,
+        compare: (a, b) =>
+          a.BookingValueBeforeDiscount - b.BookingValueBeforeDiscount,
         multiple: 1,
       },
+      render: (_, record) => (
+        <p>
+          {record?.BookingValueBeforeDiscount?.toLocaleString("it-IT", {
+            style: "currency",
+            currency: "VND",
+          }) || 0}
+        </p>
+      ),
     },
     {
       title: "Hành động",
@@ -176,6 +189,46 @@ const AffiliateOrder = () => {
       ),
     },
   ];
+  const optionSelect = [
+    {
+      label: "Tìm theo ID publisher",
+      value: "1",
+    },
+    {
+      label: "Tìm theo ID đơn đặt",
+      value: "2",
+    },
+    {
+      label: "Tìm theo ID bài đăng",
+      value: "3",
+    },
+    {
+      label: "Tìm theo tên dịch vụ/sản phẩm",
+      value: "4",
+    },
+  ];
+  const optionSearchHandler = (e) => {
+    console.log(e);
+    setOptionFilter(e);
+  };
+  const searchFilterHandler = (e) => {
+    console.log(e.target.value);
+    switch (Number(optionFilter)) {
+      case 1:
+        setFilter({ afla: e.target.value, oid: "", np: "", pid: "" });
+        break;
+      case 2:
+        setFilter({ afla: "", oid: e.target.value, np: "", pid: "" });
+        break;
+      case 3:
+        setFilter({ afla: "", oid: "", np: "", pid: e.target.value });
+        break;
+      case 4:
+        setFilter({ afla: "", oid: "", np: e.target.value, pid: "" });
+        break;
+    }
+  };
+  console.log(filter);
   return (
     <div className="AffiliateOrder">
       <div className="chile" style={{ padding: "20px" }}>
@@ -189,19 +242,41 @@ const AffiliateOrder = () => {
               onChange={handleChange}
               options={timeDate}
             />
-            <Search
+            {/* <Search
               size="large"
               placeholder="Tìm theo tên hoặc số điện thoại"
               onSearch={onSearch}
               style={{ width: 300 }}
-            />
+            /> */}
+            <Input.Group compact style={{ display: "flex" }}>
+              <Select
+                defaultValue={"1"}
+                size="large"
+                onChange={optionSearchHandler}
+                // style={{
+                //   width: "50%",
+                // }}
+              >
+                {optionSelect.map((item, idx) => {
+                  return (
+                    <Option key={idx} value={item.value}>
+                      {item.label}
+                    </Option>
+                  );
+                })}
+              </Select>
+              <Input
+                placeholder="Tìm theo mã đơn đặt"
+                onChange={searchFilterHandler}
+              />
+            </Input.Group>
           </div>
         </div>
       </div>
       <Divider />
 
       <div className="chile">
-        <Table dataSource={dataSource} columns={columns} />
+        <Table dataSource={dataTable} columns={columns} />
       </div>
 
       <ModalTime
@@ -227,13 +302,15 @@ function ModalTime({ open, handleOk, setOpen, onChange }) {
           OK
         </Button>,
       ]}
-      onCancel={() => setOpen(false)}>
+      onCancel={() => setOpen(false)}
+    >
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           padding: "20px",
-        }}>
+        }}
+      >
         <RangePicker onChange={onChange} />
       </div>
     </Modal>
