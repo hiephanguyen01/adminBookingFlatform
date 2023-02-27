@@ -54,7 +54,6 @@ const Partner = () => {
       await getAllPartner(1, 10, filter);
     })();
   }, [filter]);
-
   const getAllPartner = async (page, limit, filter) => {
     try {
       const { data } = await registerPartnerService.getAllPartner(
@@ -134,7 +133,6 @@ const Partner = () => {
       },
     },
   ];
-
   const NOTIFY_STATUS = [
     { value: "", label: "Tất cả" },
     { value: 0, label: "Active" },
