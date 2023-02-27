@@ -39,10 +39,15 @@ class Affiliate extends BaseService {
       `/api/statistic/get-affiliate-statistic?option=${option}&date=${date}`
     );
   };
+  statisticDataAdmin = (option, date = "") => {
+    return this.get(
+      `/api/statistic/get-affiliate-statistic-admin?option=${option}&date=${date}`
+    );
+  };
   getAllStatisticByPublisher = (option, date = "") => {
     return this.get(`/api/affiliate/statistics?option=${option}&date=${date}`);
   };
-  getAllOrdersPublisher = (afla="", oid="", pid="", np="") => {
+  getAllOrdersPublisher = (afla = "", oid = "", pid = "", np = "") => {
     return this.get(
       `/api/affiliate/orders?afla=${afla}&oid=${oid}&np=${np}&pid=${pid}`
     );
