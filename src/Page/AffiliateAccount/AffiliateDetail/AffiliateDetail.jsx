@@ -16,9 +16,7 @@ const AffiliateDetail = () => {
     try {
       setConfirmLoading(true);
       await affiliateService.activate(id);
-    } catch (error) {
-      console.log("🚀 ~ confirm ~ error", error);
-    }
+    } catch (error) {}
     setConfirmLoading(false);
   };
 

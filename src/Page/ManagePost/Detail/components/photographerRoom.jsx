@@ -5,7 +5,6 @@ import { IMG } from "../../../../../utils/baseURL";
 import "../Detail.scss";
 
 export const PhotographerRoom = ({ data, category }) => {
-  console.log("detal", data);
   if (!data) return null;
 
   const listCheckBox = [

@@ -30,7 +30,6 @@ const Banner = () => {
   useEffect(() => {
     const getAllBanners = async () => {
       const res = await bannerService.getAllBanner();
-      console.log(res.data);
       setBanners(res.data.data);
     };
     getAllBanners();
@@ -154,8 +153,7 @@ const Banner = () => {
           <Button
             type="primary"
             style={{ backgroundColor: "#1677ff" }}
-            size="large"
-          >
+            size="large">
             <PlusOutlined />
             Tạo banner
           </Button>
@@ -188,8 +186,7 @@ const Banner = () => {
           <Button type="primary" onClick={handleOk}>
             Đồng ý
           </Button>,
-        ]}
-      >
+        ]}>
         Bạn có muốn xóa banner "{currentBanner.Name}" này không?
       </Modal>
     </div>

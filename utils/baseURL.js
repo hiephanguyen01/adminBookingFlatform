@@ -1,8 +1,6 @@
 import md5 from "md5";
 import moment from "moment";
-
-export const baseURL = "http://localhost:3003";
-export const BASEURL_IMG = "http://localhost:3003/api/image";
+export const baseURL = "";
 export const IMG = (imageId) => {
   const secrect = md5(
     imageId +
@@ -17,7 +15,8 @@ export const IMG = (imageId) => {
   const secrect2 = md5(md5(md5(secrect)) + moment().format("YYYY-MM-DD HH"));
   const ts = Math.floor(Date.now() / 1000);
   return (
-    "http://localhost:3003/api/image" +
+    baseURL +
+    "/api/image" +
     `/${imageId}?ts=${ts}&token1=${secrect}&token2=${secrect2}`
   );
 };

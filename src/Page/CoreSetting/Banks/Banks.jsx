@@ -21,7 +21,6 @@ const Banks = () => {
   useEffect(() => {
     const getAllBanks = async () => {
       const res = await bankService.getAllBank();
-      console.log(res.data);
       setBank(res.data.data);
     };
     getAllBanks();
@@ -158,8 +157,7 @@ const Banks = () => {
           <Button
             type="primary"
             style={{ backgroundColor: "#1677ff" }}
-            size="large"
-          >
+            size="large">
             <PlusOutlined />
             Tạo ngân hàng
           </Button>
@@ -189,15 +187,13 @@ const Banks = () => {
           <Button
             type="default"
             onClick={() => setIsModalOpen(false)}
-            style={{ marginRight: "15px" }}
-          >
+            style={{ marginRight: "15px" }}>
             Thoát
           </Button>,
           <Button type="primary" onClick={handleOk}>
             Đồng Ý
           </Button>,
-        ]}
-      >
+        ]}>
         Bạn có muốn xóa ngân hàng "{currentBank.BusinessName}" này không?
       </Modal>
     </div>

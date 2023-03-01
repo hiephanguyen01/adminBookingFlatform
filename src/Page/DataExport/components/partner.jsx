@@ -28,7 +28,6 @@ export const PartnerExport = ({ setData, data }) => {
       console.log(error);
     }
   };
-  console.log(filter);
   const onChangeFilter = (value) => {
     setFilter({ ...filter, ...value });
     setData({ ...data, ...value });
