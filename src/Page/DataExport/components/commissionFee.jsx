@@ -12,7 +12,6 @@ export const CommissionFee = ({ setData, data }) => {
     },
     isDelete: "",
   });
-  console.log(filter);
   const onChangeFilter = (value) => {
     setFilter({ ...filter, ...value });
     setData({ ...data, ...value });
@@ -97,15 +96,13 @@ export const CommissionFee = ({ setData, data }) => {
         }}
         // onFinish={onFinish}
         onValuesChange={(e) => onChangeFilter(e)}
-        autoComplete="off"
-      >
+        autoComplete="off">
         {formItem.map((item, idx) => (
           <Form.Item
             key={idx}
             name={item.name}
             label={item.label}
-            style={item.style}
-          >
+            style={item.style}>
             {item.el}
           </Form.Item>
         ))}

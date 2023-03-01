@@ -81,9 +81,7 @@ const AffiliateCommission = () => {
   const onChange = (value, dateString) => {
     setPicker(dateString);
   };
-  const onSearch = async (value) => {
-    console.log("🚀 ~ onSearch ~ value", value);
-  };
+  const onSearch = async (value) => {};
   const optionSelect = [
     {
       label: "Tìm theo mã đơn đặt",
@@ -174,11 +172,9 @@ const AffiliateCommission = () => {
     },
   ];
   const optionSearchHandler = (e) => {
-    console.log(e);
     setOptionFilter(e);
   };
   const searchFilterHandler = (e) => {
-    console.log(e.target.value);
     switch (Number(optionFilter)) {
       case 1:
         setFilter({ oid: e.target.value, pid: "" });
@@ -261,15 +257,13 @@ function ModalTime({ open, handleOk, setOpen, onChange }) {
           OK
         </Button>,
       ]}
-      onCancel={() => setOpen(false)}
-    >
+      onCancel={() => setOpen(false)}>
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           padding: "20px",
-        }}
-      >
+        }}>
         <RangePicker onChange={onChange} />
       </div>
     </Modal>

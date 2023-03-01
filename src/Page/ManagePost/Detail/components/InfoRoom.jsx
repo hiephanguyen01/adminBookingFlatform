@@ -5,8 +5,6 @@ import { DetailRoom } from "./detailRoom";
 const { Column, ColumnGroup } = Table;
 
 export const InfoRoom = ({ service, category }) => {
-  console.log(service);
-  console.log(category);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);

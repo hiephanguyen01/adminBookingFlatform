@@ -67,7 +67,6 @@ const AffiliateOrder = () => {
         filter.pid,
         filter.np
       );
-      console.log(data);
       setDataTable(data.orders);
     })();
   }, [filter]);
@@ -82,9 +81,7 @@ const AffiliateOrder = () => {
   const onChange = (value, dateString) => {
     setPicker(dateString);
   };
-  const onSearch = async (value) => {
-    console.log("🚀 ~ onSearch ~ value", value);
-  };
+  const onSearch = async (value) => {};
 
   const statusHandler = (bookingStatus, paymentStatus) => {
     bookingStatus = Number(bookingStatus);
@@ -208,11 +205,9 @@ const AffiliateOrder = () => {
     },
   ];
   const optionSearchHandler = (e) => {
-    console.log(e);
     setOptionFilter(e);
   };
   const searchFilterHandler = (e) => {
-    console.log(e.target.value);
     switch (Number(optionFilter)) {
       case 1:
         setFilter({ afla: e.target.value, oid: "", np: "", pid: "" });
@@ -228,7 +223,6 @@ const AffiliateOrder = () => {
         break;
     }
   };
-  console.log(filter);
   return (
     <div className="AffiliateOrder">
       <div className="chile" style={{ padding: "20px" }}>
@@ -302,15 +296,13 @@ function ModalTime({ open, handleOk, setOpen, onChange }) {
           OK
         </Button>,
       ]}
-      onCancel={() => setOpen(false)}
-    >
+      onCancel={() => setOpen(false)}>
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           padding: "20px",
-        }}
-      >
+        }}>
         <RangePicker onChange={onChange} />
       </div>
     </Modal>

@@ -96,23 +96,20 @@ const columns = [
             <Link
               to={"view-detail"}
               state={{ notificationId: value.id }}
-              className={cx("action_more")}
-            >
+              className={cx("action_more")}>
               <EyeOutlined className={cx("action_more_icon")} />
               Xem chi tiết
             </Link>
             <Link
               to={"edit"}
               state={{ notificationId: value.id }}
-              className={cx("action_more")}
-            >
+              className={cx("action_more")}>
               <EditOutlined className={cx("action_more_icon")} />
               Chỉnh sửa
             </Link>
           </>
         }
-        trigger="click"
-      >
+        trigger="click">
         <MoreOutlined />
       </Popover>
     ),
@@ -158,11 +155,9 @@ export const Customer = () => {
   }, [filtersPage, filter]);
 
   const onValuesChangeForm = async (value) => {
-    console.log(value);
     setFilter({ ...filter, ...value });
     setFiltersPage({ ...filtersPage, page: 1 });
   };
-  console.log(filter);
   return (
     <div className={cx("container")}>
       <div className={cx("filter-wrapper")}>
@@ -176,14 +171,12 @@ export const Customer = () => {
           // onFinish={onFinish}
           size="large"
           style={{ display: "flex" }}
-          labelWrap={true}
-        >
+          labelWrap={true}>
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
               label="Ngày tạo"
               name="createdAt"
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <RangePicker
                 // onChange={(date, dateString) =>
                 //   setFilter({
@@ -202,8 +195,7 @@ export const Customer = () => {
             <Form.Item
               label="Ngày gửi"
               name="sendingTime"
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <RangePicker />
             </Form.Item>
           </div>
@@ -211,8 +203,7 @@ export const Customer = () => {
             <Form.Item
               label="Loại thông báo"
               name="type"
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <Select defaultValue={""}>
                 {NOTIFY_TYPE.map((item) => (
                   <Select.Option value={item.value} key={item.value}>
@@ -226,8 +217,7 @@ export const Customer = () => {
             <Form.Item
               label="Trạng thái"
               name={"status"}
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <Select defaultValue={""}>
                 {NOTIFY_STATUS.map((item) => (
                   <Select.Option value={item.value} key={item.value}>

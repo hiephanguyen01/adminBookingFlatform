@@ -14,7 +14,6 @@ const OrderDetail = () => {
   useEffect(() => {
     (async () => {
       const { data } = await affiliateService.getDetailOrdersPublisher(id);
-      console.log(data.data);
       setData(data.data);
     })();
   }, [id]);
@@ -25,8 +24,7 @@ const OrderDetail = () => {
           <Breadcrumb.Item>
             <p
               style={{ display: "inline", cursor: "pointer" }}
-              onClick={() => navigate("/affiliate/order")}
-            >
+              onClick={() => navigate("/affiliate/order")}>
               Đơn đặt
             </p>
           </Breadcrumb.Item>
