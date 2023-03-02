@@ -7,12 +7,8 @@ const { Search } = Input;
 
 const AffiliateLink = () => {
   const navigate = useNavigate();
-  const onSearch = async (value) => {
-    console.log("🚀 ~ onSearch ~ value", value);
-  };
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
-  };
+  const onSearch = async (value) => {};
+  const onChange = (pagination, filters, sorter, extra) => {};
   const columns = [
     {
       title: "ID dịch vụ/sản phẩm",

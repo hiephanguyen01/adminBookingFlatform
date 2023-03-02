@@ -8,9 +8,8 @@ const AdminLayout = ({ type }) => {
   return (
     <div className="AdminLayout">
       <Header />
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", width: "100%" }}>
         {type === "root" ? <LeftNavBar /> : <AffiliateSideBar />}
-
         <div className="right">
           <div className="papper" id="paper">
             <Outlet />

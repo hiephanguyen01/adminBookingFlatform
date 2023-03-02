@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 import { ProtectedRoute } from "./Components/ProtectedRoute/ProtectedRoute";
@@ -68,6 +68,7 @@ import RankReport from "./Page/RankReport/RankReport";
 import { getCurrentUser } from "./store/action/authAction";
 
 const App = () => {
+  const user = useSelector((state) => state.userReducer?.currentUser?.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -83,8 +84,7 @@ const App = () => {
             <ProtectedRoute>
               <AdminLayout type="root" />
             </ProtectedRoute>
-          }
-        >
+          }>
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="account" element={<Account />}></Route>
             <Route path="post" element={<Post />}></Route>
@@ -93,126 +93,169 @@ const App = () => {
           </Route>
 
           <Route path="manage" element={<ManageAccount />}>
-            <Route path="partner" element={<Partner />}></Route>
-            <Route path="partner/:id" element={<PartnerDetail />}></Route>
-            <Route
-              path="partner/edit/:id"
-              element={<DetailEditPartner />}
-            ></Route>
-
-            <Route path="customer" element={<Customer />}></Route>
-            <Route path="customer/:id" element={<CustomerDetail />}></Route>
-            <Route path="customer/edit/:id" element={<EditCustomer />}></Route>
+            {user?.partnerAccount >= 2 && (
+              <Route path="partner" element={<Partner />}></Route>
+            )}
+            {user?.partnerAccount >= 2 && (
+              <Route path="partner/:id" element={<PartnerDetail />}></Route>
+            )}
+            {user?.partnerAccount >= 2 && (
+              <Route
+                path="partner/edit/:id"
+                element={<DetailEditPartner />}></Route>
+            )}
+            {user?.customerAccount >= 2 && (
+              <Route path="customer" element={<Customer />}></Route>
+            )}
+            {user?.customerAccount >= 2 && (
+              <Route path="customer/:id" element={<CustomerDetail />}></Route>
+            )}
+            {user?.customerAccount >= 2 && (
+              <Route
+                path="customer/edit/:id"
+                element={<EditCustomer />}></Route>
+            )}
           </Route>
-          <Route path="rank-report" element={<RankReport />}></Route>
-          <Route path="rank-report/:id" element={<DetailRateReport />}></Route>
-          <Route path="manage-order" element={<ManageOrder />} />
-          <Route path="manage-order/:id" element={<DetailOrder />} />
-          <Route
-            path="manage-order/edit/:id"
-            element={<DetailOrder modify={true} />}
-          />
-          <Route path="data-export" element={<DataExport />}></Route>
-          <Route path="dao" element={<Dao />}></Route>
-          <Route path="permission" element={<Permission />}></Route>
-          <Route path="permission/create" element={<CreateAccount />}></Route>
-          <Route path="permission/:id" element={<AdminDetail />}></Route>
-          <Route path="notification" element={<Notification />}>
-            <Route path="partner" element={<NotiPartner />}></Route>
+          {user?.report >= 2 && (
+            <Route path="rank-report" element={<RankReport />}></Route>
+          )}
+          {user?.report >= 2 && (
             <Route
-              path="partner/view-detail"
-              element={<PartnerNotificationDetail />}
+              path="rank-report/:id"
+              element={<DetailRateReport />}></Route>
+          )}
+          {user?.booking >= 2 && (
+            <Route path="manage-order" element={<ManageOrder />} />
+          )}
+          {user?.booking >= 2 && (
+            <Route path="manage-order/:id" element={<DetailOrder />} />
+          )}
+          {user?.booking >= 2 && (
+            <Route
+              path="manage-order/edit/:id"
+              element={<DetailOrder modify={true} />}
             />
-            <Route
-              path="partner/edit"
-              element={<PartnerNotificationDetail edit={true} />}
-            />
+          )}
+          {user?.export >= 2 && (
+            <Route path="data-export" element={<DataExport />}></Route>
+          )}
+          {user?.dao >= 2 && <Route path="dao" element={<Dao />}></Route>}
 
-            <Route path="customer" element={<NotiCustomer />}></Route>
-            <Route
-              path="customer/view-detail"
-              element={<CustomerNotificationDetail />}
-            />
-            <Route
-              path="customer/edit"
-              element={<CustomerNotificationDetail edit={true} />}
-            />
+          {user?.permission >= 2 && (
+            <Route path="permission" element={<Permission />}></Route>
+          )}
+          {user?.permission >= 2 && (
+            <Route path="permission/create" element={<CreateAccount />}></Route>
+          )}
+          {user?.permission >= 2 && (
+            <Route path="permission/:id" element={<AdminDetail />}></Route>
+          )}
 
-            <Route path="create" element={<CreateNotification />}></Route>
-            <Route path="setting" element={<Setting />}></Route>
-          </Route>
-          <Route path="promo-code" element={<PromoCode />}>
-            <Route path="" element={<PromoPartner />}></Route>
-            <Route path="view-detail" element={<PromoPartnerDetail />}></Route>
-            <Route
-              path="edit"
-              element={<PromoPartnerDetail edit={true} />}
-            ></Route>
+          {user?.notification >= 2 && (
+            <Route path="notification" element={<Notification />}>
+              <Route path="partner" element={<NotiPartner />}></Route>
+              <Route
+                path="partner/view-detail"
+                element={<PartnerNotificationDetail />}
+              />
+              <Route
+                path="partner/edit"
+                element={<PartnerNotificationDetail edit={true} />}
+              />
 
-            <Route path="customer" element={<PromoCustomer />}></Route>
-            <Route
-              path="customer/view-detail"
-              element={<PromoCustomerDetail />}
-            ></Route>
-            <Route
-              path="customer/edit"
-              element={<PromoCustomerDetail edit={true} />}
-            ></Route>
+              <Route path="customer" element={<NotiCustomer />}></Route>
+              <Route
+                path="customer/view-detail"
+                element={<CustomerNotificationDetail />}
+              />
+              <Route
+                path="customer/edit"
+                element={<CustomerNotificationDetail edit={true} />}
+              />
 
-            <Route path="create" element={<PromoCreate />}></Route>
-          </Route>
-          <Route path="setting" element={<CoreSetting />}>
-            <Route path="city" element={<City />}></Route>
-            <Route path="district" element={<District />}></Route>
-            <Route path="ward" element={<Ward />}></Route>
-            <Route path="banned-word" element={<BannedWord />}></Route>
-            <Route path="question" element={<AskedQuestion />}></Route>
-            <Route path="hot-key" element={<HotKey />}></Route>
-            <Route path="banner" element={<Banner />}></Route>
-            <Route path="banner/create" element={<CreateBanner />}></Route>
-            <Route
-              path="banner/edit"
-              element={<EditBanner edit={true} />}
-            ></Route>
-            <Route path="banks" element={<Banks />} />
-            <Route path="banks/create" element={<CreateBank />} />
-            <Route path="banks/edit" element={<EditBank edit={true} />} />
+              <Route path="create" element={<CreateNotification />}></Route>
+              <Route path="setting" element={<Setting />}></Route>
+            </Route>
+          )}
+          {user?.promo >= 2 && (
+            <Route path="promo-code" element={<PromoCode />}>
+              <Route path="" element={<PromoPartner />}></Route>
+              <Route
+                path="view-detail"
+                element={<PromoPartnerDetail />}></Route>
+              <Route
+                path="edit"
+                element={<PromoPartnerDetail edit={true} />}></Route>
 
-            <Route path="webhook" element={<WebHook />}></Route>
-            <Route path="webhook/create" element={<CreateWebHook />}></Route>
-            <Route path="webhook/edit" element={<EditWebHook />}></Route>
-          </Route>
+              <Route path="customer" element={<PromoCustomer />}></Route>
+              <Route
+                path="customer/view-detail"
+                element={<PromoCustomerDetail />}></Route>
+              <Route
+                path="customer/edit"
+                element={<PromoCustomerDetail edit={true} />}></Route>
+
+              <Route path="create" element={<PromoCreate />}></Route>
+            </Route>
+          )}
+          {user?.setting >= 2 && (
+            <Route path="setting" element={<CoreSetting />}>
+              <Route path="city" element={<City />}></Route>
+              <Route path="district" element={<District />}></Route>
+              <Route path="ward" element={<Ward />}></Route>
+              <Route path="banned-word" element={<BannedWord />}></Route>
+              <Route path="question" element={<AskedQuestion />}></Route>
+              <Route path="hot-key" element={<HotKey />}></Route>
+              <Route path="banner" element={<Banner />}></Route>
+              <Route path="banner/create" element={<CreateBanner />}></Route>
+              <Route
+                path="banner/edit"
+                element={<EditBanner edit={true} />}></Route>
+              <Route path="banks" element={<Banks />} />
+              <Route path="banks/create" element={<CreateBank />} />
+              <Route path="banks/edit" element={<EditBank edit={true} />} />
+
+              <Route path="webhook" element={<WebHook />}></Route>
+              <Route path="webhook/create" element={<CreateWebHook />}></Route>
+              <Route path="webhook/edit" element={<EditWebHook />}></Route>
+            </Route>
+          )}
         </Route>
-        <Route path="posts">
+        {user?.post >= 2 && (
+          <Route path="posts">
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <ManagePost />
+                </ProtectedRoute>
+              }
+            />
+            <Route path=":id" element={<PostDetail />}></Route>
+            <Route
+              path="edit/:id"
+              element={<PostDetail modify={true} />}></Route>
+          </Route>
+        )}
+        {user?.affiliate >= 2 && (
           <Route
-            index
+            path="/affiliate"
             element={
-              <ProtectedRoute>
-                <ManagePost />
+              <ProtectedRoute type="affiliate">
+                <AdminLayout type="affiliate" />
               </ProtectedRoute>
-            }
-          />
-          <Route path=":id" element={<PostDetail />}></Route>
-          <Route path="edit/:id" element={<PostDetail modify={true} />}></Route>
-        </Route>
+            }>
+            <Route path="manage" element={<AffiliateAccount />}></Route>
+            <Route path="manage/:id" element={<AffiliateDetail />}></Route>
+            <Route path="link" element={<AffiliateLink />}></Route>
+            <Route path="link/:id" element={<LinkDetail />}></Route>
+            <Route path="order" element={<AffiliateOrder />}></Route>
+            <Route path="order/:id" element={<OrderDetail />}></Route>
+            <Route path="commission" element={<AffiliateCommission />}></Route>
+            <Route path="statistic" element={<AffiliateStatistic />}></Route>
+          </Route>
+        )}
 
-        <Route
-          path="/affiliate"
-          element={
-            <ProtectedRoute>
-              <AdminLayout type="affiliate" />
-            </ProtectedRoute>
-          }
-        >
-          <Route path="manage" element={<AffiliateAccount />}></Route>
-          <Route path="manage/:id" element={<AffiliateDetail />}></Route>
-          <Route path="link" element={<AffiliateLink />}></Route>
-          <Route path="link/:id" element={<LinkDetail />}></Route>
-          <Route path="order" element={<AffiliateOrder />}></Route>
-          <Route path="order/:id" element={<OrderDetail />}></Route>
-          <Route path="commission" element={<AffiliateCommission />}></Route>
-          <Route path="statistic" element={<AffiliateStatistic />}></Route>
-        </Route>
         <Route path="/login" element={<Login />}></Route>
       </Routes>
     </div>

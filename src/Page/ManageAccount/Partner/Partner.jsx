@@ -68,7 +68,6 @@ const Partner = () => {
     }
   };
   const onChangePagination = (page) => {
-    console.log(page);
     getAllPartner(page, 10, filter);
   };
   const columns = [
@@ -138,26 +137,20 @@ const Partner = () => {
     { value: 0, label: "Active" },
     { value: 1, label: "Cancel" },
   ];
-  console.log(filter);
   const onChangeFilter = (value) => {
-    console.log(value);
     setFilter({ ...filter, ...value });
     if (Object.keys(value)[0] === "CreateDate") {
       const obj = value.CreateDate.reduce((acc, item, index) => {
-        console.log(index);
         const key = index === 0 ? "startDate" : "endDate";
         return { ...acc, [key]: moment(item.$d).format() };
       }, {});
-      console.log(obj);
       setFilter({ ...filter, CreateDate: obj });
     }
     if (Object.keys(value)[0] === "updateDate") {
       const obj = value.updateDate.reduce((acc, item, index) => {
-        console.log(index);
         const key = index === 0 ? "startDate" : "endDate";
         return { ...acc, [key]: moment(item.$d).format() };
       }, {});
-      console.log(obj);
       setFilter({ ...filter, updateDate: obj });
     }
   };

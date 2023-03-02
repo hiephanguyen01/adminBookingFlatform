@@ -38,9 +38,7 @@ const EditBanner = () => {
     };
     getBannerDetail();
   }, [location.state.bannerId]);
-  console.log(banner);
   const handleOnChangeForm = (value) => {
-    console.log(banner);
     setBanner({ ...banner, ...value });
   };
   const handleOnFinish = async () => {
@@ -88,8 +86,7 @@ const EditBanner = () => {
           fontSize: "16px",
           marginBottom: "10px",
           fontWeight: "bold",
-        }}
-      >
+        }}>
         <Breadcrumb.Item>
           <Link to={"/setting/banner"} style={{ color: "#10b08a" }}>
             Quản lý banner
@@ -104,8 +101,7 @@ const EditBanner = () => {
             // type="primary"
             // style={{ backgroundColor: "#1677ff" }}
             size="large"
-            onClick={showModal}
-          >
+            onClick={showModal}>
             <DeleteOutlined />
             Xóa
           </Button>
@@ -113,8 +109,7 @@ const EditBanner = () => {
             type="primary"
             style={{ backgroundColor: "#1677ff", marginLeft: "20px" }}
             size="large"
-            onClick={handleOnFinish}
-          >
+            onClick={handleOnFinish}>
             <PlusOutlined />
             Lưu thay đổi
           </Button>
@@ -129,8 +124,7 @@ const EditBanner = () => {
           initialValues={banner}
           // value={form}
           size={"large"}
-          onValuesChange={handleOnChangeForm}
-        >
+          onValuesChange={handleOnChangeForm}>
           <Form.Item label="Tên" name={"Name"}>
             <Input placeholder="Nhập tên banner" />
           </Form.Item>
@@ -153,8 +147,7 @@ const EditBanner = () => {
                   : {},
               ]}
               listType="picture-card"
-              directory={false}
-            >
+              directory={false}>
               {typeof banner?.Image === "string" ||
               banner?.Image?.fileList?.length >= 1 ? null : (
                 <div>
@@ -177,8 +170,7 @@ const EditBanner = () => {
         title="Xác nhận"
         open={isModalOpen}
         onOk={handleDeleteBanner}
-        onCancel={handleCancel}
-      >
+        onCancel={handleCancel}>
         Bạn có muốn xóa banner này không?
       </Modal>
     </div>

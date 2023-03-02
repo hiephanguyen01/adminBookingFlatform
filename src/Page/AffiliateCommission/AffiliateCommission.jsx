@@ -81,9 +81,7 @@ const AffiliateCommission = () => {
   const onChange = (value, dateString) => {
     setPicker(dateString);
   };
-  const onSearch = async (value) => {
-    console.log("🚀 ~ onSearch ~ value", value);
-  };
+  const onSearch = async (value) => {};
   const optionSelect = [
     {
       label: "Tìm theo mã đơn đặt",
@@ -121,8 +119,8 @@ const AffiliateCommission = () => {
       dataIndex: "CreationTime",
       key: "CreationTime",
       sorter: {
-        compare: (a, b) => a?.CreationTime - b?.CreationTime,
-        multiple: 2,
+        compare: (a, b) => moment(a?.CreationTime) - moment(b?.CreationTime),
+        multiple: 0,
       },
       render: (_, record) => (
         <p>{moment(record?.CreationTime).format("DD-MM-YYYY HH:mm")}</p>
@@ -174,11 +172,9 @@ const AffiliateCommission = () => {
     },
   ];
   const optionSearchHandler = (e) => {
-    console.log(e);
     setOptionFilter(e);
   };
   const searchFilterHandler = (e) => {
-    console.log(e.target.value);
     switch (Number(optionFilter)) {
       case 1:
         setFilter({ oid: e.target.value, pid: "" });

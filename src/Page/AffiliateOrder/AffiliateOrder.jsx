@@ -67,7 +67,6 @@ const AffiliateOrder = () => {
         filter.pid,
         filter.np
       );
-      console.log(data);
       setDataTable(data.orders);
     })();
   }, [filter]);
@@ -82,9 +81,7 @@ const AffiliateOrder = () => {
   const onChange = (value, dateString) => {
     setPicker(dateString);
   };
-  const onSearch = async (value) => {
-    console.log("🚀 ~ onSearch ~ value", value);
-  };
+  const onSearch = async (value) => {};
 
   const statusHandler = (bookingStatus, paymentStatus) => {
     bookingStatus = Number(bookingStatus);
@@ -138,8 +135,8 @@ const AffiliateOrder = () => {
       dataIndex: "CreationTime",
       key: "CreationTime",
       sorter: {
-        compare: (a, b) => a?.CreationTime - b?.CreationTime,
-        multiple: 2,
+        compare: (a, b) => moment(a?.CreationTime) - moment(b?.CreationTime),
+        multiple: 0,
       },
       render: (_, record) => (
         <p>{moment(record?.CreationTime).format("DD-MM-YYYY HH:mm")}</p>
@@ -149,10 +146,10 @@ const AffiliateOrder = () => {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
-      sorter: {
-        compare: (a, b) => a.status - b.status,
-        multiple: 1,
-      },
+      // sorter: {
+      //   compare: (a, b) => a.status - b.status,
+      //   multiple: 1,
+      // },
       render: (_, record) => (
         <p>{statusHandler(record?.BookingStatus, record?.PaymentStatus)}</p>
       ),
@@ -208,11 +205,9 @@ const AffiliateOrder = () => {
     },
   ];
   const optionSearchHandler = (e) => {
-    console.log(e);
     setOptionFilter(e);
   };
   const searchFilterHandler = (e) => {
-    console.log(e.target.value);
     switch (Number(optionFilter)) {
       case 1:
         setFilter({ afla: e.target.value, oid: "", np: "", pid: "" });
@@ -228,7 +223,6 @@ const AffiliateOrder = () => {
         break;
     }
   };
-  console.log(filter);
   return (
     <div className="AffiliateOrder">
       <div className="chile" style={{ padding: "20px" }}>

@@ -40,7 +40,6 @@ export const ManageOrder = () => {
     category: "1",
     PaymentStatus: "",
   });
-  console.log("dataTYbale", dataTale);
   const navigate = useNavigate();
   useEffect(() => {
     (async () => {
@@ -84,7 +83,6 @@ export const ManageOrder = () => {
       title: "Mã bài đăng",
       dataIndex: "postId",
       render: (_, value) => {
-        console.log(value);
         return <p>{value?.StudioRoom?.StudioPostId}</p>;
       },
     },
@@ -92,7 +90,6 @@ export const ManageOrder = () => {
       title: "Ngày Thực hiện",
       // dataIndex: "CreationTime",
       render: (item) => {
-        console.log("item", item);
         const date = item.OrderByDateFrom ?? item.OrderByTimeFrom;
         return moment(date).format("DD-MM-YYYY HH:mm");
       },
@@ -180,14 +177,12 @@ export const ManageOrder = () => {
   };
 
   const onChangeFilter = (value) => {
-    console.log(value);
     setFilter({ ...filter, ...value });
     if (Object.keys(value)[0] === "EntryDate") {
       const obj = value?.EntryDate?.reduce((acc, item, index) => {
         const key = index === 0 ? "startDate" : "endDate";
         return { ...acc, [key]: moment(item.$d).format() };
       }, {});
-      console.log("obj", obj);
       if (!obj) {
         setFilter({
           ...filter,

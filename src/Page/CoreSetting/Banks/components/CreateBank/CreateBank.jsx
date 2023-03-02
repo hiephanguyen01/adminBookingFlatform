@@ -35,7 +35,6 @@ const CreateBank = () => {
           if (newBank?.Url && !newBank?.Url?.includes("http")) {
             newBank.Url = "https://" + newBank.Url;
           }
-          // console.log(newBank);
           await bankService.createBank(newBank);
         });
         toastMessage("Tạo ngân hàng thành công!", "success");
@@ -62,12 +61,8 @@ const CreateBank = () => {
         const data = XLSX.utils.sheet_to_json(ws);
         setFileData(data);
       };
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
-
-  console.log(bank);
 
   return (
     <div className={cx("create-banner-container")}>
@@ -76,8 +71,7 @@ const CreateBank = () => {
           fontSize: "16px",
           marginBottom: "10px",
           fontWeight: "bold",
-        }}
-      >
+        }}>
         <Breadcrumb.Item>
           <Link to={"/setting/banks"} style={{ color: "#10b08a" }}>
             Quản lý ngân hàng
@@ -92,8 +86,7 @@ const CreateBank = () => {
           type="primary"
           style={{ backgroundColor: "#1677ff" }}
           size="large"
-          onClick={handleOnFinish}
-        >
+          onClick={handleOnFinish}>
           <PlusOutlined />
           Thêm ngân hàng
         </Button>
@@ -105,8 +98,7 @@ const CreateBank = () => {
         form={form}
         // initialValues={banner}
         size={"large"}
-        onValuesChange={handleOnChangeForm}
-      >
+        onValuesChange={handleOnChangeForm}>
         <Form.Item label="VN name" name={"VNName"}>
           <Input placeholder="name" />
         </Form.Item>
