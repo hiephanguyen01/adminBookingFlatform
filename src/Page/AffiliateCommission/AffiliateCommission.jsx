@@ -119,8 +119,8 @@ const AffiliateCommission = () => {
       dataIndex: "CreationTime",
       key: "CreationTime",
       sorter: {
-        compare: (a, b) => a?.CreationTime - b?.CreationTime,
-        multiple: 2,
+        compare: (a, b) => moment(a?.CreationTime) - moment(b?.CreationTime),
+        multiple: 0,
       },
       render: (_, record) => (
         <p>{moment(record?.CreationTime).format("DD-MM-YYYY HH:mm")}</p>
@@ -257,13 +257,15 @@ function ModalTime({ open, handleOk, setOpen, onChange }) {
           OK
         </Button>,
       ]}
-      onCancel={() => setOpen(false)}>
+      onCancel={() => setOpen(false)}
+    >
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           padding: "20px",
-        }}>
+        }}
+      >
         <RangePicker onChange={onChange} />
       </div>
     </Modal>

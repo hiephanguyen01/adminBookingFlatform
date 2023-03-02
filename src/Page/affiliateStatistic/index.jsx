@@ -1,13 +1,8 @@
-import {
-  ExclamationCircleOutlined,
-  EyeOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import { ExclamationCircleOutlined, SearchOutlined } from "@ant-design/icons";
 import {
   Button,
   Col,
   DatePicker,
-  Image,
   Input,
   message,
   Modal,
@@ -441,7 +436,6 @@ export const AffiliateStatistic = () => {
       Commission: _.sumBy(data, "Commission"),
     });
   };
-
   return (
     <div>
       <div className={classes.statistic}>
