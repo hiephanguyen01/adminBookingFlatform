@@ -14,6 +14,7 @@ import {
   Row,
   Select,
   Table,
+  Tag,
 } from "antd";
 import _ from "lodash";
 import moment from "moment";
@@ -37,7 +38,7 @@ const optionSelect = [
     value: "1",
   },
   {
-    label: "Tìm theo ID đơn đặt",
+    label: "Tìm theo ID dịch vụ/sản phẩm",
     value: "2",
   },
   {
@@ -52,7 +53,8 @@ const optionSelect = [
 
 export const AffiliateStatistic = () => {
   const [date, setDate] = useState({});
-  const [dataTable, setDataTable] = useState([]);
+  const [dataTableProduct, setDataTableProduct] = useState([]);
+  const [dataTablePublisher, setDataTablePublisher] = useState([]);
   const [open, setOpen] = useState(false);
   const [picker, setPicker] = useState();
   const [currentOption, setCurrentOption] = useState(1);
@@ -64,12 +66,70 @@ export const AffiliateStatistic = () => {
     Commission: 0,
   });
   const [messageApi, contextHolder] = message.useMessage();
+  const [filter, setFilter] = useState({ productId: "", publisherId: "" });
+  const [optionFilter, setOptionFilter] = useState(1);
 
   const [active, setActive] = useState({
     id: 1,
     icon: <OrderIcon active={true} />,
     label: "Số đơn đặt",
   });
+  useEffect(() => {
+    if (currentOption !== 8) {
+      (async () => {
+        try {
+          const { data } = await affiliateService.statisticDataAdmin(
+            currentOption
+          );
+          const dataProduct = await affiliateService.getAdminPublisherProduct(
+            filter.productId,
+            currentOption
+          );
+          const dataPublisher = await affiliateService.getAdminPublisher(
+            filter.publisherId,
+            currentOption
+          );
+          setDataTableProduct(dataProduct.data.data);
+          setDataTablePublisher(dataPublisher.data.data);
+          setDataValueMap(data);
+        } catch (error) {
+          openNotification("error", "Vui lòng thử lại sau !!!");
+        }
+      })();
+    } else {
+      if (date.picker) {
+        (async () => {
+          try {
+            let dateTime = {
+              startDate: moment(date.picker[0]).toISOString(),
+              endDate: moment(date.picker[1]).toISOString(),
+            };
+            dateTime = JSON.stringify(dateTime);
+            const { data } = await affiliateService.statisticData(
+              currentOption,
+              dateTime
+            );
+            const dataProduct = await affiliateService.getAdminPublisherProduct(
+              filter.productId,
+              currentOption,
+              dateTime
+            );
+            const dataPublisher = await affiliateService.getAdminPublisher(
+              filter.publisherId,
+              currentOption,
+              dateTime
+            );
+            setDataTablePublisher(dataPublisher.data.data);
+            setDataTableProduct(dataProduct.data.data);
+            setDataValueMap(data);
+          } catch (error) {
+            console.log("🚀 ~ error:", error);
+            openNotification("error", "Vui lòng thử lại sau !!!");
+          }
+        })();
+      }
+    }
+  }, [currentOption, date, filter]);
   const list = [
     {
       id: 1,
@@ -130,6 +190,46 @@ export const AffiliateStatistic = () => {
       label: "Chọn ngày cụ thể",
     },
   ];
+  const columnHandler = (active) => {
+    switch (active) {
+      case 1:
+        return "Số đơn đặt";
+      case 3:
+        return "Số đơn đặt";
+      case 2:
+        return "Giá trị đơn đặt(VND)";
+
+      case 4:
+        return "Hoa hồng(VND)";
+    }
+  };
+  const columnValueHandler = (active, value) => {
+    switch (active) {
+      case 1:
+        return <p>{value?.totalOrder}</p>;
+      case 3:
+        return <p>{value?.totalPriceOrder}</p>;
+      case 2:
+        return (
+          <p>
+            {value?.totalPriceOrder?.toLocaleString("it-IT", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </p>
+        );
+
+      case 4:
+        return (
+          <p>
+            {value?.totalComission?.toLocaleString("it-IT", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </p>
+        );
+    }
+  };
   const columns = [
     {
       title: "ID dịch vụ/sản phẩm",
@@ -137,65 +237,156 @@ export const AffiliateStatistic = () => {
       key: "name",
       render: (i, d) => {
         return (
-          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-            <Image
-              // src={IMG(d.Image)}
-              style={{ width: "66px", height: "42px" }}
-              alt="aa"
-            />
-            <p>{d.name}</p>
+          <div style={{ color: "green" }}>
+            <p>{d.id}</p>
           </div>
         );
       },
     },
     {
       title: "Tên dịch vụ/sản phẩm ",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: "Giá",
       dataIndex: "category",
       key: "category",
-      // render: (i, d) => handlerNameCategory(d.category),
+      // sorter: (a, b) =>
+      //   a?.priceByHour - b?.priceByHour || a?.priceByDate - b?.priceByDate,
+      render: (i, d) => {
+        return (
+          <div>
+            <p>
+              {d?.priceByHour?.toLocaleString("it-IT", {
+                style: "currency",
+                currency: "VND",
+              })}
+              /giờ
+            </p>
+            <br />
+            <p>
+              {d?.priceByDate?.toLocaleString("it-IT", {
+                style: "currency",
+                currency: "VND",
+              })}
+              /ngày
+            </p>
+          </div>
+        );
+      },
     },
     {
       // title: columnHandler(active),
       title: "% Hoa hồng",
-      key: "totalOrder",
-      dataIndex: "totalOrder",
+      key: "commissionPercent",
+      dataIndex: "commissionPercent",
+      // render: (i, d) => columnValueHandler(active, d),
+    },
+    {
+      title: columnHandler(active.id),
+      key: "action",
+      render: (i, _) => columnValueHandler(active.id, _),
+    },
+  ];
+  const columnsPublisher = [
+    {
+      title: "ID tài khoản",
+      dataIndex: "name",
+      key: "name",
+      render: (i, d) => {
+        return (
+          <div style={{ color: "green" }}>
+            <p>{d.id}</p>
+          </div>
+        );
+      },
+    },
+    {
+      title: "Tài khoản publisher ",
+      dataIndex: "fullName",
+      key: "fullName",
+    },
+    {
+      title: "Loại tài khoản",
+      dataIndex: "category",
+      key: "category",
+      render: (i, d) => {
+        return (
+          <div>
+            {d.isPersonal ? (
+              <Tag color="orange">Cá nhân</Tag>
+            ) : (
+              <Tag color="purple">Doanh nghiệp</Tag>
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      // title: columnHandler(active),
+      title: "Đường dẫn trang web",
+      key: "",
+      dataIndex: "",
       // render: (i, d) => columnValueHandler(active, d),
     },
     {
       title: "Đơn đặt",
       key: "action",
-      render: (i, _) => {
-        return (
-          <div style={{ display: "flex", gap: "1rem" }}>
-            <Link
-              href={`/manager/statistic/${_.id}?category=${_.category}`}
-              // onClick={() => {
-              //   router.push({
-              //     pathname: "/manager/statistic/[id]",
-              //     query: { id: _.action },
-              //   });
-              // }}
-            >
-              <EyeOutlined style={{ cursor: "pointer" }} />
-            </Link>
-            {/* <CopyToClipboard
-              text={`https://bookingstudio.vn/home/${handlerNameCategory(
-                _.category
-              )}/${_.id}`}
-              onCopy={() => success()}
-            >
-              <LinkOutlined style={{ cursor: "pointer" }} />
-            </CopyToClipboard> */}
-          </div>
-        );
-      },
+      // render: (i, _) => columnValueHandler(active.id, _),
+      dataIndex: "totalOrder",
     },
   ];
+  const optionSearchHandler = (e) => {
+    console.log(e);
+    setOptionFilter(e);
+  };
+  const searchFilterHandlerProduct = (e) => {
+    console.log(e.target.value);
+    switch (Number(optionFilter)) {
+      case 1:
+        setFilter((prevState) => ({ ...prevState, productId: e.target.value }));
+        break;
+      case 2:
+        setFilter((prevState) => ({ ...prevState, productId: e.target.value }));
+        break;
+      case 3:
+        setFilter((prevState) => ({ ...prevState, productId: e.target.value }));
+        break;
+      case 4:
+        setFilter((prevState) => ({ ...prevState, productId: e.target.value }));
+        break;
+    }
+  };
+  const searchFilterHandlerPublisher = (e) => {
+    console.log(e.target.value);
+    switch (Number(optionFilter)) {
+      case 1:
+        setFilter((prevState) => ({
+          ...prevState,
+          publisherId: e.target.value,
+        }));
+        break;
+      case 2:
+        setFilter((prevState) => ({
+          ...prevState,
+          publisherId: e.target.value,
+        }));
+        break;
+      case 3:
+        setFilter((prevState) => ({
+          ...prevState,
+          publisherId: e.target.value,
+        }));
+        break;
+      case 4:
+        setFilter((prevState) => ({
+          ...prevState,
+          publisherId: e.target.value,
+        }));
+        break;
+    }
+  };
   ///Duy
   const onChange = (key) => {
     setCurrentOption(key);
@@ -251,41 +442,6 @@ export const AffiliateStatistic = () => {
     });
   };
 
-  useEffect(() => {
-    if (currentOption !== 8) {
-      (async () => {
-        try {
-          const { data } = await affiliateService.statisticDataAdmin(
-            currentOption
-          );
-          setDataValueMap(data);
-        } catch (error) {
-          openNotification("error", "Vui lòng thử lại sau !!!");
-        }
-      })();
-    } else {
-      if (date.picker) {
-        (async () => {
-          try {
-            let dateTime = {
-              startDate: moment(date.picker[0]).toISOString(),
-              endDate: moment(date.picker[1]).toISOString(),
-            };
-            dateTime = JSON.stringify(dateTime);
-            const { data } = await affiliateService.statisticData(
-              currentOption,
-              dateTime
-            );
-            setDataValueMap(data);
-          } catch (error) {
-            console.log("🚀 ~ error:", error);
-            openNotification("error", "Vui lòng thử lại sau !!!");
-          }
-        })();
-      }
-    }
-  }, [currentOption, date]);
-
   return (
     <div>
       <div className={classes.statistic}>
@@ -296,7 +452,8 @@ export const AffiliateStatistic = () => {
               <Select
                 defaultValue={1}
                 style={{ width: "10rem" }}
-                onChange={onChange}>
+                onChange={onChange}
+              >
                 {items.map((item) => (
                   <Option key={item.label} value={item.value}>
                     {item.label}
@@ -316,18 +473,21 @@ export const AffiliateStatistic = () => {
                     onClick={() => setActive(item)}
                     className={`${classes.boxItem} ${
                       active.id === item.id && classes.active
-                    } `}>
+                    } `}
+                  >
                     <div
                       style={{
                         display: "flex",
                         alignItems: "center",
                         gap: ".5rem",
                       }}
-                      className={classes.itemTop}>
+                      className={classes.itemTop}
+                    >
                       <div className={`${classes.icon}`}>{item.icon}</div>
                       <span
                         className={classes.text}
-                        style={{ fontSize: "1.2rem" }}>
+                        style={{ fontSize: "1.2rem" }}
+                      >
                         {item.label}
                       </span>
                       <ExclamationCircleOutlined />
@@ -351,7 +511,8 @@ export const AffiliateStatistic = () => {
                 flex: "1 1 ",
                 alignItems: "start",
                 width: "100%",
-              }}>
+              }}
+            >
               <div
                 style={{
                   // paddingBottom: "1.5rem",
@@ -360,13 +521,14 @@ export const AffiliateStatistic = () => {
                   width: "60%",
                   flexDirection: "column",
                   gap: ".5rem",
-                }}>
+                }}
+              >
                 <h3>TỔNG ĐƠN ĐẶT THEO TỪNG LOẠI DỊCH VỤ/SẢN PHẨM</h3>
                 <p>(Tổng đơn đặt được tạo từ Affiliate Program)</p>
               </div>
               <Input.Group compact style={{ display: "flex", flex: "1" }}>
                 <Select
-                  defaultValue={"1"}
+                  defaultValue={"2"}
                   size="large"
                   // onChange={optionSearchHandler}
                   // style={{
@@ -384,14 +546,15 @@ export const AffiliateStatistic = () => {
                 <Input
                   prefix={<SearchOutlined />}
                   placeholder="Tìm theo mã đơn đặt"
-                  // onChange={searchFilterHandler}
+                  onChange={searchFilterHandlerProduct}
                 />
               </Input.Group>
             </div>
             <div>
               <Table
                 columns={columns}
-                dataSource={dataTable}
+                // loading
+                dataSource={dataTableProduct}
                 total={100}
                 showSizeChanger={true}
               />
@@ -407,7 +570,8 @@ export const AffiliateStatistic = () => {
                 flex: "1 1 ",
                 alignItems: "start",
                 width: "100%",
-              }}>
+              }}
+            >
               <div
                 style={{
                   // paddingBottom: "1.5rem",
@@ -416,7 +580,8 @@ export const AffiliateStatistic = () => {
                   width: "60%",
                   flexDirection: "column",
                   gap: ".5rem",
-                }}>
+                }}
+              >
                 <h3>TỔNG ĐƠN ĐẶT THEO TỪNG TÀI KHOẢN PUBLISHER</h3>
                 <p>(Tổng đơn đặt được tạo từ Affiliate Program)</p>
               </div>
@@ -440,14 +605,14 @@ export const AffiliateStatistic = () => {
                 <Input
                   prefix={<SearchOutlined />}
                   placeholder="Tìm theo mã đơn đặt"
-                  // onChange={searchFilterHandler}
+                  onChange={searchFilterHandlerPublisher}
                 />
               </Input.Group>
             </div>
             <div>
               <Table
-                columns={columns}
-                dataSource={dataTable}
+                columns={columnsPublisher}
+                dataSource={dataTablePublisher}
                 total={100}
                 showSizeChanger={true}
               />
@@ -463,13 +628,15 @@ export const AffiliateStatistic = () => {
               OK
             </Button>,
           ]}
-          onCancel={() => setOpen(false)}>
+          onCancel={() => setOpen(false)}
+        >
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               padding: "20px",
-            }}>
+            }}
+          >
             <RangePicker onChange={onChangeDate} />
           </div>
         </Modal>

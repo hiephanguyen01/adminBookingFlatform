@@ -55,6 +55,16 @@ class Affiliate extends BaseService {
   getDetailOrdersPublisher = (id) => {
     return this.get(`/api/affiliate/orders/${id}`);
   };
+  getAdminPublisherProduct = (pid = "", option = "", date = "") => {
+    return this.get(
+      `/api/affiliate/admin/statistics-product?pid=${pid}&option=${option}&date=${date}`
+    );
+  };
+  getAdminPublisher = (pid = "", option = "", date = "") => {
+    return this.get(
+      `/api/affiliate/admin/statistics-publisher?pid=${pid}&option=${option}&date=${date}`
+    );
+  };
 }
 
 export const affiliateService = new Affiliate();
