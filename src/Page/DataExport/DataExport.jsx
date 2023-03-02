@@ -27,9 +27,7 @@ const DataExport = () => {
   });
   const [loadingBtn, setLoadingBtn] = useState(false);
 
-  console.log("data", data);
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
     SetOption(value);
   };
   const handleExportData = async () => {
@@ -98,8 +96,7 @@ const DataExport = () => {
           defaultValue={""}
           style={{ width: 440 }}
           size="large"
-          onChange={handleChange}
-        >
+          onChange={handleChange}>
           <Option value={""}>Chọn...</Option>
           {options.map((item) => (
             <Option value={item.value} key={item.label}>

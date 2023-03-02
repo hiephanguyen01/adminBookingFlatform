@@ -45,7 +45,6 @@ const AskedQuestion = () => {
   useEffect(() => {
     const getAllQuestion = async () => {
       const res = await askedQuestionsService.getAllAskedQuestions(textSearch);
-      console.log(res.data.data);
       setQuestions(res.data.data);
     };
     getAllQuestion();
@@ -149,8 +148,6 @@ const AskedQuestion = () => {
     },
   ];
 
-  console.log(question);
-
   return (
     <>
       <div className={cx("district-filter")}>
@@ -174,8 +171,7 @@ const AskedQuestion = () => {
               setIsCreateOpenModal(true);
               setQuestion({});
               form.resetFields();
-            }}
-          >
+            }}>
             <PlusOutlined />
             Tạo câu hỏi
           </Button>
@@ -205,15 +201,13 @@ const AskedQuestion = () => {
             <Button
               type="default"
               onClick={() => setIsDeleteModalOpen(false)}
-              style={{ marginRight: "15px" }}
-            >
+              style={{ marginRight: "15px" }}>
               Thoát
             </Button>,
             <Button type="primary" onClick={handleDelete}>
               Đồng ý
             </Button>,
-          ]}
-        >
+          ]}>
           Bạn có muốn xóa từ câu hỏi này không?
         </Modal>
         <Modal
@@ -228,15 +222,13 @@ const AskedQuestion = () => {
             <Button
               type="default"
               onClick={() => setIsEditModalOpen(false)}
-              style={{ marginRight: "15px" }}
-            >
+              style={{ marginRight: "15px" }}>
               Thoát
             </Button>,
             <Button type="primary" onClick={handleEdit}>
               Cập nhật
             </Button>,
-          ]}
-        >
+          ]}>
           <Form
             form={form}
             size="large"
@@ -271,15 +263,13 @@ const AskedQuestion = () => {
             <Button
               type="default"
               onClick={() => setIsCreateOpenModal(false)}
-              style={{ marginRight: "15px" }}
-            >
+              style={{ marginRight: "15px" }}>
               Thoát
             </Button>,
             <Button type="primary" onClick={handleCreate}>
               Lưu
             </Button>,
-          ]}
-        >
+          ]}>
           <Form
             form={form}
             size="large"

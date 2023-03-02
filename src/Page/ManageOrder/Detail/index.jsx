@@ -34,7 +34,6 @@ const Detail = ({ modify = false }) => {
   if (loading) return <Loading />;
   const onFinish = async (value) => {
     setLoadingBtn(true);
-    console.log(value);
 
     try {
       await orderService.updateOrderByid(
@@ -70,8 +69,7 @@ const Detail = ({ modify = false }) => {
           fontSize: "16px",
           marginBottom: "10px",
           fontWeight: "bold",
-        }}
-      >
+        }}>
         <Breadcrumb.Item>
           <Link to={"/manage-order"} style={{ color: "#10b08a" }}>
             Quản lý đơn đặt
@@ -107,8 +105,7 @@ const Detail = ({ modify = false }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}
-      >
+        style={{ marginTop: "20px" }}>
         <header className="booking-info">
           <p>THÔNG TIN ĐƠN ĐẶT</p>
 
@@ -167,8 +164,7 @@ const Detail = ({ modify = false }) => {
               marginLeft: "15px",
             }}
             label="Tên khách hàng"
-            name="BookingUserName"
-          >
+            name="BookingUserName">
             <Input
               disabled={modify ? false : true}
               style={{ padding: "10px" }}
@@ -200,8 +196,7 @@ const Detail = ({ modify = false }) => {
               marginLeft: "15px",
             }}
             label="Số điện thoại"
-            name="BookingPhone"
-          >
+            name="BookingPhone">
             <Input
               disabled={modify ? false : true}
               style={{ padding: "10px" }}
@@ -229,8 +224,7 @@ const Detail = ({ modify = false }) => {
               marginLeft: "15px",
             }}
             label="Email"
-            name="BookingEmail"
-          >
+            name="BookingEmail">
             <Input
               disabled={modify ? false : true}
               style={{ padding: "10px" }}
@@ -242,8 +236,7 @@ const Detail = ({ modify = false }) => {
               width: "49%",
               display: "inline-block",
             }}
-            label="Ngày thực hiện"
-          >
+            label="Ngày thực hiện">
             <Input
               disabled
               value={
@@ -267,8 +260,7 @@ const Detail = ({ modify = false }) => {
               marginLeft: "15px",
             }}
             label="Trạng thái đơn đặt"
-            name="BookingStatus"
-          >
+            name="BookingStatus">
             <Select
               disabled={modify ? false : true}
               size="large"
@@ -360,8 +352,7 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
             }}
             label="Hình thức thanh toán"
-            name="PaymentTypeOnline"
-          >
+            name="PaymentTypeOnline">
             <Select
               disabled={modify ? false : true}
               size="large"
@@ -384,8 +375,7 @@ const Detail = ({ modify = false }) => {
               marginLeft: "15px",
             }}
             label="Trạng thái thanh toán"
-            name="PaymentStatus"
-          >
+            name="PaymentStatus">
             <Select
               disabled={modify ? false : true}
               size="large"
@@ -533,8 +523,7 @@ const Detail = ({ modify = false }) => {
                 display: "inline-block",
                 margin: "30px 0 0 15px",
               }}
-              name="IsRefund"
-            >
+              name="IsRefund">
               <Checkbox
                 disabled={modify ? false : true}
                 size="large"
@@ -566,14 +555,12 @@ const Detail = ({ modify = false }) => {
                   width: "49%",
                   display: "inline-block",
                   margin: "33px 0 0 15px",
-                }}
-              >
+                }}>
                 <Button
                   loading={loadingBtn}
                   size="large"
                   htmlType="submit"
-                  type="primary"
-                >
+                  type="primary">
                   Lưu thay đổi
                 </Button>
               </Form.Item>

@@ -12,7 +12,6 @@ export const CustomerExport = ({ setData, data }) => {
     },
     IsDeleted: "",
   });
-  console.log(filter);
   const onChangeFilter = (value) => {
     setFilter({ ...filter, ...value });
     setData({ ...data, ...value });

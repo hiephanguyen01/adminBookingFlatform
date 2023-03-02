@@ -46,7 +46,6 @@ export const ManagePost = () => {
     },
     Name_like: "",
   });
-  console.log(filter);
   const navigate = useNavigate();
   useEffect(() => {
     (async () => {
@@ -273,7 +272,6 @@ export const ManagePost = () => {
     getAllPost(page, 10, filter);
   };
   const onChangeFilter = (value) => {
-    console.log("cvalue", value);
     setFilter({ ...filter, ...value });
 
     if (Object.keys(value)[0] === "LastModificationTime") {
@@ -328,7 +326,6 @@ export const ManagePost = () => {
           <div className="papper">
             <>
               <header className="manage-order__header chile">
-              
                 <Form
                   name="basic"
                   layout="vertical"
@@ -340,8 +337,7 @@ export const ManagePost = () => {
                   }}
                   // onFinish={onFinish}
                   onValuesChange={(e) => onChangeFilter(e)}
-                  autoComplete="off"
-                >
+                  autoComplete="off">
                   <Row gutter={[16, 16]}>
                     {/* <Form.Item> */}
                     {expandHeader
@@ -374,27 +370,23 @@ export const ManagePost = () => {
                   {!expandHeader ? (
                     <p
                       style={{ float: "right", marginTop: "1rem" }}
-                      onClick={() => setExpandHeader(!expandHeader)}
-                    >
+                      onClick={() => setExpandHeader(!expandHeader)}>
                       xem thêm
                     </p>
                   ) : (
                     <p
                       style={{ float: "right", marginTop: "1rem" }}
-                      onClick={() => setExpandHeader(!expandHeader)}
-                    >
+                      onClick={() => setExpandHeader(!expandHeader)}>
                       thu gọn
                     </p>
                   )}
                 </Form>
-              
               </header>
 
               <Divider />
               <main
                 className="manage-order__table chile"
-                style={{ paddingBottom: "20px" }}
-              >
+                style={{ paddingBottom: "20px" }}>
                 <Table
                   columns={column}
                   dataSource={dataTale}

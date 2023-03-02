@@ -1,8 +1,6 @@
-import React from "react";
 import {
   ExclamationCircleOutlined,
   EyeOutlined,
-  LinkOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
 import {
@@ -10,26 +8,26 @@ import {
   Col,
   DatePicker,
   Image,
+  Input,
+  message,
   Modal,
   Row,
   Select,
   Table,
-  message,
-  Input,
   Tag,
 } from "antd";
 import _ from "lodash";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { convertPrice } from "../../../utils/convert";
-import classes from "./statistic.module.scss";
-import OrderIcon from "../../assets/images/order";
-import MouseIcon from "../../assets/images/mouseIcon";
-import ValueOrderIcon from "../../assets/images/valueOrder";
-import RoseIcon from "../../assets/images/rose";
 import { openNotification } from "../../../utils/Notification";
-import { affiliateService } from "../../services/AffiliateService";
+import MouseIcon from "../../assets/images/mouseIcon";
+import OrderIcon from "../../assets/images/order";
+import RoseIcon from "../../assets/images/rose";
+import ValueOrderIcon from "../../assets/images/valueOrder";
 import LineChartComponent from "../../Components/recharts/LineChartComponent";
+import { affiliateService } from "../../services/AffiliateService";
+import classes from "./statistic.module.scss";
 
 const { RangePicker } = DatePicker;
 

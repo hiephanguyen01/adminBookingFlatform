@@ -6,7 +6,6 @@ import { PhotographerRoom } from "./photographerRoom";
 import { StudioRoom } from "./studioRoom";
 
 export const DetailRoom = ({ data, category }) => {
-  console.log("detal", data);
   if (!data) return null;
 
   const listCheckBox = [

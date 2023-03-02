@@ -33,9 +33,7 @@ const EditBank = () => {
       try {
         const res = await bankService.getDetailById(location.state.bankId);
         setBank(res.data.data);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     getBankDetail();
   }, [location.state.bannerId]);
@@ -75,8 +73,7 @@ const EditBank = () => {
           fontSize: "16px",
           marginBottom: "10px",
           fontWeight: "bold",
-        }}
-      >
+        }}>
         <Breadcrumb.Item>
           <Link to={"/setting/banks"} style={{ color: "#10b08a" }}>
             Quản lý ngân hàng
@@ -91,8 +88,7 @@ const EditBank = () => {
             // type="primary"
             // style={{ backgroundColor: "#1677ff" }}
             size="large"
-            onClick={showModal}
-          >
+            onClick={showModal}>
             <DeleteOutlined />
             Xóa
           </Button>
@@ -100,8 +96,7 @@ const EditBank = () => {
             type="primary"
             style={{ backgroundColor: "#1677ff", marginLeft: "20px" }}
             size="large"
-            onClick={handleOnFinish}
-          >
+            onClick={handleOnFinish}>
             <PlusOutlined />
             Lưu thay đổi
           </Button>
@@ -116,8 +111,7 @@ const EditBank = () => {
           initialValues={bank}
           // value={form}
           size={"large"}
-          onValuesChange={handleOnChangeForm}
-        >
+          onValuesChange={handleOnChangeForm}>
           <Form.Item label="VN name" name={"VNName"}>
             <Input placeholder="name" />
           </Form.Item>
@@ -144,15 +138,13 @@ const EditBank = () => {
           <Button
             type="default"
             onClick={() => setIsModalOpen(false)}
-            style={{ marginRight: "15px" }}
-          >
+            style={{ marginRight: "15px" }}>
             Thoát
           </Button>,
           <Button type="primary" onClick={handleDeleteBank}>
             Đồng Ý
           </Button>,
-        ]}
-      >
+        ]}>
         Bạn có muốn xóa banner này không?
       </Modal>
     </div>

@@ -68,7 +68,6 @@ export const postDaoReducer = (state = initialState, action) => {
       return { ...state, relatedService: action.data };
     }
     case "SET_LIST_NOTIFICATION_USER": {
-      // console.log("reducẻ", action.data);
       return { ...state, listNotificationUser: action.data };
     }
     default:
