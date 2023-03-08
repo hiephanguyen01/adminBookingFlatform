@@ -182,7 +182,7 @@ const Partner = () => {
               label="Ngày tạo"
               name="CreateDate"
               className={cx("form-custom")}>
-              <RangePicker />
+              <RangePicker format="DD/MM/YYYY" />
             </Form.Item>
           </div>
           <div className={cx("w-25", "fs-16")}>
@@ -190,7 +190,7 @@ const Partner = () => {
               label="Ngày cập nhật gần nhất"
               name="updateDate"
               className={cx("form-custom")}>
-              <RangePicker />
+              <RangePicker format="DD/MM/YYYY" />
             </Form.Item>
           </div>
           <div className={cx("w-25", "fs-16")}>

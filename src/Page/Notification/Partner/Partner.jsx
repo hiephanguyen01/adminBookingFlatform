@@ -99,23 +99,20 @@ const columns = [
             <Link
               to={"view-detail"}
               state={{ notificationId: value.id }}
-              className={cx("action_more")}
-            >
+              className={cx("action_more")}>
               <EyeOutlined className={cx("action_more_icon")} />
               Xem chi tiết
             </Link>
             <Link
               to={"edit"}
               state={{ notificationId: value.id }}
-              className={cx("action_more")}
-            >
+              className={cx("action_more")}>
               <EditOutlined className={cx("action_more_icon")} />
               Chỉnh sửa
             </Link>
           </>
         }
-        trigger="click"
-      >
+        trigger="click">
         <MoreOutlined />
       </Popover>
     ),
@@ -177,14 +174,12 @@ export const Partner = () => {
           // onFinish={onFinish}
           size="large"
           style={{ display: "flex" }}
-          labelWrap={true}
-        >
+          labelWrap={true}>
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
               label="Ngày tạo"
               name="createdAt"
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <RangePicker
                 // onChange={(date, dateString) =>
                 //   setFilter({
@@ -203,17 +198,15 @@ export const Partner = () => {
             <Form.Item
               label="Ngày gửi"
               name="sendingTime"
-              className={cx("form-custom")}
-            >
-              <RangePicker />
+              className={cx("form-custom")}>
+              <RangePicker format="DD/MM/YYYY" />
             </Form.Item>
           </div>
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
               label="Loại thông báo"
               name="type"
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <Select defaultValue={""}>
                 {NOTIFY_TYPE.map((item) => (
                   <Select.Option value={item.value} key={item.value}>
@@ -227,8 +220,7 @@ export const Partner = () => {
             <Form.Item
               label="Trạng thái"
               name={"status"}
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <Select defaultValue={""}>
                 {NOTIFY_STATUS.map((item) => (
                   <Select.Option value={item.value} key={item.value}>

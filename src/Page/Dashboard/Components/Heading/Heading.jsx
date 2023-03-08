@@ -82,7 +82,7 @@ const Heading = ({ title, setDate, date }) => {
             justifyContent: "center",
             padding: "20px",
           }}>
-          <RangePicker onChange={onChange} />
+          <RangePicker onChange={onChange} format="DD/MM/YYYY" />
         </div>
       </Modal>
     </div>

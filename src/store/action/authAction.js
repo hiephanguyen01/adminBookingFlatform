@@ -7,7 +7,7 @@ export const login = (value) => async (dispatch) => {
     dispatch({ type: SET_LOADING, payload: true });
     const { data } = await adminService.login(value);
     localStorage.setItem("token", data.token);
-    dispatch({ type: SET_USER, payload: data.user });
+    dispatch({ type: SET_USER, payload: data });
   } catch (error) {
     openNotification("error", "Login failed");
   }
@@ -35,9 +35,10 @@ export const getCurrentUser = () => async (dispatch) => {
   }
   dispatch({ type: AUTHING, payload: false });
 };
-export const logOut = (navigate) => async (dispatch) => {
+export const logOut = (navigate, pathname) => async (dispatch) => {
   try {
-    navigate("/login");
+    pathname.includes("affiliate") && navigate("/affiliate");
+    !pathname.includes("affiliate") && navigate("/login");
     dispatch({ type: SET_USER, payload: null });
     localStorage.removeItem("token");
   } catch (error) {

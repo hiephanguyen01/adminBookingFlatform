@@ -210,7 +210,7 @@ export const PromoCustomer = () => {
               label="Ngày hết hạn"
               name="dateTimeExpire"
               className={cx("form-custom")}>
-              <RangePicker />
+              <RangePicker format="DD/MM/YYYY" />
             </Form.Item>
           </div>
           <div className={cx("w-25", "fs-16")}>

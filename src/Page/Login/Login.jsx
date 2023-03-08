@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../store/action/authAction";
-const Login = () => {
+const Login = ({ type = "" }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.userReducer.currentUser);
@@ -11,7 +11,10 @@ const Login = () => {
     dispatch(login(values));
   };
   useEffect(() => {
-    if (currentUser) navigate("/dashboard");
+    if (currentUser) {
+      type === "affiliate" && navigate("/affiliate");
+      type === "" && navigate("/dashboard");
+    }
   }, [currentUser]);
 
   return (

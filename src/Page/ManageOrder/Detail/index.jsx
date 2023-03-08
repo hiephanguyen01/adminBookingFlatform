@@ -52,18 +52,6 @@ const Detail = ({ modify = false }) => {
       setLoadingBtn(false);
     }
   };
-  const bookingStatus = (value) => {
-    switch (value) {
-      case 1:
-        return "Đã hoàn thành";
-      case 2:
-        return "Đã huý";
-      case 3:
-        return "Vắng mặt";
-      case 4:
-        return "Chờ thực hiện";
-    }
-  };
   return (
     <section className="detail-order">
       <Breadcrumb
@@ -99,6 +87,10 @@ const Detail = ({ modify = false }) => {
           PaymentTypeOnline: data.PaymentTypeOnline,
           PaymentStatus: data.PaymentStatus,
           IsRefund: data.IsRefund,
+          AffiliateUserId: data.AffiliateUserId,
+          accountUser: data.accountUser,
+          bank: data.bank,
+          bankAccount: data.bankAccount,
         }}
         layout="vertical"
         labelCol={{
@@ -162,11 +154,22 @@ const Detail = ({ modify = false }) => {
               style={{ padding: "10px" }}
             />
           </Form.Item>
+
           <Form.Item
             style={{
               width: "49%",
               display: "inline-block",
               marginLeft: "15px",
+            }}
+            label="Affiliat ID"
+            name="AffiliateUserId">
+            <Input disabled={true} style={{ padding: "10px" }} />
+          </Form.Item>
+          <Form.Item
+            style={{
+              width: "49%",
+              display: "inline-block",
+              marginRight: "15px",
             }}
             label="Tên khách hàng"
             name="BookingUserName"
@@ -199,7 +202,7 @@ const Detail = ({ modify = false }) => {
             style={{
               width: "49%",
               display: "inline-block",
-              marginLeft: "15px",
+              marginRight: "15px",
             }}
             label="Số điện thoại"
             name="BookingPhone"
@@ -228,7 +231,7 @@ const Detail = ({ modify = false }) => {
             style={{
               width: "49%",
               display: "inline-block",
-              marginLeft: "15px",
+              marginRight: "15px",
             }}
             label="Email"
             name="BookingEmail"
@@ -265,7 +268,7 @@ const Detail = ({ modify = false }) => {
             style={{
               width: "49%",
               display: "inline-block",
-              marginLeft: "15px",
+              marginRight: "15px",
             }}
             label="Trạng thái đơn đặt"
             name="BookingStatus"
@@ -515,10 +518,28 @@ const Detail = ({ modify = false }) => {
               style={{
                 width: "49%",
                 display: "inline-block",
+                marginRight: "15px",
               }}
               label="Số tài khoản nhận hoàn tiền"
-              // name="bankAccountForRefund"
-            >
+              name="bankAccount">
+              <Input disabled style={{ padding: "10px" }} />
+            </Form.Item>
+            <Form.Item
+              style={{
+                width: "49%",
+                display: "inline-block",
+              }}
+              label="Tên tài khoản"
+              name="accountUser">
+              <Input disabled style={{ padding: "10px" }} />
+            </Form.Item>
+            <Form.Item
+              style={{
+                width: "49%",
+                display: "inline-block",
+              }}
+              label="Ngân hàng"
+              name="bank">
               <Input disabled style={{ padding: "10px" }} />
             </Form.Item>
             <Form.Item
