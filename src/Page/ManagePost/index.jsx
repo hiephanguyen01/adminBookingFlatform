@@ -209,6 +209,7 @@ export const ManagePost = () => {
       },
       el: (
         <RangePicker
+          format="DD/MM/YYYY"
           style={{ padding: "8px" }}
           //   value={dates || value}
           //   disabledDate={disabledDate}
@@ -227,6 +228,7 @@ export const ManagePost = () => {
       },
       el: (
         <RangePicker
+          format="DD/MM/YYYY"
           style={{ padding: "8px" }}
           //   value={dates || value}
           //   disabledDate={disabledDate}

@@ -115,7 +115,7 @@ export const PartnerExport = ({ setData, data }) => {
         display: "inline-block",
         marginRight: "40px",
       },
-      el: <RangePicker style={{ padding: "8px" }} />,
+      el: <RangePicker style={{ padding: "8px" }} format="DD/MM/YYYY" />,
     },
   ];
   return (

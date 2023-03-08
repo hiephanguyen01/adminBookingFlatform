@@ -67,7 +67,11 @@ const Filter = (props) => {
           }}>
           Ngày tạo
         </label>
-        <RangePicker onChange={onRangeChange} size="large" />
+        <RangePicker
+          onChange={onRangeChange}
+          size="large"
+          format="DD/MM/YYYY"
+        />
       </Row>
     </article>
   );

@@ -1,7 +1,7 @@
 import { Button, Col, Popover, Row, Tag } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom/dist";
 import { logOut } from "../../store/action/authAction";
@@ -9,6 +9,8 @@ import "./Header.scss";
 import logo from "../../assets/logo.svg";
 import { AliwangwangOutlined } from "@ant-design/icons";
 const Header = () => {
+  const location = useLocation();
+
   const [time, setTime] = useState();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.userReducer.currentUser);
@@ -24,7 +26,7 @@ const Header = () => {
   }, [time]);
 
   const handleLogOut = () => {
-    dispatch(logOut(navigate));
+    dispatch(logOut(navigate, location.pathname));
   };
   return (
     <div className="Header">
@@ -67,9 +69,10 @@ const Header = () => {
               <Tag
                 style={{ fontSize: "18px", padding: "10px" }}
                 icon={<AliwangwangOutlined />}
-                color="magenta"
-              >
-                {currentUser?.user?.name}
+                color="magenta">
+                {currentUser?.user
+                  ? currentUser?.user?.name
+                  : currentUser?.name}
               </Tag>
             </div>
           </Popover>

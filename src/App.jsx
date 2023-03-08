@@ -237,25 +237,28 @@ const App = () => {
               element={<PostDetail modify={true} />}></Route>
           </Route>
         )}
-        {user?.affiliate >= 2 && (
-          <Route
-            path="/affiliate"
-            element={
-              <ProtectedRoute type="affiliate">
-                <AdminLayout type="affiliate" />
-              </ProtectedRoute>
-            }>
-            <Route path="manage" element={<AffiliateAccount />}></Route>
-            <Route path="manage/:id" element={<AffiliateDetail />}></Route>
-            <Route path="link" element={<AffiliateLink />}></Route>
-            <Route path="link/:id" element={<LinkDetail />}></Route>
-            <Route path="order" element={<AffiliateOrder />}></Route>
-            <Route path="order/:id" element={<OrderDetail />}></Route>
-            <Route path="commission" element={<AffiliateCommission />}></Route>
-            <Route path="statistic" element={<AffiliateStatistic />}></Route>
-          </Route>
-        )}
-
+        <Route
+          path="/affiliate"
+          element={
+            <ProtectedRoute type="affiliate">
+              <AdminLayout type="affiliate" />
+            </ProtectedRoute>
+          }>
+          {user?.affiliate >= 2 && (
+            <>
+              <Route path="manage" element={<AffiliateAccount />}></Route>
+              <Route path="manage/:id" element={<AffiliateDetail />}></Route>
+              <Route path="link" element={<AffiliateLink />}></Route>
+              <Route path="link/:id" element={<LinkDetail />}></Route>
+              <Route path="order" element={<AffiliateOrder />}></Route>
+              <Route path="order/:id" element={<OrderDetail />}></Route>
+              <Route
+                path="commission"
+                element={<AffiliateCommission />}></Route>
+              <Route path="statistic" element={<AffiliateStatistic />}></Route>
+            </>
+          )}
+        </Route>
         <Route path="/login" element={<Login />}></Route>
       </Routes>
     </div>

@@ -27,7 +27,6 @@ export const ManageOrder = () => {
   const [expandHeader, setExpandHeader] = useState(false);
   const [dataTale, setDataTable] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openMore, setOpenMore] = useState(null);
   const [pagination, setPagination] = useState();
   const [filter, setFilter] = useState({
     BookingStatus: "",
@@ -84,6 +83,13 @@ export const ManageOrder = () => {
       dataIndex: "postId",
       render: (_, value) => {
         return <p>{value?.StudioRoom?.StudioPostId}</p>;
+      },
+    },
+    {
+      title: "affiliate ID ",
+      dataIndex: "AffiliateUserId",
+      render: (_) => {
+        return <p>{_ !== null ? _ : "Không"}</p>;
       },
     },
     {
@@ -271,9 +277,9 @@ export const ManageOrder = () => {
       },
       el: (
         <RangePicker
+          format="DD/MM/YYYY"
           style={{ padding: "8px" }}
           value={dates || value}
-          disabledDate={disabledDate}
           onCalendarChange={(val) => setDates(val)}
           onChange={(val) => setValue(val)}
         />

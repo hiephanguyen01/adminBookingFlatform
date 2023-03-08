@@ -257,16 +257,14 @@ function ModalTime({ open, handleOk, setOpen, onChange }) {
           OK
         </Button>,
       ]}
-      onCancel={() => setOpen(false)}
-    >
+      onCancel={() => setOpen(false)}>
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           padding: "20px",
-        }}
-      >
-        <RangePicker onChange={onChange} />
+        }}>
+        <RangePicker onChange={onChange} format="DD/MM/YYYY" />
       </div>
     </Modal>
   );

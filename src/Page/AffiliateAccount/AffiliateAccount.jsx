@@ -78,6 +78,8 @@ const AffiliateAccount = () => {
       },
       render: (_, record) => (
         <Switch
+          checkedChildren="Activate"
+          unCheckedChildren="Inactivate"
           disabled={onLoadingSwitch}
           checked={_}
           onChange={() => onChangeCheck(record)}
