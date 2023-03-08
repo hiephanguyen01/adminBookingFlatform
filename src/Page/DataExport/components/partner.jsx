@@ -15,6 +15,7 @@ export const PartnerExport = ({ setData, data }) => {
     ProvinceId: "",
     IsDelete: "",
   });
+  console.log("ProvinceId", data.ProvinceId);
   useEffect(() => {
     (async () => {
       await getAllprovinces();
@@ -67,10 +68,10 @@ export const PartnerExport = ({ setData, data }) => {
         marginRight: "40px",
       },
       el: (
-        <Select defaultValue="" size="large">
+        <Select defaultValue={""} size="large">
           <Option value="">Tất cả</Option>
           {province?.map((item) => (
-            <Option value={item.id} key={item.id}>
+            <Option value={item.id} key={`${item.id}${item.Name}`}>
               {item.Name}
             </Option>
           ))}
@@ -132,13 +133,15 @@ export const PartnerExport = ({ setData, data }) => {
         }}
         // onFinish={onFinish}
         onValuesChange={(e) => onChangeFilter(e)}
-        autoComplete="off">
+        autoComplete="off"
+      >
         {formItem.map((item, idx) => (
           <Form.Item
             key={idx}
             name={item.name}
             label={item.label}
-            style={item.style}>
+            style={item.style}
+          >
             {item.el}
           </Form.Item>
         ))}

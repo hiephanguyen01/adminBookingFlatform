@@ -16,6 +16,7 @@ import {
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { convertTimeUTC } from "../../../utils/convert";
 import { Loading } from "../../Components/Loading";
 import { orderService } from "../../services/OrderService";
 import "./manageOrder.scss";
@@ -97,7 +98,9 @@ export const ManageOrder = () => {
       // dataIndex: "CreationTime",
       render: (item) => {
         const date = item.OrderByDateFrom ?? item.OrderByTimeFrom;
-        return moment(date).format("DD-MM-YYYY HH:mm");
+        return item.OrderByTime
+          ? `${convertTimeUTC(item.OrderByTimeFrom, true)}  `
+          : `${convertTimeUTC(item.OrderByDateFrom)}  `;
       },
     },
     {
@@ -413,7 +416,8 @@ export const ManageOrder = () => {
           }}
           // onFinish={onFinish}
           onValuesChange={(e) => onChangeFilter(e)}
-          autoComplete="off">
+          autoComplete="off"
+        >
           <Row gutter={[16, 16]}>
             {expandHeader
               ? formItem.map((item, idx) => (
@@ -444,13 +448,15 @@ export const ManageOrder = () => {
           {!expandHeader ? (
             <p
               style={{ float: "right", marginTop: "1rem" }}
-              onClick={() => setExpandHeader(!expandHeader)}>
+              onClick={() => setExpandHeader(!expandHeader)}
+            >
               xem thêm
             </p>
           ) : (
             <p
               style={{ float: "right", marginTop: "1rem" }}
-              onClick={() => setExpandHeader(!expandHeader)}>
+              onClick={() => setExpandHeader(!expandHeader)}
+            >
               thu gọn
             </p>
           )}
@@ -460,7 +466,8 @@ export const ManageOrder = () => {
       <Divider />
       <main
         className="manage-order__table chile"
-        style={{ paddingBottom: "20px" }}>
+        style={{ paddingBottom: "20px" }}
+      >
         <Table columns={column} dataSource={dataTale} pagination={false} />
         <Pagination
           style={{ textAlign: "right" }}

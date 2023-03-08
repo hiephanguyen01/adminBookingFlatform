@@ -4,17 +4,19 @@ import moment from "moment";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IMG } from "../../../../../utils/baseURL";
+import { convertTimeUTC } from "../../../../../utils/convert";
 
 export const InfoGeneral = ({ data }) => {
   if (!data) return null;
+  console.log("ìnochung", data);
   const navigate = useNavigate();
   return (
     <>
       <Breadcrumb style={{ fontSize: "17px" }}>
-        <Breadcrumb.Item
-          onClick={() => navigate("/posts")}
-          style={{ color: "#03ac84" }}>
-          <Link to={"/posts"}> Quản lí bài đăng</Link>
+        <Breadcrumb.Item onClick={() => navigate("/posts")}>
+          <Link to={"/posts"} style={{ color: "#03ac84" }}>
+            Quản lí bài đăng
+          </Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>Thông tin chung</Breadcrumb.Item>
       </Breadcrumb>
@@ -38,7 +40,8 @@ export const InfoGeneral = ({ data }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}>
+        style={{ marginTop: "20px" }}
+      >
         <Row gutter={32}>
           <Col span={12}>
             <Form.Item
@@ -57,19 +60,22 @@ export const InfoGeneral = ({ data }) => {
               label="Thời gian làm việc (Buổi sáng)"
               // name="Id"
             >
-              <Input style={{ padding: "10px" }} />
+              <Input value={data.OpenMorningHour} style={{ padding: "10px" }} />
             </Form.Item>{" "}
             <Form.Item
               label="Thời gian làm việc (Buổi chiều)"
               // name="Id"
             >
-              <Input style={{ padding: "10px" }} />
+              <Input
+                value={data.CloseAfternoonHour}
+                style={{ padding: "10px" }}
+              />
             </Form.Item>
             <Row gutter={16}>
               <Col span={12}>
                 <Form.Item label="Ngày đăng">
                   <Input
-                    value={moment(data.CreationTime).format("L")}
+                    value={convertTimeUTC(data.CreationTime)}
                     style={{ padding: "10px" }}
                   />
                 </Form.Item>
@@ -77,7 +83,7 @@ export const InfoGeneral = ({ data }) => {
               <Col span={12}>
                 <Form.Item label="Ngày cập nhật">
                   <Input
-                    value={moment(data.LastModificationTime).format("L")}
+                    value={convertTimeUTC(data.LastModificationTime)}
                     style={{ padding: "10px" }}
                   />
                 </Form.Item>
