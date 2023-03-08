@@ -84,8 +84,7 @@ const App = () => {
             <ProtectedRoute>
               <AdminLayout type="root" />
             </ProtectedRoute>
-          }
-        >
+          }>
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="account" element={<Account />}></Route>
             <Route path="post" element={<Post />}></Route>
@@ -103,8 +102,7 @@ const App = () => {
             {user?.partnerAccount >= 2 && (
               <Route
                 path="partner/edit/:id"
-                element={<DetailEditPartner />}
-              ></Route>
+                element={<DetailEditPartner />}></Route>
             )}
             {user?.customerAccount >= 2 && (
               <Route path="customer" element={<Customer />}></Route>
@@ -115,8 +113,7 @@ const App = () => {
             {user?.customerAccount >= 2 && (
               <Route
                 path="customer/edit/:id"
-                element={<EditCustomer />}
-              ></Route>
+                element={<EditCustomer />}></Route>
             )}
           </Route>
           {user?.report >= 2 && (
@@ -125,21 +122,20 @@ const App = () => {
           {user?.report >= 2 && (
             <Route
               path="rank-report/:id"
-              element={<DetailRateReport />}
-            ></Route>
+              element={<DetailRateReport />}></Route>
           )}
-          {/* {user?.booking >= 2 && ( */}
-          <Route path="manage-order" element={<ManageOrder />} />
-          {/* )} */}
-          {/* {user?.booking >= 2 && ( */}
-          <Route path="manage-order/:id" element={<DetailOrder />} />
-          {/* )} */}
-          {/* {user?.booking >= 2 && ( */}
-          <Route
-            path="manage-order/edit/:id"
-            element={<DetailOrder modify={true} />}
-          />
-          {/* )} */}
+          {user?.booking >= 2 && (
+            <Route path="manage-order" element={<ManageOrder />} />
+          )}
+          {user?.booking >= 2 && (
+            <Route path="manage-order/:id" element={<DetailOrder />} />
+          )}
+          {user?.booking >= 2 && (
+            <Route
+              path="manage-order/edit/:id"
+              element={<DetailOrder modify={true} />}
+            />
+          )}
           {user?.export >= 2 && (
             <Route path="data-export" element={<DataExport />}></Route>
           )}
@@ -186,22 +182,18 @@ const App = () => {
               <Route path="" element={<PromoPartner />}></Route>
               <Route
                 path="view-detail"
-                element={<PromoPartnerDetail />}
-              ></Route>
+                element={<PromoPartnerDetail />}></Route>
               <Route
                 path="edit"
-                element={<PromoPartnerDetail edit={true} />}
-              ></Route>
+                element={<PromoPartnerDetail edit={true} />}></Route>
 
               <Route path="customer" element={<PromoCustomer />}></Route>
               <Route
                 path="customer/view-detail"
-                element={<PromoCustomerDetail />}
-              ></Route>
+                element={<PromoCustomerDetail />}></Route>
               <Route
                 path="customer/edit"
-                element={<PromoCustomerDetail edit={true} />}
-              ></Route>
+                element={<PromoCustomerDetail edit={true} />}></Route>
 
               <Route path="create" element={<PromoCreate />}></Route>
             </Route>
@@ -218,8 +210,7 @@ const App = () => {
               <Route path="banner/create" element={<CreateBanner />}></Route>
               <Route
                 path="banner/edit"
-                element={<EditBanner edit={true} />}
-              ></Route>
+                element={<EditBanner edit={true} />}></Route>
               <Route path="banks" element={<Banks />} />
               <Route path="banks/create" element={<CreateBank />} />
               <Route path="banks/edit" element={<EditBank edit={true} />} />
