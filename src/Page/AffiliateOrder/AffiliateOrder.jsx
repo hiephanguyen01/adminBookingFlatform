@@ -12,6 +12,7 @@ import {
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { openNotification } from "../../../utils/Notification";
 import { affiliateService } from "../../services/AffiliateService";
 import "./AffiliateOrder.scss";
 const { RangePicker } = DatePicker;
@@ -56,30 +57,76 @@ const AffiliateOrder = () => {
   const [open, setOpen] = useState(false);
   const [dataTable, setDataTable] = useState([]);
   const [picker, setPicker] = useState();
+  const [date, setDate] = useState({});
   const [filter, setFilter] = useState({ afla: "", oid: "", np: "", pid: "" });
   const [optionFilter, setOptionFilter] = useState(1);
+  const [currentOption, setCurrentOption] = useState(1);
   // afla, oid, pid, np
+  // useEffect(() => {
+  //   (async () => {
+  //     const { data } = await affiliateService.getAllOrdersPublisher(
+  //       filter.afla,
+  //       filter.oid,
+  //       filter.pid,
+  //       filter.np
+  //     );
+  //     setDataTable(data.orders);
+  //   })();
+  // }, [filter]);
   useEffect(() => {
-    (async () => {
-      const { data } = await affiliateService.getAllOrdersPublisher(
-        filter.afla,
-        filter.oid,
-        filter.pid,
-        filter.np
-      );
-      setDataTable(data.orders);
-    })();
-  }, [filter]);
-  const handleChange = (value) => {
-    if (value === 8) {
-      setOpen(true);
+    if (currentOption !== 8) {
+      (async () => {
+        try {
+          const { data } = await affiliateService.getAllOrdersPublisher(
+            filter.afla,
+            filter.oid,
+            filter.pid,
+            filter.np,
+            currentOption
+          );
+          setDataTable(data.orders);
+        } catch (error) {
+          openNotification("error", "Vui lòng thử lại sau !!!");
+        }
+      })();
+    } else {
+      if (date.picker) {
+        (async () => {
+          try {
+            let dateTime = {
+              startDate: moment(date.picker[0]).toISOString(),
+              endDate: moment(date.picker[1]).toISOString(),
+            };
+            dateTime = JSON.stringify(dateTime);
+            const { data } = await affiliateService.getAllOrdersPublisher(
+              filter.afla,
+              filter.oid,
+              filter.pid,
+              filter.np,
+              currentOption,
+              dateTime
+            );
+            setDataTable(data.orders);
+          } catch (error) {
+            console.log("🚀 ~ error:", error);
+            openNotification("error", "Vui lòng thử lại sau !!!");
+          }
+        })();
+      }
     }
-  };
+  }, [currentOption, filter, date]);
   const handleOk = () => {
+    setDate({ ...date, picker });
     setOpen(false);
   };
   const onChange = (value, dateString) => {
     setPicker(dateString);
+  };
+  const onChangeDate = (key) => {
+    setCurrentOption(key);
+    if (key === 8) {
+      setOpen(true);
+    }
   };
   const onSearch = async (value) => {};
 
@@ -92,7 +139,7 @@ const AffiliateOrder = () => {
       bookingStatus === 4 &&
       [4, 3, 2].some((item) => item === paymentStatus)
     ) {
-      return "Sắp tời";
+      return "Sắp tới";
     } else if (
       bookingStatus === 1 &&
       [4, 3].some((item) => item === paymentStatus)
@@ -233,9 +280,14 @@ const AffiliateOrder = () => {
               size="large"
               defaultValue={1}
               style={{ width: 200, marginRight: "20px" }}
-              onChange={handleChange}
-              options={timeDate}
-            />
+              onChange={onChangeDate}
+            >
+              {timeDate.map((item) => (
+                <Option key={item.label} value={item.value}>
+                  {item.label}
+                </Option>
+              ))}
+            </Select>
             {/* <Search
               size="large"
               placeholder="Tìm theo tên hoặc số điện thoại"

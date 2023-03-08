@@ -47,9 +47,16 @@ class Affiliate extends BaseService {
   getAllStatisticByPublisher = (option, date = "") => {
     return this.get(`/api/affiliate/statistics?option=${option}&date=${date}`);
   };
-  getAllOrdersPublisher = (afla = "", oid = "", pid = "", np = "") => {
+  getAllOrdersPublisher = (
+    afla = "",
+    oid = "",
+    pid = "",
+    np = "",
+    option,
+    date
+  ) => {
     return this.get(
-      `/api/affiliate/orders?afla=${afla}&oid=${oid}&np=${np}&pid=${pid}`
+      `/api/affiliate/orders?afla=${afla}&oid=${oid}&np=${np}&pid=${pid}&option=${option}&date=${date}`
     );
   };
   getDetailOrdersPublisher = (id) => {
