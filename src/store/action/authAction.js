@@ -26,7 +26,7 @@ export const createAdmin = (value) => async (dispatch) => {
 export const getCurrentUser = () => async (dispatch) => {
   try {
     dispatch({ type: AUTHING, payload: true });
-    if (localStorage.getItem("access_token")) {
+    if (localStorage.getItem("token")) {
       const res = await adminService.me();
       dispatch({ type: SET_USER, payload: res.data });
     }
