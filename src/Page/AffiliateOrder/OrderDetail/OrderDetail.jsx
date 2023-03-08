@@ -24,7 +24,8 @@ const OrderDetail = () => {
           <Breadcrumb.Item>
             <p
               style={{ display: "inline", cursor: "pointer" }}
-              onClick={() => navigate("/affiliate/order")}>
+              onClick={() => navigate("/affiliate/order")}
+            >
               Đơn đặt
             </p>
           </Breadcrumb.Item>
@@ -62,7 +63,9 @@ const OrderDetail = () => {
               <Col sm={24} xs={24} md={16}>
                 <div className="value">
                   :&emsp;&emsp;&emsp;{" "}
-                  {data?.StudioRoom?.StudioPost?.RegisterPartner?.PartnerName}
+                  {data?.AffiliateUser?.firstName +
+                    " " +
+                    data?.AffiliateUser?.lastName}
                 </div>
               </Col>
             </Row>
@@ -144,7 +147,7 @@ const OrderDetail = () => {
               </Col>
               <Col sm={24} xs={24} md={16}>
                 <div className="value">
-                  :&emsp;&emsp;&emsp;{data?.user?.Fullname}
+                  :&emsp;&emsp;&emsp;{data?.BookingUserName}
                 </div>
               </Col>
             </Row>
@@ -155,7 +158,7 @@ const OrderDetail = () => {
                 <div className="label">% Hoa hồng</div>
               </Col>
               <Col sm={24} xs={24} md={16}>
-                <div className="value">:&emsp;&emsp;&emsp;20%</div>
+                <div className="value">:&emsp;&emsp;&emsp;10%</div>
               </Col>
             </Row>
           </Col>

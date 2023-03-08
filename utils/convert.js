@@ -1,3 +1,4 @@
+import moment from "moment";
 import Moment from "moment";
 import { IMG } from "./baseURL";
 
@@ -35,4 +36,18 @@ export const convertPrice = (price) => {
     return 0;
   }
   return format;
+};
+
+export const convertTimeUTC = (datetime, date) => {
+  if (date) {
+    return moment(datetime).subtract(7, "hours").format("DD-MM-YYYY  HH:mm");
+  }
+  return moment(datetime).subtract(7, "hours").format("DD-MM-YYYY");
+};
+
+export const converPriceVND = (price = 0) => {
+  return Number(price).toLocaleString("it-IT", {
+    style: "currency",
+    currency: "VND",
+  });
 };
