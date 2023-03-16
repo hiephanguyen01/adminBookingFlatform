@@ -7,6 +7,8 @@ import { openNotification } from "../../../../utils/Notification";
 import Header from "../../../Components/Header/Header";
 import { Loading } from "../../../Components/Loading";
 import { studioPostService } from "../../../services/StudioPostService";
+import CalendarAndPrice from "./components/Calendar";
+import Calendar from "./components/Calendar";
 import { InfoGeneral } from "./components/InfoGeneral";
 import { InfoRoom } from "./components/InfoRoom";
 import "./Detail.scss";
@@ -98,7 +100,10 @@ export const PostDetail = ({ modify }) => {
       label: "Thông tin phòng",
       children: <InfoRoom category={state.category} service={data?.service} />,
     },
-    { label: "Lịch và giá" },
+    {
+      label: "Lịch và giá",
+      children: <CalendarAndPrice service={data?.service}  />,
+    },
     { label: "Khuyến mãi" },
   ];
   return (

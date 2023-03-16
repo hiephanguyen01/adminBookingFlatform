@@ -5,6 +5,7 @@ import {
   PicLeftOutlined,
   PoundCircleOutlined,
   SolutionOutlined,
+  DatabaseOutlined
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import React from "react";
@@ -47,6 +48,12 @@ const AffiliateSideBar = () => {
       key: "/affiliate/statistic",
       icon: <LineChartOutlined />,
       disabled: user?.affiliate < 2,
+    },
+    {
+      label: "Data export",
+      key: "/affiliate/data-export",
+      icon: <DatabaseOutlined />,
+      disabled: user?.export < 2,
     },
   ];
   const onClick = (e) => {

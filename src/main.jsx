@@ -8,7 +8,6 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.scss";
 import store from "./store/store";
-
 const locala = {
   ...locale,
   DatePicker: {
@@ -22,12 +21,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <BrowserRouter>
         <ConfigProvider
-          locale={locale}
+          locale={locala}
           theme={{
             token: {
               colorPrimary: "#e22828",
             },
-          }}>
+          }}
+        >
           <App />
         </ConfigProvider>
       </BrowserRouter>
