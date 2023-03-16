@@ -3,7 +3,7 @@ import { Breadcrumb, Col, Divider, Row } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { handlerNameCategory } from "../../../../utils/category";
+import { handlerNameCategory, statusHandler } from "../../../../utils/category";
 import { affiliateService } from "../../../services/AffiliateService";
 import "./OrderDetail.scss";
 const OrderDetail = () => {
@@ -55,6 +55,7 @@ const OrderDetail = () => {
               </Col>
             </Row>
           </Col>
+
           <Col sm={24} xs={24} md={12}>
             <Row>
               <Col sm={24} xs={24} md={8}>
@@ -70,6 +71,7 @@ const OrderDetail = () => {
               </Col>
             </Row>
           </Col>
+
           <Col sm={24} xs={24} md={12}>
             <Row>
               <Col sm={24} xs={24} md={8}>
@@ -78,6 +80,18 @@ const OrderDetail = () => {
               <Col sm={24} xs={24} md={16}>
                 <div className="label">
                   :&emsp;&emsp;&emsp;{data.StudioRoom?.StudioPost?.Name}
+                </div>
+              </Col>
+            </Row>
+          </Col>
+          <Col sm={24} xs={24} md={12}>
+            <Row>
+              <Col sm={24} xs={24} md={8}>
+                <div className="label">ID Publisher</div>
+              </Col>
+              <Col sm={24} xs={24} md={16}>
+                <div className="value">
+                  :&emsp;&emsp;&emsp; {data?.AffiliateUserId}
                 </div>
               </Col>
             </Row>
@@ -94,6 +108,7 @@ const OrderDetail = () => {
               </Col>
             </Row>
           </Col>
+
           <Col sm={24} xs={24} md={12}>
             <Row>
               <Col sm={24} xs={24} md={8}>
@@ -171,6 +186,19 @@ const OrderDetail = () => {
                 <div className="value">
                   :&emsp;&emsp;&emsp;
                   {moment(data?.CreationTime).format("DD-MM-YYYY HH:mm")}
+                </div>
+              </Col>
+            </Row>
+          </Col>
+          <Col sm={24} xs={24} md={12}>
+            <Row>
+              <Col sm={24} xs={24} md={8}>
+                <div className="label">Trang thái đơn đặt</div>
+              </Col>
+              <Col sm={24} xs={24} md={16}>
+                <div className="value">
+                  :&emsp;&emsp;&emsp;
+                  {statusHandler(data?.BookingStatus, data.PaymentStatus)}
                 </div>
               </Col>
             </Row>

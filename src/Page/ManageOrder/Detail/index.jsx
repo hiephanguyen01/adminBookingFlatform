@@ -1,8 +1,18 @@
-import { Breadcrumb, Button, Checkbox, Form, Input, Select } from "antd";
+import {
+  Breadcrumb,
+  Button,
+  Checkbox,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Row,
+  Select,
+} from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { convertTimeUTC } from "../../../../utils/convert";
+import { converPriceVND, convertTimeUTC } from "../../../../utils/convert";
 import { openNotification } from "../../../../utils/Notification";
 import { Loading } from "../../../Components/Loading";
 import { orderService } from "../../../services/OrderService";
@@ -23,6 +33,45 @@ const Detail = ({ modify = false }) => {
       setLoading(false);
     })();
   }, []);
+
+  const listCheckBox = [
+    {
+      label: "Quạt",
+      value: data?.HasFan,
+    },
+    {
+      label: "Máy lạnh",
+      value: data?.HasAirConditioner,
+    },
+    {
+      label: "Phòng thay đồ",
+      value: data?.HasDressingRoom,
+    },
+    {
+      label: "Nhà vệ sinh riêng",
+      value: data?.HasWC,
+    },
+    {
+      label: "Camera an ninh",
+      value: data?.HasCamera,
+    },
+    {
+      label: "Wifi",
+      value: data?.HasWifi,
+    },
+    {
+      label: "Chỗ đậu xe máy",
+      value: data?.HasMotorBikeParking,
+    },
+    {
+      label: "Chỗ đậu xe ô tô",
+      value: data?.HasCarParking,
+    },
+    {
+      label: "Nhân viên hỗ trợ",
+      value: data?.HasSupporter,
+    },
+  ];
 
   const getPartnerDetailById = async (id) => {
     try {
@@ -161,9 +210,14 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
               marginLeft: "15px",
             }}
-            label="Affiliat ID"
-            name="AffiliateUserId">
-            <Input disabled={true} style={{ padding: "10px" }} />
+            label="Affiliate ID"
+            name="AffiliateUserId"
+          >
+            <Input
+              disabled={true}
+              value={data?.AffiliateUserId}
+              style={{ padding: "10px" }}
+            />
           </Form.Item>
           <Form.Item
             style={{
@@ -372,6 +426,233 @@ const Detail = ({ modify = false }) => {
           </Form.Item>
         </article>
         <article className="payment-info">
+          <p>THÔNG TIN PHÒNG</p>
+          <div style={{ marginTop: "1rem" }}>
+            <label
+              style={{
+                fontWeight: "bold",
+                paddingBottom: ".5rem",
+                display: "inline-block",
+                fontSize: "1rem",
+              }}
+            >
+              Kích thước
+            </label>
+            <Col span={24}>
+              <Form.Item
+                style={{
+                  width: "49%",
+                  display: "inline-block",
+                }}
+                label="Diện tích (m2)"
+                // name="BookingValueBeforeDiscount"
+              >
+                <Input
+                  disabled
+                  value={Number(data.BookingValueBeforeDiscount).toLocaleString(
+                    "it-IT",
+                    {
+                      style: "currency",
+                      currency: "VND",
+                    }
+                  )}
+                  style={{ padding: "10px" }}
+                />
+              </Form.Item>
+              <Form.Item
+                style={{
+                  width: "49%",
+                  display: "inline-block",
+                  marginLeft: "15px",
+                }}
+                label="Chiều dài (m)"
+                // name="PromoCodeId"
+              >
+                <Input
+                  disabled
+                  value={data.PromoCodeId}
+                  style={{ padding: "10px" }}
+                />
+              </Form.Item>
+
+              <Form.Item
+                style={{
+                  width: "49%",
+                  display: "inline-block",
+                }}
+                label="Chiều rộng (m)"
+                // name="discount"
+              >
+                <Input
+                  disabled
+                  value={Number(data?.saleValue).toLocaleString("it-IT", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                  style={{ padding: "10px" }}
+                />
+              </Form.Item>
+              <Form.Item
+                style={{
+                  width: "49%",
+                  display: "inline-block",
+                  marginLeft: "15px",
+                }}
+                label="Chiều cao trần (m)"
+                // name="BookingValue"
+              >
+                <Input
+                  disabled
+                  value={Number(data.BookingValue)?.toLocaleString("it-IT", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                  style={{ padding: "10px" }}
+                />
+              </Form.Item>
+              <Divider />
+
+              <Form.Item>
+                <label
+                  style={{
+                    fontWeight: "bold",
+                    paddingBottom: ".5rem",
+                    display: "inline-block",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Thiết bị có sẵn
+                </label>
+                <Row gutter={[32, 32]}>
+                  <Col span={12}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: ".5rem",
+                      }}
+                    >
+                      <div style={{ flex: 1 }}>
+                        <Checkbox value={data.HasBackground}>
+                          Hệ thống đèn
+                        </Checkbox>
+                      </div>
+                      <Input style={{ flex: 4 }} size="large" />
+                    </div>
+                  </Col>
+                  <Col span={12}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: ".5rem",
+                      }}
+                    >
+                      <div style={{ flex: 1 }}>
+                        <Checkbox>Phông nền</Checkbox>
+                      </div>
+                      <Input style={{ flex: 4 }} size="large" />
+                    </div>
+                  </Col>
+                  <Col span={24}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        alignItems: "center",
+                        gap: "2rem",
+                      }}
+                    >
+                      <Checkbox checked={data.HasTable}>Bàn</Checkbox>
+                      <Checkbox checked={data.HasChair}>Ghế</Checkbox>
+                      <Checkbox checked={data.HasSofa}>Sofa</Checkbox>
+                      <Checkbox checked={data.HasFlower}>Hoa tươi</Checkbox>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: ".5rem",
+                        }}
+                      >
+                        <Checkbox checked={data.HasOtherDevice}>Khác</Checkbox>
+                        <Input
+                          value={data.OtherDeviceDescription}
+                          size="large"
+                        />
+                      </div>
+                    </div>
+                  </Col>
+                </Row>
+              </Form.Item>
+              <Col span={24}>
+                <Divider />
+                <Form.Item className="label">
+                  <label
+                    style={{
+                      fontWeight: "bold",
+                      paddingBottom: ".5rem",
+                      display: "inline-block",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    Tiện ích đi kèm
+                  </label>
+                  <Col span={24}>
+                    <Row>
+                      <Col span={20}>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            alignItems: "center",
+                            gap: "2rem",
+                          }}
+                        >
+                          {listCheckBox.map((item) => {
+                            return (
+                              <Checkbox checked={item.value}>
+                                {item.label}
+                              </Checkbox>
+                            );
+                          })}
+                        </div>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Form.Item>
+              </Col>
+              <Col span={24}>
+                <Divider />
+                <Row gutter={[32, 32]}>
+                  <Col span={12}>
+                    <Form.Item
+                      label="Số khách tối đa
+              "
+                      // name="Id"
+                    >
+                      <Input
+                        value={data.MaximumCustomer}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item
+                      label="Phụ thu phát sinh (đ/khách)"
+                      // name="Id"
+                    >
+                      <Input
+                        value={converPriceVND(data.Surcharge)}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Col>
+            </Col>
+          </div>
+        </article>
+        <article className="payment-info">
           <p>THÔNG TIN THANH TOÁN</p>
 
           <Form.Item
@@ -521,7 +802,8 @@ const Detail = ({ modify = false }) => {
                 marginRight: "15px",
               }}
               label="Số tài khoản nhận hoàn tiền"
-              name="bankAccount">
+              name="bankAccount"
+            >
               <Input disabled style={{ padding: "10px" }} />
             </Form.Item>
             <Form.Item
@@ -530,7 +812,8 @@ const Detail = ({ modify = false }) => {
                 display: "inline-block",
               }}
               label="Tên tài khoản"
-              name="accountUser">
+              name="accountUser"
+            >
               <Input disabled style={{ padding: "10px" }} />
             </Form.Item>
             <Form.Item
@@ -539,7 +822,8 @@ const Detail = ({ modify = false }) => {
                 display: "inline-block",
               }}
               label="Ngân hàng"
-              name="bank">
+              name="bank"
+            >
               <Input disabled style={{ padding: "10px" }} />
             </Form.Item>
             <Form.Item

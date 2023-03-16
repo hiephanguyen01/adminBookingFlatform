@@ -11,6 +11,7 @@ import {
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { openNotification } from "../../../utils/Notification";
 import { affiliateService } from "../../services/AffiliateService";
 import "./AffiliateCommission.scss";
 const { RangePicker } = DatePicker;
@@ -55,31 +56,63 @@ const AffiliateCommission = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [picker, setPicker] = useState();
+  const [date, setDate] = useState({});
   const [dataTable, setDataTable] = useState([]);
   const [filter, setFilter] = useState({ oid: "", pid: "" });
   const [optionFilter, setOptionFilter] = useState(1);
+  const [currentOption, setCurrentOption] = useState(1);
 
   useEffect(() => {
-    (async () => {
-      const { data } = await affiliateService.getAllOrdersPublisher(
-        "",
-        filter.oid,
-        filter.pid,
-        ""
-      );
-      setDataTable(data.orders);
-    })();
-  }, [filter]);
-  const handleChange = (value) => {
-    if (value === 8) {
-      setOpen(true);
+    if (currentOption !== 8) {
+      (async () => {
+        try {
+          const { data } = await affiliateService.getAllCommistionsPublisher(
+            filter.oid,
+            filter.pid,
+            currentOption
+          );
+          setDataTable(data.orders);
+        } catch (error) {
+          openNotification("error", "Vui lòng thử lại sau !!!");
+        }
+      })();
+    } else {
+      if (date.picker) {
+        (async () => {
+          try {
+            let dateTime = {
+              startDate: moment(date.picker[0]).toISOString(),
+              endDate: moment(date.picker[1]).toISOString(),
+            };
+            dateTime = JSON.stringify(dateTime);
+            const { data } = await affiliateService.getAllCommistionsPublisher(
+              filter.oid,
+              filter.pid,
+              currentOption,
+              dateTime
+            );
+            setDataTable(data.orders);
+          } catch (error) {
+            console.log("🚀 ~ error:", error);
+            openNotification("error", "Vui lòng thử lại sau !!!");
+          }
+        })();
+      }
     }
-  };
+  }, [currentOption, filter, date]);
+
   const handleOk = () => {
+    setDate({ ...date, picker });
     setOpen(false);
   };
   const onChange = (value, dateString) => {
     setPicker(dateString);
+  };
+  const onChangeDate = (key) => {
+    setCurrentOption(key);
+    if (key === 8) {
+      setOpen(true);
+    }
   };
   const onSearch = async (value) => {};
   const optionSelect = [
@@ -111,7 +144,14 @@ const AffiliateCommission = () => {
       title: "ID bài đăng",
       dataIndex: "postId",
       key: "postId",
-      render: (_, record) => <p>{record?.StudioRoom?.StudioPost?.id}</p>,
+      render: (_, record) => (
+        <p>
+          {record?.StudioRoom?.StudioPost?.id ||
+            record?.PhotographerServicePackage?.PhotographerPost?.Id ||
+            record?.MakeupServicePackage?.MakeupPost?.Id ||
+            record?.ModelServicePackage?.ModelPost?.Id}
+        </p>
+      ),
     },
 
     {
@@ -132,7 +172,7 @@ const AffiliateCommission = () => {
       key: "BookingValueBeforeDiscount",
       sorter: {
         compare: (a, b) =>
-          a.BookingValueBeforeDiscount - b.BookingValueBeforeDiscount,
+          a?.BookingValueBeforeDiscount - b?.BookingValueBeforeDiscount,
         multiple: 1,
       },
       render: (_, record) => (
@@ -149,7 +189,7 @@ const AffiliateCommission = () => {
       dataIndex: "percentCommision",
       key: "percentCommision",
       sorter: {
-        compare: (a, b) => a.percentCommision - b.percentCommision,
+        compare: (a, b) => a?.percentCommision - b?.percentCommision,
         multiple: 1,
       },
     },
@@ -158,7 +198,7 @@ const AffiliateCommission = () => {
       dataIndex: "commission",
       key: "commission",
       sorter: {
-        compare: (a, b) => a.AffiliateCommission - b.AffiliateCommission,
+        compare: (a, b) => a?.AffiliateCommission - b?.AffiliateCommission,
         multiple: 1,
       },
       render: (_, record) => (
@@ -194,9 +234,14 @@ const AffiliateCommission = () => {
               size="large"
               defaultValue={1}
               style={{ width: 200, marginRight: "20px" }}
-              onChange={handleChange}
-              options={timeDate}
-            />
+              onChange={onChangeDate}
+            >
+              {timeDate.map((item) => (
+                <Option key={item.label} value={item.value}>
+                  {item.label}
+                </Option>
+              ))}
+            </Select>
             {/* <Search
               size="large"
               placeholder="Tìm theo tên hoặc số điện thoại"
@@ -257,13 +302,15 @@ function ModalTime({ open, handleOk, setOpen, onChange }) {
           OK
         </Button>,
       ]}
-      onCancel={() => setOpen(false)}>
+      onCancel={() => setOpen(false)}
+    >
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           padding: "20px",
-        }}>
+        }}
+      >
         <RangePicker onChange={onChange} format="DD/MM/YYYY" />
       </div>
     </Modal>

@@ -35,6 +35,7 @@ import Dashboard from "./Page/Dashboard/Dashboard";
 import Order from "./Page/Dashboard/Order/Order";
 import Post from "./Page/Dashboard/Post/Post";
 import DataExport from "./Page/DataExport/DataExport";
+import DataExportAffiliate from "./Page/DataExportAffiliate/DataExport";
 import Login from "./Page/Login/Login";
 import Customer from "./Page/ManageAccount/Customer/Customer";
 import { CustomerDetail } from "./Page/ManageAccount/Customer/Detail";
@@ -256,6 +257,7 @@ const App = () => {
                 path="commission"
                 element={<AffiliateCommission />}></Route>
               <Route path="statistic" element={<AffiliateStatistic />}></Route>
+              <Route path="data-export" element={<DataExportAffiliate />}></Route>
             </>
           )}
         </Route>

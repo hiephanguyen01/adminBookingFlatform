@@ -62,17 +62,7 @@ const AffiliateOrder = () => {
   const [optionFilter, setOptionFilter] = useState(1);
   const [currentOption, setCurrentOption] = useState(1);
   // afla, oid, pid, np
-  // useEffect(() => {
-  //   (async () => {
-  //     const { data } = await affiliateService.getAllOrdersPublisher(
-  //       filter.afla,
-  //       filter.oid,
-  //       filter.pid,
-  //       filter.np
-  //     );
-  //     setDataTable(data.orders);
-  //   })();
-  // }, [filter]);
+  
   useEffect(() => {
     if (currentOption !== 8) {
       (async () => {

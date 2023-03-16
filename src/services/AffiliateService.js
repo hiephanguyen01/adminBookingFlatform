@@ -59,6 +59,11 @@ class Affiliate extends BaseService {
       `/api/affiliate/orders?afla=${afla}&oid=${oid}&np=${np}&pid=${pid}&option=${option}&date=${date}`
     );
   };
+  getAllCommistionsPublisher = (oid = "", pid = "", option, date) => {
+    return this.get(
+      `/api/affiliate/commissions?oid=${oid}&pid=${pid}&option=${option}&date=${date}`
+    );
+  };
   getDetailOrdersPublisher = (id) => {
     return this.get(`/api/affiliate/orders/${id}`);
   };
