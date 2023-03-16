@@ -8,3 +8,12 @@
   align-items: center;
   align-items: center;
 }
+.modal-noti {
+  .ant-modal-content {
+    max-height: 60vh !important;
+    overflow-y: scroll !important;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

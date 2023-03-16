@@ -1,6 +1,8 @@
+import { io } from "socket.io-client";
+import { baseURL } from "../../../utils/baseURL";
 import { openNotification } from "../../../utils/Notification";
 import { adminService } from "../../services/AdminService";
-import { AUTHING, SET_LOADING, SET_USER } from "../types/authTypes";
+import { AUTHING, SET_LOADING, SET_SOCKET, SET_USER } from "../types/authTypes";
 
 export const login = (value) => async (dispatch) => {
   try {
@@ -44,4 +46,15 @@ export const logOut = (navigate, pathname) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const setupSocket = () => (dispatch) => {
+  const newSocket = io(baseURL);
+  newSocket.on("disconnect", () => {
+    dispatch({ type: SET_SOCKET, payload: null });
+    setTimeout(setupSocket, 3000);
+  });
+  newSocket.on("connect", () => {
+    dispatch({ type: SET_SOCKET, payload: newSocket });
+  });
 };

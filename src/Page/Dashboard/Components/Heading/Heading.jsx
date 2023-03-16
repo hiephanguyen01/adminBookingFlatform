@@ -53,6 +53,7 @@ const Heading = ({ title, setDate, date }) => {
     setOpen(false);
   };
   const onChange = (value, dateString) => {
+    console.log("🚀 ~ onChange ~ value, dateString:", value, dateString);
     setPicker(dateString);
   };
 
