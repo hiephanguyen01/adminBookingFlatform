@@ -16,6 +16,7 @@ import {
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { statusHandler } from "../../../utils/category";
 import { convertTimeUTC } from "../../../utils/convert";
 import { Loading } from "../../Components/Loading";
 import { orderService } from "../../services/OrderService";
@@ -132,18 +133,9 @@ export const ManageOrder = () => {
     },
     {
       title: "Trạng thái đơn đặt",
-      dataIndex: "BookingStatus",
-      render: (value) => {
-        switch (value) {
-          case 1:
-            return <Tag color={"green"}>{"Đã hoàn thành".toUpperCase()}</Tag>;
-          case 2:
-            return <Tag color={"red"}>{"Đã huý".toUpperCase()}</Tag>;
-          case 3:
-            return <p>Vắng mặt</p>;
-          case 4:
-            return <p>Chờ thực hiện</p>;
-        }
+
+      render: (_, value) => {
+        return statusHandler(value.BookingStatus, value.PaymentStatus);
       },
     },
     {
