@@ -1,24 +1,30 @@
 import { EditFilled } from "@ant-design/icons";
-import { Breadcrumb, Button, Col, Divider, Row, Table } from "antd";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  Breadcrumb,
+  Button,
+  Col,
+  Divider,
+  Input,
+  Row,
+  Table,
+  Tooltip,
+} from "antd";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { convertPrice } from "../../../../utils/convert";
+import { openNotification } from "../../../../utils/Notification";
+import { roomService } from "../../../services/RoomService";
 import "./LinkDetail.scss";
 const LinkDetail = () => {
   const navigate = useNavigate();
-  const dataSource = [
-    {
-      key: "1",
-      price: "3.000.000đ / ngày  ",
-      comissions: "20%",
-      priceCommissions: "100.000 VND",
-    },
-    {
-      key: "2",
-      price: "500.000đ / giờ  ",
-      comissions: "20%",
-      priceCommissions: "500.000 VND",
-    },
-  ];
+  const location = useLocation();
+  const [pageData, setPageData] = useState({});
+  const [dataSource, setDataSource] = useState([]);
+  const searchParams = new URLSearchParams(location.search);
+
+  const { id } = useParams();
+  const category = searchParams.get("category");
+
   const columns = [
     {
       title: "Giá",
@@ -31,8 +37,16 @@ const LinkDetail = () => {
       key: "comissions",
       render: (_, record) => (
         <>
-          {_} &nbsp;
-          <Button shape="circle" icon={<EditFilled />} />
+          <Input
+            type="number"
+            size="small"
+            style={{ width: "80px" }}
+            step={0.01}
+            onChange={(e) => handleChange(e, record)}
+            onBlur={handleBlur}
+            defaultValue={_ || 0}
+            maxLength={3}
+          />
         </>
       ),
     },
@@ -42,6 +56,60 @@ const LinkDetail = () => {
       key: "priceCommissions",
     },
   ];
+  //   <p>
+  //   {convertPrice(_?.PriceByDate)} đ/ngày <br />{" "}
+  //   {convertPrice(_?.PriceByHour)} đ/giờ{" "}
+  // </p>
+  const handleChange = (e, record) => {
+    const value = e.target.value;
+    setPageData((data) => {
+      if (record.key === "1") {
+        return {
+          ...data,
+          AffiliateCommissionByDate: +value,
+        };
+      } else {
+        return {
+          ...data,
+          AffiliateCommissionByHour: +value,
+        };
+      }
+    });
+  };
+
+  const handleBlur = async () => {
+    try {
+      await roomService.updateService(id, category, pageData);
+      openNotification("success", "Cập nhật thành công");
+    } catch (error) {
+      openNotification("error", "Vui lòng thử lại sau");
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await roomService.getDetailService(id, category);
+      setPageData(data);
+      setDataSource([
+        {
+          key: "1",
+          price: `${convertPrice(data?.PriceByDate)} đ/ngày`,
+          comissions: data.AffiliateCommissionByDate,
+          priceCommissions: `${convertPrice(
+            data?.PriceByDate * (data.AffiliateCommissionByDate || 0)
+          )} đ`,
+        },
+        {
+          key: "2",
+          price: `${convertPrice(data?.PriceByHour)} đ/giờ`,
+          comissions: data.AffiliateCommissionByHour,
+          priceCommissions: `${convertPrice(
+            data?.PriceByHour * (data.AffiliateCommissionByHour || 0)
+          )} đ`,
+        },
+      ]);
+    })();
+  }, [id, category]);
 
   return (
     <div className="LinkDetail">
@@ -72,8 +140,7 @@ const LinkDetail = () => {
                 </Col>
                 <Col md={16}>
                   <div className="value">
-                    :&emsp;&emsp;&emsp;Wisteria Studio - Cho thuê Studio chụp
-                    hình
+                    :&emsp;&emsp;&emsp;{pageData?.Name}
                   </div>
                 </Col>
               </Row>
@@ -84,7 +151,9 @@ const LinkDetail = () => {
                   <div className="label">Phân loại</div>
                 </Col>
                 <Col md={16}>
-                  <div className="value">:&emsp;&emsp;&emsp; Studio</div>
+                  <div className="value">
+                    :&emsp;&emsp;&emsp;{pageData?.label}{" "}
+                  </div>
                 </Col>
               </Row>
             </Col>
@@ -94,7 +163,9 @@ const LinkDetail = () => {
                   <div className="label">Đã đặt</div>
                 </Col>
                 <Col md={16}>
-                  <div className="value">:&emsp;&emsp;&emsp;2902</div>
+                  <div className="value">
+                    :&emsp;&emsp;&emsp;{pageData?.post?.BookingCount}
+                  </div>
                 </Col>
               </Row>
             </Col>
@@ -105,7 +176,14 @@ const LinkDetail = () => {
                 </Col>
                 <Col md={16}>
                   <div className="value">
-                    :&emsp;&emsp;&emsp;https://bookingstudio.dfd...
+                    :&emsp;&emsp;&emsp;
+                    <a
+                      target="_blank"
+                      href={`https://bookingstudio.vn/home/${pageData?.label?.toLowerCase()}/`}>
+                      {`https://bookingstudio.vn/home/${pageData?.label?.toLowerCase()}/${
+                        pageData?.post?.id
+                      }`}
+                    </a>
                   </div>
                 </Col>
               </Row>

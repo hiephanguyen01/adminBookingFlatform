@@ -1,9 +1,10 @@
-import { AUTHING, SET_LOADING, SET_USER } from "../types/authTypes";
+import { AUTHING, SET_LOADING, SET_SOCKET, SET_USER } from "../types/authTypes";
 
 const initialState = {
   loading: false,
   authing: true,
   currentUser: null,
+  socket: null,
 };
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -21,6 +22,11 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         currentUser: action.payload,
+      };
+    case SET_SOCKET:
+      return {
+        ...state,
+        socket: action.payload,
       };
     default:
       return state;
