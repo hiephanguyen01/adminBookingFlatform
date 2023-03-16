@@ -11,55 +11,86 @@ import {
   Select,
 } from "antd";
 import "../Detail.scss";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { converPriceVND } from "../../../../../utils/convert";
+import { baseURL } from "../../../../../utils/baseURL";
+import moment from "moment";
 
 export default function CalendarAndPrice({ service }) {
   if (service.length < 1) return <>Không có thông tin phòng.</>;
 
   const [dates, setDates] = useState([]);
   const [data, setData] = useState();
+  const [roomCurrent, setRoomCurrent] = useState({});
   const [optionSelected, setOptionSelected] = useState("");
   console.log("service calendar", service);
   const navigate = useNavigate();
-
-  const handlerSelectRomm = (e) => {
-    console.log(e);
+  console.log("dates", dates);
+  const handlerSelectRoom = async (e) => {
+    const room = service.find((item) => item.id == e);
     setOptionSelected(e);
-    setDates([8, 10, 15, 4, 5]);
+    if (room) {
+      setRoomCurrent(room);
+      const { data } = await axios.get(
+        `${baseURL}/api/studio-post/calendar-price?room=${room.id}&tenantId=${room.TenantId}`
+      );
+      setDates(data);
+    }
   };
   const getListData = (value) => {
+   
+    // console.log(moment("2023-03-16 00:00:00").isSame(moment(value.$d), "day"));
     let listDat = [];
-
-    let bl = dates.includes(value.date());
     if (!optionSelected) return listDat;
-    if (bl) {
-      listDat = [{ priceDate: 3000000, priceHour: 300000, isVisible: true }];
+    if (dates.length < 1) {
+      return (listDat = [
+        {
+          priceDate: roomCurrent.PriceByDate,
+          priceHour: roomCurrent.PriceByHour,
+          Open: roomCurrent.Open,
+        },
+      ]);
     } else {
-      listDat = [{ priceDate: 1000000, priceHour: 100000, isVisible: false }];
+      const date = dates.find((item) =>
+        moment(item.DateTime).isSame(moment(value.$d), "day")
+      );
+
+      if (date) {
+        return (listDat = [
+          {
+            priceDate: date.PriceByDate,
+            priceHour: date.PriceByHour,
+            Open: date.Open,
+          },
+        ]);
+      } else {
+        return (listDat = [
+          {
+            priceDate: roomCurrent.PriceByDate,
+            priceHour: roomCurrent.PriceByHour,
+            Open: roomCurrent.Open,
+          },
+        ]);
+      }
     }
-    return listDat;
+    // let bl = dates?.includes(value.date());
+    // if (bl) {
+    //   listDat = [{ priceDate: 3000000, priceHour: 300000, isVisible: true }];
+    // } else {
+    //   listDat = [{ priceDate: 1000000, priceHour: 100000, isVisible: false }];
+    // }
+    // return listDat;
   };
-  console.log("data", data);
   const dateCellRender = (value) => {
     const listData = getListData(value);
+
     return (
       <ul className="events">
         {listData.map((item, idx) => (
           <li key={idx} onClick={() => setData(item)}>
             <div>
-              {item.isVisible ? (
-                <Button
-                  style={{
-                    background: "#ffff",
-                    color: "green",
-                    border: "1px solid green",
-                  }}
-                  className="button"
-                >
-                  Mở
-                </Button>
-              ) : (
+              {item.Open ? (
                 <Button
                   className="button"
                   style={{
@@ -69,6 +100,17 @@ export default function CalendarAndPrice({ service }) {
                   }}
                 >
                   Đóng
+                </Button>
+              ) : (
+                <Button
+                  style={{
+                    background: "#ffff",
+                    color: "green",
+                    border: "1px solid green",
+                  }}
+                  className="button"
+                >
+                  Mở
                 </Button>
               )}
 
@@ -87,7 +129,7 @@ export default function CalendarAndPrice({ service }) {
       <Breadcrumb style={{ fontSize: "17px", marginBottom: "1rem" }}>
         <Breadcrumb.Item
           onClick={() => navigate("/posts")}
-          style={{ color: "#03ac84" }}
+          style={{ color: "#03ac84", cursor:"pointer" }}
         >
           Quản lí bài đăng
         </Breadcrumb.Item>
@@ -115,7 +157,7 @@ export default function CalendarAndPrice({ service }) {
                 //   monthCellRender={monthCellRender}
               />
               <Select
-                onChange={handlerSelectRomm}
+                onChange={handlerSelectRoom}
                 defaultValue={""}
                 className="selectRoom"
                 size="large"

@@ -56,8 +56,7 @@ export const handlerNameCategory = (category1) => {
   }
 };
 
-
- export const statusHandler = (bookingStatus, paymentStatus) => {
+export const statusHandler = (bookingStatus, paymentStatus) => {
   bookingStatus = Number(bookingStatus);
   paymentStatus = Number(paymentStatus);
   if (bookingStatus === 4 && paymentStatus === 1) {
@@ -69,7 +68,13 @@ export const handlerNameCategory = (category1) => {
     return "Sắp tới";
   } else if (
     bookingStatus === 1 &&
-    [4, 3].some((item) => item === paymentStatus)
+    [4, 3, 2].some((item) => item === paymentStatus)
+  ) {
+    return "Đã hoàn tất";
+  } else if (bookingStatus === 2) {
+  } else if (
+    bookingStatus === 3 &&
+    [4, 3, 2, 1].some((item) => item === paymentStatus)
   ) {
     return "Đã hoàn tất";
   } else if (bookingStatus === 2) {

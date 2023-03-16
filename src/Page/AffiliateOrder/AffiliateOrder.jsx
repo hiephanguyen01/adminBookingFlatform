@@ -62,7 +62,7 @@ const AffiliateOrder = () => {
   const [optionFilter, setOptionFilter] = useState(1);
   const [currentOption, setCurrentOption] = useState(1);
   // afla, oid, pid, np
-  
+
   useEffect(() => {
     if (currentOption !== 8) {
       (async () => {
@@ -338,13 +338,15 @@ function ModalTime({ open, handleOk, setOpen, onChange }) {
           OK
         </Button>,
       ]}
-      onCancel={() => setOpen(false)}>
+      onCancel={() => setOpen(false)}
+    >
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           padding: "20px",
-        }}>
+        }}
+      >
         <RangePicker onChange={onChange} format="DD/MM/YYYY" />
       </div>
     </Modal>
