@@ -49,7 +49,7 @@ export const logOut = (navigate, pathname) => async (dispatch) => {
 };
 
 export const setupSocket = () => (dispatch) => {
-  const newSocket = io(baseURL);
+  const newSocket = io(window.location.protocol + "//" + window.location.host);
   newSocket.on("disconnect", () => {
     dispatch({ type: SET_SOCKET, payload: null });
     setTimeout(setupSocket, 3000);
