@@ -73,11 +73,18 @@ const CreateNotification = () => {
   const handleChangeEditor = (html) => {
     setText(html);
   };
-  // const modules = {
-  //   toolbar: {
-  //     container: "#ccc",
-  //   },
-  // };
+  const modules = {
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, false] }],
+        ["bold", "italic", "underline", "strike", "blockquote", "link"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        [{ indent: "-1" }, { indent: "+1" }],
+        ["image"],
+        // ["clean"],
+      ],
+    },
+  };
   const formats = [
     "font",
     "size",
@@ -208,14 +215,16 @@ const CreateNotification = () => {
         onValuesChange={onFormChange}
         disabled={loading}
         size="large"
-        onFinish={handleSubmit}>
+        onFinish={handleSubmit}
+      >
         <Row gutter={[20, 20]}>
           <Col md={12} xs={24} sx={24}>
             <div className={cx("")}>
               <Form.Item
                 className={cx("form-custom")}
                 label="Loại thông báo"
-                name={"Type"}>
+                name={"Type"}
+              >
                 <Select>
                   {NOTIFY_TYPE.map((item) => (
                     <Select.Option key={item.value} value={item.value}>
@@ -227,20 +236,22 @@ const CreateNotification = () => {
               <Form.Item
                 className={cx("form-custom")}
                 label="Tiêu đề"
-                name={"Title"}>
+                name={"Title"}
+              >
                 <Input />
               </Form.Item>
               <Form.Item
                 className={cx("form-custom")}
                 label="Nội dung"
-                name={"Content"}>
+                name={"Content"}
+              >
                 <ReactQuill
                   className={cx("custom-quill")}
                   // style={{ height: "200px" }}
                   // value={text}
                   // onChange={handleChangeEditor}
-                  // modules={modules}
-                  formats={formats}
+                  modules={modules}
+                  // formats={formats}
                 />
               </Form.Item>
             </div>
@@ -250,7 +261,8 @@ const CreateNotification = () => {
               <Form.Item
                 className={cx("form-custom")}
                 label="Đối tượng nhận thông báo"
-                name={"Object"}>
+                name={"Object"}
+              >
                 <Radio.Group>
                   <Radio value={0} onClick={() => setSelected([])}>
                     Đối tác
@@ -265,14 +277,16 @@ const CreateNotification = () => {
                   <Radio.Group
                     // onChange={() => {}}
                     // value={""}
-                    className={cx("custom-radio-group")}>
+                    className={cx("custom-radio-group")}
+                  >
                     <Space direction="vertical" style={{ width: "100%" }}>
                       <Radio
                         value={1}
                         className={cx("custom-radio")}
                         onClick={() => {
                           setSelected([]);
-                        }}>
+                        }}
+                      >
                         <div>Tất cả đối tác</div>
                         <div>{partner.length} đối tác</div>
                       </Radio>
@@ -285,7 +299,8 @@ const CreateNotification = () => {
                           if (data.option !== 2) {
                             setSelected([]);
                           }
-                        }}>
+                        }}
+                      >
                         <div>Tất cả đối tác NGOẠI TRỪ</div>
                         <div>
                           {data.option === 2 ? selected.length : 0}/
@@ -300,7 +315,8 @@ const CreateNotification = () => {
                           if (data.option !== 3) {
                             setSelected([]);
                           }
-                        }}>
+                        }}
+                      >
                         <div>Tùy chọn đối tác</div>
                         <div>
                           {data.option === 3 ? selected.length : 0}/
@@ -315,14 +331,16 @@ const CreateNotification = () => {
                   <Radio.Group
                     // onChange={() => {}}
                     // value={""}
-                    className={cx("custom-radio-group")}>
+                    className={cx("custom-radio-group")}
+                  >
                     <Space direction="vertical" style={{ width: "100%" }}>
                       <Radio
                         value={1}
                         className={cx("custom-radio")}
                         onClick={() => {
                           setSelected([]);
-                        }}>
+                        }}
+                      >
                         <div>Tất cả khách hàng</div>
                         <div>{customer.length} khách hàng</div>
                       </Radio>
@@ -333,7 +351,8 @@ const CreateNotification = () => {
                         onClick={() => {
                           setModalOpen(true);
                           setSelected([]);
-                        }}>
+                        }}
+                      >
                         <div>Tất cả khách hàng NGOẠI TRỪ</div>
                         <div>
                           {data.option === 2 ? selected.length : 0}/
@@ -348,7 +367,8 @@ const CreateNotification = () => {
                           if (data.option !== 3) {
                             setSelected([]);
                           }
-                        }}>
+                        }}
+                      >
                         <div>Tùy chọn khách hàng</div>
                         <div>
                           {data.option === 3 ? selected.length : 0}/
@@ -363,7 +383,8 @@ const CreateNotification = () => {
               <Form.Item
                 label="Upload"
                 // valuePropName="fileList"
-                name={"image"}>
+                name={"image"}
+              >
                 {/* <Upload
                   // action="/upload.do"
                   listType="picture-card"
@@ -380,7 +401,8 @@ const CreateNotification = () => {
                   // fileList={fileList}
                   // onPreview={handlePreview}
                   // onChange={handleChange}
-                  directory={false}>
+                  directory={false}
+                >
                   {data?.image?.fileList.length >= 1 ? null : (
                     <div>
                       <PlusOutlined />
@@ -406,7 +428,8 @@ const CreateNotification = () => {
             htmlType="submit"
             disabled={loading}
             size="large"
-            type="primary">
+            type="primary"
+          >
             {loading && <LoadingOutlined />}
             &nbsp;Gửi thông báo
           </Button>
@@ -424,7 +447,8 @@ const CreateNotification = () => {
           setModalOpen(false);
         }}
         closable={false}
-        bodyStyle={{ height: "350px" }}>
+        bodyStyle={{ height: "350px" }}
+      >
         <MultiSelect
           className={""}
           options={data.Object === 0 ? partner : customer}
