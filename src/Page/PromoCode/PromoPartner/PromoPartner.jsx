@@ -113,23 +113,20 @@ const columns = [
             <Link
               to={"view-detail"}
               state={{ promoId: value.id }}
-              className={cx("action_more")}
-            >
+              className={cx("action_more")}>
               <EyeOutlined className={cx("action_more_icon")} />
               Xem chi tiết
             </Link>
             <Link
               to={"edit"}
               state={{ promoId: value.id }}
-              className={cx("action_more")}
-            >
+              className={cx("action_more")}>
               <EditOutlined className={cx("action_more_icon")} />
               Chỉnh sửa
             </Link>
           </>
         }
-        trigger="click"
-      >
+        trigger="click">
         <MoreOutlined />
       </Popover>
     ),
@@ -164,7 +161,6 @@ export const PromoPartner = () => {
           endDate: (filter.dateTimeExpire && filter?.dateTimeExpire[1]) || "",
         }),
       });
-      console.log(res.data);
       setData(res.data.data);
       setPagination(res.data.pagination);
       // setFiltersPage({ ...filtersPage, page: res.data.pagination.currentPage });
@@ -189,14 +185,12 @@ export const PromoPartner = () => {
           // onFinish={onFinish}
           size="large"
           style={{ display: "flex" }}
-          labelWrap={true}
-        >
+          labelWrap={true}>
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
               label="Tìm kiếm"
               name={"saleCode"}
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <Input placeholder="Nhập mã KM" />
             </Form.Item>
           </div>
@@ -204,8 +198,7 @@ export const PromoPartner = () => {
             <Form.Item
               label="Ngày áp dụng"
               name="dateTimeApply"
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <RangePicker
                 // onChange={(date, dateString) =>
                 //   setFilter({
@@ -224,17 +217,15 @@ export const PromoPartner = () => {
             <Form.Item
               label="Ngày hết hạn"
               name="dateTimeExpire"
-              className={cx("form-custom")}
-            >
-              <RangePicker />
+              className={cx("form-custom")}>
+              <RangePicker format="DD/MM/YYYY" />
             </Form.Item>
           </div>
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
               label="Trạng thái"
               name="status"
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <Select defaultValue={""}>
                 {STATUS.map((item) => (
                   <Select.Option value={item.value} key={item.value}>

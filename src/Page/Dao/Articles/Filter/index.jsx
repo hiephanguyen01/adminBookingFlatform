@@ -35,8 +35,6 @@ const Filter = (props) => {
                       let dateString = conditionSelected.filter((item2) =>
                         Array.isArray(item2)
                       );
-                      console.log("Date string: ", dateString);
-                      console.log("Item ", item);
                       if (dateString.length === 0) {
                         return [...conditionSelected, item];
                       } else {
@@ -47,8 +45,7 @@ const Filter = (props) => {
                   : setConditionSelected([
                       ...conditionSelected.filter((item2) => item2 != item),
                     ])
-              }
-            >
+              }>
               {item}
             </Checkbox>
           </Col>
@@ -61,18 +58,20 @@ const Filter = (props) => {
           display: "flex",
           flexDirection: "column",
           // alignItems: "center",
-        }}
-      >
+        }}>
         <label
           style={{
             alignSelf: "flex-start",
             fontSize: "15px",
             fontWeight: "400",
-          }}
-        >
+          }}>
           Ngày tạo
         </label>
-        <RangePicker onChange={onRangeChange} size="large" />
+        <RangePicker
+          onChange={onRangeChange}
+          size="large"
+          format="DD/MM/YYYY"
+        />
       </Row>
     </article>
   );

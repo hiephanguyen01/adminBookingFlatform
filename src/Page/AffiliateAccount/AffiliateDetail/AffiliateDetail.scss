@@ -1,0 +1,51 @@
+.AffiliateDetail {
+  .title {
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 27px;
+    color: #161616;
+  }
+  .sub-title {
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 27px;
+    color: #161616;
+    padding: 10px 0;
+    svg {
+      color: #03ac84 !important;
+    }
+  }
+  .label {
+    padding: 10px 0;
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22px;
+    color: #3f3f3f;
+    font-size: 16px;
+    line-height: 22px;
+  }
+  .value {
+    padding: 10px 0;
+
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    color: #3f3f3f;
+  }
+  .flex {
+    display: flex;
+    align-items: center;
+  }
+  .center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

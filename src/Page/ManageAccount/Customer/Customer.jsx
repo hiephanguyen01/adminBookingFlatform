@@ -53,7 +53,7 @@ const Customer = () => {
   const NOTIFY_STATUS = [
     { value: "", label: "Tất cả" },
     { value: 0, label: "Active" },
-    { value: 1, label: "Cancle" },
+    { value: 1, label: "Cancel" },
   ];
   const getAllPartner = async (page, limit, filter) => {
     try {
@@ -105,6 +105,10 @@ const Customer = () => {
     {
       title: "Họ và Tên",
       dataIndex: "Fullname",
+    },
+    {
+      title: "Email",
+      dataIndex: "Email",
     },
     {
       title: "Số đơn đặt",
@@ -165,14 +169,12 @@ const Customer = () => {
           onValuesChange={(e) => onChangeFilter(e)}
           size="large"
           style={{ display: "flex" }}
-          labelWrap={true}
-        >
+          labelWrap={true}>
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
               label="Tìm kiếm"
               name="keyString"
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <Input prefix={<SearchOutlined />} />
             </Form.Item>
           </div>
@@ -180,26 +182,23 @@ const Customer = () => {
             <Form.Item
               label="Ngày tạo"
               name="CreateDate"
-              className={cx("form-custom")}
-            >
-              <RangePicker />
+              className={cx("form-custom")}>
+              <RangePicker format="DD/MM/YYYY" />
             </Form.Item>
           </div>
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
               label="Ngày cập nhật gần nhất"
               name="updateDate"
-              className={cx("form-custom")}
-            >
-              <RangePicker />
+              className={cx("form-custom")}>
+              <RangePicker format="DD/MM/YYYY" />
             </Form.Item>
           </div>
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
               label="Trạng thái"
               name={"IsDeleted"}
-              className={cx("form-custom")}
-            >
+              className={cx("form-custom")}>
               <Select defaultValue={""}>
                 {NOTIFY_STATUS.map((item) => (
                   <Select.Option value={item.value} key={item.value}>

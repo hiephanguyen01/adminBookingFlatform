@@ -2,17 +2,14 @@ import { LinkOutlined } from "@ant-design/icons";
 import { Avatar, Button, Image, Rate, Space } from "antd";
 import moment from "moment";
 import React from "react";
-import { BASEURL_IMG } from "../../../../utils/baseURL";
+import { IMG } from "../../../../utils/baseURL";
 import "./RatingReportCard.scss";
 const RatingReportCard = ({ data, type = 1 }) => {
   return (
     <div className="RatingReportCard">
       <div className="">
         <div className="leftCard">
-          <Avatar
-            size="large"
-            src={`${BASEURL_IMG}/${data?.BookingUser?.Image}`}
-          />
+          <Avatar size="large" src={IMG(data?.BookingUser?.Image)} />
           <div className="text">
             <div style={{ fontWeight: "900" }}>
               {data?.BookingUser?.Fullname}
@@ -37,7 +34,7 @@ const RatingReportCard = ({ data, type = 1 }) => {
           <div className="">
             <Image.PreviewGroup>
               {data?.Image?.map((itm) => (
-                <Image width={128} src={BASEURL_IMG + "/" + itm} />
+                <Image width={128} src={IMG(itm)} />
               ))}
             </Image.PreviewGroup>
           </div>

@@ -64,7 +64,6 @@ const CreateNotification = () => {
     getPartner();
     const getCustomer = async () => {
       const res = await userService.getAllCustomerNotification();
-      console.log(res.data);
       setCustomer(res.data.map((item) => ({ ...item, value: item.id })));
     };
     getCustomer();

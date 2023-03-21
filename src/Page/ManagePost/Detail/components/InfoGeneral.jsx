@@ -1,32 +1,22 @@
-import { Breadcrumb, Col, Image, Row } from "antd";
-import React, { useEffect, useState } from "react";
-import { EditOutlined, EyeOutlined, SearchOutlined } from "@ant-design/icons";
-import {
-  Button,
-  DatePicker,
-  Form,
-  Input,
-  Pagination,
-  Select,
-  Space,
-  Table,
-  Tag,
-  Checkbox,
-} from "antd";
-import { orderService } from "../../../../services/OrderService";
-import moment from "moment";
+import { Breadcrumb, Col, Form, Image, Input, Row } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { BASEURL_IMG } from "../../../../../utils/baseURL";
-import { Link } from "react-router-dom";
+import moment from "moment";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { IMG } from "../../../../../utils/baseURL";
+import { convertTimeUTC } from "../../../../../utils/convert";
 
 export const InfoGeneral = ({ data }) => {
   if (!data) return null;
-
+  console.log("ìnochung", data);
+  const navigate = useNavigate();
   return (
     <>
       <Breadcrumb style={{ fontSize: "17px" }}>
-        <Breadcrumb.Item style={{ color: "#03ac84" }}>
-          <Link to={"/posts"}> Quản lí bài đăng</Link>
+        <Breadcrumb.Item onClick={() => navigate("/posts")}>
+          <Link to={"/posts"} style={{ color: "#03ac84" }}>
+            Quản lí bài đăng
+          </Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>Thông tin chung</Breadcrumb.Item>
       </Breadcrumb>
@@ -70,19 +60,22 @@ export const InfoGeneral = ({ data }) => {
               label="Thời gian làm việc (Buổi sáng)"
               // name="Id"
             >
-              <Input style={{ padding: "10px" }} />
+              <Input value={data.OpenMorningHour} style={{ padding: "10px" }} />
             </Form.Item>{" "}
             <Form.Item
               label="Thời gian làm việc (Buổi chiều)"
               // name="Id"
             >
-              <Input style={{ padding: "10px" }} />
+              <Input
+                value={data.CloseAfternoonHour}
+                style={{ padding: "10px" }}
+              />
             </Form.Item>
             <Row gutter={16}>
               <Col span={12}>
                 <Form.Item label="Ngày đăng">
                   <Input
-                    value={moment(data.CreationTime).format("L")}
+                    value={convertTimeUTC(data.CreationTime)}
                     style={{ padding: "10px" }}
                   />
                 </Form.Item>
@@ -90,7 +83,7 @@ export const InfoGeneral = ({ data }) => {
               <Col span={12}>
                 <Form.Item label="Ngày cập nhật">
                   <Input
-                    value={moment(data.LastModificationTime).format("L")}
+                    value={convertTimeUTC(data.LastModificationTime)}
                     style={{ padding: "10px" }}
                   />
                 </Form.Item>
@@ -102,7 +95,7 @@ export const InfoGeneral = ({ data }) => {
             >
               <div style={{ display: "flex", gap: "1rem" }}>
                 {data.Image.slice(0, 1).map((item) => {
-                  return <Image width={200} src={`${BASEURL_IMG}/${item}`} />;
+                  return <Image width={200} src={IMG(item)} />;
                 })}
               </div>
             </Form.Item>
@@ -116,7 +109,7 @@ export const InfoGeneral = ({ data }) => {
                     <Image
                       style={{ objectFit: "cover" }}
                       width={200}
-                      src={`${BASEURL_IMG}/${item}`}
+                      src={IMG(item)}
                     />
                   );
                 })}

@@ -27,9 +27,7 @@ const DataExport = () => {
   });
   const [loadingBtn, setLoadingBtn] = useState(false);
 
-  console.log("data", data);
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
     SetOption(value);
   };
   const handleExportData = async () => {
@@ -57,7 +55,7 @@ const DataExport = () => {
         IdentifyCode: "",
         studioPostId: "",
       });
-      openNotification("success", "thanhf coong!");
+      openNotification("success", "Thành công!");
     } catch (error) {
       setLoadingBtn(false);
       console.log(error);
@@ -82,7 +80,7 @@ const DataExport = () => {
       value: 4,
     },
     {
-      lable: "Danh sách đơn đặt pháp sinh",
+      lable: "Danh sách đơn đặt phát sinh",
       value: 5,
     },
     {

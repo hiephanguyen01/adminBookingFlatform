@@ -7,20 +7,23 @@ import { openNotification } from "../../../../utils/Notification";
 import Header from "../../../Components/Header/Header";
 import { Loading } from "../../../Components/Loading";
 import { studioPostService } from "../../../services/StudioPostService";
+import CalendarAndPrice from "./components/Calendar";
+import Calendar from "./components/Calendar";
 import { InfoGeneral } from "./components/InfoGeneral";
 import { InfoRoom } from "./components/InfoRoom";
 import "./Detail.scss";
 export const PostDetail = ({ modify }) => {
   const { id } = useParams();
+  const { state } = useLocation();
   const [loading, setLoading] = useState(true);
   const [loadingBtn, setLoadingBtn] = useState(false);
   const [data, setData] = useState();
-  const { state } = useLocation();
   const [text, setText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
+  console.log("dataaadetial", data);
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -48,7 +51,6 @@ export const PostDetail = ({ modify }) => {
   };
 
   const handleRemovePost = async (value) => {
-    console.log(value);
     // setLoadingBtn(true);
     // try {
     //   if (value) {
@@ -90,9 +92,18 @@ export const PostDetail = ({ modify }) => {
 
   // if (loading) return <Loading />;
   const tabs = [
-    { label: "Thông tin chung", children: <InfoGeneral data={data?.data} /> },
-    { label: "Thông tin phòng",children:<InfoRoom service={data?.service} /> },
-    { label: "Lịch và giá" },
+    {
+      label: "Thông tin chung",
+      children: <InfoGeneral data={data?.data} />,
+    },
+    {
+      label: "Thông tin phòng",
+      children: <InfoRoom category={state.category} service={data?.service} />,
+    },
+    {
+      label: "Lịch và giá",
+      children: <CalendarAndPrice service={data?.service}  />,
+    },
     { label: "Khuyến mãi" },
   ];
   return (
@@ -131,7 +142,7 @@ export const PostDetail = ({ modify }) => {
             };
           })}
         />
-        {data?.data?.IsDeleted ? (
+        {data?.data?.IsDeleted === true ? (
           <div
             style={{
               display: "flex",

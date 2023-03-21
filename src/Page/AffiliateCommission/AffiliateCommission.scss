@@ -1,0 +1,19 @@
+.AffiliateCommission {
+  .heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__right{
+      display: flex;
+      align-items: center;
+    }
+    .title {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 22px;
+      letter-spacing: 0em;
+      text-align: left;
+    }
+  }
+}

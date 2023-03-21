@@ -1,13 +1,15 @@
+import { io } from "socket.io-client";
+import { baseURL } from "../../../utils/baseURL";
 import { openNotification } from "../../../utils/Notification";
 import { adminService } from "../../services/AdminService";
-import { AUTHING, SET_LOADING, SET_USER } from "../types/authTypes";
+import { AUTHING, SET_LOADING, SET_SOCKET, SET_USER } from "../types/authTypes";
 
 export const login = (value) => async (dispatch) => {
   try {
     dispatch({ type: SET_LOADING, payload: true });
     const { data } = await adminService.login(value);
     localStorage.setItem("token", data.token);
-    dispatch({ type: SET_USER, payload: data.user });
+    dispatch({ type: SET_USER, payload: data });
   } catch (error) {
     openNotification("error", "Login failed");
   }
@@ -35,12 +37,24 @@ export const getCurrentUser = () => async (dispatch) => {
   }
   dispatch({ type: AUTHING, payload: false });
 };
-export const logOut = (navigate) => async (dispatch) => {
+export const logOut = (navigate, pathname) => async (dispatch) => {
   try {
-    navigate("/login");
+    pathname.includes("affiliate") && navigate("/affiliate");
+    !pathname.includes("affiliate") && navigate("/login");
     dispatch({ type: SET_USER, payload: null });
     localStorage.removeItem("token");
   } catch (error) {
     console.log(error);
   }
+};
+
+export const setupSocket = () => (dispatch) => {
+  const newSocket = io(window.location.protocol + "//" + window.location.host);
+  newSocket.on("disconnect", () => {
+    dispatch({ type: SET_SOCKET, payload: null });
+    setTimeout(setupSocket, 3000);
+  });
+  newSocket.on("connect", () => {
+    dispatch({ type: SET_SOCKET, payload: newSocket });
+  });
 };

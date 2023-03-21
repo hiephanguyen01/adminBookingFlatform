@@ -3,7 +3,6 @@ import queryString from "query-string";
 
 export class WebHookService extends BaseService {
   createWebHook = (data) => {
-    console.log(123);
     return this.post(`/api/webhook/subcription`, data);
   };
   updateWebHook = (id, data) => {

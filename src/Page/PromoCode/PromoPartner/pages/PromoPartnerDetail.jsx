@@ -90,7 +90,6 @@ const PromoPartnerDetail = ({ edit = false }) => {
       const res = await promoCodeService.getPromoCodeById(
         location.state.promoId
       );
-      // console.log(res.data);
       // res.data.DateTimeApply = moment(res.data.DateTimeApply).format(
       //   "YYYY-MM-DD HH:mm"
       // );

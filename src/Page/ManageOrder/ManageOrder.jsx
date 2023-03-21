@@ -1,11 +1,4 @@
-import {
-  EditOutlined,
-  EyeOutlined,
-  LeftOutlined,
-  MoreOutlined,
-  RightOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, EyeOutlined, SearchOutlined } from "@ant-design/icons";
 import {
   Button,
   Col,
@@ -20,12 +13,14 @@ import {
   Table,
   Tag,
 } from "antd";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./manageOrder.scss";
-import moment from "moment";
-import { orderService } from "../../services/OrderService";
+import { statusHandler } from "../../../utils/category";
+import { convertTimeUTC } from "../../../utils/convert";
 import { Loading } from "../../Components/Loading";
+import { orderService } from "../../services/OrderService";
+import "./manageOrder.scss";
 const { RangePicker } = DatePicker;
 
 export const ManageOrder = () => {
@@ -34,7 +29,6 @@ export const ManageOrder = () => {
   const [expandHeader, setExpandHeader] = useState(false);
   const [dataTale, setDataTable] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openMore, setOpenMore] = useState(null);
   const [pagination, setPagination] = useState();
   const [filter, setFilter] = useState({
     BookingStatus: "",
@@ -76,25 +70,39 @@ export const ManageOrder = () => {
   const column = [
     {
       title: "Mã đơn đặt",
-      dataIndex: "id",
+      dataIndex: "IdentifyCode",
       render: (value) => <strong>{value}</strong>,
     },
     {
       title: "Số định danh",
-      dataIndex: "IdentifyCode",
+      dataIndex: "BookingUserId",
+      render: (_) => {
+        return <p>{`CUS-${("0000000000" + _).slice(-10)}`}</p>;
+      },
     },
     {
       title: "Mã bài đăng",
       dataIndex: "postId",
       render: (_, value) => {
-        console.log(value);
         return <p>{value?.StudioRoom?.StudioPostId}</p>;
       },
     },
     {
+      title: "affiliate ID ",
+      dataIndex: "AffiliateUserId",
+      render: (_) => {
+        return <p>{_ !== null ? _ : "Không"}</p>;
+      },
+    },
+    {
       title: "Ngày Thực hiện",
-      dataIndex: "CreationTime",
-      render: (item) => moment(item).format("DD-MM-YYYY HH:mm"),
+      // dataIndex: "CreationTime",
+      render: (item) => {
+        const date = item.OrderByDateFrom ?? item.OrderByTimeFrom;
+        return item.OrderByTime
+          ? `${convertTimeUTC(item.OrderByTimeFrom, true)}  `
+          : `${convertTimeUTC(item.OrderByDateFrom)}  `;
+      },
     },
     {
       title: "Hình thức thanh toán",
@@ -125,18 +133,9 @@ export const ManageOrder = () => {
     },
     {
       title: "Trạng thái đơn đặt",
-      dataIndex: "BookingStatus",
-      render: (value) => {
-        switch (value) {
-          case 1:
-            return <Tag color={"green"}>{"Đã hoàn thành".toUpperCase()}</Tag>;
-          case 2:
-            return <Tag color={"red"}>{"Đã huý".toUpperCase()}</Tag>;
-          case 3:
-            return <p>Vắng mặt</p>;
-          case 4:
-            return <p>Chờ thực hiện</p>;
-        }
+
+      render: (_, value) => {
+        return statusHandler(value.BookingStatus, value.PaymentStatus);
       },
     },
     {
@@ -179,14 +178,12 @@ export const ManageOrder = () => {
   };
 
   const onChangeFilter = (value) => {
-    console.log(value);
     setFilter({ ...filter, ...value });
     if (Object.keys(value)[0] === "EntryDate") {
       const obj = value?.EntryDate?.reduce((acc, item, index) => {
         const key = index === 0 ? "startDate" : "endDate";
         return { ...acc, [key]: moment(item.$d).format() };
       }, {});
-      console.log("obj", obj);
       if (!obj) {
         setFilter({
           ...filter,
@@ -275,9 +272,9 @@ export const ManageOrder = () => {
       },
       el: (
         <RangePicker
+          format="DD/MM/YYYY"
           style={{ padding: "8px" }}
           value={dates || value}
-          disabledDate={disabledDate}
           onCalendarChange={(val) => setDates(val)}
           onChange={(val) => setValue(val)}
         />

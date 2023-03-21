@@ -28,7 +28,6 @@ export const DetailEditPartner = () => {
   const [loadings, setLoadings] = useState({ save: false, delete: false });
   const [files, setFiles] = useState([null, null, null, null]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(data);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -56,7 +55,6 @@ export const DetailEditPartner = () => {
   const onFinish = async (values) => {
     let formData = new FormData();
     for (let [idex, file] of files.entries()) {
-      console.log("filesssds", idex, file);
       if (idex == 0) {
         formData.append(
           "ImageGPKD1",
@@ -85,7 +83,6 @@ export const DetailEditPartner = () => {
     for (let key in values) {
       formData.append(key, values[key]);
     }
-    console.log(values);
     try {
       setLoadings({ ...loadings, save: true });
       await registerPartnerService.updatePartner(id, formData);
@@ -100,15 +97,12 @@ export const DetailEditPartner = () => {
   };
 
   const onChangeFile = ({ file }, b) => {
-    console.log(file, b);
     const newFiles = [...files];
     file.preview = URL.createObjectURL(file.originFileObj);
     newFiles[b] = file;
-    console.log("newFiles", newFiles);
     setFiles([...newFiles]);
   };
   const handleLockAccount = async (value) => {
-    console.log(value);
     setLoadings({ ...loadings, delete: true });
     try {
       let formData = new FormData();
@@ -211,7 +205,9 @@ export const DetailEditPartner = () => {
 ">
                   <Input
                     disabled
-                    value={moment(data?.CreationTime).format("L")}
+                    value={moment(data?.CreationTime).format(
+                      "DD-MM-YYYY HH:mm"
+                    )}
                   />
                 </Form.Item>
                 <Form.Item
@@ -227,7 +223,9 @@ export const DetailEditPartner = () => {
 ">
                   <Input
                     disabled
-                    value={moment(data?.LastModificationTime).format("L")}
+                    value={moment(data?.LastModificationTime).format(
+                      "DD-MM-YYYY HH:mm"
+                    )}
                   />
                 </Form.Item>
                 <Form.Item
@@ -266,8 +264,7 @@ export const DetailEditPartner = () => {
                     className="avatar-uploader"
                     showUploadList={false}
                     action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    onChange={(e) => onChangeFile(e, 0)}
-                  >
+                    onChange={(e) => onChangeFile(e, 0)}>
                     <Image
                       width={"100%"}
                       height={100}
@@ -290,8 +287,7 @@ export const DetailEditPartner = () => {
                     className="avatar-uploader"
                     showUploadList={false}
                     action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    onChange={(e) => onChangeFile(e, 1)}
-                  >
+                    onChange={(e) => onChangeFile(e, 1)}>
                     <Image
                       width={"100%"}
                       height={100}
@@ -312,8 +308,7 @@ export const DetailEditPartner = () => {
                     className="avatar-uploader"
                     showUploadList={false}
                     action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    onChange={(e) => onChangeFile(e, 2)}
-                  >
+                    onChange={(e) => onChangeFile(e, 2)}>
                     <Image
                       width={"100%"}
                       height={100}
@@ -334,8 +329,7 @@ export const DetailEditPartner = () => {
                     className="avatar-uploader"
                     showUploadList={false}
                     action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    onChange={(e) => onChangeFile(e, 3)}
-                  >
+                    onChange={(e) => onChangeFile(e, 3)}>
                     <Image
                       width={"100%"}
                       height={100}

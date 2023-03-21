@@ -8,7 +8,6 @@ const AnimateInput = (props) => {
   const isOccupied = focus || (value && value.length !== 0);
   const labelClass = isOccupied ? "label as-label" : "label as-placeholder";
   const requiredMark = required ? <span className="text-danger">*</span> : null;
-  console.log(props.children);
   return (
     <div
       className="AnimateInput"

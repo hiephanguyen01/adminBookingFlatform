@@ -54,7 +54,6 @@ const Partner = () => {
       await getAllPartner(1, 10, filter);
     })();
   }, [filter]);
-
   const getAllPartner = async (page, limit, filter) => {
     try {
       const { data } = await registerPartnerService.getAllPartner(
@@ -69,7 +68,6 @@ const Partner = () => {
     }
   };
   const onChangePagination = (page) => {
-    console.log(page);
     getAllPartner(page, 10, filter);
   };
   const columns = [
@@ -134,32 +132,25 @@ const Partner = () => {
       },
     },
   ];
-
   const NOTIFY_STATUS = [
     { value: "", label: "Tất cả" },
     { value: 0, label: "Active" },
-    { value: 1, label: "Cancle" },
+    { value: 1, label: "Cancel" },
   ];
-  console.log(filter);
   const onChangeFilter = (value) => {
-    console.log(value);
     setFilter({ ...filter, ...value });
     if (Object.keys(value)[0] === "CreateDate") {
       const obj = value.CreateDate.reduce((acc, item, index) => {
-        console.log(index);
         const key = index === 0 ? "startDate" : "endDate";
         return { ...acc, [key]: moment(item.$d).format() };
       }, {});
-      console.log(obj);
       setFilter({ ...filter, CreateDate: obj });
     }
     if (Object.keys(value)[0] === "updateDate") {
       const obj = value.updateDate.reduce((acc, item, index) => {
-        console.log(index);
         const key = index === 0 ? "startDate" : "endDate";
         return { ...acc, [key]: moment(item.$d).format() };
       }, {});
-      console.log(obj);
       setFilter({ ...filter, updateDate: obj });
     }
   };
@@ -191,7 +182,7 @@ const Partner = () => {
               label="Ngày tạo"
               name="CreateDate"
               className={cx("form-custom")}>
-              <RangePicker />
+              <RangePicker format="DD/MM/YYYY" />
             </Form.Item>
           </div>
           <div className={cx("w-25", "fs-16")}>
@@ -199,7 +190,7 @@ const Partner = () => {
               label="Ngày cập nhật gần nhất"
               name="updateDate"
               className={cx("form-custom")}>
-              <RangePicker />
+              <RangePicker format="DD/MM/YYYY" />
             </Form.Item>
           </div>
           <div className={cx("w-25", "fs-16")}>

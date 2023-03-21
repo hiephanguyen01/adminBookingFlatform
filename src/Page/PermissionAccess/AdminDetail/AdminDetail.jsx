@@ -64,6 +64,11 @@ const AdminDetail = () => {
       default: "setting",
       value: null,
     },
+    {
+      label: "Affiliate",
+      default: "affiliate",
+      value: null,
+    },
   ]);
   const { id } = useParams();
   const columns = [

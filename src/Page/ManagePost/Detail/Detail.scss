@@ -6,3 +6,75 @@
 .PostDetail {
     min-height: calc(100vh - 96px);
 }
+
+.InfoGeneral {
+    .label {
+        font-weight: 700;
+        font-size: 16px;
+        color: #222222;
+        padding-bottom: 0.8rem;
+        display: block;
+    }
+    label {
+        font-weight: 600;
+    }
+}
+
+.calendar-price {
+    .calendar-cus {
+        .ant-radio-button-wrapper.css-dev-only-do-not-override-1lmi9fx {
+            display: none;
+        }
+        .ant-picker-cell-inner.ant-picker-calendar-date {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+
+            .ant-picker-calendar-date-value {
+                float: left;
+            }
+
+            .ant-picker-calendar-date-content {
+                .events {
+                    padding: 0;
+                }
+            }
+            .button {
+                float: right;
+                position: absolute;
+                top: 4px;
+                right: 10px;
+            }
+        }
+        .ant-picker-calendar-header {
+            justify-content: flex-start;
+        }
+        .ant-picker-panel {
+            border: 1px solid #80808080;
+            .ant-picker-body {
+                padding: 0;
+
+                .ant-picker-content {
+                    thead {
+                        background: #80808080;
+                    }
+                    th {
+                        padding: 10px;
+                    }
+                    td {
+                        border: 1px solid #80808080;
+                    }
+                    .ant-picker-cell-inner.ant-picker-calendar-date {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+    .selectRoom {
+        position: absolute;
+        top: 7px;
+        right: 0;
+    }
+}

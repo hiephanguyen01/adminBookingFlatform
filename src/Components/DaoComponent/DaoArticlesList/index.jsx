@@ -42,6 +42,62 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
     }
   };
 
+  const filteringPost = (item) => {
+    if (conditionSelected.length === 0) {
+      return true;
+    }
+    let tags = item.Tags.split(",");
+    let flag = false;
+    conditionSelected.every((item2, idx) => {
+      tags.every((item3) => {
+        if (
+          item2 !== undefined &&
+          !Array.isArray(item2) &&
+          item2.toLowerCase().includes(item3)
+        ) {
+          flag = true;
+          return false;
+        } else {
+          return true;
+        }
+      });
+      //Cái array dateString sẽ nằm ở vị trí cuối của conditionSelected
+      if (Array.isArray(item2) && idx === conditionSelected.length - 1) {
+        let leftLimit =
+          moment(moment(item?.CreationTime).format("YYYY/MM/DD")).isAfter(
+            moment(item2[0]).format("YYYY/MM/DD")
+          ) ||
+          moment(moment(item?.CreationTime).format("YYYY/MM/DD")).isSame(
+            moment(item2[0]).format("YYYY/MM/DD")
+          );
+
+        let rightLimit =
+          moment(moment(item2[1]).format("YYYY/MM/DD")).isAfter(
+            moment(item?.CreationTime).format("YYYY/MM/DD")
+          ) ||
+          moment(moment(item2[1]).format("YYYY/MM/DD")).isSame(
+            moment(item?.CreationTime).format("YYYY/MM/DD")
+          );
+        if (
+          leftLimit &&
+          rightLimit &&
+          flag === true &&
+          conditionSelected.length > 1
+        ) {
+          flag = true;
+        } else {
+          flag = false;
+        }
+      }
+      if (flag) return false;
+      return true;
+    });
+    if (flag === true) {
+      return true;
+    }
+    return false;
+  };
+
   useEffect(() => {
     if (violate) {
       dispatch(getAllReportedDaoAction(listReportedDao, { ...filter }));
@@ -70,54 +126,10 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
               <b>Yay! You have seen it all</b>
             </div>
           }
-          scrollableTarget="paper"
-        >
+          scrollableTarget="paper">
           {violate
             ? listReportedDao
-                .filter((item) => {
-                  if (conditionSelected.length === 0) {
-                    return true;
-                  }
-                  let tags = item.Tags.split(",");
-                  let flag = false;
-                  conditionSelected.every((item2) => {
-                    //Cái array dateString sẽ nằm ở vị trí cuối của conditionSelected
-                    if (Array.isArray(item2)) {
-                      if (
-                        moment(
-                          moment(item?.CreationTime).format("YYYY/MM/DD")
-                        ).isAfter(moment(item2[0]).format("YYYY/MM/DD")) &&
-                        moment(moment(item2[1]).format("YYYY/MM/DD")).isAfter(
-                          moment(item?.CreationTime).format("YYYY/MM/DD")
-                        )
-                      ) {
-                        flag = true;
-                      } else {
-                        flag = false;
-                      }
-                      return false;
-                    } else {
-                      tags.every((item3) => {
-                        if (
-                          item2 !== undefined &&
-                          item2.toLowerCase().includes(item3)
-                        ) {
-                          flag = true;
-                          return false;
-                        } else {
-                          return true;
-                        }
-                      });
-                    }
-
-                    // if (flag === true) return false;
-                    return true;
-                  });
-                  if (flag === true) {
-                    return true;
-                  }
-                  return false;
-                })
+                .filter((item) => filteringPost(item))
                 .map(
                   (item) =>
                     !item.IsDeleted && (
@@ -130,48 +142,7 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
                     )
                 )
             : listPost
-                .filter((item) => {
-                  if (conditionSelected.length === 0) {
-                    return true;
-                  }
-                  let tags = item.Tags.split(",");
-                  let flag = false;
-                  conditionSelected.every((item2) => {
-                    //Cái array dateString sẽ nằm ở vị trí cuối của conditionSelected
-                    if (Array.isArray(item2)) {
-                      if (
-                        moment(
-                          moment(item?.CreationTime).format("YYYY/MM/DD")
-                        ).isAfter(moment(item2[0]).format("YYYY/MM/DD")) &&
-                        moment(moment(item2[1]).format("YYYY/MM/DD")).isAfter(
-                          moment(item?.CreationTime).format("YYYY/MM/DD")
-                        )
-                      ) {
-                        flag = true;
-                      } else {
-                        flag = false;
-                      }
-                      return false;
-                    } else {
-                      tags.every((item3) => {
-                        if (
-                          item2 !== undefined &&
-                          item2.toLowerCase().includes(item3)
-                        ) {
-                          flag = true;
-                          return false;
-                        } else {
-                          return true;
-                        }
-                      });
-                    }
-                    return true;
-                  });
-                  if (flag === true) {
-                    return true;
-                  }
-                  return false;
-                })
+                .filter((item) => filteringPost(item))
                 .map(
                   (item) =>
                     !item.IsDeleted && (

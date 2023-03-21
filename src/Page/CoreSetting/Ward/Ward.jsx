@@ -169,7 +169,6 @@ const Ward = () => {
   const handleProvinceChange = async (value) => {
     setProvinceCode(value);
     // const res = await districtService.getAllWard(value);
-    // // console.log(res);
     // setWard(res.data);
   };
 
@@ -258,8 +257,7 @@ const Ward = () => {
             onClick={() => {
               setIsCreateOpenModal(true);
               form.resetFields();
-            }}
-          >
+            }}>
             <PlusOutlined />
             Tạo phường/xã
           </Button>
@@ -282,15 +280,13 @@ const Ward = () => {
             <Button
               type="default"
               onClick={() => setIsDeleteModalOpen(false)}
-              style={{ marginRight: "15px" }}
-            >
+              style={{ marginRight: "15px" }}>
               Thoát
             </Button>,
             <Button type="primary" onClick={handleDelete}>
               Xóa
             </Button>,
-          ]}
-        >
+          ]}>
           Bạn có muốn xóa {currentWard.Prefix} {currentWard.Name} này không?
         </Modal>
         <Modal
@@ -302,15 +298,13 @@ const Ward = () => {
             <Button
               type="default"
               onClick={() => setIsEditModalOpen(false)}
-              style={{ marginRight: "15px" }}
-            >
+              style={{ marginRight: "15px" }}>
               Thoát
             </Button>,
             <Button type="primary" onClick={handleEdit}>
               Cập nhật
             </Button>,
-          ]}
-        >
+          ]}>
           <Form
             form={form}
             size="large"
@@ -320,8 +314,7 @@ const Ward = () => {
               setCurrentWard({ ...currentWard, ...value })
             }
             labelCol={{ span: "6" }}
-            wrapperCol={{ span: "17" }}
-          >
+            wrapperCol={{ span: "17" }}>
             <Form.Item label="Loại" name={"Prefix"}>
               <Select
                 options={[
@@ -348,15 +341,13 @@ const Ward = () => {
             <Button
               type="default"
               onClick={() => setIsCreateOpenModal(false)}
-              style={{ marginRight: "15px" }}
-            >
+              style={{ marginRight: "15px" }}>
               Thoát
             </Button>,
             <Button type="primary" onClick={handleCreate}>
               Lưu
             </Button>,
-          ]}
-        >
+          ]}>
           <Form
             form={form}
             size="large"
@@ -366,8 +357,7 @@ const Ward = () => {
               setCurrentWard({ ...currentWard, ...value })
             }
             labelCol={{ span: "6" }}
-            wrapperCol={{ span: "17" }}
-          >
+            wrapperCol={{ span: "17" }}>
             <Form.Item label="Loại" name={"Prefix"}>
               <Select
                 options={[

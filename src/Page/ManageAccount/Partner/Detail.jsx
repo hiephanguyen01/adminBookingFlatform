@@ -10,7 +10,6 @@ export const PartnerDetail = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState();
-  console.log(data);
   useEffect(() => {
     (async () => {
       await getPartnerDetailById(id);
@@ -21,7 +20,6 @@ export const PartnerDetail = () => {
   const getPartnerDetailById = async (id) => {
     try {
       const { data } = await registerPartnerService.getPartnerById(id);
-      console.log(data);
       setData(data);
     } catch (error) {
       console.log(error);
@@ -52,8 +50,7 @@ export const PartnerDetail = () => {
             </Form.Item>
             <Form.Item
               label="Tổ chức
-"
-            >
+">
               <Input disabled value={""} />
             </Form.Item>
             <Form.Item label="Số GPĐKKD">
@@ -70,8 +67,7 @@ export const PartnerDetail = () => {
             </Form.Item>
             <Form.Item
               label="Tài khoản ngân hàng
-"
-            >
+">
               <Input
                 disabled
                 value={`${data.BankAccount} - ${data.BankAccountOwnerName} - ${data.BankBranchName}  `}
@@ -81,17 +77,17 @@ export const PartnerDetail = () => {
               <Col span={12}>
                 <Form.Item
                   label="Ngày tạo
-"
-                >
+">
                   <Input
                     disabled
-                    value={moment(data?.CreationTime).format("L")}
+                    value={moment(data?.CreationTime).format(
+                      "DD-MM-YYYY HH:mm"
+                    )}
                   />
                 </Form.Item>
                 <Form.Item
                   label="Số bài đăng
-"
-                >
+">
                   <Input disabled value={data?.NumberOfPost} />
                 </Form.Item>
               </Col>
@@ -99,18 +95,18 @@ export const PartnerDetail = () => {
                 <Form.Item
                   label="Ngày cập nhật gần nhất
 
-"
-                >
+">
                   <Input
                     disabled
-                    value={moment(data?.LastModificationTime).format("L")}
+                    value={moment(data?.LastModificationTime).format(
+                      "DD-MM-YYYY HH:mm"
+                    )}
                   />
                 </Form.Item>
                 <Form.Item
                   label="Trạng thái
 
-"
-                >
+">
                   <Input
                     disabled
                     value={
@@ -126,8 +122,7 @@ export const PartnerDetail = () => {
           <Form layout="vertical" autoComplete="off">
             <Form.Item
               label="Tên đối tác
-"
-            >
+">
               <Input disabled value={data?.PartnerName} />
             </Form.Item>
             <Form.Item label="Số điện thoại">
@@ -174,7 +169,7 @@ export const PartnerDetail = () => {
                   <Image
                     width={"100%"}
                     height={100}
-                    preview={false}
+                    preview={true}
                     src={`${baseURL}/api/image/${data.ImageCCCD2}`}
                     fallback={fallBackImg}
                   />
@@ -183,8 +178,7 @@ export const PartnerDetail = () => {
             </div>
             <Form.Item
               label="Hợp đồng đối tác
-"
-            >
+">
               <Input disabled value={data?.BusinessRegistrationLicenseNumber} />
             </Form.Item>
             <Form.Item label="Câu hỏi bảo mật">
@@ -192,14 +186,12 @@ export const PartnerDetail = () => {
             </Form.Item>
             <Form.Item
               label="Trả lời câu hỏi bảo mật
-"
-            >
+">
               <Input disabled value={""} />
             </Form.Item>
             <Form.Item
               label="Ghi chú
-"
-            >
+">
               <Input disabled value={data?.Note} />
             </Form.Item>
           </Form>

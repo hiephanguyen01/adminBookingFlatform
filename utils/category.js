@@ -36,3 +36,48 @@ export const CATEGORIES = [
     linkTo: "model",
   },
 ];
+
+export const handlerNameCategory = (category1) => {
+  switch (String(category1)) {
+    case "1":
+      return "studio";
+    case "2":
+      return "photographer";
+    case "3":
+      return "clothes";
+    case "4":
+      return "makeup";
+    case "5":
+      return "device";
+    case "6":
+      return "model";
+    default:
+      return;
+  }
+};
+
+export const statusHandler = (bookingStatus, paymentStatus) => {
+  bookingStatus = Number(bookingStatus);
+  paymentStatus = Number(paymentStatus);
+  if (bookingStatus === 4 && paymentStatus === 1) {
+    return "Chờ thanh toán";
+  } else if (
+    bookingStatus === 4 &&
+    [4, 3, 2].some((item) => item === paymentStatus)
+  ) {
+    return "Sắp tới";
+  } else if (
+    bookingStatus === 1 &&
+    [4, 3, 2].some((item) => item === paymentStatus)
+  ) {
+    return "Đã hoàn tất";
+  } else if (bookingStatus === 2) {
+  } else if (
+    bookingStatus === 3 &&
+    [4, 3, 2, 1].some((item) => item === paymentStatus)
+  ) {
+    return "Đã hoàn tất";
+  } else if (bookingStatus === 2) {
+    return "Đã huỷ";
+  }
+};
