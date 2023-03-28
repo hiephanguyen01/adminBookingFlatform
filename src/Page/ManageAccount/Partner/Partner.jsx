@@ -25,6 +25,7 @@ import { Loading } from "../../../Components/Loading";
 const { RangePicker } = DatePicker;
 import classNames from "classnames/bind";
 import styles from "./Partner.module.scss";
+import { convertTimeUTC } from "../../../../utils/convert";
 const cx = classNames.bind(styles);
 const Partner = () => {
   const [dataTale, setDataTable] = useState([]);
@@ -91,12 +92,12 @@ const Partner = () => {
     {
       title: "Ngày tạo",
       dataIndex: "CreationTime",
-      render: (item) => moment(item).format("DD-MM-YYYY HH:mm"),
+      render: (item) => convertTimeUTC(item,true),
     },
     {
       title: "Cập nhật gần nhất",
       dataIndex: "LastModificationTime",
-      render: (item) => moment(item).format("DD-MM-YYYY HH:mm"),
+      render: (item) => convertTimeUTC(item,true),
     },
     {
       title: "Trạng thái",
@@ -168,12 +169,14 @@ const Partner = () => {
           // onFinish={onFinish}
           size="large"
           style={{ display: "flex" }}
-          labelWrap={true}>
+          labelWrap={true}
+        >
           <div className={cx("w-25", "fs-16")}>
             <Form.Item
               label="Tìm kiếm"
               name="keyString"
-              className={cx("form-custom")}>
+              className={cx("form-custom")}
+            >
               <Input prefix={<SearchOutlined />} />
             </Form.Item>
           </div>
@@ -181,7 +184,8 @@ const Partner = () => {
             <Form.Item
               label="Ngày tạo"
               name="CreateDate"
-              className={cx("form-custom")}>
+              className={cx("form-custom")}
+            >
               <RangePicker format="DD/MM/YYYY" />
             </Form.Item>
           </div>
@@ -189,7 +193,8 @@ const Partner = () => {
             <Form.Item
               label="Ngày cập nhật gần nhất"
               name="updateDate"
-              className={cx("form-custom")}>
+              className={cx("form-custom")}
+            >
               <RangePicker format="DD/MM/YYYY" />
             </Form.Item>
           </div>
@@ -197,7 +202,8 @@ const Partner = () => {
             <Form.Item
               label="Trạng thái"
               name={"IsDeleted"}
-              className={cx("form-custom")}>
+              className={cx("form-custom")}
+            >
               <Select defaultValue={""}>
                 {NOTIFY_STATUS.map((item) => (
                   <Select.Option value={item.value} key={item.value}>

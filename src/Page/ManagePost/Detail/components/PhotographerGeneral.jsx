@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { IMG } from "../../../../../utils/baseURL";
 import { convertTimeUTC } from "../../../../../utils/convert";
 
-export const InfoGeneral = ({ data }) => {
+export const PhotographerGeneral = ({ data }) => {
   if (!data) return null;
   console.log("ìnochung", data);
   const navigate = useNavigate();
