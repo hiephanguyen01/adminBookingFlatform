@@ -1,8 +1,11 @@
 import { BaseService } from "./baseService";
 
 class NotificationService extends BaseService {
-  getAll = () => {
-    return this.get(`/api/notification-key`);
+  getAll = (q) => {
+    return this.get(`/api/notification-key?q=${q}`);
+  };
+  updateReaded = (id) => {
+    return this.patch(`/api/notification-key/${id}`);
   };
 }
 

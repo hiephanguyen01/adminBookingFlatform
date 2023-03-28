@@ -15,7 +15,6 @@ const locala = {
     format: "DD/MM/YYYY",
   },
 };
-console.log(locale);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
@@ -26,8 +25,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             token: {
               colorPrimary: "#e22828",
             },
-          }}
-        >
+          }}>
           <App />
         </ConfigProvider>
       </BrowserRouter>

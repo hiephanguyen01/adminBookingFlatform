@@ -109,11 +109,12 @@ export const EditCustomer = () => {
               <Col span={6}>
                 <Form.Item
                   label="Ngày tạo
-"
-                >
+">
                   <Input
                     disabled
-                    value={moment(data?.CreationTime).format("L")}
+                    value={moment(data?.CreationTime).format(
+                      "DD/MM/YYYY HH:mm"
+                    )}
                   />
                 </Form.Item>
               </Col>
@@ -121,27 +122,26 @@ export const EditCustomer = () => {
                 <Form.Item
                   label="Cập nhật gần nhất
 
-"
-                >
+">
                   <Input
                     disabled
-                    value={moment(data?.LastModificationTime).format("L")}
+                    value={moment(data?.LastModificationTime).format(
+                      "DD/MM/YYYY HH:mm"
+                    )}
                   />
                 </Form.Item>
               </Col>
               <Col span={6}>
                 <Form.Item
                   label="Số đơn đặt
-"
-                >
+">
                   <Input disabled value={data?.NumberOfOrder} />
                 </Form.Item>
               </Col>
               <Col span={6}>
                 <Form.Item
                   label="Trạng thái
-"
-                >
+">
                   <Input
                     disabled
                     value={data.IsDeleted ? "Tài khoản đã khoá" : "Active"}
@@ -153,8 +153,7 @@ export const EditCustomer = () => {
           <Col span={12}>
             <Form.Item
               label="Ghi chú
-"
-            >
+">
               <Input disabled value={data.Note} />
             </Form.Item>
           </Col>
@@ -168,8 +167,7 @@ export const EditCustomer = () => {
             background: "#ffeded",
             display: "flex",
             justifyContent: "space-between",
-          }}
-        >
+          }}>
           <div>
             <LockOutlined style={{ color: "#e22828" }} />
             <span style={{ color: "#e22828" }}>Tài khoản đang bị khóa</span>
@@ -177,8 +175,7 @@ export const EditCustomer = () => {
           <Button
             loading={loadingBtn}
             onClick={() => handleLockAccount(false)}
-            danger
-          >
+            danger>
             MỞ KHÓA TÀI KHOẢN
           </Button>
         </div>
@@ -187,8 +184,7 @@ export const EditCustomer = () => {
           <Button
             style={{ marginLeft: "auto" }}
             onClick={() => showModal()}
-            danger
-          >
+            danger>
             KHÓA TÀI KHOẢN
           </Button>
         </div>
@@ -200,8 +196,7 @@ export const EditCustomer = () => {
         onCancel={handleCancel}
         closable={false}
         footer={null}
-        maskClosable={false}
-      >
+        maskClosable={false}>
         <>
           <div className="title">
             <QuestionCircleOutlined />
@@ -217,8 +212,7 @@ export const EditCustomer = () => {
 
           <div
             className="buttons"
-            style={{ display: "flex", justifyContent: "right", gap: ".5rem" }}
-          >
+            style={{ display: "flex", justifyContent: "right", gap: ".5rem" }}>
             <Button
               htmlType="submit"
               size="large"
@@ -232,8 +226,7 @@ export const EditCustomer = () => {
               onClick={() => handleLockAccount(true)}
               size="large"
               type="primary"
-              loading={loadingBtn}
-            >
+              loading={loadingBtn}>
               Khoá tài khoản
             </Button>
           </div>

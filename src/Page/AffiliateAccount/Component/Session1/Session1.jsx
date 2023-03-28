@@ -1,4 +1,5 @@
 import { Col, Divider, Row } from "antd";
+import moment from "moment";
 import React from "react";
 
 const Session1 = ({ user }) => {
@@ -69,6 +70,19 @@ const Session1 = ({ user }) => {
             </Col>
             <Col md={16}>
               <div className="value">:&emsp;&emsp;&emsp;{user?.address}</div>
+            </Col>
+          </Row>
+        </Col>
+        <Col md={12}>
+          <Row>
+            <Col md={8}>
+              <div className="label">Ngày tạo</div>
+            </Col>
+            <Col md={16}>
+              <div className="value">
+                :&emsp;&emsp;&emsp;
+                {moment(user?.createdAt).format("DD/MM/YYYY HH:mm")}
+              </div>
             </Col>
           </Row>
         </Col>

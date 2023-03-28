@@ -1,11 +1,10 @@
-import { Breadcrumb, Col, Form, Image, Input, Row } from "antd";
+import { Breadcrumb, Col, Form, Input, Row } from "antd";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { Loading } from "../../../Components/Loading";
 import { registerPartnerService } from "../../../services/RegisterPartnerService";
 import "./detail.scss";
-import moment from "moment";
-import { baseURL, fallBackImg } from "../../../../utils/baseURL";
-import { Loading } from "../../../Components/Loading";
 export const CustomerDetail = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
@@ -70,11 +69,12 @@ export const CustomerDetail = () => {
               <Col span={6}>
                 <Form.Item
                   label="Ngày tạo
-"
-                >
+">
                   <Input
                     disabled
-                    value={moment(data?.CreationTime).format("L")}
+                    value={moment(data?.CreationTime).format(
+                      "DD/MM/YYYY HH:mm"
+                    )}
                   />
                 </Form.Item>
               </Col>
@@ -82,27 +82,26 @@ export const CustomerDetail = () => {
                 <Form.Item
                   label="Cập nhật gần nhất
 
-"
-                >
+">
                   <Input
                     disabled
-                    value={moment(data?.LastModificationTime).format("L")}
+                    value={moment(data?.LastModificationTime).format(
+                      "DD/MM/YYYY HH:mm"
+                    )}
                   />
                 </Form.Item>
               </Col>
               <Col span={6}>
                 <Form.Item
                   label="Số đơn đặt
-"
-                >
+">
                   <Input disabled value={data?.NumberOfOrder} />
                 </Form.Item>
               </Col>
               <Col span={6}>
                 <Form.Item
                   label="Trạng thái
-"
-                >
+">
                   <Input
                     disabled
                     value={data.IsDeleted ? "Tài khoản đã khoá" : "Active"}
@@ -114,8 +113,7 @@ export const CustomerDetail = () => {
           <Col>
             <Form.Item
               label="Ghi chú
-"
-            >
+">
               <Input disabled value={data.Note} />
             </Form.Item>
           </Col>

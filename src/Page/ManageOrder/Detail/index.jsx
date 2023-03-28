@@ -5,6 +5,7 @@ import {
   Col,
   Divider,
   Form,
+  Image,
   Input,
   Row,
   Select,
@@ -12,6 +13,7 @@ import {
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
+import { IMG } from "../../../../utils/baseURL";
 import { converPriceVND, convertTimeUTC } from "../../../../utils/convert";
 import { openNotification } from "../../../../utils/Notification";
 import { Loading } from "../../../Components/Loading";
@@ -26,13 +28,12 @@ const Detail = ({ modify = false }) => {
   const [loadingBtn, setLoadingBtn] = useState(false);
   const [data, setData] = useState();
   const { state } = useLocation();
-  console.log(data);
   useEffect(() => {
     (async () => {
       await getPartnerDetailById(id);
       setLoading(false);
     })();
-  }, []);
+  }, [id, state]);
 
   const listCheckBox = [
     {
@@ -85,7 +86,6 @@ const Detail = ({ modify = false }) => {
   if (loading) return <Loading />;
   const onFinish = async (value) => {
     setLoadingBtn(true);
-    console.log("dsadjsajdsakhjf", value);
     try {
       await orderService.updateOrderByid(
         { ...value, TenantId: data.TenantId },
@@ -118,7 +118,7 @@ const Detail = ({ modify = false }) => {
       </Breadcrumb>
       <Form
         initialValues={{
-          // Id: data.id,
+          Id: data.id,
           // StudioPostId: data.StudioRoom.id,
           // Name: data.StudioRoom.Name,
           // CreationTime: data.CreationTime,
@@ -152,7 +152,20 @@ const Detail = ({ modify = false }) => {
         style={{ marginTop: "20px" }}>
         <header className="booking-info">
           <p>THÔNG TIN ĐƠN ĐẶT</p>
-
+          <Form.Item
+            style={{
+              width: "49%",
+              display: "inline-block",
+              marginRight: "15px",
+            }}
+            label="ID"
+            name="Id">
+            <Input
+              disabled={true}
+              value={data?.id}
+              style={{ padding: "10px" }}
+            />
+          </Form.Item>
           <Form.Item
             style={{
               width: "49%",
@@ -167,11 +180,12 @@ const Detail = ({ modify = false }) => {
               style={{ padding: "10px" }}
             />
           </Form.Item>
+
           <Form.Item
             style={{
               width: "49%",
               display: "inline-block",
-              marginLeft: "15px",
+              marginRight: "15px",
             }}
             label="Số định danh"
             // name="IdentifierCode"
@@ -202,21 +216,6 @@ const Detail = ({ modify = false }) => {
             />
           </Form.Item>
 
-          <Form.Item
-            style={{
-              width: "49%",
-              display: "inline-block",
-              marginLeft: "15px",
-            }}
-            label="Affiliate ID"
-            name="AffiliateUserId"
-          >
-            <Input
-              disabled={true}
-              value={data?.AffiliateUserId}
-              style={{ padding: "10px" }}
-            />
-          </Form.Item>
           <Form.Item
             style={{
               width: "49%",
@@ -427,8 +426,7 @@ const Detail = ({ modify = false }) => {
                 paddingBottom: ".5rem",
                 display: "inline-block",
                 fontSize: "1rem",
-              }}
-            >
+              }}>
               Kích thước
             </label>
             <Col span={24}>
@@ -512,8 +510,7 @@ const Detail = ({ modify = false }) => {
                     paddingBottom: ".5rem",
                     display: "inline-block",
                     fontSize: "1rem",
-                  }}
-                >
+                  }}>
                   Thiết bị có sẵn
                 </label>
                 <Row gutter={[32, 32]}>
@@ -523,8 +520,7 @@ const Detail = ({ modify = false }) => {
                         display: "flex",
                         alignItems: "center",
                         gap: ".5rem",
-                      }}
-                    >
+                      }}>
                       <div style={{ flex: 1 }}>
                         <Checkbox value={data.HasBackground}>
                           Hệ thống đèn
@@ -539,8 +535,7 @@ const Detail = ({ modify = false }) => {
                         display: "flex",
                         alignItems: "center",
                         gap: ".5rem",
-                      }}
-                    >
+                      }}>
                       <div style={{ flex: 1 }}>
                         <Checkbox>Phông nền</Checkbox>
                       </div>
@@ -554,8 +549,7 @@ const Detail = ({ modify = false }) => {
                         flexWrap: "wrap",
                         alignItems: "center",
                         gap: "2rem",
-                      }}
-                    >
+                      }}>
                       <Checkbox checked={data.HasTable}>Bàn</Checkbox>
                       <Checkbox checked={data.HasChair}>Ghế</Checkbox>
                       <Checkbox checked={data.HasSofa}>Sofa</Checkbox>
@@ -565,8 +559,7 @@ const Detail = ({ modify = false }) => {
                           display: "flex",
                           alignItems: "center",
                           gap: ".5rem",
-                        }}
-                      >
+                        }}>
                         <Checkbox checked={data.HasOtherDevice}>Khác</Checkbox>
                         <Input
                           value={data.OtherDeviceDescription}
@@ -586,8 +579,7 @@ const Detail = ({ modify = false }) => {
                       paddingBottom: ".5rem",
                       display: "inline-block",
                       fontSize: "1rem",
-                    }}
-                  >
+                    }}>
                     Tiện ích đi kèm
                   </label>
                   <Col span={24}>
@@ -599,8 +591,7 @@ const Detail = ({ modify = false }) => {
                             flexWrap: "wrap",
                             alignItems: "center",
                             gap: "2rem",
-                          }}
-                        >
+                          }}>
                           {listCheckBox.map((item) => {
                             return (
                               <Checkbox checked={item.value}>
@@ -743,9 +734,9 @@ const Detail = ({ modify = false }) => {
               <Input
                 disabled
                 value={
-                  data?.DeletionTime
+                  data?.BookingStatus === 2
                     ? moment(data.DeletionTime).format("DD/MM/YYYY HH:MM")
-                    : moment(data.CreationTime).format("DD-MM-YYYY HH:mm")
+                    : ""
                 }
                 style={{ padding: "10px" }}
               />
@@ -797,8 +788,7 @@ const Detail = ({ modify = false }) => {
                 marginRight: "15px",
               }}
               label="Số tài khoản nhận hoàn tiền"
-              name="bankAccount"
-            >
+              name="bankAccount">
               <Input disabled style={{ padding: "10px" }} />
             </Form.Item>
             <Form.Item
@@ -807,8 +797,7 @@ const Detail = ({ modify = false }) => {
                 display: "inline-block",
               }}
               label="Tên tài khoản"
-              name="accountUser"
-            >
+              name="accountUser">
               <Input disabled style={{ padding: "10px" }} />
             </Form.Item>
             <Form.Item
@@ -817,8 +806,7 @@ const Detail = ({ modify = false }) => {
                 display: "inline-block",
               }}
               label="Ngân hàng"
-              name="bank"
-            >
+              name="bank">
               <Input disabled style={{ padding: "10px" }} />
             </Form.Item>
             <Form.Item
@@ -862,11 +850,19 @@ const Detail = ({ modify = false }) => {
                 Đã hoàn tiền
               </Checkbox>
             </Form.Item>
+            <Form.Item
+              style={{
+                width: "49%",
+                display: "inline-block",
+                margin: "30px 0 0 0px",
+              }}
+              label="Ảnh minh chứng">
+              <Image src={IMG(data?.EvidenceImage)} />
+            </Form.Item>
           </Form.Item>
         </article>
         <footer className="detail-footer">
           <p>VẮNG MẶT</p>
-
           <Form.Item>
             <Form.Item
               style={{

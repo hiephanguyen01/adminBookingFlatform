@@ -20,7 +20,6 @@ export default function CalendarAndPrice({ service }) {
   const [dates, setDates] = useState([]);
   const [data, setData] = useState();
   const [optionSelected, setOptionSelected] = useState("");
-  console.log("service calendar", service);
   const navigate = useNavigate();
 
   const handlerSelectRomm = (e) => {
@@ -40,7 +39,6 @@ export default function CalendarAndPrice({ service }) {
     }
     return listDat;
   };
-  console.log("data", data);
   const dateCellRender = (value) => {
     const listData = getListData(value);
     return (
@@ -55,8 +53,7 @@ export default function CalendarAndPrice({ service }) {
                     color: "green",
                     border: "1px solid green",
                   }}
-                  className="button"
-                >
+                  className="button">
                   Mở
                 </Button>
               ) : (
@@ -66,8 +63,7 @@ export default function CalendarAndPrice({ service }) {
                     background: "#ffff",
                     color: "red",
                     border: "1px solid red",
-                  }}
-                >
+                  }}>
                   Đóng
                 </Button>
               )}
@@ -87,16 +83,14 @@ export default function CalendarAndPrice({ service }) {
       <Breadcrumb style={{ fontSize: "17px", marginBottom: "1rem" }}>
         <Breadcrumb.Item
           onClick={() => navigate("/posts")}
-          style={{ color: "#03ac84" }}
-        >
+          style={{ color: "#03ac84" }}>
           Quản lí bài đăng
         </Breadcrumb.Item>
         <Breadcrumb.Item
           style={{
             color: "",
             cursor: "pointer",
-          }}
-        >
+          }}>
           Lịch và giá
         </Breadcrumb.Item>
       </Breadcrumb>
@@ -119,8 +113,7 @@ export default function CalendarAndPrice({ service }) {
                 defaultValue={""}
                 className="selectRoom"
                 size="large"
-                style={{ minWidth: "400px" }}
-              >
+                style={{ minWidth: "400px" }}>
                 <Option value={""}>Chọn phòng....</Option>
                 {service.map((item) => {
                   return (
@@ -134,14 +127,9 @@ export default function CalendarAndPrice({ service }) {
           </Col>
           <Col span={6}>
             <div style={{ marginTop: "54px" }}>
-              <Form
-                name="form_item_path"
-                layout="vertical"
-                onFinish={() => console.log("first")}
-              >
+              <Form name="form_item_path" layout="vertical">
                 <h3
-                  style={{ textTransform: "capitalize", marginBottom: "1rem" }}
-                >
+                  style={{ textTransform: "capitalize", marginBottom: "1rem" }}>
                   Giá & chính sách theo giờ
                 </h3>
                 <Form.Item label="Giá áp đụng (đ/giờ)">
@@ -160,14 +148,9 @@ export default function CalendarAndPrice({ service }) {
                   <Input size="large" />
                 </Form.Item>
               </Form>
-              <Form
-                name="form_item_path"
-                layout="vertical"
-                onFinish={() => console.log("first")}
-              >
+              <Form name="form_item_path" layout="vertical">
                 <h3
-                  style={{ textTransform: "capitalize", marginBottom: "1rem" }}
-                >
+                  style={{ textTransform: "capitalize", marginBottom: "1rem" }}>
                   Giá & chính sách theo ngày
                 </h3>
                 <Form.Item label="Giá áp đụng (đ/ngày)">

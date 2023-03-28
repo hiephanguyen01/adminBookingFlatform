@@ -120,7 +120,6 @@ const PromoCustomerDetail = ({ edit = false }) => {
     }
     return result;
   };
-  console.log(promo);
   const disabledDateTime = (value) => {
     return {
       disabledHours: () => {

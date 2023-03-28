@@ -28,7 +28,6 @@ const DataExportAffiliate = () => {
   });
   const [loadingBtn, setLoadingBtn] = useState(false);
 
-  console.log(data);
   const handleChange = (value) => {
     SetOption(value);
   };
@@ -90,8 +89,7 @@ const DataExportAffiliate = () => {
           defaultValue={""}
           style={{ width: 440 }}
           size="large"
-          onChange={handleChange}
-        >
+          onChange={handleChange}>
           <Option value={""}>Chọn...</Option>
           {options.map((item) => (
             <Option value={item.value} key={item.label}>

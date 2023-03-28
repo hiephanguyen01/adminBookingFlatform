@@ -1,3 +1,4 @@
+import { LockOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import {
   Breadcrumb,
   Button,
@@ -9,17 +10,16 @@ import {
   Row,
   Upload,
 } from "antd";
+import TextArea from "antd/es/input/TextArea";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { baseURL, fallBackImg } from "../../../../utils/baseURL";
+import { openNotification } from "../../../../utils/Notification";
+import { Loading } from "../../../Components/Loading";
 import { registerPartnerService } from "../../../services/RegisterPartnerService";
 import "./detail.scss";
-import moment from "moment";
-import { baseURL, fallBackImg } from "../../../../utils/baseURL";
 import "./Edit.scss";
-import { openNotification } from "../../../../utils/Notification";
-import TextArea from "antd/es/input/TextArea";
-import { LockOutlined, QuestionCircleOutlined } from "@ant-design/icons";
-import { Loading } from "../../../Components/Loading";
 export const DetailEditPartner = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);

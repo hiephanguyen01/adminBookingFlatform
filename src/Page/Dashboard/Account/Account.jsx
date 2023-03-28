@@ -63,10 +63,7 @@ const Account = () => {
               startDate: moment(date.picker[0], "DD/MM/YYYY").toISOString(),
               endDate: moment(date.picker[1], "DD/MM/YYYY").toISOString(),
             };
-            console.log(
-              "🚀 ~ picker:",
-              moment(date.picker[0], "DD/MM/YYYY").toISOString()
-            );
+
             dateTime = JSON.stringify(dateTime);
             const { data } = await dashboardService.getTotal(
               date.value,

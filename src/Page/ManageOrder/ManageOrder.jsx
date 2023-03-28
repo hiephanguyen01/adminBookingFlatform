@@ -68,6 +68,13 @@ export const ManageOrder = () => {
   // Define Table Column ********************************
   const column = [
     {
+      title: "ID",
+      dataIndex: "id",
+      render: (_) => {
+        return <p>{_ !== null ? _ : "Không"}</p>;
+      },
+    },
+    {
       title: "Mã đơn đặt",
       dataIndex: "IdentifyCode",
       render: (value) => <strong>{value}</strong>,
@@ -86,13 +93,7 @@ export const ManageOrder = () => {
         return <p>{value?.StudioRoom?.StudioPostId}</p>;
       },
     },
-    {
-      title: "affiliate ID ",
-      dataIndex: "AffiliateUserId",
-      render: (_) => {
-        return <p>{_ !== null ? _ : "Không"}</p>;
-      },
-    },
+
     {
       title: "Ngày Thực hiện",
       // dataIndex: "CreationTime",
@@ -416,8 +417,7 @@ export const ManageOrder = () => {
           }}
           // onFinish={onFinish}
           onValuesChange={(e) => onChangeFilter(e)}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Row gutter={[16, 16]}>
             {expandHeader
               ? formItem.map((item, idx) => (
@@ -448,15 +448,13 @@ export const ManageOrder = () => {
           {!expandHeader ? (
             <p
               style={{ float: "right", marginTop: "1rem" }}
-              onClick={() => setExpandHeader(!expandHeader)}
-            >
+              onClick={() => setExpandHeader(!expandHeader)}>
               xem thêm
             </p>
           ) : (
             <p
               style={{ float: "right", marginTop: "1rem" }}
-              onClick={() => setExpandHeader(!expandHeader)}
-            >
+              onClick={() => setExpandHeader(!expandHeader)}>
               thu gọn
             </p>
           )}
@@ -466,8 +464,7 @@ export const ManageOrder = () => {
       <Divider />
       <main
         className="manage-order__table chile"
-        style={{ paddingBottom: "20px" }}
-      >
+        style={{ paddingBottom: "20px" }}>
         <Table columns={column} dataSource={dataTale} pagination={false} />
         <Pagination
           style={{ textAlign: "right" }}
