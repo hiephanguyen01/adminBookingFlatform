@@ -103,7 +103,10 @@ export const StudioRoom = ({ data, category }) => {
               label="Số đơn đặt"
               // name="Id"
             >
-              <Input value={data.Bookings.length} style={{ padding: "10px" }} />
+              <Input
+                value={data?.Bookings?.length || 0}
+                style={{ padding: "10px" }}
+              />
             </Form.Item>
             <Row gutter={16}>
               <Col span={12}>
@@ -147,7 +150,8 @@ export const StudioRoom = ({ data, category }) => {
           <Col span={24}>
             <Divider />
 
-            <Form.Item label="Thiết bị có sẵn">
+            <Form.Item>
+              <label className="label">Thiết bị có sẵn</label>
               <Row gutter={[32, 32]}>
                 <Col span={12}>
                   <div
@@ -202,60 +206,61 @@ export const StudioRoom = ({ data, category }) => {
                 </Col>
               </Row>
             </Form.Item>
-            <Col span={24}>
-              <Divider />
-              <Form.Item className="label" label="Tiện ích đi kèm">
-                <Col span={24}>
-                  <Row>
-                    <Col span={20}>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          alignItems: "center",
-                          gap: "2rem",
-                        }}>
-                        {listCheckBox.map((item) => {
-                          return (
-                            <Checkbox checked={item.value}>
-                              {item.label}
-                            </Checkbox>
-                          );
-                        })}
-                      </div>
-                    </Col>
-                  </Row>
-                </Col>
-              </Form.Item>
-            </Col>
-            <Col span={24}>
-              <Divider />
+            <Divider />
+            <Form.Item>
+              <label className="label">Tiện ích đi kèm</label>
               <Row gutter={[32, 32]}>
-                <Col span={12}>
-                  <Form.Item
-                    label="Số khách tối đa
-              "
-                    // name="Id"
+                <Col span={20}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      alignItems: "center",
+                      gap: "2rem",
+                    }}
                   >
-                    <Input
-                      value={data.MaximumCustomer}
-                      style={{ padding: "10px" }}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Form.Item
-                    label="Phụ thu phát sinh (đ/khách)"
-                    // name="Id"
-                  >
-                    <Input
-                      value={converPriceVND(data.Surcharge)}
-                      style={{ padding: "10px" }}
-                    />
-                  </Form.Item>
+                    {listCheckBox.map((item) => {
+                      return (
+                        <Checkbox
+                          style={{ margin: "0px" }}
+                          checked={item.value}
+                        >
+                          {item.label}
+                        </Checkbox>
+                      );
+                    })}
+                  </div>
                 </Col>
               </Row>
-            </Col>
+            </Form.Item>
+          </Col>
+          <Col span={24}>
+            <Divider />
+            <Row gutter={[32, 32]}>
+              <Col span={12}>
+                <Form.Item
+                  label="Số khách tối đa
+              "
+                  // name="Id"
+                >
+                  <Input
+                    value={data.MaximumCustomer}
+                    style={{ padding: "10px" }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  label="Phụ thu phát sinh (đ/khách)"
+                  // name="Id"
+                >
+                  <Input
+                    value={converPriceVND(data.Surcharge)}
+                    style={{ padding: "10px" }}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
           </Col>
           <Divider />
           <Col span={20}>

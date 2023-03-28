@@ -53,8 +53,9 @@ export const PhotographerRoom = ({ data, category }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}>
-        <Row gutter={32}>
+        style={{ marginTop: "20px" }}
+      >
+        <Row gutter={[32,0]}>
           <Col span={12}>
             <Form.Item
               label="Loại dịch vụ"
@@ -159,14 +160,19 @@ export const PhotographerRoom = ({ data, category }) => {
           </Col>
           <Divider />
           <Col span={24}>
-            <Form.Item className="label" label="Dịch vụ CHƯA bao gồm:">
-              <Input />
+            <Form.Item>
+              <label className="label">Dịch vụ CHƯA bao gồm:</label>
+              <Input
+                value={"Phí đi theo để dặm phấn, chỉnh tóc, thay trang phục"}
+                size="large"
+              />
             </Form.Item>
           </Col>
           <Divider />
           <Col span={24}>
-            <Form.Item className="label" label="Ưu đãi">
-              <Row gutter={[32, 32]}>
+            <Form.Item>
+              <label className="label">Ưu đãi</label>
+              <Row gutter={32}>
                 <Col span={12}>
                   <Form.Item
                     label="Số sản phẩm tối đa"
@@ -200,14 +206,19 @@ export const PhotographerRoom = ({ data, category }) => {
           </Col>
           <Divider />
           <Col span={24}>
-            <Form.Item className="label" label="Sản phẩm bàn giao">
+            <Form.Item>
+              <label className="label">Sản phẩm bàn giao</label>
               <Row gutter={[32, 32]}>
                 <Col span={12}>
                   <Form.Item
                     label="Ảnh (sản phẩm)"
                     // name="Id"
                   >
-                    <TextArea rows={2} style={{ padding: "10px" }} />
+                    <TextArea
+                      value={"300 ảnh màu (25 x25 ) hoặc (30 x30) ép gỗ"}
+                      rows={2}
+                      style={{ padding: "10px" }}
+                    />
                   </Form.Item>
                   <Form.Item
                     label="Video"
@@ -221,13 +232,34 @@ export const PhotographerRoom = ({ data, category }) => {
                     label="Album"
                     // name="Id"
                   >
-                    <TextArea rows={2} style={{ padding: "10px" }} />
+                    <TextArea
+                      value={
+                        "01 Album size (30 x 30) hoặc (25 x 35) Laminate 30 trang, ép siêu mỏng theo công nghệ Hàn Quốc"
+                      }
+                      rows={2}
+                      style={{ padding: "10px" }}
+                    />
                   </Form.Item>
                   <Form.Item
                     label="Thời gian bàn giao dự kiến"
                     // name="Id"
                   >
-                    <TextArea rows={2} style={{ padding: "10px" }} />
+                    <TextArea
+                      value={"30 ngày (sau khi hoàn tất chụp ảnh)"}
+                      rows={2}
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={24}>
+                  <Divider />
+                  <Form.Item>
+                    <label className="label">Mô tả thêm</label>
+                    <Col span={24}>
+                      <Form.Item>
+                        <Input style={{ padding: "10px" }} />
+                      </Form.Item>
+                    </Col>
                   </Form.Item>
                 </Col>
               </Row>
@@ -240,7 +272,8 @@ export const PhotographerRoom = ({ data, category }) => {
               // name="Id"
             >
               <div
-                style={{ display: "flex", gap: "1rem", alignItems: "stretch" }}>
+                style={{ display: "flex", gap: "1rem", alignItems: "stretch" }}
+              >
                 {data.Image.map((item, idx) => {
                   if (idx === 0) {
                     return (
@@ -249,7 +282,8 @@ export const PhotographerRoom = ({ data, category }) => {
                           display: "flex",
                           flexDirection: "column",
                           gap: ".5rem",
-                        }}>
+                        }}
+                      >
                         <Image height={100} width={200} src={IMG(item)} />
                         <span>Ảnh bìa</span>
                       </div>
@@ -261,7 +295,8 @@ export const PhotographerRoom = ({ data, category }) => {
                         display: "flex",
                         flexDirection: "column",
                         gap: ".5rem",
-                      }}>
+                      }}
+                    >
                       <Image
                         style={{ objectFit: "cover" }}
                         height={100}

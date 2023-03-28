@@ -5,21 +5,35 @@
 }
 .PostDetail {
     min-height: calc(100vh - 96px);
+    .ant-row.css-dev-only-do-not-override-1lmi9fx {
+        margin: 0 !important;
+    }
+    .ant-col {
+        padding-left: 0 !important;
+    }
+    .ant-divider {
+        margin: 10px 0;
+    }
 }
 
-// .InfoGeneral {
-//     .label {
-//         label {
-//             font-weight: 700;
-//             font-size: 16px;
-
-//             color: #222222;
-//         }
-//     }
-// }
+.InfoGeneral {
+    .label {
+        font-weight: 700;
+        font-size: 16px;
+        color: #222222;
+        padding-bottom: 0.8rem;
+        display: block;
+    }
+    label {
+        font-weight: 600;
+    }
+}
 
 .calendar-price {
     .calendar-cus {
+        .ant-radio-button-wrapper.css-dev-only-do-not-override-1lmi9fx {
+            display: none;
+        }
         .ant-picker-cell-inner.ant-picker-calendar-date {
             display: flex;
             flex-direction: column;

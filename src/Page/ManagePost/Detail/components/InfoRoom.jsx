@@ -1,6 +1,7 @@
-import { Breadcrumb, Table } from "antd";
+import { Breadcrumb, Image, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { IMG } from "../../../../../utils/baseURL";
 import { converPriceVND } from "../../../../../utils/convert";
 import { DetailRoom } from "./detailRoom";
 const { Column, ColumnGroup } = Table;
@@ -32,7 +33,7 @@ export const InfoRoom = ({ service, category }) => {
       <Breadcrumb style={{ fontSize: "17px" }}>
         <Breadcrumb.Item
           onClick={() => navigate("/posts")}
-          style={{ color: "#03ac84" }}
+          style={{ color: "#03ac84", cursor:"pointer" }}
         >
           Quản lí bài đăng
         </Breadcrumb.Item>
@@ -53,11 +54,24 @@ export const InfoRoom = ({ service, category }) => {
       ) : (
         <div style={{ marginTop: "2rem" }}>
           <Table dataSource={service}>
-            <Column title="Tên Phòng" dataIndex="Name" key="Name" />
+            <Column
+              title="Tên dịch vụ"
+              dataIndex="Name"
+              key="Name"
+              render={(item, _) => {
+                return (
+                  <div style={{ display: "flex", gap: ".8rem" }}>
+                    <Image width={120} height={80} src={IMG(_?.Image[0])} />
+                    <h4>{_?.Name}</h4>
+                  </div>
+                );
+              }}
+            />
             <ColumnGroup title="Giá niêm yết">
               <Column
                 title="đ/Giờ"
                 dataIndex="PriceByHour"
+                align="center"
                 key="PriceByHour"
                 render={(item) => {
                   return Number(item).toLocaleString("vi", {
@@ -69,13 +83,21 @@ export const InfoRoom = ({ service, category }) => {
               <Column
                 title="đ/Ngày"
                 dataIndex="PriceByDate"
+                align="center"
                 key="PriceByDate"
                 render={(item) => {
                   return converPriceVND(item);
                 }}
               />
             </ColumnGroup>
-            <Column title="Số đơn đặt" dataIndex="address" key="address" />
+            <Column
+              title="Số đơn đặt"
+              dataIndex="address"
+              key="address"
+              render={(item, _) => {
+                return <p>{_?.Bookings?.length || 0}</p>;
+              }}
+            />
             <Column
               title="Thao tác"
               key="action"
@@ -89,7 +111,7 @@ export const InfoRoom = ({ service, category }) => {
                       // showModal();
                     }}
                   >
-                    xem chi tiết
+                    Xem chi tiết
                   </a>
                 );
               }}

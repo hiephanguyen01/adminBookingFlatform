@@ -167,16 +167,16 @@ const AffiliateCommission = () => {
     },
     {
       title: "Giá trị đơn đặt",
-      dataIndex: "BookingValueBeforeDiscount",
-      key: "BookingValueBeforeDiscount",
+      dataIndex: "BookingValue",
+      key: "BookingValue",
       sorter: {
         compare: (a, b) =>
-          a?.BookingValueBeforeDiscount - b?.BookingValueBeforeDiscount,
+          a?.BookingValue - b?.BookingValue,
         multiple: 1,
       },
       render: (_, record) => (
         <p>
-          {record?.BookingValueBeforeDiscount?.toLocaleString("it-IT", {
+          {record?.BookingValue?.toLocaleString("it-IT", {
             style: "currency",
             currency: "VND",
           }) || 0}
@@ -185,12 +185,13 @@ const AffiliateCommission = () => {
     },
     {
       title: "%Hoa hồng",
-      dataIndex: "percentCommision",
-      key: "percentCommision",
-      sorter: {
-        compare: (a, b) => a?.percentCommision - b?.percentCommision,
-        multiple: 1,
-      },
+      // dataIndex: "percentCommision",
+      // key: "percentCommision",
+      // sorter: {
+      //   compare: (a, b) => a?.percentCommision - b?.percentCommision,
+      //   multiple: 1,
+      // },
+      render: (_, record) => <p>10%</p>,
     },
     {
       title: "Hoa hồng",

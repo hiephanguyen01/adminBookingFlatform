@@ -71,6 +71,11 @@ export const statusHandler = (bookingStatus, paymentStatus) => {
     [4, 3, 2].some((item) => item === paymentStatus)
   ) {
     return "Đã hoàn tất";
+  } else if (
+    bookingStatus === 3 &&
+    [4, 3, 2,""].some((item) => item === paymentStatus)
+  ) {
+    return "Vắng mặt";
   } else if (bookingStatus === 2) {
     return "Đã huỷ";
   }

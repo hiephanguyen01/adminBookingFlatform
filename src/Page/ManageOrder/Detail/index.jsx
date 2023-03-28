@@ -139,6 +139,7 @@ const Detail = ({ modify = false }) => {
           accountUser: data.accountUser,
           bank: data.bank,
           bankAccount: data.bankAccount,
+          Note:data.Note
         }}
         layout="vertical"
         labelCol={{
@@ -196,6 +197,7 @@ const Detail = ({ modify = false }) => {
               style={{ padding: "10px" }}
             />
           </Form.Item>
+          
           <Form.Item
             style={{
               width: "49%",
@@ -311,6 +313,7 @@ const Detail = ({ modify = false }) => {
               style={{ padding: "10px" }}
             />
           </Form.Item>
+          
           <Form.Item
             style={{
               width: "49%",
@@ -341,6 +344,19 @@ const Detail = ({ modify = false }) => {
                   label: "Chờ thực hiện",
                 },
               ]}
+            />
+          </Form.Item>
+          <Form.Item
+            style={{
+              width: "49%",
+              display: "inline-block",
+              // marginRight: "15px",
+            }}
+            label="Lời nhắn"
+            name="Note">
+            <Input
+              disabled={modify ? false : true}
+              style={{ padding: "10px" }}
             />
           </Form.Item>
         </header>

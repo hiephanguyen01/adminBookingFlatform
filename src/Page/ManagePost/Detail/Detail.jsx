@@ -11,6 +11,8 @@ import CalendarAndPrice from "./components/Calendar";
 import Calendar from "./components/Calendar";
 import { InfoGeneral } from "./components/InfoGeneral";
 import { InfoRoom } from "./components/InfoRoom";
+import { ModelInfo } from "./components/modelInfo";
+import { ModelRoom } from "./components/modelRoom";
 import "./Detail.scss";
 export const PostDetail = ({ modify }) => {
   const { id } = useParams();
@@ -89,10 +91,18 @@ export const PostDetail = ({ modify }) => {
   };
 
   // if (loading) return <Loading />;
+  const handlerInfoGeneral = (category) => {
+    switch (Number(category)) {
+      case 6:
+        return <ModelInfo data={data?.data} />;
+      default:
+        return <InfoGeneral data={data?.data} />;
+    }
+  };
   const tabs = [
     {
       label: "Thông tin chung",
-      children: <InfoGeneral data={data?.data} />,
+      children: handlerInfoGeneral(state?.category),
     },
     {
       label: "Thông tin phòng",

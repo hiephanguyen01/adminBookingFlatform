@@ -405,7 +405,7 @@ const PromoPartnerDetail = ({ edit = false }) => {
                   <Input
                     value={moment(promo?.DateTimeExpire)
                       .utc()
-                      .format("HH:hh DD-MM-YYYY")}
+                      .format("HH:hh DD/MM/YYYY")}
                     disabled={true}
                   />
                   {/* <DatePicker
@@ -789,7 +789,7 @@ const PromoPartnerDetail = ({ edit = false }) => {
                   <Avatar
                     size="large"
                     icon={<UserOutlined />}
-                    src={convertImage(option.Image || "")}
+                    src={convertImage(option?.Image || "")}
                   />
                   <div>{option.Fullname}</div>
                 </div>
@@ -798,7 +798,7 @@ const PromoPartnerDetail = ({ edit = false }) => {
                   style={{ width: "20px", height: "20px" }}
                   type="checkbox"
                   onChange={onClick}
-                  checked={selectedCus.some((item) => item.id === option.id)}
+                  checked={selectedCus.some((item) => item.id === option?.id)}
                   tabIndex={-1}
                   disabled={!edit}
                 />

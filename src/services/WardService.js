@@ -7,10 +7,8 @@ export class WardService extends BaseService {
   updateWard = (id, data) => {
     return this.put(`/api/wards/wardById/${id}`, data);
   };
-  getAllWard = (districtId, provinceId) => {
-    return this.get(
-      `/api/wards?DistrictId=${districtId}&ProvinceId=${provinceId}`
-    );
+  getAllWard = (districtCode) => {
+    return this.get(`/api/wards?DistrictCode=${districtCode}`);
   };
   getDetailById = (id) => {
     return this.get(`/api/wards/${id}`);
