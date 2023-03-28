@@ -25,7 +25,6 @@ export const PostDetail = ({ modify }) => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  console.log("dataaadetial", data);
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -38,7 +37,6 @@ export const PostDetail = ({ modify }) => {
       setLoading(false);
     })();
   }, []);
-  console.log(data);
 
   const getDetailPost = async (id) => {
     try {
@@ -125,8 +123,7 @@ export const PostDetail = ({ modify }) => {
           background: "#F6F6F6",
           paddingTop: "1rem",
           paddingBottom: "2rem",
-        }}
-      >
+        }}>
         {/* <Row> */}
         {/* <Col flex={1}> */}
         <Tabs
@@ -165,8 +162,7 @@ export const PostDetail = ({ modify }) => {
               fontSize: "20px",
               background: "rgb(215 30 30 / 24%)",
               padding: "1.5rem 1rem 1.5rem 0",
-            }}
-          >
+            }}>
             <CloseCircleOutlined style={{ fontSize: "20px", color: "red" }} />
             <span>Bài đăng đã bị gỡ vĩnh viễn</span>
           </div>
@@ -178,15 +174,13 @@ export const PostDetail = ({ modify }) => {
                 justifyContent: "flex-end",
                 gap: "1rem",
                 margin: "1rem 1rem 0 0",
-              }}
-            >
+              }}>
               <Button
                 // loading={loadings.delete}
                 // onClick={() => handleLockAccount(false)}
                 style={{ background: "black", color: "#ffff" }}
                 size="large"
-                onClick={() => showModal()}
-              >
+                onClick={() => showModal()}>
                 Gỡ bài đăng
               </Button>
               {data?.data?.IsVisible ? (
@@ -194,8 +188,7 @@ export const PostDetail = ({ modify }) => {
                   // loading={loadings.delete}
                   onClick={() => handleHidePost(false)}
                   danger
-                  size="large"
-                >
+                  size="large">
                   Ẩn bài dăng
                 </Button>
               ) : (
@@ -203,8 +196,7 @@ export const PostDetail = ({ modify }) => {
                   // loading={loadings.delete}
                   onClick={() => handleHidePost(true)}
                   danger
-                  size="large"
-                >
+                  size="large">
                   Hiển thị bài đăng
                 </Button>
               )}
@@ -219,8 +211,7 @@ export const PostDetail = ({ modify }) => {
         onCancel={handleCancel}
         closable={false}
         footer={null}
-        maskClosable={false}
-      >
+        maskClosable={false}>
         <>
           <div className="title">
             <QuestionCircleOutlined />
@@ -239,8 +230,7 @@ export const PostDetail = ({ modify }) => {
 
           <div
             className="buttons"
-            style={{ display: "flex", justifyContent: "right", gap: ".5rem" }}
-          >
+            style={{ display: "flex", justifyContent: "right", gap: ".5rem" }}>
             <Button
               htmlType="submit"
               size="large"
@@ -254,8 +244,7 @@ export const PostDetail = ({ modify }) => {
               onClick={() => handleRemovePost(true)}
               size="large"
               type="primary"
-              loading={loadingBtn}
-            >
+              loading={loadingBtn}>
               Gỡ bài
             </Button>
           </div>

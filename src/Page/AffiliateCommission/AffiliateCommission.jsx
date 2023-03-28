@@ -93,7 +93,6 @@ const AffiliateCommission = () => {
             );
             setDataTable(data.orders);
           } catch (error) {
-            console.log("🚀 ~ error:", error);
             openNotification("error", "Vui lòng thử lại sau !!!");
           }
         })();
@@ -235,8 +234,7 @@ const AffiliateCommission = () => {
               size="large"
               defaultValue={1}
               style={{ width: 200, marginRight: "20px" }}
-              onChange={onChangeDate}
-            >
+              onChange={onChangeDate}>
               {timeDate.map((item) => (
                 <Option key={item.label} value={item.value}>
                   {item.label}
@@ -303,15 +301,13 @@ function ModalTime({ open, handleOk, setOpen, onChange }) {
           OK
         </Button>,
       ]}
-      onCancel={() => setOpen(false)}
-    >
+      onCancel={() => setOpen(false)}>
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           padding: "20px",
-        }}
-      >
+        }}>
         <RangePicker onChange={onChange} format="DD/MM/YYYY" />
       </div>
     </Modal>

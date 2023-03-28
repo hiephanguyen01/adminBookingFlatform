@@ -98,7 +98,6 @@ const AffiliateOrder = () => {
             );
             setDataTable(data.orders);
           } catch (error) {
-            console.log("🚀 ~ error:", error);
             openNotification("error", "Vui lòng thử lại sau !!!");
           }
         })();
@@ -132,7 +131,7 @@ const AffiliateOrder = () => {
       return "Sắp tới";
     } else if (
       bookingStatus === 1 &&
-      [4, 3].some((item) => item === paymentStatus)
+      [4, 3, 2].some((item) => item === paymentStatus)
     ) {
       return "Đã hoàn tất";
     } else if (bookingStatus === 2) {
@@ -202,10 +201,12 @@ const AffiliateOrder = () => {
       },
       render: (_, record) => (
         <p>
-          {record?.BookingValueBeforeDiscount?.toLocaleString("it-IT", {
-            style: "currency",
-            currency: "VND",
-          }) || 0}
+          {record.BookingStatus !== 2
+            ? record?.BookingValueBeforeDiscount?.toLocaleString("it-IT", {
+                style: "currency",
+                currency: "VND",
+              })
+            : 0}
         </p>
       ),
     },
@@ -270,8 +271,7 @@ const AffiliateOrder = () => {
               size="large"
               defaultValue={1}
               style={{ width: 200, marginRight: "20px" }}
-              onChange={onChangeDate}
-            >
+              onChange={onChangeDate}>
               {timeDate.map((item) => (
                 <Option key={item.label} value={item.value}>
                   {item.label}

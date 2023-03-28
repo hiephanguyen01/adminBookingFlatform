@@ -5,12 +5,12 @@ export const openNotification = (type, message, description = null) => {
     description,
   });
 };
-export const openNotificationText = (message, description, navigate, place) => {
+export const openNotificationText = (message, description) => {
   notification.open({
     message,
     description,
-    onClick: () => {
-      navigate(place);
-    },
+    // onClick: () => {
+    //   navigate(place);
+    // },
   });
 };

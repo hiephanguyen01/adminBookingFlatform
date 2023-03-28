@@ -8,7 +8,6 @@ import { convertTimeUTC } from "../../../../../utils/convert";
 
 export const InfoGeneral = ({ data }) => {
   if (!data) return null;
-  console.log("ìnochung", data);
   const navigate = useNavigate();
   return (
     <>
@@ -40,8 +39,7 @@ export const InfoGeneral = ({ data }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}
-      >
+        style={{ marginTop: "20px" }}>
         <Row gutter={32}>
           <Col span={12}>
             <Form.Item

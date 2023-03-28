@@ -118,7 +118,6 @@ export const AffiliateStatistic = () => {
             setDataTableProduct(dataProduct.data.data);
             setDataValueMap(data);
           } catch (error) {
-            console.log("🚀 ~ error:", error);
             openNotification("error", "Vui lòng thử lại sau !!!");
           }
         })();
@@ -333,11 +332,9 @@ export const AffiliateStatistic = () => {
     },
   ];
   const optionSearchHandler = (e) => {
-    console.log(e);
     setOptionFilter(e);
   };
   const searchFilterHandlerProduct = (e) => {
-    console.log(e.target.value);
     switch (Number(optionFilter)) {
       case 1:
         setFilter((prevState) => ({ ...prevState, productId: e.target.value }));
@@ -354,7 +351,6 @@ export const AffiliateStatistic = () => {
     }
   };
   const searchFilterHandlerPublisher = (e) => {
-    console.log(e.target.value);
     switch (Number(optionFilter)) {
       case 1:
         setFilter((prevState) => ({

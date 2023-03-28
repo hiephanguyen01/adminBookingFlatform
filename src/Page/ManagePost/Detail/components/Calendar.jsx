@@ -24,7 +24,6 @@ export default function CalendarAndPrice({ service }) {
   const [data, setData] = useState();
   const [roomCurrent, setRoomCurrent] = useState({});
   const [optionSelected, setOptionSelected] = useState("");
-  console.log("service calendar", service);
   const navigate = useNavigate();
   console.log("dates", dates);
   const handlerSelectRoom = async (e) => {
@@ -137,8 +136,7 @@ export default function CalendarAndPrice({ service }) {
           style={{
             color: "",
             cursor: "pointer",
-          }}
-        >
+          }}>
           Lịch và giá
         </Breadcrumb.Item>
       </Breadcrumb>
@@ -161,8 +159,7 @@ export default function CalendarAndPrice({ service }) {
                 defaultValue={""}
                 className="selectRoom"
                 size="large"
-                style={{ minWidth: "400px" }}
-              >
+                style={{ minWidth: "400px" }}>
                 <Option value={""}>Chọn phòng....</Option>
                 {service.map((item) => {
                   return (
@@ -176,14 +173,9 @@ export default function CalendarAndPrice({ service }) {
           </Col>
           <Col span={6}>
             <div style={{ marginTop: "54px" }}>
-              <Form
-                name="form_item_path"
-                layout="vertical"
-                onFinish={() => console.log("first")}
-              >
+              <Form name="form_item_path" layout="vertical">
                 <h3
-                  style={{ textTransform: "capitalize", marginBottom: "1rem" }}
-                >
+                  style={{ textTransform: "capitalize", marginBottom: "1rem" }}>
                   Giá & chính sách theo giờ
                 </h3>
                 <Form.Item label="Giá áp đụng (đ/giờ)">
@@ -202,14 +194,9 @@ export default function CalendarAndPrice({ service }) {
                   <Input size="large" />
                 </Form.Item>
               </Form>
-              <Form
-                name="form_item_path"
-                layout="vertical"
-                onFinish={() => console.log("first")}
-              >
+              <Form name="form_item_path" layout="vertical">
                 <h3
-                  style={{ textTransform: "capitalize", marginBottom: "1rem" }}
-                >
+                  style={{ textTransform: "capitalize", marginBottom: "1rem" }}>
                   Giá & chính sách theo ngày
                 </h3>
                 <Form.Item label="Giá áp đụng (đ/ngày)">

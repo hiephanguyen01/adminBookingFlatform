@@ -9,6 +9,7 @@ import {
   Table,
   Tag,
 } from "antd";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { affiliateService } from "../../services/AffiliateService";
@@ -85,6 +86,11 @@ const AffiliateAccount = () => {
           onChange={() => onChangeCheck(record)}
         />
       ),
+    },
+    {
+      title: "Ngày tạo",
+      dataIndex: "createdAt",
+      render: (_) => <p>{moment(_).format("DD/MM/YYYY HH:mm")}</p>,
     },
     {
       title: "Hành động",

@@ -1,23 +1,19 @@
+import { AliwangwangOutlined, BellOutlined } from "@ant-design/icons";
 import { Button, Col, Modal, Popover, Row, Tag } from "antd";
 import moment from "moment";
 import React, { useCallback, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom/dist";
-import { logOut } from "../../store/action/authAction";
-import "./Header.scss";
-import logo from "../../assets/logo.svg";
-import {
-  AliwangwangOutlined,
-  BellOutlined,
-  NotificationFilled,
-} from "@ant-design/icons";
-import { notificationService } from "../../services/notificationService";
 import {
   openNotification,
   openNotificationText,
 } from "../../../utils/Notification";
+import logo from "../../assets/logo.svg";
+import { notificationService } from "../../services/notificationService";
+import { logOut } from "../../store/action/authAction";
 import NotiCard from "../NotiCard";
+import "./Header.scss";
 const Header = () => {
   const location = useLocation();
   const [time, setTime] = useState();
@@ -57,24 +53,51 @@ const Header = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await notificationService.getAll();
-        setNotiList(data);
-      } catch (error) {
-        openNotification("error", "Thử lại sau");
-      }
-    })();
-  }, []);
+    if (!isModalOpen) {
+      (async () => {
+        try {
+          let res = [];
+          if (
+            location.pathname.includes("affiliate") &&
+            currentUser.user.affiliate >= 2
+          ) {
+            res = await notificationService.getAll("aff");
+          } else if (
+            !location.pathname.includes("affiliate") &&
+            currentUser.user.booking >= 2
+          ) {
+            res = await notificationService.getAll("adm");
+          }
+          setNotiList(res.data);
+        } catch (error) {
+          openNotification("error", "Thử lại sau");
+        }
+      })();
+    }
+  }, [isModalOpen, location]);
   useEffect(() => {
-    socket?.on("recieveNotification", (data) => {
-      renewtList(data);
-      openNotificationText(data.event, data.title, navigate, "/manage-order");
-    });
+    if (
+      !location.pathname.includes("affiliate") &&
+      currentUser.user.booking >= 2
+    ) {
+      socket?.on("recieveNotification", (data) => {
+        renewtList(data);
+        openNotificationText(data.title, data.content);
+      });
+    } else if (
+      location.pathname.includes("affiliate") &&
+      currentUser.user.affiliate >= 2
+    ) {
+      socket?.on("recieveUser", (data) => {
+        renewtList(data);
+        openNotificationText(data.title, data.content);
+      });
+    }
     return () => {
       socket?.off("recieveNotification");
+      socket?.off("recieveUser");
     };
-  }, [socket, renewtList]);
+  }, [socket, renewtList, currentUser, location]);
 
   return (
     <div className="Header">
@@ -86,12 +109,13 @@ const Header = () => {
         onCancel={handleCancel}
         footer={false}>
         <Row gutter={[10, 10]}>
-          {notiList.length &&
-            notiList.map((val) => (
-              <Col md={24} sm={24} xs={24} key={val.id}>
-                <NotiCard value={val} />
-              </Col>
-            ))}
+          {notiList
+            ? notiList?.map((val) => (
+                <Col md={24} sm={24} xs={24} key={val.id}>
+                  <NotiCard value={val} setIsModalOpen={setIsModalOpen} />
+                </Col>
+              ))
+            : ""}
         </Row>
       </Modal>
       <Row style={{ width: "100%" }}>

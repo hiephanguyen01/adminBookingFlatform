@@ -7,7 +7,6 @@ import "../Detail.scss";
 export const StudioRoom = ({ data, category }) => {
   if (!data) return null;
 
-  console.log("studio", data);
   const listCheckBox = [
     {
       label: "Quạt",
@@ -70,8 +69,7 @@ export const StudioRoom = ({ data, category }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}
-      >
+        style={{ marginTop: "20px" }}>
         <Row gutter={32}>
           <Col span={12}>
             <Form.Item
@@ -161,8 +159,7 @@ export const StudioRoom = ({ data, category }) => {
                       display: "flex",
                       alignItems: "center",
                       gap: ".5rem",
-                    }}
-                  >
+                    }}>
                     <div style={{ flex: 1 }}>
                       <Checkbox value={data.HasBackground}>
                         Hệ thống đèn
@@ -177,8 +174,7 @@ export const StudioRoom = ({ data, category }) => {
                       display: "flex",
                       alignItems: "center",
                       gap: ".5rem",
-                    }}
-                  >
+                    }}>
                     <div style={{ flex: 1 }}>
                       <Checkbox>Phông nền</Checkbox>
                     </div>
@@ -192,8 +188,7 @@ export const StudioRoom = ({ data, category }) => {
                       flexWrap: "wrap",
                       alignItems: "center",
                       gap: "2rem",
-                    }}
-                  >
+                    }}>
                     <Checkbox checked={data.HasTable}>Bàn</Checkbox>
                     <Checkbox checked={data.HasChair}>Ghế</Checkbox>
                     <Checkbox checked={data.HasSofa}>Sofa</Checkbox>
@@ -203,8 +198,7 @@ export const StudioRoom = ({ data, category }) => {
                         display: "flex",
                         alignItems: "center",
                         gap: ".5rem",
-                      }}
-                    >
+                      }}>
                       <Checkbox checked={data.HasOtherDevice}>Khác</Checkbox>
                       <Input value={data.OtherDeviceDescription} size="large" />
                     </div>
@@ -275,8 +269,7 @@ export const StudioRoom = ({ data, category }) => {
               // name="Id"
             >
               <div
-                style={{ display: "flex", gap: "1rem", alignItems: "stretch" }}
-              >
+                style={{ display: "flex", gap: "1rem", alignItems: "stretch" }}>
                 {data.Image.map((item, idx) => {
                   if (idx === 0) {
                     return (
@@ -285,8 +278,7 @@ export const StudioRoom = ({ data, category }) => {
                           display: "flex",
                           flexDirection: "column",
                           gap: ".5rem",
-                        }}
-                      >
+                        }}>
                         <Image height={100} src={IMG(item)} />
                         <span>Ảnh bìa</span>
                       </div>
@@ -298,8 +290,7 @@ export const StudioRoom = ({ data, category }) => {
                         display: "flex",
                         flexDirection: "column",
                         gap: ".5rem",
-                      }}
-                    >
+                      }}>
                       <Image
                         style={{ objectFit: "cover" }}
                         height={100}

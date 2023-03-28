@@ -24,8 +24,7 @@ const OrderDetail = () => {
           <Breadcrumb.Item>
             <p
               style={{ display: "inline", cursor: "pointer" }}
-              onClick={() => navigate("/affiliate/order")}
-            >
+              onClick={() => navigate("/affiliate/order")}>
               Đơn đặt
             </p>
           </Breadcrumb.Item>
@@ -206,15 +205,17 @@ const OrderDetail = () => {
           <Col sm={24} xs={24} md={12}>
             <Row>
               <Col sm={24} xs={24} md={8}>
-                <div className="label">Hoa hồng</div>
+                <div className="label">Hoa hồng tạm tính</div>
               </Col>
               <Col sm={24} xs={24} md={16}>
                 <div className="label">
                   :&emsp;&emsp;&emsp;{" "}
-                  {data?.AffiliateCommission?.toLocaleString("it-IT", {
-                    style: "currency",
-                    currency: "VND",
-                  }) || 0}
+                  {data.BookingStatus !== 2
+                    ? data?.AffiliateCommission?.toLocaleString("it-IT", {
+                        style: "currency",
+                        currency: "VND",
+                      })
+                    : 0}
                 </div>
               </Col>
             </Row>
@@ -227,14 +228,14 @@ const OrderDetail = () => {
               <Col sm={24} xs={24} md={16}>
                 <div className="label">
                   :&emsp;&emsp;&emsp;
-                  {moment(
-                    data?.OrderByTimeFrom || data?.OrderByDateFrom
-                  ).format("DD-MM-YYYY HH:mm")}{" "}
+                  {moment(data?.OrderByTimeFrom || data?.OrderByDateFrom)
+                    .utc()
+                    .format("DD-MM-YYYY HH:mm")}{" "}
                   - <br />
                   &nbsp;&emsp;&emsp;&emsp;
-                  {moment(data?.OrderByTimeTo || data?.OrderByDateTo).format(
-                    "DD-MM-YYYY HH:mm"
-                  )}
+                  {moment(data?.OrderByTimeTo || data?.OrderByDateTo)
+                    .utc()
+                    .format("DD-MM-YYYY HH:mm")}
                 </div>
               </Col>
             </Row>

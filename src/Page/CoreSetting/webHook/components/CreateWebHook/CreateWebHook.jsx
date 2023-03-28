@@ -62,7 +62,6 @@ const CreateWebHook = () => {
     );
   };
   const handleOnFinish = async () => {
-    console.log(webHook, params, header, body);
     try {
       const newWebHook = {
         ...webHook,
@@ -150,8 +149,7 @@ const CreateWebHook = () => {
           fontSize: "16px",
           marginBottom: "10px",
           fontWeight: "bold",
-        }}
-      >
+        }}>
         <Breadcrumb.Item>
           <Link to={"/setting/webhook"} style={{ color: "#10b08a" }}>
             Quản lý webhook
@@ -165,8 +163,7 @@ const CreateWebHook = () => {
           type="primary"
           style={{ backgroundColor: "#1677ff" }}
           size="large"
-          onClick={handleOnFinish}
-        >
+          onClick={handleOnFinish}>
           <PlusOutlined />
           ADD WEBHOOK
         </Button>
@@ -178,27 +175,23 @@ const CreateWebHook = () => {
         form={form}
         // initialValues={banner}
         size={"large"}
-        onValuesChange={handleOnChangeForm}
-      >
+        onValuesChange={handleOnChangeForm}>
         <Form.Item
           label="Webhook name"
           name={"WebhookName"}
-          rules={[{ required: true }]}
-        >
+          rules={[{ required: true }]}>
           <Input placeholder="WebhookName" />
         </Form.Item>
         <Form.Item
           label="Active"
           name={"IsActive"}
-          rules={[{ required: true }]}
-        >
+          rules={[{ required: true }]}>
           <Switch defaultChecked={true} />
         </Form.Item>
         <Form.Item
           label="Select flow"
           name={"FlowId"}
-          rules={[{ required: true }]}
-        >
+          rules={[{ required: true }]}>
           <Select
             // style={{ width: 120 }}
             options={FLOW}
@@ -216,8 +209,7 @@ const CreateWebHook = () => {
         <Form.Item
           label="Api"
           name={"WebhookUri"}
-          rules={[{ required: true }, { type: "url" }]}
-        >
+          rules={[{ required: true }, { type: "url" }]}>
           <Input />
         </Form.Item>
         <Form.Item label=" ">
@@ -233,8 +225,7 @@ const CreateWebHook = () => {
                 children: (
                   <div className={cx("input-table")}>
                     <div
-                      className={cx("input-table-row", "input-table-header")}
-                    >
+                      className={cx("input-table-row", "input-table-header")}>
                       <div className={cx("input-table-col", "w-50")}>key</div>
                       <div className={cx("input-table-col", "w-50")}>value</div>
                     </div>
@@ -246,8 +237,7 @@ const CreateWebHook = () => {
                           if (index === params.length - 1) {
                             handleAddRowParams();
                           }
-                        }}
-                      >
+                        }}>
                         <div className={cx("input-table-col", "w-50")}>
                           <input
                             type="text"
@@ -275,8 +265,7 @@ const CreateWebHook = () => {
                             className="fa-solid fa-trash-can btn-delete-row"
                             onClick={() => {
                               handleRemoveRowParams(item, index);
-                            }}
-                          ></i>
+                            }}></i>
                         ) : (
                           <></>
                         )}
@@ -292,8 +281,7 @@ const CreateWebHook = () => {
                 children: (
                   <div className={cx("input-table")}>
                     <div
-                      className={cx("input-table-row", "input-table-header")}
-                    >
+                      className={cx("input-table-row", "input-table-header")}>
                       <div className={cx("input-table-col", "w-50")}>key</div>
                       <div className={cx("input-table-col", "w-50")}>value</div>
                     </div>
@@ -305,8 +293,7 @@ const CreateWebHook = () => {
                           if (index === header.length - 1) {
                             handleAddRowHeader();
                           }
-                        }}
-                      >
+                        }}>
                         <div className={cx("input-table-col", "w-50")}>
                           <input
                             type="text"

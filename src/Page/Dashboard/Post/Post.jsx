@@ -11,10 +11,21 @@ const Post = () => {
     value: 1,
     label: "",
   });
-  const [amount, setAmount] = useState({ amountPartner: 0, amountCustomer: 0 });
+  const [amount, setAmount] = useState({ amountPost: 0, amountCustomer: 0 });
   const [chartDataPartner, setChartDataPartner] = useState(null);
   const [totalCount, setTotalCount] = useState({ customers: 0, partners: 0 });
-
+  const countTotalPost = (Data) => {
+    return Data.map((item) => {
+      let total = 0;
+      for (let key in item.Post) {
+        total += item.Post[key];
+      }
+      return {
+        ...item,
+        countPost: total,
+      };
+    });
+  };
   useEffect(() => {
     if (date.value !== 8) {
       (async () => {
@@ -24,18 +35,18 @@ const Post = () => {
           setTotalCount(data.data);
 
           setChartDataPartner(
-            data2.data.data
+            countTotalPost(data2.data.data)
               .map((val) => ({
-                "Số lượng đối tác": val.Partner,
+                "Số lượng bài đăng": val.countPost,
                 Ngày: val.Date,
               }))
               .reverse()
           );
-          const amountPartner = data2.data.data.reduce(
-            (acc, val) => acc + val.Partner,
+          const amountPost = countTotalPost(data2.data.data).reduce(
+            (acc, val) => acc + val.countPost,
             0
           );
-          setAmount({ amountPartner });
+          setAmount({ amountPost });
         } catch (error) {
           console.log(error);
         }
@@ -45,8 +56,8 @@ const Post = () => {
         (async () => {
           try {
             let dateTime = {
-              startDate: moment(date.picker[0]).toISOString(),
-              endDate: moment(date.picker[1]).toISOString(),
+              startDate: moment(date.picker[0], "DD/MM/YYYY").toISOString(),
+              endDate: moment(date.picker[1], "DD/MM/YYYY").toISOString(),
             };
             dateTime = JSON.stringify(dateTime);
             const { data } = await dashboardService.getTotal(
@@ -58,18 +69,18 @@ const Post = () => {
               dateTime
             );
             setChartDataPartner(
-              data2.data.data
+              countTotalPost(data2.data.data)
                 .map((val) => ({
-                  "Số lượng đối tác": val.Partner,
+                  "Số lượng bài đăng": val.countPost,
                   Ngày: val.Date,
                 }))
                 .reverse()
             );
-            const amountPartner = data2.data.data.reduce(
-              (acc, val) => acc + val.Partner,
+            const amountPost = countTotalPost(data2.data.data).reduce(
+              (acc, val) => acc + val.countPost,
               0
             );
-            setAmount({ amountPartner });
+            setAmount({ amountPost });
             setTotalCount(data.data);
           } catch (error) {
             console.log(error);
@@ -80,17 +91,17 @@ const Post = () => {
   }, [date]);
   return (
     <div>
-      <Heading title={"TÀI KHOẢN ĐỐI TÁC"} setDate={setDate} date={date} />
+      <Heading title={"BÀI ĐĂNG"} setDate={setDate} date={date} />
       <Divider />
       <Row gutter={[16, 16]}>
         <Col lg={12} sm={24} xs={24}>
           <LineChartComponent
-            model={"Số lượng đối tác"}
+            model={"Số lượng bài đăng"}
             date={date.label}
             data={chartDataPartner}
-            x1="Số lượng đối tác"
+            x1="Số lượng bài đăng"
             y1="Ngày"
-            amount={amount.amountPartner}
+            amount={amount.amountPost}
           />
         </Col>
         <Col lg={12} sm={24} xs={24}>
