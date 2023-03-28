@@ -22,6 +22,7 @@ import {
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { convertTimeUTC } from "../../../utils/convert";
 import Header from "../../Components/Header/Header";
 import LeftNavBar from "../../Components/LeftNavBar/LeftNavBar";
 import { Loading } from "../../Components/Loading";
@@ -92,12 +93,12 @@ export const ManagePost = () => {
     {
       title: "Ngày đăng",
       dataIndex: "CreationTime",
-      render: (item) => moment(item).format("DD-MM-YYYY HH:mm"),
+      render: (item) => convertTimeUTC(item,true),
     },
     {
       title: "Ngày cập nhật gần nhất",
-      dataIndex: "CreationTime",
-      render: (item) => moment(item).format("DD-MM-YYYY HH:mm"),
+      dataIndex: "LastModificationTime",
+      render: (item) => convertTimeUTC(item, true),
     },
     {
       title: "Trạng thái",
@@ -339,7 +340,8 @@ export const ManagePost = () => {
                   }}
                   // onFinish={onFinish}
                   onValuesChange={(e) => onChangeFilter(e)}
-                  autoComplete="off">
+                  autoComplete="off"
+                >
                   <Row gutter={[16, 16]}>
                     {/* <Form.Item> */}
                     {expandHeader
@@ -372,13 +374,15 @@ export const ManagePost = () => {
                   {!expandHeader ? (
                     <p
                       style={{ float: "right", marginTop: "1rem" }}
-                      onClick={() => setExpandHeader(!expandHeader)}>
+                      onClick={() => setExpandHeader(!expandHeader)}
+                    >
                       xem thêm
                     </p>
                   ) : (
                     <p
                       style={{ float: "right", marginTop: "1rem" }}
-                      onClick={() => setExpandHeader(!expandHeader)}>
+                      onClick={() => setExpandHeader(!expandHeader)}
+                    >
                       thu gọn
                     </p>
                   )}
@@ -388,7 +392,8 @@ export const ManagePost = () => {
               <Divider />
               <main
                 className="manage-order__table chile"
-                style={{ paddingBottom: "20px" }}>
+                style={{ paddingBottom: "20px" }}
+              >
                 <Table
                   columns={column}
                   dataSource={dataTale}

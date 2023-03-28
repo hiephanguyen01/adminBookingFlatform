@@ -1,6 +1,16 @@
-import { Checkbox, Col, Divider, Form, Image, Input, Row } from "antd";
+import {
+  Breadcrumb,
+  Checkbox,
+  Col,
+  Divider,
+  Form,
+  Image,
+  Input,
+  Row,
+} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React from "react";
+import { Link } from "react-router-dom";
 import { IMG } from "../../../../../utils/baseURL";
 import "../Detail.scss";
 
@@ -32,6 +42,14 @@ export const ModelRoom = ({ data, category }) => {
 
   return (
     <>
+      {/* <Breadcrumb style={{ fontSize: "17px" }}>
+        <Breadcrumb.Item onClick={() => navigate("/posts")}>
+          <Link to={"/posts"} style={{ color: "#03ac84", cursor:"pointer" }}>
+            Quản lí bài đăng
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Thông tin chung</Breadcrumb.Item>
+      </Breadcrumb> */}
       <Form
         className="InfoGeneral"
         // initialValues={{
@@ -53,29 +71,24 @@ export const ModelRoom = ({ data, category }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}>
+        style={{ marginTop: "20px" }}
+      >
         <Row gutter={32}>
           <Col span={12}>
             <Form.Item
-              label="Số định danh"
+              label="Loại dịch vụ"
               // name="Id"
             >
               <Input value={data.Name} style={{ padding: "10px" }} />
             </Form.Item>
             <Form.Item
-              label="Tiêu đề (Tên của bạn)"
+              label="Giá niêm yết (đ/ngày)"
               // name="Id"
             >
               <Input value={data.PriceByDate} style={{ padding: "10px" }} />
             </Form.Item>{" "}
             <Form.Item
-              label="Thời gian làm việc (Buổi sáng)"
-              // name="Id"
-            >
-              <Input style={{ padding: "10px" }} />
-            </Form.Item>
-            <Form.Item
-              label="Thời gian làm việc (Buổi chiều)"
+              label="Giá niêm yết (đ/giờ)"
               // name="Id"
             >
               <Input style={{ padding: "10px" }} />
@@ -84,120 +97,73 @@ export const ModelRoom = ({ data, category }) => {
 
           <Col span={12}>
             <Form.Item
-              label="Mã bài đăng"
+              label="Tên dịch vụ"
               // name="Id"
             >
               <Input value={data.Name} style={{ padding: "10px" }} />
-            </Form.Item>
-            <Form.Item
-              label="Địa chỉ
-              "
-              // name="Id"
-            >
-              <Input value={data.Bookings.length} style={{ padding: "10px" }} />
             </Form.Item>
             <Form.Item
               label="Số  đơn đặt
               "
               // name="Id"
             >
-              <Input value={data.Bookings.length} style={{ padding: "10px" }} />
+              <Input value={data?.Bookings?.length || 0 } style={{ padding: "10px" }} />
             </Form.Item>
-            <Form.Item
-              label="Trang thái
+
+            <div style={{ display: "flex", gap: "16px", flex: "1 1 50%" }}>
+              <Form.Item
+                style={{ flex: "1" }}
+                label="Thời gian thực hiện 
               "
-              // name="Id"
-            >
-              <Input style={{ padding: "10px" }} />
-            </Form.Item>
+                // name="Id"
+              >
+                <Input
+                  value={4}
+                  style={{ padding: "10px" }}
+                />
+              </Form.Item>
+              <Form.Item
+                style={{ flex: "1" }}
+                label="Số sản phẩm tối đa
+              "
+                // name="Id"
+              >
+                <Input
+                  value={data?.BookingCount || 0}
+                  style={{ padding: "10px" }}
+                />
+              </Form.Item>
+            </div>
           </Col>
           <Divider />
-          <Col span={12}>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  label="Giới tính
-              "
-                  // name="Id"
-                >
-                  <Input value={data.Area} style={{ padding: "10px" }} />
+          <Col span={24}>
+            <Divider />
+            <Form.Item>
+              <label className="label">Dịch vụ CHƯA bao gồm:</label>
+              <Col span={24}>
+                <Form.Item>
+                  <Input
+                    value={
+                      "Phí đi theo để dặm phấn, chỉnh tóc, thay trang phục"
+                    }
+                    style={{ padding: "10px" }}
+                  />
                 </Form.Item>
               </Col>
-              <Col span={12}>
-                <Form.Item
-                  label="Chiều cao"
-                  // name="Id"
-                >
-                  <Input value={data.Length} style={{ padding: "10px" }} />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Form.Item
-              label="Ưu điểm"
-              // name="Id"
-            >
-              <Input value={data.Name} style={{ padding: "10px" }} />
-            </Form.Item>
-            <Form.Item
-              label="Giải thưởng
-              "
-              // name="Id"
-            >
-              <Input value={data.Bookings.length} style={{ padding: "10px" }} />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  label="Tuổi
-              "
-                  // name="Id"
-                >
-                  <Input value={data.Area} style={{ padding: "10px" }} />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  label="Số đo 3 vòng"
-                  // name="Id"
-                >
-                  <Input value={data.Length} style={{ padding: "10px" }} />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Form.Item
-              label="Mô tả"
-              // name="Id"
-            >
-              <TextArea rows={6} style={{ padding: "10px" }} />
             </Form.Item>
           </Col>
           <Col span={24}>
             <Divider />
-            <Form.Item className="label" label="Mạng xã hội">
-              <Row gutter={[32, 32]}>
-                {listCheckBox.map((item) => (
-                  <Col span={6}>
-                    <Form.Item>
-                      <Checkbox>{item.label}</Checkbox>
-                      <div
-                        style={{
-                          border: " 1px solid #B2B2B2",
-                          padding: "12px 11px",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          marginTop: ".5rem",
-                        }}>
-                        <span>{item.number}</span>
-                        <span>lượt theo dõi</span>
-                      </div>
-                    </Form.Item>
-                  </Col>
-                ))}
-              </Row>
+            <Form.Item>
+              <label className="label">Mô tả thêm</label>
+              <Col span={24}>
+                <Form.Item>
+                  <Input style={{ padding: "10px" }} />
+                </Form.Item>
+              </Col>
             </Form.Item>
           </Col>
+
           <Divider />
           <Col span={20}>
             <Form.Item
@@ -205,7 +171,8 @@ export const ModelRoom = ({ data, category }) => {
               // name="Id"
             >
               <div
-                style={{ display: "flex", gap: "1rem", alignItems: "stretch" }}>
+                style={{ display: "flex", gap: "1rem", alignItems: "stretch" }}
+              >
                 {data.Image.map((item, idx) => {
                   if (idx === 0) {
                     return (
@@ -214,7 +181,8 @@ export const ModelRoom = ({ data, category }) => {
                           display: "flex",
                           flexDirection: "column",
                           gap: ".5rem",
-                        }}>
+                        }}
+                      >
                         <Image height={100} width={200} src={IMG(item)} />
                         <span>Ảnh bìa</span>
                       </div>
@@ -226,7 +194,8 @@ export const ModelRoom = ({ data, category }) => {
                         display: "flex",
                         flexDirection: "column",
                         gap: ".5rem",
-                      }}>
+                      }}
+                    >
                       <Image
                         style={{ objectFit: "cover" }}
                         height={100}

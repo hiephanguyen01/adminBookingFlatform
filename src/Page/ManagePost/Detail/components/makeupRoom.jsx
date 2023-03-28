@@ -1,6 +1,7 @@
-import { Col, Divider, Form, Image, Input, Row } from "antd";
+import { Checkbox, Col, Divider, Form, Image, Input, Row } from "antd";
 import React from "react";
 import { IMG } from "../../../../../utils/baseURL";
+import { convertTimeUTC } from "../../../../../utils/convert";
 import "../Detail.scss";
 
 export const MakeupRoom = ({ data, category }) => {
@@ -58,7 +59,8 @@ export const MakeupRoom = ({ data, category }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}>
+        style={{ marginTop: "20px" }}
+      >
         <Row gutter={32}>
           <Col span={12}>
             <Form.Item
@@ -77,7 +79,10 @@ export const MakeupRoom = ({ data, category }) => {
               label="Thời gian thực hiện"
               // name="Id"
             >
-              <Input style={{ padding: "10px" }} />
+              <Input
+                value={convertTimeUTC(data.CreationTime)}
+                style={{ padding: "10px" }}
+              />
             </Form.Item>
           </Col>
 
@@ -94,6 +99,68 @@ export const MakeupRoom = ({ data, category }) => {
               // name="Id"
             >
               <Input value={data.Bookings.length} style={{ padding: "10px" }} />
+            </Form.Item>
+          </Col>
+          <Col span={18}>
+            <Form.Item>
+              <label className="label">Dịch vụ ĐÃ bao gồm:</label>
+              <Row gutter={[32, 32]}>
+                {/* <Col span={12}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: ".5rem",
+                  }}
+                >
+                  <div style={{ flex: 1 }}>
+                    <Checkbox >Hệ thống đèn</Checkbox>
+                  </div>
+                  <Input style={{ flex: 4 }} size="large" />
+                </div>
+              </Col> */}
+
+                <Col span={24}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      alignItems: "center",
+                      gap: "2rem",
+                    }}
+                  >
+                    <Checkbox>Làm tóc</Checkbox>
+                    <Checkbox>Trang điểm</Checkbox>
+                    <Checkbox>Mỹ phẩm</Checkbox>
+                    <Checkbox>Mỹ phẩm cao cấp</Checkbox>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: ".8rem",
+                        alignItems: "center",
+                        flex: "1",
+                      }}
+                    >
+                      <Checkbox>Phụ kiện </Checkbox>
+                      <Input style={{ flex: 4 }} size="large" />
+                    </div>
+                  </div>
+                </Col>
+
+                <Col span={8}>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: ".8rem",
+                      alignItems: "center",
+                      flex: "1",
+                    }}
+                  >
+                    <span>Số lượng kiểu trang điểm</span>
+                    <Input size="large" style={{ width: "20%" }}></Input>
+                  </div>
+                </Col>
+              </Row>
             </Form.Item>
           </Col>
           <Col span={24}>
@@ -142,25 +209,38 @@ export const MakeupRoom = ({ data, category }) => {
           </Col>
           <Col span={24}>
             <Divider />
-            <Form.Item className="label" label="Dịch vụ CHƯA bao gồm:">
+            <Form.Item>
+              <label className="label">Dịch vụ CHƯA bao gồm:</label>
               <Col span={24}>
                 <Form.Item>
                   <Input
-                    value={data.Bookings.length}
+                    value={
+                      "Phí đi theo để dặm phấn, chỉnh tóc, thay trang phục"
+                    }
                     style={{ padding: "10px" }}
                   />
                 </Form.Item>
               </Col>
             </Form.Item>
           </Col>
+          <Col span={24}>
+            <Divider />
+            <Form.Item>
+              <label className="label">Mô tả thêm</label>
+              <Col span={24}>
+                <Form.Item>
+                  <Input style={{ padding: "10px" }} />
+                </Form.Item>
+              </Col>
+            </Form.Item>
+          </Col>
           <Divider />
           <Col span={20}>
-            <Form.Item
-              label="Hình ảnh"
-              // name="Id"
-            >
+            <Form.Item>
+              <label className="label">Hình ảnh</label>
               <div
-                style={{ display: "flex", gap: "1rem", alignItems: "stretch" }}>
+                style={{ display: "flex", gap: "1rem", alignItems: "stretch" }}
+              >
                 {data.Image.map((item, idx) => {
                   if (idx === 0) {
                     return (
@@ -169,7 +249,8 @@ export const MakeupRoom = ({ data, category }) => {
                           display: "flex",
                           flexDirection: "column",
                           gap: ".5rem",
-                        }}>
+                        }}
+                      >
                         <Image height={100} src={IMG(item)} />
                         <span>Ảnh bìa</span>
                       </div>
@@ -181,7 +262,8 @@ export const MakeupRoom = ({ data, category }) => {
                         display: "flex",
                         flexDirection: "column",
                         gap: ".5rem",
-                      }}>
+                      }}
+                    >
                       <Image
                         style={{ objectFit: "cover" }}
                         height={100}

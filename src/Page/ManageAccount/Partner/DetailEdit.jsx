@@ -14,7 +14,7 @@ import { Link, useParams } from "react-router-dom";
 import { registerPartnerService } from "../../../services/RegisterPartnerService";
 import "./detail.scss";
 import moment from "moment";
-import { baseURL, fallBackImg } from "../../../../utils/baseURL";
+import { baseURL, fallBackImg, IMG } from "../../../../utils/baseURL";
 import "./Edit.scss";
 import { openNotification } from "../../../../utils/Notification";
 import TextArea from "antd/es/input/TextArea";
@@ -53,6 +53,7 @@ export const DetailEditPartner = () => {
     }
   };
   const onFinish = async (values) => {
+    console.log(values)
     let formData = new FormData();
     for (let [idex, file] of files.entries()) {
       if (idex == 0) {
@@ -149,10 +150,12 @@ export const DetailEditPartner = () => {
             data?.BusinessRegistrationLicenseNumber,
           Address: data.Address,
           PartnerName: data.PartnerName,
+          PersonalIdentity: data.PersonalIdentity,
         }}
         onFinish={onFinish}
         layout="vertical"
-        autoComplete="off">
+        autoComplete="off"
+      >
         <Row style={{ padding: "1rem" }} gutter={32}>
           <Col span={12}>
             <Form.Item label="Số định danh">
@@ -166,14 +169,15 @@ export const DetailEditPartner = () => {
             </Form.Item>
             <Form.Item
               name={"BusinessRegistrationLicenseNumber"}
-              label="Số GPĐKKD">
+              label="Số GPĐKKD"
+            >
               <Input value={data?.BusinessRegistrationLicenseNumber} />
             </Form.Item>
             <Form.Item name={"RepresentativeName"} label="Người đại diện">
               <Input />
             </Form.Item>
-            <Form.Item label="Số CMND/CCCD">
-              <Input value={data?.BusinessRegistrationLicenseNumber} />
+            <Form.Item label="Số CMND/CCCD" name="PersonalIdentity">
+              <Input  />
             </Form.Item>
             <Form.Item name={"Address"} label="Địa chỉ liên hệ">
               <Input />
@@ -182,19 +186,22 @@ export const DetailEditPartner = () => {
             <Form.Item
               name={"BankAccount"}
               label="Số tài khoản
-">
+"
+            >
               <Input />
             </Form.Item>
             <Form.Item
               name={"BankAccountOwnerName"}
               label="Chủ tài khoản:
-">
+"
+            >
               <Input />
             </Form.Item>
             <Form.Item
               name={"BankBranchName"}
               label="Ngân hàng:
-">
+"
+            >
               <Input />
             </Form.Item>
 
@@ -202,7 +209,8 @@ export const DetailEditPartner = () => {
               <Col span={12}>
                 <Form.Item
                   label="Ngày tạo
-">
+"
+                >
                   <Input
                     disabled
                     value={moment(data?.CreationTime).format(
@@ -212,7 +220,8 @@ export const DetailEditPartner = () => {
                 </Form.Item>
                 <Form.Item
                   label="Số bài đăng
-">
+"
+                >
                   <Input disabled value={data?.NumberOfPost} />
                 </Form.Item>
               </Col>
@@ -220,7 +229,8 @@ export const DetailEditPartner = () => {
                 <Form.Item
                   label="Ngày cập nhật gần nhất
 
-">
+"
+                >
                   <Input
                     disabled
                     value={moment(data?.LastModificationTime).format(
@@ -232,7 +242,8 @@ export const DetailEditPartner = () => {
                   label="Trạng thái
                   
 
-">
+"
+                >
                   <Input
                     disabled
                     value={
@@ -247,7 +258,8 @@ export const DetailEditPartner = () => {
             <Form.Item
               name={"PartnerName"}
               label="Tên đối tác
-">
+"
+            >
               <Input />
             </Form.Item>
             <Form.Item name={"Phone"} label="Số điện thoại">
@@ -264,14 +276,15 @@ export const DetailEditPartner = () => {
                     className="avatar-uploader"
                     showUploadList={false}
                     action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    onChange={(e) => onChangeFile(e, 0)}>
+                    onChange={(e) => onChangeFile(e, 0)}
+                  >
                     <Image
                       width={"100%"}
                       height={100}
                       preview={false}
                       src={
                         files[0] === null
-                          ? `${baseURL}/api/image/${data.ImageGPKD1}`
+                          ? IMG(data.ImageGPKD1)
                           : files[0].preview
                       }
                       fallback={fallBackImg}
@@ -287,14 +300,15 @@ export const DetailEditPartner = () => {
                     className="avatar-uploader"
                     showUploadList={false}
                     action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    onChange={(e) => onChangeFile(e, 1)}>
+                    onChange={(e) => onChangeFile(e, 1)}
+                  >
                     <Image
                       width={"100%"}
                       height={100}
                       preview={false}
                       src={
                         files[1] === null
-                          ? `${baseURL}/api/image/${data.ImageGPKD2}`
+                          ? IMG(data.ImageGPKD2)
                           : files[1].preview
                       }
                       fallback={fallBackImg}
@@ -308,14 +322,15 @@ export const DetailEditPartner = () => {
                     className="avatar-uploader"
                     showUploadList={false}
                     action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    onChange={(e) => onChangeFile(e, 2)}>
+                    onChange={(e) => onChangeFile(e, 2)}
+                  >
                     <Image
                       width={"100%"}
                       height={100}
                       preview={false}
                       src={
                         files[2] === null
-                          ? `${baseURL}/api/image/${data.ImageCCCD1}`
+                          ? IMG(data.ImageCCCD1)
                           : files[2].preview
                       }
                       fallback={fallBackImg}
@@ -329,14 +344,15 @@ export const DetailEditPartner = () => {
                     className="avatar-uploader"
                     showUploadList={false}
                     action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    onChange={(e) => onChangeFile(e, 3)}>
+                    onChange={(e) => onChangeFile(e, 3)}
+                  >
                     <Image
                       width={"100%"}
                       height={100}
                       preview={false}
                       src={
                         files[3] === null
-                          ? `${baseURL}/api/image/${data.ImageCCCD2}`
+                          ? IMG(data.ImageCCCD2)
                           : files[3].preview
                       }
                       fallback={fallBackImg}
@@ -391,7 +407,8 @@ export const DetailEditPartner = () => {
             </div>
             <Form.Item
               label="Hợp đồng đối tác
-">
+"
+            >
               <Input disabled value={data?.BusinessRegistrationLicenseNumber} />
             </Form.Item>
             <Form.Item label="Câu hỏi bảo mật">
@@ -399,12 +416,14 @@ export const DetailEditPartner = () => {
             </Form.Item>
             <Form.Item
               label="Trả lời câu hỏi bảo mật
-">
+"
+            >
               <Input disabled value={""} />
             </Form.Item>
             <Form.Item
               label="Ghi chú
-">
+"
+            >
               <Input disabled value={data.Note} />
             </Form.Item>
           </Col>
@@ -416,7 +435,8 @@ export const DetailEditPartner = () => {
               background: "#ffeded",
               display: "flex",
               justifyContent: "space-between",
-            }}>
+            }}
+          >
             <div>
               <LockOutlined style={{ color: "#e22828" }} />
               <span style={{ color: "#e22828" }}>Tài khoản đang bị khóa</span>
@@ -424,7 +444,8 @@ export const DetailEditPartner = () => {
             <Button
               loading={loadings.delete}
               onClick={() => handleLockAccount(false)}
-              danger>
+              danger
+            >
               MỞ KHÓA TÀI KHOẢN
             </Button>
           </div>
@@ -458,7 +479,8 @@ export const DetailEditPartner = () => {
                   loading={loadings.save}
                   size="large"
                   color="green"
-                  style={{ background: "rgb(3, 172, 132)", color: "#fff" }}>
+                  style={{ background: "rgb(3, 172, 132)", color: "#fff" }}
+                >
                   Lưu Thay Đổi
                 </Button>
                 <Button onClick={() => showModal()} size="large" type="primary">
@@ -476,7 +498,8 @@ export const DetailEditPartner = () => {
         onCancel={handleCancel}
         closable={false}
         footer={null}
-        maskClosable={false}>
+        maskClosable={false}
+      >
         <>
           <div className="title">
             <QuestionCircleOutlined />
@@ -492,7 +515,8 @@ export const DetailEditPartner = () => {
 
           <div
             className="buttons"
-            style={{ display: "flex", justifyContent: "right", gap: ".5rem" }}>
+            style={{ display: "flex", justifyContent: "right", gap: ".5rem" }}
+          >
             <Button
               htmlType="submit"
               loading={loadings.save}
@@ -507,7 +531,8 @@ export const DetailEditPartner = () => {
               onClick={() => handleLockAccount(true)}
               size="large"
               type="primary"
-              loading={loadings.delete}>
+              loading={loadings.delete}
+            >
               Khoá tài khoản
             </Button>
           </div>

@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { registerPartnerService } from "../../../services/RegisterPartnerService";
 import "./detail.scss";
 import moment from "moment";
-import { baseURL, fallBackImg } from "../../../../utils/baseURL";
+import { baseURL, fallBackImg, IMG } from "../../../../utils/baseURL";
 import { Loading } from "../../../Components/Loading";
 export const PartnerDetail = () => {
   const { id } = useParams();
@@ -50,7 +50,8 @@ export const PartnerDetail = () => {
             </Form.Item>
             <Form.Item
               label="Tổ chức
-">
+"
+            >
               <Input disabled value={""} />
             </Form.Item>
             <Form.Item label="Số GPĐKKD">
@@ -60,14 +61,15 @@ export const PartnerDetail = () => {
               <Input disabled value={data?.BankAccountOwnerName} />
             </Form.Item>
             <Form.Item label="Số CMND/CCCD">
-              <Input disabled value={data?.BusinessRegistrationLicenseNumber} />
+              <Input disabled value={data?.PersonalIdentity} />
             </Form.Item>
             <Form.Item label="Địa chỉ liên hệ">
               <Input disabled value={data?.Address} />
             </Form.Item>
             <Form.Item
               label="Tài khoản ngân hàng
-">
+"
+            >
               <Input
                 disabled
                 value={`${data.BankAccount} - ${data.BankAccountOwnerName} - ${data.BankBranchName}  `}
@@ -77,7 +79,8 @@ export const PartnerDetail = () => {
               <Col span={12}>
                 <Form.Item
                   label="Ngày tạo
-">
+"
+                >
                   <Input
                     disabled
                     value={moment(data?.CreationTime).format(
@@ -87,7 +90,8 @@ export const PartnerDetail = () => {
                 </Form.Item>
                 <Form.Item
                   label="Số bài đăng
-">
+"
+                >
                   <Input disabled value={data?.NumberOfPost} />
                 </Form.Item>
               </Col>
@@ -95,7 +99,8 @@ export const PartnerDetail = () => {
                 <Form.Item
                   label="Ngày cập nhật gần nhất
 
-">
+"
+                >
                   <Input
                     disabled
                     value={moment(data?.LastModificationTime).format(
@@ -106,7 +111,8 @@ export const PartnerDetail = () => {
                 <Form.Item
                   label="Trạng thái
 
-">
+"
+                >
                   <Input
                     disabled
                     value={
@@ -122,7 +128,8 @@ export const PartnerDetail = () => {
           <Form layout="vertical" autoComplete="off">
             <Form.Item
               label="Tên đối tác
-">
+"
+            >
               <Input disabled value={data?.PartnerName} />
             </Form.Item>
             <Form.Item label="Số điện thoại">
@@ -138,7 +145,7 @@ export const PartnerDetail = () => {
                     width={100}
                     height={100}
                     preview={true}
-                    src={`${baseURL}/api/image/${data.ImageGPKD1}`}
+                    src={IMG(data.ImageGPKD1)}
                     fallback={fallBackImg}
                   />
                 </Col>
@@ -147,30 +154,32 @@ export const PartnerDetail = () => {
                     Hình chụp GPKD mặt sau
                   </h5>
                   <Image
-                    width={"100%"}
+                    width={150}
+                    
                     height={100}
                     preview={<i class="fas fa-tablet-rugged    "></i>}
-                    src={`${baseURL}/api/image/${data.ImageGPKD2}`}
+                    src={IMG(data.ImageGPKD2)}
                     fallback={fallBackImg}
                   />
                 </Col>
                 <Col span={12} style={{ textAlign: "center" }}>
                   <h5 style={{ textAlign: "center" }}>CMND/CCCD mặt trước</h5>
                   <Image
-                    width={"100%"}
+                    width={150}
+                    
                     height={100}
                     preview={<i class="fas fa-tablet-rugged    "></i>}
-                    src={`${baseURL}/api/image/${data.ImageCCCD1}`}
+                    src={IMG(data.ImageCCCD1)}
                     fallback={fallBackImg}
                   />
                 </Col>
                 <Col span={12} style={{ textAlign: "center" }}>
                   <h5 style={{ textAlign: "center" }}>CMND/CCCD mặt sau</h5>
                   <Image
-                    width={"100%"}
+                    width={150}
                     height={100}
                     preview={true}
-                    src={`${baseURL}/api/image/${data.ImageCCCD2}`}
+                    src={IMG(data.ImageCCCD2)}
                     fallback={fallBackImg}
                   />
                 </Col>
@@ -178,7 +187,8 @@ export const PartnerDetail = () => {
             </div>
             <Form.Item
               label="Hợp đồng đối tác
-">
+"
+            >
               <Input disabled value={data?.BusinessRegistrationLicenseNumber} />
             </Form.Item>
             <Form.Item label="Câu hỏi bảo mật">
@@ -186,12 +196,14 @@ export const PartnerDetail = () => {
             </Form.Item>
             <Form.Item
               label="Trả lời câu hỏi bảo mật
-">
+"
+            >
               <Input disabled value={""} />
             </Form.Item>
             <Form.Item
               label="Ghi chú
-">
+"
+            >
               <Input disabled value={data?.Note} />
             </Form.Item>
           </Form>
