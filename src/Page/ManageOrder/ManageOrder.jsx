@@ -69,10 +69,10 @@ export const ManageOrder = () => {
   // Define Table Column ********************************
   const column = [
     {
-      title: "ID",
+      title: "ID Affiliater",
       dataIndex: "id",
-      render: (_) => {
-        return <p>{_ !== null ? _ : "Không"}</p>;
+      render: (_, record) => {
+        return <p>{record.AffiliateUserId !== null ? <a>{_}</a> : "Không"}</p>;
       },
     },
     {

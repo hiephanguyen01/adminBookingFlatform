@@ -101,6 +101,7 @@ const Detail = ({ modify = false }) => {
       setLoadingBtn(false);
     }
   };
+  console.log(data?.AffiliateUserId);
   return (
     <section className="detail-order">
       <Breadcrumb
@@ -118,7 +119,7 @@ const Detail = ({ modify = false }) => {
       </Breadcrumb>
       <Form
         initialValues={{
-          Id: data.id,
+          Id: data?.AffiliateUserId !== null ? data?.id : "Không",
           // StudioPostId: data.StudioRoom.id,
           // Name: data.StudioRoom.Name,
           // CreationTime: data.CreationTime,
@@ -139,7 +140,7 @@ const Detail = ({ modify = false }) => {
           accountUser: data.accountUser,
           bank: data.bank,
           bankAccount: data.bankAccount,
-          Note:data.Note
+          OrderNote: data.OrderNote,
         }}
         layout="vertical"
         labelCol={{
@@ -159,11 +160,10 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
               marginRight: "15px",
             }}
-            label="ID"
-            name="Id">
+            label="ID Affiliate">
             <Input
               disabled={true}
-              value={data?.id}
+              defaultValue={data?.AffiliateUserId !== null ? data?.id : "Không"}
               style={{ padding: "10px" }}
             />
           </Form.Item>
@@ -188,16 +188,16 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
               marginRight: "15px",
             }}
-            label="Số định danh"
-            // name="IdentifierCode"
-          >
+            label="Số định danh">
             <Input
               disabled
-              value={data.CreatorUserId}
+              defaultValue={`CUS-${("0000000000" + data.CreatorUserId).slice(
+                -10
+              )}`}
               style={{ padding: "10px" }}
             />
           </Form.Item>
-          
+
           <Form.Item
             style={{
               width: "49%",
@@ -313,7 +313,7 @@ const Detail = ({ modify = false }) => {
               style={{ padding: "10px" }}
             />
           </Form.Item>
-          
+
           <Form.Item
             style={{
               width: "49%",
@@ -353,7 +353,7 @@ const Detail = ({ modify = false }) => {
               // marginRight: "15px",
             }}
             label="Lời nhắn"
-            name="Note">
+            name="OrderNote">
             <Input
               disabled={modify ? false : true}
               style={{ padding: "10px" }}
