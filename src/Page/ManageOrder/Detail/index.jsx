@@ -467,13 +467,7 @@ const Detail = ({ modify = false }) => {
               >
                 <Input
                   disabled
-                  value={Number(data.BookingValueBeforeDiscount).toLocaleString(
-                    "it-IT",
-                    {
-                      style: "currency",
-                      currency: "VND",
-                    }
-                  )}
+                  value={Number(data.Area)}
                   style={{ padding: "10px" }}
                 />
               </Form.Item>
@@ -488,7 +482,7 @@ const Detail = ({ modify = false }) => {
               >
                 <Input
                   disabled
-                  value={data.PromoCodeId}
+                  value={data.Height||0}
                   style={{ padding: "10px" }}
                 />
               </Form.Item>
@@ -503,10 +497,7 @@ const Detail = ({ modify = false }) => {
               >
                 <Input
                   disabled
-                  value={Number(data?.saleValue).toLocaleString("it-IT", {
-                    style: "currency",
-                    currency: "VND",
-                  })}
+                  value={Number(data?.Width)}
                   style={{ padding: "10px" }}
                 />
               </Form.Item>
@@ -521,10 +512,7 @@ const Detail = ({ modify = false }) => {
               >
                 <Input
                   disabled
-                  value={Number(data.BookingValue)?.toLocaleString("it-IT", {
-                    style: "currency",
-                    currency: "VND",
-                  })}
+                  value={Number(data.Length)}
                   style={{ padding: "10px" }}
                 />
               </Form.Item>
@@ -551,11 +539,11 @@ const Detail = ({ modify = false }) => {
                       }}
                     >
                       <div style={{ flex: 1 }}>
-                        <Checkbox value={data.HasBackground}>
+                        <Checkbox checked={data.HasLamp}>
                           Hệ thống đèn
                         </Checkbox>
                       </div>
-                      <Input style={{ flex: 4 }} size="large" />
+                      <Input value={data.LampDescription} style={{ flex: 4 }} size="large" />
                     </div>
                   </Col>
                   <Col span={12}>
@@ -567,9 +555,9 @@ const Detail = ({ modify = false }) => {
                       }}
                     >
                       <div style={{ flex: 1 }}>
-                        <Checkbox>Phông nền</Checkbox>
+                        <Checkbox checked={data.HasBackground}>Phông nền</Checkbox>
                       </div>
-                      <Input style={{ flex: 4 }} size="large" />
+                      <Input value={data.BackgroundDescription} style={{ flex: 4 }} size="large" />
                     </div>
                   </Col>
                   <Col span={24}>
@@ -649,7 +637,7 @@ const Detail = ({ modify = false }) => {
                       // name="Id"
                     >
                       <Input
-                        value={data.MaximumCustomer}
+                        value={data.MaximumCustomer||0}
                         style={{ padding: "10px" }}
                       />
                     </Form.Item>
