@@ -6,7 +6,7 @@ import "../Detail.scss";
 
 export const StudioRoom = ({ data, category }) => {
   if (!data) return null;
-
+  console.log("data", data);
   const listCheckBox = [
     {
       label: "Quạt",
@@ -69,7 +69,8 @@ export const StudioRoom = ({ data, category }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}>
+        style={{ marginTop: "20px" }}
+      >
         <Row gutter={32}>
           <Col span={12}>
             <Form.Item
@@ -159,7 +160,8 @@ export const StudioRoom = ({ data, category }) => {
                       display: "flex",
                       alignItems: "center",
                       gap: ".5rem",
-                    }}>
+                    }}
+                  >
                     <div style={{ flex: 1 }}>
                       <Checkbox value={data.HasBackground}>
                         Hệ thống đèn
@@ -174,7 +176,8 @@ export const StudioRoom = ({ data, category }) => {
                       display: "flex",
                       alignItems: "center",
                       gap: ".5rem",
-                    }}>
+                    }}
+                  >
                     <div style={{ flex: 1 }}>
                       <Checkbox>Phông nền</Checkbox>
                     </div>
@@ -188,7 +191,8 @@ export const StudioRoom = ({ data, category }) => {
                       flexWrap: "wrap",
                       alignItems: "center",
                       gap: "2rem",
-                    }}>
+                    }}
+                  >
                     <Checkbox checked={data.HasTable}>Bàn</Checkbox>
                     <Checkbox checked={data.HasChair}>Ghế</Checkbox>
                     <Checkbox checked={data.HasSofa}>Sofa</Checkbox>
@@ -198,7 +202,8 @@ export const StudioRoom = ({ data, category }) => {
                         display: "flex",
                         alignItems: "center",
                         gap: ".5rem",
-                      }}>
+                      }}
+                    >
                       <Checkbox checked={data.HasOtherDevice}>Khác</Checkbox>
                       <Input value={data.OtherDeviceDescription} size="large" />
                     </div>
@@ -263,13 +268,146 @@ export const StudioRoom = ({ data, category }) => {
             </Row>
           </Col>
           <Divider />
+          <Col span={24}>
+            <Row gutter={[32, 32]}>
+              <Col span={12}>
+                <Row>
+                  <label className="label">Thiết lập chính sách theo giờ</label>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Đặt cọc"
+                      // name="Id"
+                    >
+                      <Input
+                        value={`${data.DepositByHour||0}%`}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Hình thức thanh toán cọc"
+                      // name="Id"
+                    >
+                      <Input
+                        value={
+                          data.DepositPaymentTypeByHour ? "Online" : "Offline"
+                        }
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Huỷ miễn phí"
+                      // name="Id"
+                    >
+                      <Input
+                        value={data.FreeCancelByHour}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Phí đơn đặt"
+                      // name="Id"
+                    >
+                      <Input
+                        value={`${data.CancelPriceByHour||0}%`}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Phí vắng mặt"
+                      // name="Id"
+                    >
+                      <Input
+                        value={`${data.AbsentPriceByHour||0}%`}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Col>
+
+              <Col span={12}>
+                <Row>
+                  <label className="label">
+                    Thiết lập chính sách theo ngày
+                  </label>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Đặt cọc"
+                      // name="Id"
+                    >
+                      <Input
+                        value={`${data.DepositByDate||0}%`}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Hình thức thanh toán cọc"
+                      // name="Id"
+                    >
+                      <Input
+                        value={
+                          data.DepositPaymentTypeByHour ? "Online" : "Offline"
+                        }
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Huỷ miễn phí"
+                      // name="Id"
+                    >
+                      <Input
+                        value={data.FreeCancelByDate}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Phí đơn đặt"
+                      // name="Id"
+                    >
+                      <Input
+                        value={`${data.CancelPriceByDate||0}%`}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Phí vắng mặt"
+                      // name="Id"
+                    >
+                      <Input
+                        value={`${data.AbsentPriceByDate || 0}%`}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Col>
+          <Divider />
           <Col span={20}>
             <Form.Item
-              label="Hình ảnh"
-              // name="Id"
+            // name="Id"
             >
+              <label className="label">Hình ảnh</label>
               <div
-                style={{ display: "flex", gap: "1rem", alignItems: "stretch" }}>
+                style={{ display: "flex", gap: "1rem", alignItems: "stretch" }}
+              >
                 {data.Image.map((item, idx) => {
                   if (idx === 0) {
                     return (
@@ -278,9 +416,10 @@ export const StudioRoom = ({ data, category }) => {
                           display: "flex",
                           flexDirection: "column",
                           gap: ".5rem",
-                        }}>
+                        }}
+                      >
                         <Image height={100} src={IMG(item)} />
-                        <span>Ảnh bìa</span>
+                        <label className="label">Ảnh bìa</label>
                       </div>
                     );
                   }
@@ -290,7 +429,8 @@ export const StudioRoom = ({ data, category }) => {
                         display: "flex",
                         flexDirection: "column",
                         gap: ".5rem",
-                      }}>
+                      }}
+                    >
                       <Image
                         style={{ objectFit: "cover" }}
                         height={100}
