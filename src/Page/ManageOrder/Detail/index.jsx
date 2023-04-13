@@ -101,6 +101,7 @@ const Detail = ({ modify = false }) => {
       setLoadingBtn(false);
     }
   };
+  console.log(data?.AffiliateUserId);
   return (
     <section className="detail-order">
       <Breadcrumb
@@ -119,7 +120,7 @@ const Detail = ({ modify = false }) => {
       </Breadcrumb>
       <Form
         initialValues={{
-          Id: data.id,
+          Id: data?.AffiliateUserId !== null ? data?.id : "Không",
           // StudioPostId: data.StudioRoom.id,
           // Name: data.StudioRoom.Name,
           // CreationTime: data.CreationTime,
@@ -130,7 +131,7 @@ const Detail = ({ modify = false }) => {
           BookingEmail: data.BookingEmail,
           BookingStatus: data.BookingStatus,
           BookingValue: data.BookingValue,
-          // DeletionTime:data.DeletionTime,
+          DeletionTime: data.DeletionTime,
           // BookingValueBeforeDiscount: data.BookingValueBeforeDiscount,
           // PromoCodeId: data.PromoCodeId,
           PaymentTypeOnline: data.PaymentTypeOnline,
@@ -166,7 +167,7 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled={true}
-              value={data?.id}
+              defaultValue={data?.AffiliateUserId !== null ? data?.id : "Không"}
               style={{ padding: "10px" }}
             />
           </Form.Item>
@@ -191,12 +192,12 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
               marginRight: "15px",
             }}
-            label="Số định danh"
-            // name="IdentifierCode"
-          >
+            label="Số định danh">
             <Input
               disabled
-              value={data.CreatorUserId}
+              defaultValue={`CUS-${("0000000000" + data.CreatorUserId).slice(
+                -10
+              )}`}
               style={{ padding: "10px" }}
             />
           </Form.Item>
@@ -759,7 +760,7 @@ const Detail = ({ modify = false }) => {
                 disabled
                 value={
                   data?.BookingStatus === 2
-                    ? moment(data.DeletionTime).format("DD/MM/YYYY HH:MM")
+                    ? moment(data.DeletionTime).format("DD/MM/YYYY HH:mm")
                     : ""
                 }
                 style={{ padding: "10px" }}
