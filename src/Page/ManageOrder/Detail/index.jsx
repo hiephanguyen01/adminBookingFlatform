@@ -130,7 +130,7 @@ const Detail = ({ modify = false }) => {
           BookingEmail: data.BookingEmail,
           BookingStatus: data.BookingStatus,
           BookingValue: data.BookingValue,
-          // DeletionTime:data.DeletionTime,
+          DeletionTime: data.DeletionTime,
           // BookingValueBeforeDiscount: data.BookingValueBeforeDiscount,
           // PromoCodeId: data.PromoCodeId,
           PaymentTypeOnline: data.PaymentTypeOnline,
@@ -751,7 +751,7 @@ const Detail = ({ modify = false }) => {
                 disabled
                 value={
                   data?.BookingStatus === 2
-                    ? moment(data.DeletionTime).format("DD/MM/YYYY HH:MM")
+                    ? moment(data.DeletionTime).format("DD/MM/YYYY HH:mm")
                     : ""
                 }
                 style={{ padding: "10px" }}
