@@ -52,13 +52,13 @@ export const PartnerDetail = () => {
               label="Tổ chức
 "
             >
-              <Input disabled value={""} />
+              <Input disabled value={data?.CompanyName} />
             </Form.Item>
             <Form.Item label="Số GPĐKKD">
               <Input disabled value={data?.BusinessRegistrationLicenseNumber} />
             </Form.Item>
             <Form.Item label="Người đại diện">
-              <Input disabled value={data?.BankAccountOwnerName} />
+              <Input disabled value={data?.RepresentativeName} />
             </Form.Item>
             <Form.Item label="Số CMND/CCCD">
               <Input disabled value={data?.PersonalIdentity} />
@@ -72,7 +72,7 @@ export const PartnerDetail = () => {
             >
               <Input
                 disabled
-                value={`${data.BankAccount} - ${data.BankAccountOwnerName} - ${data.BankBranchName}  `}
+                value={`${data?.Bank?.VNName} - ${data?.RepresentativeName} - ${data?.BankAccount}  `}
               />
             </Form.Item>
             <Row gutter={16}>
@@ -145,7 +145,7 @@ export const PartnerDetail = () => {
                     width={100}
                     height={100}
                     preview={true}
-                    src={IMG(data.ImageGPKD1)}
+                    src={IMG(data?.ImageGPKD1)}
                     fallback={fallBackImg}
                   />
                 </Col>
@@ -158,7 +158,7 @@ export const PartnerDetail = () => {
                     
                     height={100}
                     preview={<i class="fas fa-tablet-rugged    "></i>}
-                    src={IMG(data.ImageGPKD2)}
+                    src={IMG(data?.ImageGPKD2)}
                     fallback={fallBackImg}
                   />
                 </Col>
@@ -169,7 +169,7 @@ export const PartnerDetail = () => {
                     
                     height={100}
                     preview={<i class="fas fa-tablet-rugged    "></i>}
-                    src={IMG(data.ImageCCCD1)}
+                    src={IMG(data?.ImageCCCD1)}
                     fallback={fallBackImg}
                   />
                 </Col>
@@ -179,7 +179,7 @@ export const PartnerDetail = () => {
                     width={150}
                     height={100}
                     preview={true}
-                    src={IMG(data.ImageCCCD2)}
+                    src={IMG(data?.ImageCCCD2)}
                     fallback={fallBackImg}
                   />
                 </Col>
