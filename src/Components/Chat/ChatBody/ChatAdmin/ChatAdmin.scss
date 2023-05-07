@@ -1,0 +1,28 @@
+@import '../../../../App.scss';
+.User{
+    background-color: white;
+    height: 56px;
+    padding: 4px 2px;
+    &__current{
+        background-color: $neutral-100 !important;
+    }
+    &:hover{
+        cursor: pointer;
+    }
+    &__isOnline{
+        height: 10px;
+        width: 10px;
+        background-color: $secondary-700;
+        border-radius: 50%;
+    }
+    &__isOffline{
+        height: 10px;
+        width: 10px;
+        background-color: $primary-700;
+        border-radius: 50%;
+    }
+    &__name{
+        font-size: 16;
+        font-weight: 600;
+    }
+}
