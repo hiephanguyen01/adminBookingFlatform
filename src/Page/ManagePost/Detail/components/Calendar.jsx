@@ -147,7 +147,7 @@ export default function CalendarAndPrice({ service }) {
         <Row gutter={24}>
           <Col
             span={18}
-            xs={{
+            md={{
               span: 24,
             }}
             lg={{
@@ -184,7 +184,7 @@ export default function CalendarAndPrice({ service }) {
             </div>
           </Col>
           <Col
-            xs={{
+            md={{
               span: 24,
             }}
             lg={{
