@@ -76,7 +76,57 @@ const Detail = ({ modify = false }) => {
       value: data?.HasSupporter,
     },
   ];
-
+  console.log(data);
+  const refundValue = (booking) => {
+    let refundValue = 0;
+    let bookingStatus = "";
+    if (
+      booking?.BookingStatus == 1 &&
+      [3, 4, 2].includes(booking?.PaymentStatus)
+    ) {
+      bookingStatus = "Đã hoàn tất";
+      refundValue = 0;
+    }
+    if (
+      booking?.BookingStatus == 3 &&
+      [3, 4, 2].includes(booking?.PaymentStatus)
+    ) {
+      bookingStatus = "Vắng mặt";
+      refundValue = 0;
+    }
+    if (
+      booking?.BookingStatus == 4 &&
+      [4, 3, 2].includes(booking?.PaymentStatus)
+    ) {
+      bookingStatus = "Sắp tới";
+      refundValue = 0;
+    }
+    if (booking?.BookingStatus == 2) {
+      bookingStatus = "Đã Huỷ";
+      if (booking?.DeletedNote == "Quá hạn thanh toán") {
+        refundValue = 0;
+      } else {
+        refundValue = booking?.DepositValue - booking?.CancelPrice;
+      }
+    }
+    if (booking?.BookingStatus == 4 && booking?.PaymentStatus == 1) {
+      bookingStatus = "chờ thanh toán";
+      refundValue = 0;
+    }
+    return refundValue;
+  };
+  console.log("refundValue", refundValue(data));
+  const CancleFreeDate = moment(data?.CreationTime)
+    .add(
+      data?.OrderByTime
+        ? data?.FreeCancelByHour?.match(/\d+/g)[0]
+        : data?.FreeCancelByDate?.match(/\d+/g)[0],
+      `${data?.OrderByTime ? "hours" : "days"}`
+    )
+    .format("DD/MM/YYYY HH:mm A");
+  const depositPercent = data?.OrderByTime
+    ? data?.CancelPriceByHour
+    : data?.CancelPriceByDate;
   const getPartnerDetailById = async (id) => {
     try {
       const { data } = await orderService.getOrderById(id, state?.category);
@@ -124,7 +174,8 @@ const Detail = ({ modify = false }) => {
           fontSize: "16px",
           marginBottom: "10px",
           fontWeight: "bold",
-        }}>
+        }}
+      >
         <Breadcrumb.Item>
           <Link to={"/manage-order"} style={{ color: "#10b08a" }}>
             Quản lý đơn đặt
@@ -166,7 +217,8 @@ const Detail = ({ modify = false }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}>
+        style={{ marginTop: "20px" }}
+      >
         <header className="booking-info">
           <p>THÔNG TIN ĐƠN ĐẶT</p>
           <Form.Item
@@ -176,7 +228,8 @@ const Detail = ({ modify = false }) => {
               marginRight: "15px",
             }}
             label="ID"
-            name="Id">
+            name="Id"
+          >
             <Input
               disabled={true}
               defaultValue={data?.AffiliateUserId !== null ? data?.id : "Không"}
@@ -204,7 +257,8 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
               marginRight: "15px",
             }}
-            label="Số định danh">
+            label="Số định danh"
+          >
             <Input
               disabled
               defaultValue={`CUS-${("0000000000" + data.CreatorUserId).slice(
@@ -241,7 +295,8 @@ const Detail = ({ modify = false }) => {
               marginRight: "15px",
             }}
             label="Tên khách hàng"
-            name="BookingUserName">
+            name="BookingUserName"
+          >
             <Input
               disabled={modify ? false : true}
               style={{ padding: "10px" }}
@@ -273,7 +328,8 @@ const Detail = ({ modify = false }) => {
               marginRight: "15px",
             }}
             label="Số điện thoại"
-            name="BookingPhone">
+            name="BookingPhone"
+          >
             <Input
               disabled={modify ? false : true}
               style={{ padding: "10px" }}
@@ -301,7 +357,8 @@ const Detail = ({ modify = false }) => {
               marginRight: "15px",
             }}
             label="Email"
-            name="BookingEmail">
+            name="BookingEmail"
+          >
             <Input
               disabled={modify ? false : true}
               style={{ padding: "10px" }}
@@ -313,7 +370,8 @@ const Detail = ({ modify = false }) => {
               width: "49%",
               display: "inline-block",
             }}
-            label="Ngày thực hiện">
+            label="Ngày thực hiện"
+          >
             <Input
               disabled
               value={
@@ -337,7 +395,8 @@ const Detail = ({ modify = false }) => {
               marginRight: "15px",
             }}
             label="Trạng thái đơn đặt"
-            name="BookingStatus">
+            name="BookingStatus"
+          >
             <Select
               disabled={modify ? false : true}
               size="large"
@@ -369,7 +428,8 @@ const Detail = ({ modify = false }) => {
               // marginRight: "15px",
             }}
             label="Lời nhắn"
-            name="OrderNote">
+            name="OrderNote"
+          >
             <Input
               // value={data.Note}
               disabled={modify ? false : true}
@@ -388,7 +448,7 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={Number(data.BookingValueBeforeDiscount).toLocaleString(
+              value={Number(data?.BookingValueBeforeDiscount).toLocaleString(
                 "it-IT",
                 {
                   style: "currency",
@@ -409,7 +469,7 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={data.PromoCodeId}
+              value={data?.PromoCodeId}
               style={{ padding: "10px" }}
             />
           </Form.Item>
@@ -424,7 +484,7 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={Number(data?.saleValue).toLocaleString("it-IT", {
+              value={Number(data?.saleValue || 0).toLocaleString("it-IT", {
                 style: "currency",
                 currency: "VND",
               })}
@@ -442,7 +502,7 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={Number(data.BookingValue)?.toLocaleString("it-IT", {
+              value={Number(data?.BookingValue)?.toLocaleString("it-IT", {
                 style: "currency",
                 currency: "VND",
               })}
@@ -459,7 +519,8 @@ const Detail = ({ modify = false }) => {
                 paddingBottom: ".5rem",
                 display: "inline-block",
                 fontSize: "1rem",
-              }}>
+              }}
+            >
               Kích thước
             </label>
             <Col span={24}>
@@ -531,7 +592,8 @@ const Detail = ({ modify = false }) => {
                     paddingBottom: ".5rem",
                     display: "inline-block",
                     fontSize: "1rem",
-                  }}>
+                  }}
+                >
                   Thiết bị có sẵn
                 </label>
                 <Row gutter={[32, 32]}>
@@ -541,7 +603,8 @@ const Detail = ({ modify = false }) => {
                         display: "flex",
                         alignItems: "center",
                         gap: ".5rem",
-                      }}>
+                      }}
+                    >
                       <div style={{ flex: 1 }}>
                         <Checkbox checked={data.HasLamp}>Hệ thống đèn</Checkbox>
                       </div>
@@ -558,7 +621,8 @@ const Detail = ({ modify = false }) => {
                         display: "flex",
                         alignItems: "center",
                         gap: ".5rem",
-                      }}>
+                      }}
+                    >
                       <div style={{ flex: 1 }}>
                         <Checkbox checked={data.HasBackground}>
                           Phông nền
@@ -578,7 +642,8 @@ const Detail = ({ modify = false }) => {
                         flexWrap: "wrap",
                         alignItems: "center",
                         gap: "2rem",
-                      }}>
+                      }}
+                    >
                       <Checkbox checked={data.HasTable}>Bàn</Checkbox>
                       <Checkbox checked={data.HasChair}>Ghế</Checkbox>
                       <Checkbox checked={data.HasSofa}>Sofa</Checkbox>
@@ -588,7 +653,8 @@ const Detail = ({ modify = false }) => {
                           display: "flex",
                           alignItems: "center",
                           gap: ".5rem",
-                        }}>
+                        }}
+                      >
                         <Checkbox checked={data.HasOtherDevice}>Khác</Checkbox>
                         <Input
                           value={data.OtherDeviceDescription}
@@ -608,7 +674,8 @@ const Detail = ({ modify = false }) => {
                       paddingBottom: ".5rem",
                       display: "inline-block",
                       fontSize: "1rem",
-                    }}>
+                    }}
+                  >
                     Tiện ích đi kèm
                   </label>
                   <Col span={24}>
@@ -620,7 +687,8 @@ const Detail = ({ modify = false }) => {
                             flexWrap: "wrap",
                             alignItems: "center",
                             gap: "2rem",
-                          }}>
+                          }}
+                        >
                           {listCheckBox.map((item) => {
                             return (
                               <Checkbox checked={item.value}>
@@ -674,7 +742,8 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
             }}
             label="Hình thức thanh toán"
-            name="PaymentTypeOnline">
+            name="PaymentTypeOnline"
+          >
             <Select
               disabled={modify ? false : true}
               size="large"
@@ -697,7 +766,8 @@ const Detail = ({ modify = false }) => {
               marginLeft: "15px",
             }}
             label="Trạng thái thanh toán"
-            name="PaymentStatus">
+            name="PaymentStatus"
+          >
             <Select
               disabled={modify ? false : true}
               size="large"
@@ -743,7 +813,7 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={data.DepositValue}
+              value={converPriceVND(data.DepositValue)}
               style={{ padding: "10px" }}
             />
           </Form.Item>
@@ -764,7 +834,7 @@ const Detail = ({ modify = false }) => {
                 disabled
                 value={
                   data?.BookingStatus === 2
-                    ? moment(data.DeletionTime).format("DD/MM/YYYY HH:mm")
+                    ? moment(data.DeletionTime).format("DD/MM/YYYY HH:mm A")
                     : ""
                 }
                 style={{ padding: "10px" }}
@@ -779,7 +849,11 @@ const Detail = ({ modify = false }) => {
               label="Hủy đơn miễn phí"
               // name="freeCancelationBefore"
             >
-              <Input disabled style={{ padding: "10px" }} />
+              <Input
+                value={CancleFreeDate}
+                disabled
+                style={{ padding: "10px" }}
+              />
             </Form.Item>
           </Form.Item>
           <Form.Item>
@@ -806,7 +880,11 @@ const Detail = ({ modify = false }) => {
               label="Hạn hủy đơn miễn phí"
               // name="deadlineForFreeCancelation"
             >
-              <Input disabled style={{ padding: "10px" }} />
+              <Input
+                value={CancleFreeDate}
+                disabled
+                style={{ padding: "10px" }}
+              />
             </Form.Item>
           </Form.Item>
           <Form.Item>
@@ -817,8 +895,13 @@ const Detail = ({ modify = false }) => {
                 marginRight: "15px",
               }}
               label="Số tài khoản nhận hoàn tiền"
-              name="bankAccount">
-              <Input disabled style={{ padding: "10px" }} />
+              name="bankAccount"
+            >
+              <Input
+                value={data?.bankAccount}
+                disabled
+                style={{ padding: "10px" }}
+              />
             </Form.Item>
             <Form.Item
               style={{
@@ -826,7 +909,8 @@ const Detail = ({ modify = false }) => {
                 display: "inline-block",
               }}
               label="Tên tài khoản"
-              name="accountUser">
+              name="accountUser"
+            >
               <Input disabled style={{ padding: "10px" }} />
             </Form.Item>
             <Form.Item
@@ -835,7 +919,8 @@ const Detail = ({ modify = false }) => {
                 display: "inline-block",
               }}
               label="Ngân hàng"
-              name="bank">
+              name="bank"
+            >
               <Input disabled style={{ padding: "10px" }} />
             </Form.Item>
             <Form.Item
@@ -847,7 +932,11 @@ const Detail = ({ modify = false }) => {
               label="Phí hủy đơn"
               // name="cancelationFee"
             >
-              <Input disabled style={{ padding: "10px" }} />
+              <Input
+                value={`${depositPercent || 0}%`}
+                disabled
+                style={{ padding: "10px" }}
+              />
             </Form.Item>
           </Form.Item>
           <Form.Item>
@@ -859,7 +948,11 @@ const Detail = ({ modify = false }) => {
               label="Số tiền được hoàn"
               // name="refundAmount"
             >
-              <Input disabled style={{ padding: "10px" }} />
+              <Input
+                value={converPriceVND(refundValue(data))}
+                disabled
+                style={{ padding: "10px" }}
+              />
             </Form.Item>
             <Form.Item
               style={{
@@ -868,7 +961,8 @@ const Detail = ({ modify = false }) => {
                 margin: "30px 0 0 15px",
               }}
               name="IsRefund"
-              valuePropName="checked">
+              valuePropName="checked"
+            >
               <Checkbox
                 disabled={modify ? false : true}
                 size="large"
@@ -885,7 +979,8 @@ const Detail = ({ modify = false }) => {
                 display: "inline-block",
                 margin: "30px 0 0 0px",
               }}
-              label="Ảnh minh chứng">
+              label="Ảnh minh chứng"
+            >
               <Image src={IMG(data?.EvidenceImage)} />
             </Form.Item>
           </Form.Item>
@@ -909,12 +1004,14 @@ const Detail = ({ modify = false }) => {
                   width: "49%",
                   display: "inline-block",
                   margin: "33px 0 0 15px",
-                }}>
+                }}
+              >
                 <Button
                   loading={loadingBtn}
                   size="large"
                   htmlType="submit"
-                  type="primary">
+                  type="primary"
+                >
                   Lưu thay đổi
                 </Button>
               </Form.Item>

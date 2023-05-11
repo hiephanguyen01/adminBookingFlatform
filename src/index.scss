@@ -24,3 +24,8 @@ ul {
 * {
   font-family: "Nunito", sans-serif;
 }
+
+.ant-input[disabled] {
+  color: black;
+  opacity: 1;
+}
