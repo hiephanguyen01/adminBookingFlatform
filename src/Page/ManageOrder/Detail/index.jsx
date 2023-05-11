@@ -106,6 +106,7 @@ const Detail = ({ modify = false }) => {
         socket?.emit("manualChangeBookingStatusByAdmin", {
           ...value,
           TenantId: data.TenantId,
+          IdentifyCode: data.IdentifyCode,
         });
       }
       openNotification("success", "Cập nhật thành công!");
