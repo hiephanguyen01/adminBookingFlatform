@@ -4,6 +4,11 @@ class StudioPostService extends BaseService {
   getFilterStudioPost = (limit, page, filter) => {
     return this.post(`/api/filter/advance?page=${page}&limit=${limit}`, filter);
   };
+  getAllPostAff = (page, limit, category, search) => {
+    return this.get(
+      `/api/studio-post/post-aff?page=${page}&limit=${limit}&category=${category}&search=${search}`
+    );
+  };
   getAllProvince = () => {
     return this.get(`/api/provinces`);
   };
@@ -27,6 +32,9 @@ class StudioPostService extends BaseService {
     return this.patch(
       `/api/studio-post/byid?id=${id}&category=${category}&IsVisible=${IsVisible}&Note=${note}`
     );
+  };
+  getDetailStudioAff = (id, category) => {
+    return this.get(`/api/studio-post/detail?id=${id}&category=${category}`);
   };
   getDetailStudio = (id, category, currentUser = "166") => {
     if (currentUser.trim !== "") {

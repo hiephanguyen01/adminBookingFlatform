@@ -90,6 +90,12 @@ const AffiliateAccount = () => {
     {
       title: "Ngày tạo",
       dataIndex: "createdAt",
+      sorter: {
+        compare: (a, b) =>
+          moment(a.createdAt).format("YYYYMMDD") -
+          moment(b.createdAt).format("YYYYMMDD"),
+        multiple: 0,
+      },
       render: (_) => <p>{moment(_).format("DD/MM/YYYY HH:mm")}</p>,
     },
     {
