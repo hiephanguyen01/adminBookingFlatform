@@ -6,6 +6,7 @@ import { convertPrice } from "../../../utils/convert";
 import { openNotification } from "../../../utils/Notification";
 import { roomService } from "../../services/RoomService";
 import "./AffiliateLink.scss";
+import { studioPostService } from "../../services/StudioPostService";
 const { Search } = Input;
 
 const AffiliateLink = () => {
@@ -26,16 +27,6 @@ const AffiliateLink = () => {
     {
       title: "Tên dịch vụ/sản phẩm",
       dataIndex: "Name",
-    },
-    {
-      title: "Giá",
-      dataIndex: "CreationTime",
-      render: (filed, _) => (
-        <p>
-          {convertPrice(_?.PriceByDate)} đ/ngày <br />{" "}
-          {convertPrice(_?.PriceByHour)} đ/giờ{" "}
-        </p>
-      ),
     },
     {
       title: "% Hoa hồng",
@@ -78,7 +69,7 @@ const AffiliateLink = () => {
     (async () => {
       try {
         setLoading(true);
-        const { data } = await roomService.getAllService(
+        const { data } = await studioPostService.getAllPostAff(
           current,
           10,
           category,
@@ -108,7 +99,7 @@ const AffiliateLink = () => {
                 { label: "Studio", value: 1 },
                 { label: "Photographer", value: 2 },
                 { label: "Make up", value: 4 },
-                { label: "Modal", value: 6 },
+                { label: "Model", value: 6 },
               ]}
             />
             <Search

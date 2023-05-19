@@ -67,6 +67,7 @@ import { PromoPartner } from "./Page/PromoCode/PromoPartner/PromoPartner";
 import DetailRateReport from "./Page/RankReport/Detail/DetailRateReport";
 import RankReport from "./Page/RankReport/RankReport";
 import { getCurrentUser } from "./store/action/authAction";
+import EmailService from "./Page/CoreSetting/EmailServices";
 
 const App = () => {
   const user = useSelector((state) => state.userReducer?.currentUser?.user);
@@ -208,6 +209,7 @@ const App = () => {
               <Route path="question" element={<AskedQuestion />}></Route>
               <Route path="hot-key" element={<HotKey />}></Route>
               <Route path="banner" element={<Banner />}></Route>
+              <Route path="email-service" element={<EmailService />}></Route>
               <Route path="banner/create" element={<CreateBanner />}></Route>
               <Route
                 path="banner/edit"
@@ -257,7 +259,9 @@ const App = () => {
                 path="commission"
                 element={<AffiliateCommission />}></Route>
               <Route path="statistic" element={<AffiliateStatistic />}></Route>
-              <Route path="data-export" element={<DataExportAffiliate />}></Route>
+              <Route
+                path="data-export"
+                element={<DataExportAffiliate />}></Route>
             </>
           )}
         </Route>
