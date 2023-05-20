@@ -68,6 +68,7 @@ import DetailRateReport from "./Page/RankReport/Detail/DetailRateReport";
 import RankReport from "./Page/RankReport/RankReport";
 import { getCurrentUser } from "./store/action/authAction";
 import Chat from "./Components/Chat/Chat";
+import EmailService from "./Page/CoreSetting/EmailServices";
 
 const App = () => {
   const user = useSelector((state) => state.userReducer?.currentUser?.user);
@@ -217,6 +218,7 @@ const App = () => {
               <Route path="question" element={<AskedQuestion />}></Route>
               <Route path="hot-key" element={<HotKey />}></Route>
               <Route path="banner" element={<Banner />}></Route>
+              <Route path="email-service" element={<EmailService />}></Route>
               <Route path="banner/create" element={<CreateBanner />}></Route>
               <Route
                 path="banner/edit"

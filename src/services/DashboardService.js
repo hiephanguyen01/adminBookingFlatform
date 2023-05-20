@@ -11,6 +11,9 @@ class DashboardService extends BaseService {
       `/api/statistic/get-partner-customer?option=${option}&date=${date}`
     );
   };
+  getAccessCount = (option, date = "") => {
+    return this.get(`/api/count-visitor/get?option=${option}&date=${date}`);
+  };
 }
 
 export const dashboardService = new DashboardService();

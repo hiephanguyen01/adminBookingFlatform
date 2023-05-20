@@ -266,6 +266,138 @@ export const PhotographerRoom = ({ data, category }) => {
             </Form.Item>
           </Col>
           <Divider />
+          <Col span={24}>
+            <Row gutter={[32, 32]}>
+              <Col span={12}>
+                <Row>
+                  <label className="label">Thiết lập chính sách theo giờ</label>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Đặt cọc"
+                      // name="Id"
+                    >
+                      <Input
+                        value={`${data.DepositByHour||0}%`}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Hình thức thanh toán cọc"
+                      // name="Id"
+                    >
+                      <Input
+                        value={
+                          data.DepositPaymentTypeByHour ? "Online" : "Offline"
+                        }
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Huỷ miễn phí"
+                      // name="Id"
+                    >
+                      <Input
+                        value={data.FreeCancelByHour}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Phí đơn đặt"
+                      // name="Id"
+                    >
+                      <Input
+                        value={`${data.CancelPriceByHour||0}%`}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Phí vắng mặt"
+                      // name="Id"
+                    >
+                      <Input
+                        value={`${data.AbsentPriceByHour||0}%`}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Col>
+
+              <Col span={12}>
+                <Row>
+                  <label className="label">
+                    Thiết lập chính sách theo ngày
+                  </label>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Đặt cọc"
+                      // name="Id"
+                    >
+                      <Input
+                        value={`${data.DepositByDate||0}%`}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Hình thức thanh toán cọc"
+                      // name="Id"
+                    >
+                      <Input
+                        value={
+                          data.DepositPaymentTypeByHour ? "Online" : "Offline"
+                        }
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Huỷ miễn phí"
+                      // name="Id"
+                    >
+                      <Input
+                        value={data.FreeCancelByDate}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Phí đơn đặt"
+                      // name="Id"
+                    >
+                      <Input
+                        value={`${data.CancelPriceByDate||0}%`}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Phí vắng mặt"
+                      // name="Id"
+                    >
+                      <Input
+                        value={`${data.AbsentPriceByDate || 0}%`}
+                        style={{ padding: "10px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Col>
+          <Divider/>
           <Col span={20}>
             <Form.Item
               label="Hình ảnh"

@@ -38,26 +38,27 @@ export default function CalendarAndPrice({ service }) {
     }
   };
   const getListData = (value) => {
-   
     // console.log(moment("2023-03-16 00:00:00").isSame(moment(value.$d), "day"));
     let listDat = [];
     if (!optionSelected) return listDat;
     if (dates.length < 1) {
       return (listDat = [
         {
+          ...roomCurrent,
           priceDate: roomCurrent.PriceByDate,
           priceHour: roomCurrent.PriceByHour,
           Open: roomCurrent.Open,
         },
       ]);
     } else {
-      const date = dates.find((item) =>
+      const date = dates?.scheduleAndPrices?.find((item) =>
         moment(item.DateTime).isSame(moment(value.$d), "day")
       );
 
       if (date) {
         return (listDat = [
           {
+            ...date,
             priceDate: date.PriceByDate,
             priceHour: date.PriceByHour,
             Open: date.Open,
@@ -66,6 +67,7 @@ export default function CalendarAndPrice({ service }) {
       } else {
         return (listDat = [
           {
+            ...roomCurrent,
             priceDate: roomCurrent.PriceByDate,
             priceHour: roomCurrent.PriceByHour,
             Open: roomCurrent.Open,
@@ -128,7 +130,7 @@ export default function CalendarAndPrice({ service }) {
       <Breadcrumb style={{ fontSize: "17px", marginBottom: "1rem" }}>
         <Breadcrumb.Item
           onClick={() => navigate("/posts")}
-          style={{ color: "#03ac84", cursor:"pointer" }}
+          style={{ color: "#03ac84", cursor: "pointer" }}
         >
           Quản lí bài đăng
         </Breadcrumb.Item>
@@ -136,13 +138,22 @@ export default function CalendarAndPrice({ service }) {
           style={{
             color: "",
             cursor: "pointer",
-          }}>
+          }}
+        >
           Lịch và giá
         </Breadcrumb.Item>
       </Breadcrumb>
       <div className="calendar-price">
-        <Row gutter={20}>
-          <Col span={18}>
+        <Row gutter={24}>
+          <Col
+            span={18}
+            md={{
+              span: 24,
+            }}
+            lg={{
+              span: 18,
+            }}
+          >
             <div style={{ position: "relative" }}>
               <Calendar
                 className="calendar-cus"
@@ -159,7 +170,8 @@ export default function CalendarAndPrice({ service }) {
                 defaultValue={""}
                 className="selectRoom"
                 size="large"
-                style={{ minWidth: "400px" }}>
+                style={{ minWidth: "400px" }}
+              >
                 <Option value={""}>Chọn phòng....</Option>
                 {service.map((item) => {
                   return (
@@ -171,48 +183,57 @@ export default function CalendarAndPrice({ service }) {
               </Select>
             </div>
           </Col>
-          <Col span={6}>
+          <Col
+            md={{
+              span: 24,
+            }}
+            lg={{
+              span: 6,
+            }}
+          >
             <div style={{ marginTop: "54px" }}>
               <Form name="form_item_path" layout="vertical">
                 <h3
-                  style={{ textTransform: "capitalize", marginBottom: "1rem" }}>
+                  style={{ textTransform: "capitalize", marginBottom: "1rem" }}
+                >
                   Giá & chính sách theo giờ
                 </h3>
                 <Form.Item label="Giá áp đụng (đ/giờ)">
                   <Input value={converPriceVND(data?.priceHour)} size="large" />
                 </Form.Item>
                 <Form.Item label="Đặt cọc (% đơn đặt)">
-                  <Input size="large" />
+                  <Input size="large" value={data?.DepositByHour && `${data?.DepositByDate}%`} />
                 </Form.Item>
                 <Form.Item label="Hình thức thanh toán">
                   <Input size="large" />
                 </Form.Item>
                 <Form.Item label="Huỷ đơn miễm phí">
-                  <Input size="large" />
+                  <Input size="large" value={data?.FreeCancelByHour && data.FreeCancelByHour}  />
                 </Form.Item>
                 <Form.Item label="Phí vắng mặt">
-                  <Input size="large" />
+                  <Input size="large"  value={data?.AbsentPriceByHour && `${data.AbsentPriceByHour}%`}  />
                 </Form.Item>
               </Form>
               <Form name="form_item_path" layout="vertical">
                 <h3
-                  style={{ textTransform: "capitalize", marginBottom: "1rem" }}>
+                  style={{ textTransform: "capitalize", marginBottom: "1rem" }}
+                >
                   Giá & chính sách theo ngày
                 </h3>
                 <Form.Item label="Giá áp đụng (đ/ngày)">
                   <Input value={converPriceVND(data?.priceDate)} size="large" />
                 </Form.Item>
                 <Form.Item label="Đặt cọc (% đơn đặt)">
-                  <Input size="large" />
+                  <Input size="large"  value={data?.DepositByDate && `${data?.DepositByDate}%`} />
                 </Form.Item>
                 <Form.Item label="Hình thức thanh toán">
                   <Input size="large" />
                 </Form.Item>
                 <Form.Item label="Huỷ đơn miễm phí">
-                  <Input size="large" />
+                  <Input size="large" value={data?.FreeCancelByDate && data.FreeCancelByDate} />
                 </Form.Item>
                 <Form.Item label="Phí vắng mặt">
-                  <Input size="large" />
+                  <Input size="large" value={data?.AbsentPriceByDate && `${data.AbsentPriceByDate}%`}  />
                 </Form.Item>
               </Form>
             </div>

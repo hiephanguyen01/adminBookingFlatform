@@ -102,3 +102,7 @@ ul {
     height: $i * 1px !important;
   }
 }
+.ant-input[disabled] {
+  color: black;
+  opacity: 1;
+}
