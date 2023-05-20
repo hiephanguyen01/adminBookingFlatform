@@ -24,3 +24,81 @@ ul {
 * {
   font-family: "Nunito", sans-serif;
 }
+/////////////////////////////////////////////////////
+@for $i from 1 to 201 {
+  .w-#{$i} {
+    width: $i * 1%;
+  }
+
+  .h-#{$i} {
+    height: $i * 1%;
+  }
+
+  .m-#{$i} {
+    margin: $i * 1px;
+  }
+
+  .mt-#{$i} {
+    margin-top: $i * 1px;
+  }
+
+  .mb-#{$i} {
+    margin-bottom: $i * 1px;
+  }
+
+  .ms-#{$i} {
+    margin-left: $i * 1px;
+  }
+
+  .me-#{$i} {
+    margin-right: $i * 1px;
+  }
+
+  .my-#{$i} {
+    margin-top: $i * 1px;
+    margin-bottom: $i * 1px;
+  }
+
+  .mx-#{$i} {
+    margin-left: $i * 1px;
+    margin-right: $i * 1px;
+  }
+
+  .p-#{$i} {
+    padding: $i * 1px;
+  }
+
+  .pt-#{$i} {
+    padding-top: $i * 1px;
+  }
+
+  .pb-#{$i} {
+    padding-bottom: $i * 1px;
+  }
+
+  .ps-#{$i} {
+    padding-left: $i * 1px;
+  }
+
+  .pe-#{$i} {
+    padding-right: $i * 1px;
+  }
+
+  .py-#{$i} {
+    padding-top: $i * 1px;
+    padding-bottom: $i * 1px;
+  }
+
+  .px-#{$i} {
+    padding-left: $i * 1px;
+    padding-right: $i * 1px;
+  }
+
+  .w-#{$i}px {
+    width: $i * 1px;
+  }
+
+  .h-#{$i}px {
+    height: $i * 1px !important;
+  }
+}

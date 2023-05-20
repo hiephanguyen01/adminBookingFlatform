@@ -26,6 +26,8 @@ export const ChatUser = React.memo(
         ? userInfo.UserId.Username
         : userInfo.UserId.Fullname
       : userInfo?.PartnerId?.PartnerName;
+
+    // *** set have read newest message or not ***
     useEffect(() => {
       if (userInfo.newestMessage) {
         if (userInfo.newestMessage?.UserId !== -1) {
@@ -80,26 +82,32 @@ export const ChatUser = React.memo(
             />
           </div>
           <div
-            style={{ marginLeft: "20px" }}
-            className="py-2 h-100 w-100 d-flex flex-column justify-content-between"
+            style={{ marginLeft: "10px" }}
+            className="py-2 w-100 d-flex flex-column justify-content-between"
           >
-            <div className="d-flex justify-content-between align-items-center h-100">
+            <div className="d-flex justify-content-between align-items-center">
               <p className="User__name">
                 {name.toString().length <= 15
                   ? name
                   : `${name.toString().slice(0, 15)}...`}
               </p>
-              {isOnline ? (
+              {/* {isOnline ? (
                 <span className="User__isOnline"></span>
               ) : (
                 <span className="User__isOffline"></span>
-              )}
+              )} */}
             </div>
             {lastMessage ? (
               lastMessage.UserId === userInfo.UserId.id ? (
                 <div
-                  className="w-100 d-flex justify-content-between"
-                  style={{ color: "#828282", fontSize: "13px" }}
+                  className=" d-flex justify-content-between"
+                  // style={{
+                  //   width: "100%",
+                  //   display: "flex",
+                  //   justifyContent: "space-between",
+                  //   color: "#828282",
+                  //   fontSize: "13px",
+                  // }}
                 >
                   <div>
                     Bạn:{" "}

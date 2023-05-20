@@ -54,9 +54,10 @@ export const ChatBody = () => {
     ));
   };
 
-  useEffect(() => {
-    setToggleState(getToggleState);
-  }, [getToggleState]);
+  // useEffect(() => {
+  //   setToggleState(getToggleState);
+  // }, [getToggleState]);
+
   useEffect(() => {
     (async () => {
       const res = await chatService.getConversation(10, 1, UserMe.id);
@@ -131,6 +132,21 @@ export const ChatBody = () => {
     });
   }, [UserMe?.id]);
 
+  //socket on để liên tục update các kênh chat bên trái
+  useEffect(() => {
+    socket.on("receive_message_admin", (data) => {
+      if (data?.messageContent) {
+        (async () => {
+          const res = await chatService.getConversation(10, 1, UserMe.id);
+          initMountStateUser.current = res.data.data;
+          setConversation(res.data.data);
+          // setToggleState(res.data.data[0].id);
+          dispatch({ type: TOGGLE_STATE, payload: res.data.data[0].id });
+        })();
+      }
+    });
+  });
+
   //******* Call API to retrieve the ConversationId with Admin *******
   // useEffect(() => {
   //   (async () => {
@@ -143,17 +159,6 @@ export const ChatBody = () => {
   return (
     <div className="Chat__body">
       <div className="Chat__body__user">
-        {/* <ChatUserFilter /> */}
-        {/* <ChatAdmin
-          info={infoChatAdmin}
-          toggleState={toggleState}
-          setToggleState={setToggleState}
-          toggleClick={(e) => {
-            setToggleState(e);
-            dispatch({ type: TOGGLE_STATE, payload: e });
-            dispatch(updateMAction());
-          }}
-        /> */}
         <div
           className="Chat__body__userlist"
           onScroll={async (e) => {
