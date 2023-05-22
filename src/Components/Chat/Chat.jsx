@@ -14,6 +14,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { closeConversationSelector } from "../../store/selector/ChatSelector";
 import { SHOW_CHAT } from "../../store/types/messType";
+import { setupSocket } from "../../store/action/authAction";
+
 const Chat = () => {
   const UserMe = useSelector((state) => state.userReducer.currentUser);
   const { socket } = useSelector((state) => state.userReducer);
@@ -80,7 +82,13 @@ const Chat = () => {
   return (
     <div>
       <div
-        onClick={() => dispatch({ type: SHOW_CHAT })}
+        onClick={() => {
+          if (!socket) {
+            // socket.emit("connect");
+            dispatch(setupSocket());
+          }
+          dispatch({ type: SHOW_CHAT });
+        }}
         className={notiMessage ? "Chat__noti-message Chat" : "Chat"}
       >
         {notiMessage ? (

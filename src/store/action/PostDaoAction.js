@@ -10,11 +10,7 @@ import { postDaoService } from "../../services/PostDaoService";
 export const getAllPostDaoAction = (currentListPost = [], filter) => {
   return async (dispatch) => {
     try {
-      const { data } = await postDaoService.getAllPost(
-        filter?.limit,
-        filter?.page,
-        filter?.tags.join(",")
-      );
+      const { data } = await postDaoService.getAllPost({ ...filter });
 
       let temp = [
         ...currentListPost,
@@ -62,24 +58,24 @@ export const getAllReportedDaoAction = (currentListPost = [], filter) => {
   };
 };
 
-export const getPostDaoAction = (currentListPost = [], limit, page) => {
-  return async (dispatch) => {
-    try {
-      const { data } = await postDaoService.getAllPost(limit, page);
-      let temp = [...currentListPost, ...data.data];
-      dispatch({
-        type: GET_LIST_POST,
-        data: temp,
-      });
-      dispatch({
-        type: GET_PAGINATE_POSIBILITY,
-        data: data.pagination,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
+// export const getPostDaoAction = (currentListPost = [], limit, page) => {
+//   return async (dispatch) => {
+//     try {
+//       const { data } = await postDaoService.getAllPost(limit, page);
+//       let temp = [...currentListPost, ...data.data];
+//       dispatch({
+//         type: GET_LIST_POST,
+//         data: temp,
+//       });
+//       dispatch({
+//         type: GET_PAGINATE_POSIBILITY,
+//         data: data.pagination,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// };
 export const getPostDaoByIdAction = (id) => {
   return async (dispatch) => {
     try {
@@ -198,3 +194,5 @@ export const getAllNotificationDaoAction = () => {
     }
   };
 };
+
+export const filteringDaoPostAction = () => async (dispatch) => {};

@@ -1,8 +1,12 @@
 import { BaseService } from "./baseService";
 
 class PostDaoService extends BaseService {
-  getAllPost = (limit, page, tags) => {
-    return this.get(`/api/post-post?limit=${limit}&page=${page}&tags=${tags}`);
+  getAllPost = (filter) => {
+    const { limit, page = 1, tags, startDate = null, endDate = null } = filter;
+
+    return this.get(
+      `/api/post-post?limit=${limit}&page=${page}&tags=${tags}&startDate=${startDate}&endDate=${endDate}`
+    );
   };
   getPostById = (id) => {
     return this.get(`/api/post-post/${id}`);

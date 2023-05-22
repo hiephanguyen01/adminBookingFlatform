@@ -4,20 +4,21 @@ import { Outlet, useNavigate } from "react-router-dom";
 import AffiliateSideBar from "../../Components/AffiliateSideBar/AffiliateSideBar";
 import Header from "../../Components/Header/Header";
 import LeftNavBar from "../../Components/LeftNavBar/LeftNavBar";
-import { setupSocket } from "../../store/action/authAction";
+// import { setupSocket } from "../../store/action/authAction";
 import "./AdminLayout.scss";
 const AdminLayout = ({ type }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const user = useSelector((state) => state.userReducer?.currentUser?.user);
-  const socket = useSelector((state) => state.userReducer.socket);
-  useEffect(() => {
-    console.log(user);
-    if (!socket) {
-      // socket.emit("connect");
-      dispatch(setupSocket());
-    }
-  }, [user]);
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  // const user = useSelector((state) => state.userReducer?.currentUser?.user);
+  // const socket = useSelector((state) => state.userReducer.socket);
+
+  // useEffect(() => {
+  //   if (!socket) {
+  //     // socket.emit("connect");
+  //     dispatch(setupSocket());
+  //   }
+  // }, [user]);
+
   return (
     <div className="AdminLayout">
       <Header />
