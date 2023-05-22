@@ -4,13 +4,10 @@ import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import demopic1 from "../../../../assets/Chat/demo1.png";
-import UploadImage from "../../../UploadImage";
+import { IMG } from "../../../../../utils/baseURL";
 import { chatService } from "../../../../services/ChatService";
-import { orderService } from "../../../../services/OrderService";
-import { closeConversationAction } from "../../../../store/action/ChatAction";
 import { updateMSelector } from "../../../../store/selector/ChatSelector";
-import { IMG } from "../../../../../utils/REACT_APP_DB_BASE_URL_IMG";
+import UploadImage from "../../../UploadImage";
 import "./ChatContent.scss";
 
 moment().format();
@@ -320,8 +317,7 @@ export const ChatContent = ({ chatInfo }) => {
             alt="user"
             src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
             width={35}
-            height={35}
-          ></img>
+            height={35}></img>
           <div className="ChatContent__header__user">
             <div>{name}</div>
           </div>
@@ -386,8 +382,7 @@ export const ChatContent = ({ chatInfo }) => {
               setFlag(false);
             }
           }
-        }}
-      >
+        }}>
         {loading ? (
           <>
             {!hasMore && (
@@ -415,8 +410,7 @@ export const ChatContent = ({ chatInfo }) => {
                     itm.Chatting["AdminName"] || itm.Chatting?.user?.name
                       ? "ChatContent__conversation__you"
                       : "ChatContent__conversation__other"
-                  }
-                >
+                  }>
                   <div
                     className={
                       itm.Chatting["AdminName"] ||
@@ -430,8 +424,7 @@ export const ChatContent = ({ chatInfo }) => {
                           itm.Type === "text"
                         ? "ChatContent__conversation__you__content"
                         : "ChatContent__conversation__you__img"
-                    }
-                  >
+                    }>
                     {renderMess(itm)}
                   </div>
                 </div>
@@ -460,8 +453,7 @@ export const ChatContent = ({ chatInfo }) => {
       {/* ******* Upload Image, File + Text Area Edit Section ******* */}
       <div
         className="ChatContent__container"
-        style={{ height: files.length === 0 ? "70px" : "140px" }}
-      >
+        style={{ height: files.length === 0 ? "70px" : "140px" }}>
         <div className="ChatContent__container__upload">
           <UploadImage
             onChangeFile={onChangeFile}
@@ -470,8 +462,7 @@ export const ChatContent = ({ chatInfo }) => {
               height: "30px",
               borderRadius: "10px",
             }}
-            multiple={true}
-          >
+            multiple={true}>
             <PictureOutlined style={{ color: "#1FCBA2", fontSize: "30px" }} />
           </UploadImage>
         </div>
@@ -486,8 +477,7 @@ export const ChatContent = ({ chatInfo }) => {
                     width: "40px",
                     marginLeft: "10px",
                     marginBottom: "10px",
-                  }}
-                >
+                  }}>
                   <img
                     alt=""
                     src={item.preview}
@@ -514,8 +504,7 @@ export const ChatContent = ({ chatInfo }) => {
             value={message}
             onKeyDown={onEnterPress}
             onChange={onInputChange}
-            maxLength={2000}
-          ></textarea>
+            maxLength={2000}></textarea>
         </div>
       </div>
     </div>
