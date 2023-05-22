@@ -50,8 +50,7 @@ export const logOut = (navigate, pathname) => async (dispatch) => {
 
 export const setupSocket = () => (dispatch) => {
   // window.location.protocol + "//" + window.location.host,http://localhost:3003
-  console.log(import.meta.env.REACT_APP_DB_BASE_URL);
-  const newSocket = io(import.meta.env.VITE_REACT_APP_DB_BASE_URL);
+  const newSocket = io("http://localhost:3003");
   newSocket.on("disconnect", () => {
     dispatch({ type: SET_SOCKET, payload: null });
     setTimeout(setupSocket, 3000);
