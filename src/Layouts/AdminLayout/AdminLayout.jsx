@@ -12,8 +12,10 @@ const AdminLayout = ({ type }) => {
   const user = useSelector((state) => state.userReducer?.currentUser?.user);
   const socket = useSelector((state) => state.userReducer.socket);
   useEffect(() => {
+    console.log(user);
     if (!socket) {
-      user && dispatch(setupSocket(user));
+      // socket.emit("connect");
+      dispatch(setupSocket());
     }
   }, [user]);
   return (
