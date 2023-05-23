@@ -484,7 +484,7 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={Number(data?.saleValue || 0).toLocaleString("it-IT", {
+              value={Number(data?.BookingValueBeforeDiscount - data?.BookingValue || 0).toLocaleString("it-IT", {
                 style: "currency",
                 currency: "VND",
               })}
@@ -850,7 +850,7 @@ const Detail = ({ modify = false }) => {
               // name="freeCancelationBefore"
             >
               <Input
-                value={CancleFreeDate}
+                value={data.OrderByTime ? data.FreeCancelByHour:data.FreeCancelByDate}
                 disabled
                 style={{ padding: "10px" }}
               />
