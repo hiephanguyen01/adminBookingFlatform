@@ -394,6 +394,7 @@ export const AffiliateStatistic = () => {
   };
   const setDataValueMap = (data) => {
     const groupedData = _.groupBy(data.data, "Date");
+    console.log("🚀 ~ setDataValueMap ~ data:", data);
 
     data = _.map(groupedData, (group) => {
       return _.reduce(
@@ -425,6 +426,7 @@ export const AffiliateStatistic = () => {
         };
       })
     );
+
     setTotal({
       Booking: _.sumBy(data, "Booking"),
       BookingValue: _.sumBy(data, "BookingValue"),
