@@ -49,3 +49,13 @@ export const converPriceVND = (price = 0) => {
     currency: "VND",
   });
 };
+
+export function commissionPercent(bl, value) {
+  let percent;
+  if (bl) {
+    percent = value?.AffiliateCommissionByHour;
+  } else {
+    percent = value?.AffiliateCommissionByDate;
+  }
+  return percent * 100 || 5;
+}
