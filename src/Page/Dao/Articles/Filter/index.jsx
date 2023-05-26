@@ -11,7 +11,6 @@ const Filter = (props) => {
         setConditionSelected([...conditionSelected, dateStrings]);
       }
     } else {
-      console.log("Xóa");
       setConditionSelected([...conditionSelected.slice(0, -1)]);
     }
   };
