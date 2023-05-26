@@ -11,12 +11,8 @@ const Filter = (props) => {
         setConditionSelected([...conditionSelected, dateStrings]);
       }
     } else {
-      setConditionSelected([
-        ...conditionSelected.filter((item) => {
-          if (item[0] !== undefined && item[0].includes("-")) return false;
-          return true;
-        }),
-      ]);
+      console.log("Xóa");
+      setConditionSelected([...conditionSelected.slice(0, -1)]);
     }
   };
   return (
