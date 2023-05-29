@@ -74,6 +74,7 @@ import { useState } from "react";
 
 const App = () => {
   const user = useSelector((state) => state.userReducer?.currentUser?.user);
+  const currentUser = useSelector((state) => state.userReducer?.currentUser);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -284,7 +285,7 @@ const App = () => {
         <Route path="/login" element={<Login />}></Route>
       </Routes>
 
-      <Chat />
+      {currentUser && <Chat />}
     </section>
   );
 };
