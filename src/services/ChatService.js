@@ -1,18 +1,17 @@
 import { BaseService } from "./baseService";
 
 class ChatService extends BaseService {
-  getConversation = (limit, page, id, partner) => {
+  getConversation = (limit, page, id, isPartner = 0, isUser = 0) => {
     return this.get(
-      `/api/chat/conversation-user?partner=${partner}&id=${id}&page=${page}&limit=${limit}`
+      `/api/chat/conversation-user?isUser=${isUser}&isPartner=${isPartner}&id=${id}&page=${page}&limit=${limit}`
     );
   };
-  createConversation = (PartnerId,UserId) => {
-    return this.post(
-        `/api/chat/conversation-user` , {
-            PartnerId, UserId,
-        }
-      );
-  }
+  createConversation = (PartnerId, UserId) => {
+    return this.post(`/api/chat/conversation-user`, {
+      PartnerId,
+      UserId,
+    });
+  };
   getAllConversation = (id, partner) => {
     return this.get(
       `/api/chat/conversation-user-all?partner=${partner}&id=${id}`
@@ -33,10 +32,8 @@ class ChatService extends BaseService {
       `/api/chat/message-user?page=${page}&limit=${limit}&ConversationId=${conversationId}`
     );
   };
-  getConversationById =( conversationId) => {
-    return this.get(
-      `/api/chat/conversation-user/${conversationId}`
-    );
+  getConversationById = (conversationId) => {
+    return this.get(`/api/chat/conversation-user/${conversationId}`);
   };
   sendMessage = (message) => {
     return this.post(`/api/chat/message-user`, message);

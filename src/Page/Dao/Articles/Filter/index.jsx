@@ -1,10 +1,15 @@
 import { Checkbox, Col, DatePicker, Row } from "antd";
 const { RangePicker } = DatePicker;
+
 const Filter = (props) => {
   const { conditionSelected, setConditionSelected, filterCondition } = props;
   const onRangeChange = (dates, dateStrings) => {
     if (dateStrings[0] !== "" && dateStrings !== undefined) {
-      setConditionSelected([...conditionSelected, dateStrings]);
+      if (Array.isArray(conditionSelected.at(-1))) {
+        setConditionSelected([...conditionSelected.slice(0, -1), dateStrings]);
+      } else {
+        setConditionSelected([...conditionSelected, dateStrings]);
+      }
     } else {
       setConditionSelected([
         ...conditionSelected.filter((item) => {
@@ -23,8 +28,6 @@ const Filter = (props) => {
               style={{
                 fontSize: "16.25px",
                 fontWeight: "500",
-                // display: "flex",
-                // alignItems: "center",
               }}
               onChange={(e) =>
                 e.target.checked
@@ -40,12 +43,12 @@ const Filter = (props) => {
                       } else {
                         return [...temp, item, dateString[0]];
                       }
-                      // return [...conditionSelected, item];
                     })
                   : setConditionSelected([
                       ...conditionSelected.filter((item2) => item2 != item),
                     ])
-              }>
+              }
+            >
               {item}
             </Checkbox>
           </Col>
@@ -58,13 +61,15 @@ const Filter = (props) => {
           display: "flex",
           flexDirection: "column",
           // alignItems: "center",
-        }}>
+        }}
+      >
         <label
           style={{
             alignSelf: "flex-start",
             fontSize: "15px",
             fontWeight: "400",
-          }}>
+          }}
+        >
           Ngày tạo
         </label>
         <RangePicker

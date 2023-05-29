@@ -1,8 +1,8 @@
-import { useState } from "react";
 import DaoArticlesList from "../../../Components/DaoComponent/DaoArticlesList";
 import "./article.scss";
 import Filter from "./Filter";
 import NewArticle from "./NewArticle";
+
 const Articles = ({
   conditionSelected,
   setConditionSelected,

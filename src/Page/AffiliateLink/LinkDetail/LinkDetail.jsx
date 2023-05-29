@@ -27,9 +27,9 @@ const LinkDetail = () => {
 
   const columns = [
     {
-      title: "Giá",
-      dataIndex: "price",
-      key: "price",
+      title: "Hoa hồng",
+      dataIndex: "label",
+      key: "label",
     },
     {
       title: "Tỉ lệ hoa hồng",
@@ -45,15 +45,11 @@ const LinkDetail = () => {
             onChange={(e) => handleChange(e, record)}
             onBlur={handleBlur}
             defaultValue={_ || 0}
-            maxLength={3}
+            min={0}
+            max={1}
           />
         </>
       ),
-    },
-    {
-      title: "Hoa hồng ",
-      dataIndex: "priceCommissions",
-      key: "priceCommissions",
     },
   ];
   //   <p>
@@ -66,12 +62,18 @@ const LinkDetail = () => {
       if (record.key === "1") {
         return {
           ...data,
-          AffiliateCommissionByDate: +value,
+          post: {
+            ...data.post,
+            AffiliateCommissionByDate: +value,
+          },
         };
       } else {
         return {
           ...data,
-          AffiliateCommissionByHour: +value,
+          post: {
+            ...data.post,
+            AffiliateCommissionByHour: +value,
+          },
         };
       }
     });
@@ -79,7 +81,7 @@ const LinkDetail = () => {
 
   const handleBlur = async () => {
     try {
-      await roomService.updateService(id, category, pageData);
+      await roomService.updateService(id, category, pageData.post);
       openNotification("success", "Cập nhật thành công");
     } catch (error) {
       openNotification("error", "Vui lòng thử lại sau");
@@ -89,23 +91,18 @@ const LinkDetail = () => {
   useEffect(() => {
     (async () => {
       const { data } = await roomService.getDetailService(id, category);
+      console.log("🚀 ~ data:", data);
       setPageData(data);
       setDataSource([
         {
           key: "1",
-          price: `${convertPrice(data?.PriceByDate)} đ/ngày`,
-          comissions: data.AffiliateCommissionByDate,
-          priceCommissions: `${convertPrice(
-            data?.PriceByDate * (data.AffiliateCommissionByDate || 0)
-          )} đ`,
+          label: `Tỉ lệ hoa hồng theo ngày`,
+          comissions: data.post.AffiliateCommissionByDate,
         },
         {
           key: "2",
-          price: `${convertPrice(data?.PriceByHour)} đ/giờ`,
-          comissions: data.AffiliateCommissionByHour,
-          priceCommissions: `${convertPrice(
-            data?.PriceByHour * (data.AffiliateCommissionByHour || 0)
-          )} đ`,
+          label: `Tỉ lệ hoa hồng theo giờ`,
+          comissions: data.post.AffiliateCommissionByHour,
         },
       ]);
     })();
@@ -129,7 +126,7 @@ const LinkDetail = () => {
       </div>
       <Divider />
       <div className="chile" style={{ padding: "20px" }}>
-        <h1 className="title">THÔNG TIN TÀI KHOẢN</h1>
+        <h1 className="title">THÔNG TIN</h1>
         <Divider />
         <Row>
           <Col sm={12}>
@@ -140,7 +137,7 @@ const LinkDetail = () => {
                 </Col>
                 <Col md={16}>
                   <div className="value">
-                    :&emsp;&emsp;&emsp;{pageData?.Name}
+                    :&emsp;&emsp;&emsp;{pageData?.post?.Name}
                   </div>
                 </Col>
               </Row>
@@ -179,7 +176,9 @@ const LinkDetail = () => {
                     :&emsp;&emsp;&emsp;
                     <a
                       target="_blank"
-                      href={`https://bookingstudio.vn/home/${pageData?.label?.toLowerCase()}/`}>
+                      href={`https://bookingstudio.vn/home/${pageData?.label?.toLowerCase()}/${
+                        pageData?.post?.id
+                      }`}>
                       {`https://bookingstudio.vn/home/${pageData?.label?.toLowerCase()}/${
                         pageData?.post?.id
                       }`}

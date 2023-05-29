@@ -41,7 +41,7 @@ class Affiliate extends BaseService {
   };
   statisticDataAdmin = (option, date = "") => {
     return this.get(
-      `/api/statistic/get-affiliate-statistic-admin?option=${option}&date=${date}`
+      `/api/statistic/get-affiliate-statistic-admin-2?option=${option}&date=${date}`
     );
   };
   getAllStatisticByPublisher = (option, date = "") => {

@@ -96,11 +96,11 @@ export const AffiliateStatistic = () => {
         (async () => {
           try {
             let dateTime = {
-              startDate: moment(date.picker[0]).toISOString(),
-              endDate: moment(date.picker[1]).toISOString(),
+              startDate: moment(date.picker[0], "DD/MM/YYYY").toISOString(),
+              endDate: moment(date.picker[1], "DD/MM/YYYY").toISOString(),
             };
             dateTime = JSON.stringify(dateTime);
-            const { data } = await affiliateService.statisticData(
+            const { data } = await affiliateService.statisticDataAdmin(
               currentOption,
               dateTime
             );

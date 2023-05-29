@@ -7,13 +7,19 @@ import {
 } from "../../../store/action/PostDaoAction";
 import DaoPost from "../DaoPost";
 import moment from "moment";
+import {
+  GET_LIST_POST,
+  GET_PAGINATE_POSIBILITY,
+} from "../../../store/types/postDaoType";
 
 moment().format();
 const DaoArticlesList = ({ conditionSelected, violate = false }) => {
   const [filter, setFilter] = useState({
     page: 1,
     limit: 5,
-    tags: [],
+    tags: "",
+    startDate: null,
+    endDate: null,
   });
   const [post, setPost] = useState({
     tags: [],
@@ -29,73 +35,17 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
       dispatch(
         getAllReportedDaoAction(listReportedDao, {
           limit: filter.limit,
-          page: pagination.currentPage + 1,
+          page: pagination?.currentPage ? pagination.currentPage + 1 : 1,
         })
       );
     } else {
       dispatch(
         getAllPostDaoAction(listPost, {
           ...filter,
-          page: pagination.currentPage + 1,
+          page: pagination?.currentPage ? pagination.currentPage + 1 : 1,
         })
       );
     }
-  };
-
-  const filteringPost = (item) => {
-    if (conditionSelected.length === 0) {
-      return true;
-    }
-    let tags = item.Tags.split(",");
-    let flag = false;
-    conditionSelected.every((item2, idx) => {
-      tags.every((item3) => {
-        if (
-          item2 !== undefined &&
-          !Array.isArray(item2) &&
-          item2.toLowerCase().includes(item3)
-        ) {
-          flag = true;
-          return false;
-        } else {
-          return true;
-        }
-      });
-      //Cái array dateString sẽ nằm ở vị trí cuối của conditionSelected
-      if (Array.isArray(item2) && idx === conditionSelected.length - 1) {
-        let leftLimit =
-          moment(moment(item?.CreationTime).format("YYYY/MM/DD")).isAfter(
-            moment(item2[0]).format("YYYY/MM/DD")
-          ) ||
-          moment(moment(item?.CreationTime).format("YYYY/MM/DD")).isSame(
-            moment(item2[0]).format("YYYY/MM/DD")
-          );
-
-        let rightLimit =
-          moment(moment(item2[1]).format("YYYY/MM/DD")).isAfter(
-            moment(item?.CreationTime).format("YYYY/MM/DD")
-          ) ||
-          moment(moment(item2[1]).format("YYYY/MM/DD")).isSame(
-            moment(item?.CreationTime).format("YYYY/MM/DD")
-          );
-        if (
-          leftLimit &&
-          rightLimit &&
-          flag === true &&
-          conditionSelected.length > 1
-        ) {
-          flag = true;
-        } else {
-          flag = false;
-        }
-      }
-      if (flag) return false;
-      return true;
-    });
-    if (flag === true) {
-      return true;
-    }
-    return false;
   };
 
   useEffect(() => {
@@ -109,6 +59,61 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
       );
     }
   }, [filter, dispatch]);
+
+  // *** update filter state ***
+  useEffect(() => {
+    if (conditionSelected) {
+      // *** Reset list when a new filter is apply ***
+      dispatch({
+        type: GET_LIST_POST,
+        data: [],
+      });
+
+      dispatch({
+        type: GET_PAGINATE_POSIBILITY,
+        data: {},
+      });
+      // *****************
+
+      let dateCondition = conditionSelected.at(-1);
+      let tagListSeperateByComma;
+      let index = -1;
+      if (Array.isArray(dateCondition)) {
+        tagListSeperateByComma = conditionSelected
+          .slice(0, -1)
+          .reduce((total, curr) => {
+            ++index;
+            return index === conditionSelected.slice(0, -1).length - 1
+              ? total + curr
+              : total + curr + ",";
+          }, "");
+      } else {
+        dateCondition = null;
+        tagListSeperateByComma = conditionSelected.reduce((total, curr) => {
+          ++index;
+          return index === conditionSelected.length - 1
+            ? total + curr
+            : total + curr + ",";
+        }, "");
+      }
+
+      if (Array.isArray(dateCondition)) {
+        setFilter({
+          page: pagination ? 1 : pagination.currentPage + 1,
+          limit: 5,
+          tags: tagListSeperateByComma,
+          startDate: dateCondition[0],
+          endDate: dateCondition[1],
+        });
+      } else {
+        setFilter({
+          page: pagination ? 1 : pagination.currentPage + 1,
+          limit: 5,
+          tags: tagListSeperateByComma,
+        });
+      }
+    }
+  }, [conditionSelected]);
 
   return (
     <section className="dao-articles">
@@ -126,10 +131,11 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
               <b>Yay! You have seen it all</b>
             </div>
           }
-          scrollableTarget="paper">
+          scrollableTarget="paper"
+        >
           {violate
             ? listReportedDao
-                .filter((item) => filteringPost(item))
+                // .filter((item) => filteringPost(item))
                 .map(
                   (item) =>
                     !item.IsDeleted && (
@@ -142,7 +148,7 @@ const DaoArticlesList = ({ conditionSelected, violate = false }) => {
                     )
                 )
             : listPost
-                .filter((item) => filteringPost(item))
+                // .filter((item) => filteringPost(item))
                 .map(
                   (item) =>
                     !item.IsDeleted && (
