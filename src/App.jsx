@@ -69,6 +69,7 @@ import RankReport from "./Page/RankReport/RankReport";
 import { getCurrentUser } from "./store/action/authAction";
 import Chat from "./Components/Chat/Chat";
 import EmailService from "./Page/CoreSetting/EmailServices";
+import AffiliateStatisticDetail from "./Page/affiliateStatistic/Detail";
 
 import { useState } from "react";
 
@@ -275,6 +276,7 @@ const App = () => {
                 element={<AffiliateCommission />}
               ></Route>
               <Route path="statistic" element={<AffiliateStatistic />}></Route>
+              <Route path="statistic/:id" element={<AffiliateStatisticDetail />}></Route>
               <Route
                 path="data-export"
                 element={<DataExportAffiliate />}

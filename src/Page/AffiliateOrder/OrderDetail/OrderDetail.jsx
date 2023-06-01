@@ -177,10 +177,7 @@ const OrderDetail = () => {
               <Col sm={24} xs={24} md={16}>
                 <div className="value">
                   :&emsp;&emsp;&emsp;
-                  {commissionPercent(
-                    data?.OrderByTime,
-                    data?.StudioRoom?.StudioPost
-                  )}
+                  {data.CommissionPercent*100}
                   %
                 </div>
               </Col>

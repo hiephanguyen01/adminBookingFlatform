@@ -116,13 +116,16 @@ const Detail = ({ modify = false }) => {
     return refundValue;
   };
   console.log("refundValue", refundValue(data));
-  const CancleFreeDate = moment(data?.CreationTime)
-    .add(
+  const CancleFreeDate = moment(
+    data?.OrderByTime ? data?.OrderByTimeFrom : data?.OrderByDateFrom
+  )
+    .subtract(
       data?.OrderByTime
         ? data?.FreeCancelByHour?.match(/\d+/g)[0]
         : data?.FreeCancelByDate?.match(/\d+/g)[0],
       `${data?.OrderByTime ? "hours" : "days"}`
     )
+    .utc()
     .format("DD/MM/YYYY HH:mm A");
   const depositPercent = data?.OrderByTime
     ? data?.CancelPriceByHour
@@ -469,7 +472,7 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={data?.PromoCodeId}
+              value={data?.SaleCode?.SaleCode}
               style={{ padding: "10px" }}
             />
           </Form.Item>
@@ -484,7 +487,9 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={Number(data?.BookingValueBeforeDiscount - data?.BookingValue || 0).toLocaleString("it-IT", {
+              value={Number(
+                data?.BookingValueBeforeDiscount - data?.BookingValue || 0
+              ).toLocaleString("it-IT", {
                 style: "currency",
                 currency: "VND",
               })}
@@ -850,7 +855,11 @@ const Detail = ({ modify = false }) => {
               // name="freeCancelationBefore"
             >
               <Input
-                value={data.OrderByTime ? data.FreeCancelByHour:data.FreeCancelByDate}
+                value={
+                  data.OrderByTime
+                    ? data.FreeCancelByHour
+                    : data.FreeCancelByDate
+                }
                 disabled
                 style={{ padding: "10px" }}
               />
