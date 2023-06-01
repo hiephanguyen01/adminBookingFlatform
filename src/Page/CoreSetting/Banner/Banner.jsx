@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import classNames from "classnames/bind";
 
 import styles from "./banner.module.scss";
@@ -12,7 +12,13 @@ import {
   Table,
   Tag,
 } from "antd";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  DownOutlined,
+  EditOutlined,
+  PlusOutlined,
+  UpOutlined,
+} from "@ant-design/icons";
 import { convertImage } from "../../../../utils/convert";
 import { bannerService } from "../../../services/Banner";
 import toastMessage from "../../../Components/ToastMessage";
@@ -27,11 +33,12 @@ const Banner = () => {
   const [currentBanner, setCurrentBanner] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const getAllBanners = useCallback(async () => {
+    const res = await bannerService.getAllBanner();
+    setBanners(res.data.data);
+  }, []);
+
   useEffect(() => {
-    const getAllBanners = async () => {
-      const res = await bannerService.getAllBanner();
-      setBanners(res.data.data);
-    };
     getAllBanners();
   }, []);
 
@@ -67,6 +74,19 @@ const Banner = () => {
       setBanners(newBanners);
       toastMessage("Cập nhật banner thành công!", "success");
     } catch (error) {}
+  };
+
+  const handleChangePriority = async (value, increase) => {
+    try {
+      await bannerService.updateBanner(
+        value.id,
+        {},
+        `?increase=${increase ? 1 : 0}`
+      );
+      getAllBanners();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDeleteBanner = async () => {
@@ -143,6 +163,25 @@ const Banner = () => {
       ),
       width: 200,
     },
+    {
+      title: "Thứ tự hiển thị",
+      key: "action",
+      render: (value) => (
+        <Space size="middle" direction="vertical" style={{ gap: "5px" }}>
+          <Button
+            disabled={value?.Priority === 1}
+            onClick={() => handleChangePriority(value, true)}
+            icon={<UpOutlined />}
+          />
+          <Button
+            disabled={value?.Priority === banners[banners.length - 1].Priority}
+            onClick={() => handleChangePriority(value, false)}
+            icon={<DownOutlined />}
+          />
+        </Space>
+      ),
+      width: 150,
+    },
   ];
 
   return (
@@ -153,7 +192,8 @@ const Banner = () => {
           <Button
             type="primary"
             style={{ backgroundColor: "#1677ff" }}
-            size="large">
+            size="large"
+          >
             <PlusOutlined />
             Tạo banner
           </Button>
@@ -186,7 +226,8 @@ const Banner = () => {
           <Button type="primary" onClick={handleOk}>
             Đồng ý
           </Button>,
-        ]}>
+        ]}
+      >
         Bạn có muốn xóa banner "{currentBanner.Name}" này không?
       </Modal>
     </div>
