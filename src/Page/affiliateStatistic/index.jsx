@@ -1,4 +1,8 @@
-import { ExclamationCircleOutlined, SearchOutlined } from "@ant-design/icons";
+import {
+  ExclamationCircleOutlined,
+  EyeOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import {
   Button,
   Col,
@@ -8,6 +12,7 @@ import {
   Modal,
   Row,
   Select,
+  Space,
   Table,
   Tag,
 } from "antd";
@@ -23,6 +28,7 @@ import ValueOrderIcon from "../../assets/images/valueOrder";
 import LineChartComponent from "../../Components/recharts/LineChartComponent";
 import { affiliateService } from "../../services/AffiliateService";
 import classes from "./statistic.module.scss";
+import { Link, useNavigate } from "react-router-dom";
 
 const { RangePicker } = DatePicker;
 
@@ -36,14 +42,14 @@ const optionSelect = [
     label: "Tìm theo ID dịch vụ/sản phẩm",
     value: "2",
   },
-  {
-    label: "Tìm theo ID bài đăng",
-    value: "3",
-  },
-  {
-    label: "Tìm theo tên dịch vụ/sản phẩm",
-    value: "4",
-  },
+  // {
+  //   label: "Tìm theo ID bài đăng",
+  //   value: "3",
+  // },
+  // {
+  //   label: "Tìm theo tên dịch vụ/sản phẩm",
+  //   value: "4",
+  // },
 ];
 
 export const AffiliateStatistic = () => {
@@ -60,6 +66,7 @@ export const AffiliateStatistic = () => {
     Click: 0,
     Commission: 0,
   });
+  const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
   const [filter, setFilter] = useState({ productId: "", publisherId: "" });
   const [optionFilter, setOptionFilter] = useState(1);
@@ -192,7 +199,18 @@ export const AffiliateStatistic = () => {
         return "Số đơn đặt";
       case 2:
         return "Giá trị đơn đặt(VND)";
-
+      case 4:
+        return "Hoa hồng(VND)";
+    }
+  };
+  const columnHandlerPublisher = (active) => {
+    switch (active) {
+      case 1:
+        return "Số đơn đặt";
+      case 3:
+        return "Số đơn đặt";
+      case 2:
+        return "Số đơn đặt";
       case 4:
         return "Hoa hồng(VND)";
     }
@@ -202,7 +220,7 @@ export const AffiliateStatistic = () => {
       case 1:
         return <p>{value?.totalOrder}</p>;
       case 3:
-        return <p>{value?.totalPriceOrder}</p>;
+        return <p>{value?.totalOrder}</p>;
       case 2:
         return (
           <p>
@@ -217,6 +235,25 @@ export const AffiliateStatistic = () => {
         return (
           <p>
             {value?.totalComission?.toLocaleString("it-IT", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </p>
+        );
+    }
+  };
+  const columnValueHandlerPublisher = (active, value) => {
+    switch (active) {
+      case 1:
+        return <p>{value?.totalOrder}</p>;
+      case 3:
+        return <p>{value?.totalOrder}</p>;
+      case 2:
+        return <p>{value?.totalOrder}</p>;
+      case 4:
+        return (
+          <p>
+            {value?.totalAffiliateCommission?.toLocaleString("it-IT", {
               style: "currency",
               currency: "VND",
             })}
@@ -270,17 +307,29 @@ export const AffiliateStatistic = () => {
         );
       },
     },
-    {
-      // title: columnHandler(active),
-      title: "% Hoa hồng",
-      key: "commissionPercent",
-      dataIndex: "commissionPercent",
-      // render: (i, d) => columnValueHandler(active, d),
-    },
+    // {
+    //   // title: columnHandler(active),
+    //   title: "% Hoa hồng",
+    //   key: "commissionPercent",
+    //   dataIndex: "commissionPercent",
+    //   // render: (i, d) => columnValueHandler(active, d),
+    // },
     {
       title: columnHandler(active.id),
       key: "action",
       render: (i, _) => columnValueHandler(active.id, _),
+    },
+    {
+      title: "Hành động",
+      render: (_, record) => (
+        <Space size="middle">
+          <Button
+            shape="circle"
+            icon={<EyeOutlined />}
+            onClick={() => navigate(`${_?.id}?category=${_?.category}`)}
+          />
+        </Space>
+      ),
     },
   ];
   const columnsPublisher = [
@@ -317,18 +366,18 @@ export const AffiliateStatistic = () => {
         );
       },
     },
+    // {
+    //   // title: columnHandler(active),
+    //   title: "Đường dẫn trang web",
+    //   key: "",
+    //   dataIndex: "",
+    //   // render: (i, d) => columnValueHandler(active, d),
+    // },
     {
-      // title: columnHandler(active),
-      title: "Đường dẫn trang web",
-      key: "",
-      dataIndex: "",
-      // render: (i, d) => columnValueHandler(active, d),
-    },
-    {
-      title: "Đơn đặt",
+      title: columnHandlerPublisher(active.id),
       key: "action",
-      // render: (i, _) => columnValueHandler(active.id, _),
-      dataIndex: "totalOrder",
+      render: (i, _) => columnValueHandlerPublisher(active.id, _),
+      // dataIndex: "totalOrder",
     },
   ];
   const optionSearchHandler = (e) => {
@@ -442,7 +491,8 @@ export const AffiliateStatistic = () => {
               <Select
                 defaultValue={1}
                 style={{ width: "10rem" }}
-                onChange={onChange}>
+                onChange={onChange}
+              >
                 {items.map((item) => (
                   <Option key={item.label} value={item.value}>
                     {item.label}
@@ -462,18 +512,21 @@ export const AffiliateStatistic = () => {
                     onClick={() => setActive(item)}
                     className={`${classes.boxItem} ${
                       active.id === item.id && classes.active
-                    } `}>
+                    } `}
+                  >
                     <div
                       style={{
                         display: "flex",
                         alignItems: "center",
                         gap: ".5rem",
                       }}
-                      className={classes.itemTop}>
+                      className={classes.itemTop}
+                    >
                       <div className={`${classes.icon}`}>{item.icon}</div>
                       <span
                         className={classes.text}
-                        style={{ fontSize: "1.2rem" }}>
+                        style={{ fontSize: "1.2rem" }}
+                      >
                         {item.label}
                       </span>
                       <ExclamationCircleOutlined />
@@ -497,7 +550,8 @@ export const AffiliateStatistic = () => {
                 flex: "1 1 ",
                 alignItems: "start",
                 width: "100%",
-              }}>
+              }}
+            >
               <div
                 style={{
                   // paddingBottom: "1.5rem",
@@ -506,7 +560,8 @@ export const AffiliateStatistic = () => {
                   width: "60%",
                   flexDirection: "column",
                   gap: ".5rem",
-                }}>
+                }}
+              >
                 <h3>TỔNG ĐƠN ĐẶT THEO TỪNG LOẠI DỊCH VỤ/SẢN PHẨM</h3>
                 <p>(Tổng đơn đặt được tạo từ Affiliate Program)</p>
               </div>
@@ -554,7 +609,8 @@ export const AffiliateStatistic = () => {
                 flex: "1 1 ",
                 alignItems: "start",
                 width: "100%",
-              }}>
+              }}
+            >
               <div
                 style={{
                   // paddingBottom: "1.5rem",
@@ -563,7 +619,8 @@ export const AffiliateStatistic = () => {
                   width: "60%",
                   flexDirection: "column",
                   gap: ".5rem",
-                }}>
+                }}
+              >
                 <h3>TỔNG ĐƠN ĐẶT THEO TỪNG TÀI KHOẢN PUBLISHER</h3>
                 <p>(Tổng đơn đặt được tạo từ Affiliate Program)</p>
               </div>
@@ -610,13 +667,15 @@ export const AffiliateStatistic = () => {
               OK
             </Button>,
           ]}
-          onCancel={() => setOpen(false)}>
+          onCancel={() => setOpen(false)}
+        >
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               padding: "20px",
-            }}>
+            }}
+          >
             <RangePicker onChange={onChangeDate} format="DD/MM/YYYY" />
           </div>
         </Modal>

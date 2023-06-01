@@ -1,0 +1,144 @@
+.statistic {
+  color: #1f1f1f;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  box-shadow: 0px 0px 8px 2px rgba(45, 62, 77, 0.02);
+  .top {
+    padding-bottom: 0;
+    background-color: #fff;
+    .title {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0px 0px 8px 2px rgba(45, 62, 77, 0.02);
+      border-radius: 4px;
+
+      h1 {
+        font-weight: 700;
+        font-size: 20px;
+        color: #1f1f1f;
+      }
+    }
+    .tabs {
+      .ant-tabs-nav {
+        margin: 0;
+      }
+    }
+  }
+  .content {
+    padding: 1.6rem 1rem;
+    .boxItem {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1.2rem 1.5rem;
+      border: 1px solid #dedede;
+      border-radius: 8px;
+      transition: all 0.5s;
+      &.active {
+        border-right: 4px solid #e22828;
+        .itemTop {
+          .icon {
+            background-color: #ffe1e1;
+          }
+          .text {
+            color: #e22828;
+          }
+        }
+        .text {
+          color: #e22828;
+        }
+      }
+    }
+  }
+  .table {
+    background-color: #fff;
+    margin-top: 3rem;
+  }
+}
+.icon {
+  width: 26px;
+  height: 26px;
+  background-color: #efefef;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  // &.active {
+  //     background-color: #ffe1e1;
+  // }
+}
+
+.detail {
+  color: #1f1f1f;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  box-shadow: 0px 0px 8px 2px rgba(45, 62, 77, 0.02);
+  background-color: #fff;
+
+  padding: 1rem 1.5rem;
+
+  .top {
+    padding-bottom: 0;
+    .title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 2rem;
+      box-shadow: 0px 0px 8px 2px rgba(45, 62, 77, 0.02);
+      border-radius: 4px;
+
+      h1 {
+        font-weight: 700;
+        font-size: 20px;
+        color: #1f1f1f;
+      }
+    }
+    .tabs {
+      .ant-tabs-nav {
+        margin: 0;
+      }
+    }
+  }
+  .title {
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 22px;
+    /* identical to box height */
+
+    /* Black 5 */
+
+    color: #181818;
+  }
+  .infoOder {
+    margin-top: 1rem;
+    .itemInfo {
+      & + .itemInfo {
+        margin-top: 1.2rem;
+      }
+      .label {
+        font-weight: 700;
+        font-size: 1rem;
+
+        color: #3f3f3f;
+      }
+      .value {
+        font-weight: 400;
+        font-size: 1rem;
+
+        color: #3f3f3f;
+
+        &.number {
+          font-weight: 800;
+          font-size: 1rem;
+
+          color: #03ac84;
+        }
+      }
+    }
+  }
+}

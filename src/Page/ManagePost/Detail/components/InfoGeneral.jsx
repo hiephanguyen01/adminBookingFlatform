@@ -39,14 +39,18 @@ export const InfoGeneral = ({ data }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}>
+        style={{ marginTop: "20px" }}
+      >
         <Row gutter={32}>
           <Col span={12}>
             <Form.Item
               label="Số định danh "
               // name="Id"
             >
-              <Input value={data.IdentifierCode} style={{ padding: "10px" }} />
+              <Input
+                value={`PAR-${("0000000000" + data.TenantId).slice(-10)}`}
+                style={{ padding: "10px" }}
+              />
             </Form.Item>
             <Form.Item
               label="Tiêu đề"
@@ -59,7 +63,7 @@ export const InfoGeneral = ({ data }) => {
               // name="Id"
             >
               <Input
-                value={`${data.OpenMorningHour}:${data.OpenMorningMinutes} am`}
+                value={`${data.OpenMorningHour||"00"}:${data.OpenMorningMinutes||"00"} am - ${data.CloseMorningHour}:${data.CloseMorningMinutes||"00"} pm`}
                 style={{ padding: "10px" }}
               />
             </Form.Item>{" "}
@@ -68,7 +72,11 @@ export const InfoGeneral = ({ data }) => {
               // name="Id"
             >
               <Input
-                value={`${data.OpenAfternoonHour}:${data.OpenAfternoonMinutes} pm`}
+                value={`${data.OpenAfternoonHour||"00"}:${
+                  data.OpenAfternoonMinutes
+                } pm - ${data.CloseAfternoonHour}:${
+                  data.CloseAfternoonMinutes || "00"
+                } pm`}
                 style={{ padding: "10px" }}
               />
             </Form.Item>
@@ -124,7 +132,7 @@ export const InfoGeneral = ({ data }) => {
               label="Mã bài đăng"
               // name="Id"
             >
-              <Input value={data.id} style={{ padding: "10px" }} />
+              <Input value={data.IdentifierCode} style={{ padding: "10px" }} />
             </Form.Item>
             <Form.Item
               label="Địa chỉ"

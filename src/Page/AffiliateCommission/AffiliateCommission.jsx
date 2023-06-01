@@ -192,7 +192,7 @@ const AffiliateCommission = () => {
       //   multiple: 1,
       // },
       render: (_, record) => (
-        <p>{commissionPercent(_?.OrderByTime, _?.StudioRoom?.StudioPost)}%</p>
+        <p>{_.CommissionPercent*100||5}%</p>
       ),
     },
     {
