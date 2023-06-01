@@ -91,7 +91,6 @@ const LinkDetail = () => {
   useEffect(() => {
     (async () => {
       const { data } = await roomService.getDetailService(id, category);
-      console.log("🚀 ~ data:", data);
       setPageData(data);
       setDataSource([
         {
