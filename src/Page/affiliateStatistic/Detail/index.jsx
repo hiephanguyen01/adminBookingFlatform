@@ -17,7 +17,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { affiliateService } from "../../../services/AffiliateService";
 
 import classes from "./statistic.module.scss";
-import { useLocation, useParams, useRoutes } from "react-router-dom";
+import { useLocation, useNavigate, useParams, useRoutes } from "react-router-dom";
 import { IMG } from "../../../../utils/baseURL";
 import { converPriceVND, convertTimeUTC } from "../../../../utils/convert";
 import { openNotification } from "../../../../utils/Notification";
@@ -34,7 +34,7 @@ const AffiliateStatisticDetail = ({}) => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const category = searchParams.get("category");
-
+const navigate  = useNavigate()
   const [arrow, setArrow] = useState("Show");
   let text =
     "Tổng hoa hồng cho những đơn đặt hoàn tất từ các liên kết mà bạn chia sẻ";
@@ -262,9 +262,7 @@ const AffiliateStatisticDetail = ({}) => {
             <Breadcrumb>
               <Breadcrumb.Item
                 onClick={() => {
-                  router.push({
-                    pathname: "/manager/statistic",
-                  });
+                    navigate(-1)
                 }}
               >
                 <a>Tổng đơn đặt theo từng loại dịch vụ</a>
@@ -406,7 +404,7 @@ const AffiliateStatisticDetail = ({}) => {
                   </Col>
                   <Col span={16}>
                     <span className={`${classes.value} ${classes.number}`}>
-                      {data.result}
+                      {data?.data?.length}
                     </span>
                   </Col>
                 </Row>

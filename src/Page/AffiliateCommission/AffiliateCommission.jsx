@@ -147,9 +147,9 @@ const AffiliateCommission = () => {
       render: (_, record) => (
         <p>
           {record?.StudioRoom?.StudioPost?.id ||
-            record?.PhotographerServicePackage?.PhotographerPost?.Id ||
-            record?.MakeupServicePackage?.MakeupPost?.Id ||
-            record?.ModelServicePackage?.ModelPost?.Id}
+            record?.PhotographerServicePackage?.PhotographerPost?.id ||
+            record?.MakeupServicePackage?.MakeupPost?.id ||
+            record?.ModelServicePackage?.ModelPost?.id}
         </p>
       ),
     },
