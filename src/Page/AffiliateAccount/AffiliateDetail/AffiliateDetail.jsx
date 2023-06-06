@@ -104,7 +104,7 @@ const AffiliateDetail = () => {
             marginRight: "20px",
             width: "300px",
           }}>
-          Customer Service
+          Yêu cầu chỉnh sửa
         </Button>
       </div>
       <ModalRequired

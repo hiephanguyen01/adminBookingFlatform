@@ -1,5 +1,5 @@
 import { AliwangwangOutlined, BellOutlined } from "@ant-design/icons";
-import { Button, Col, Modal, Popover, Row, Tag } from "antd";
+import { Button, Col, Modal, Popover, Row, Tag, Tabs } from "antd";
 import moment from "moment";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -108,15 +108,53 @@ const Header = () => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={false}>
-        <Row gutter={[10, 10]}>
-          {notiList
-            ? notiList?.map((val) => (
-                <Col md={24} sm={24} xs={24} key={val.id}>
-                  <NotiCard value={val} setIsModalOpen={setIsModalOpen} />
-                </Col>
-              ))
-            : ""}
-        </Row>
+        <Tabs
+          defaultActiveKey={1}
+          type="card"
+          size="large"
+          items={[
+            {
+              label: `Chưa đọc`,
+              key: 1,
+              children: (
+                <Row gutter={[10, 10]}>
+                  {notiList
+                    ? notiList
+                        ?.filter((no) => !no.isReaded)
+                        .map((val) => (
+                          <Col md={24} sm={24} xs={24} key={val.id}>
+                            <NotiCard
+                              value={val}
+                              setIsModalOpen={setIsModalOpen}
+                            />
+                          </Col>
+                        ))
+                    : ""}
+                </Row>
+              ),
+            },
+            {
+              label: "Đã đọc",
+              key: 2,
+              children: (
+                <Row gutter={[10, 10]}>
+                  {notiList
+                    ? notiList
+                        ?.filter((no) => no.isReaded)
+                        .map((val) => (
+                          <Col md={24} sm={24} xs={24} key={val.id}>
+                            <NotiCard
+                              value={val}
+                              setIsModalOpen={setIsModalOpen}
+                            />
+                          </Col>
+                        ))
+                    : ""}
+                </Row>
+              ),
+            },
+          ]}
+        />
       </Modal>
       <Row style={{ width: "100%" }}>
         <Col md={4} sm={4} xs={4} style={{ textAlign: "start" }}>
