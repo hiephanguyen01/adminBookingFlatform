@@ -264,7 +264,7 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              defaultValue={`CUS-${("0000000000" + data.CreatorUserId).slice(
+              defaultValue={`CUS-${("0000000000" + data?.BookingUserId).slice(
                 -10
               )}`}
               style={{ padding: "10px" }}

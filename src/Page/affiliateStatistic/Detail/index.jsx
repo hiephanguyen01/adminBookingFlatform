@@ -347,7 +347,7 @@ const navigate  = useNavigate()
                   </Col>
                   <Col span={16}>
                     <span className={classes.value}>
-                      {data.info?.RegisterPartner.PartnerName}
+                      {data.info?.RegisterPartner?.PartnerName}
                     </span>
                   </Col>
                 </Row>
