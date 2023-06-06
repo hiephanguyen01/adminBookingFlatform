@@ -10,6 +10,9 @@ class Affiliate extends BaseService {
   details = (usedId) => {
     return this.get(`/api/affiliate/details/${usedId}`);
   };
+  sendRequest = (text, usedId) => {
+    return this.post(`/api/affiliate/send-request/${usedId}`, text);
+  };
   me = () => {
     return this.get(`/api/affiliate/me`);
   };
