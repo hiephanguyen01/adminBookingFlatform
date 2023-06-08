@@ -115,7 +115,7 @@ const Detail = ({ modify = false }) => {
     }
     return refundValue;
   };
-  console.log("refundValue", refundValue(data));
+
   const CancleFreeDate = moment(
     data?.OrderByTime ? data?.OrderByTimeFrom : data?.OrderByDateFrom
   )
@@ -168,6 +168,44 @@ const Detail = ({ modify = false }) => {
       console.log(error);
       openNotification("error", "Cập nhật thất bại!");
       setLoadingBtn(false);
+    }
+  };
+
+  const handlerPostId = (category) => {
+    switch (Number(category)) {
+      case 1:
+        return `STD-${("0000000000" + data?.StudioRoom?.StudioPostId).slice(
+          -10
+        )}`;
+
+      case 2:
+        return `PTG-${(
+          "0000000000" + data?.PhotographerServicePackage?.PhotographerPostId
+        ).slice(-10)}`;
+
+      case 3:
+        return `CLT-${(
+          "0000000000" + data?.PhotographerServicePackage?.PhotographerPostId
+        ).slice(-10)}`;
+
+      case 4:
+        return `MKP-${(
+          "0000000000" + data?.MakeupServicePackage?.MakeupPostId
+        ).slice(-10)}`;
+
+      case 5:
+        return `DVC-${(
+          "0000000000" + data?.MakeupServicePackage?.MakeupPostId
+        ).slice(-10)}`;
+
+
+      case 6:
+        return `MDL-${(
+          "0000000000" + data?.ModelServicePackage?.ModelPostId
+        ).slice(-10)}`;
+
+      default:
+        break;
     }
   };
   return (
@@ -281,12 +319,7 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={
-                data?.StudioRoom?.StudioPostId ||
-                data?.PhotographerServicePackage?.PhotographerPostId ||
-                data?.MakeupServicePackage?.MakeupPostId ||
-                data?.ModelServicePackage?.ModelPostId
-              }
+              value={handlerPostId(state.category)}
               style={{ padding: "10px" }}
             />
           </Form.Item>

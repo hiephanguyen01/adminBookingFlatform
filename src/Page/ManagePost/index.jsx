@@ -79,7 +79,7 @@ export const ManagePost = () => {
   const column = [
     {
       title: "Mã bài đăng",
-      dataIndex: "id",
+      dataIndex: "Id",
       render: (value) => <strong>{value}</strong>,
     },
     {
