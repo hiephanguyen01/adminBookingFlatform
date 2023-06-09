@@ -3,7 +3,7 @@ import React from "react";
 import "./ChatUser.scss";
 import moment from "moment";
 import { useState, useEffect /* , useRef */ } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   onlinePartnerSelector,
   offlinePartnerSelector,
@@ -12,7 +12,7 @@ import { chatService } from "../../../../services/ChatService";
 import { HandleImg } from "../../../HandleImg/HandleImg";
 
 export const ChatUser = React.memo(
-  ({ userInfo, toggleState, toggleClick, setToggleState }) => {
+  ({ id, userInfo, toggleState, toggleClick, setToggleState }) => {
     const onlinePartnerList = useSelector(onlinePartnerSelector);
     const offlinePartnerList = useSelector(offlinePartnerSelector);
     const [isRead, setIsRead] = useState(false);
@@ -20,6 +20,10 @@ export const ChatUser = React.memo(
     const [lastMessage, setLastMessage] = useState(
       userInfo.newestMessage ? userInfo.newestMessage : null
     );
+    const dispatch = useDispatch();
+    const readMessage = async () => {
+      await chatService.readMessage(id);
+    };
 
     const name = userInfo?.UserId
       ? userInfo.UserId?.Username
@@ -38,17 +42,17 @@ export const ChatUser = React.memo(
         setLastMessage(userInfo.newestMessage);
       }
     }, [userInfo]);
-    // useEffect(() => {
-    //   setIsOnline(onlinePartnerList.includes(userInfo?.AdminId?.id));
-    // }, [onlinePartnerList]);
-    // useEffect(() => {
-    //   setIsOnline(offlinePartnerList.includes(userInfo?.AdminId?.id));
-    // }, [offlinePartnerList]);
-    // useEffect(() => {
-    //   return () => {
-    //     setToggleState(1);
-    //   };
-    // }, []);
+    useEffect(() => {
+      //   setIsOnline(onlinePartnerList.includes(userInfo?.AdminId?.id));
+      // }, [onlinePartnerList]);
+      // useEffect(() => {
+      //   setIsOnline(offlinePartnerList.includes(userInfo?.AdminId?.id));
+      // }, [offlinePartnerList]);
+      // useEffect(() => {
+      //   return () => {
+      //     setToggleState(1);
+      //   };
+    }, []);
     return (
       <div
         style={{
@@ -62,6 +66,8 @@ export const ChatUser = React.memo(
         onClick={() => {
           toggleClick(userInfo.id);
           setIsRead(true);
+          readMessage();
+          dispatch({ type: "REMOVE_NOTIFY_MESS", payload: id });
           if (
             userInfo.newestMessage.UserId === -1 &&
             userInfo.newestMessage.IsRead === false
