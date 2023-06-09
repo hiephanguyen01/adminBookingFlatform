@@ -7,7 +7,7 @@ import Session1 from "../Component/Session1/Session1";
 import Session2 from "../Component/Session2/Session2";
 import "./AffiliateDetail.scss";
 import ModalRequired from "../Component/ModalRequired/ModalRequired";
-import { openNotification } from "../../../../../affiliate-booking/components/Notification";
+import { openNotification } from "../../../../utils/Notification";
 const AffiliateDetail = () => {
   const [user, setUser] = useState({});
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -56,7 +56,8 @@ const AffiliateDetail = () => {
           <Breadcrumb.Item>
             <p
               style={{ display: "inline", cursor: "pointer" }}
-              onClick={() => navigate("/affiliate/manage")}>
+              onClick={() => navigate("/affiliate/manage")}
+            >
               Tài khoản
             </p>
           </Breadcrumb.Item>
@@ -81,7 +82,8 @@ const AffiliateDetail = () => {
           okButtonProps={{ loading: confirmLoading }}
           onConfirm={confirm}
           okText="Đồng ý"
-          cancelText="Huỷ">
+          cancelText="Huỷ"
+        >
           <Button
             block
             type="primary"
@@ -91,7 +93,8 @@ const AffiliateDetail = () => {
               marginRight: "20px",
               width: "300px",
               background: user?.isActivate ? "" : "black",
-            }}>
+            }}
+          >
             {user?.isActivate ? "Khoá tài khoản" : "Mở khoá tài khoản"}
           </Button>
         </Popconfirm>
@@ -103,7 +106,8 @@ const AffiliateDetail = () => {
           style={{
             marginRight: "20px",
             width: "300px",
-          }}>
+          }}
+        >
           Yêu cầu chỉnh sửa
         </Button>
       </div>
