@@ -115,14 +115,17 @@ const Detail = ({ modify = false }) => {
     }
     return refundValue;
   };
-  console.log("refundValue", refundValue(data));
-  const CancleFreeDate = moment(data?.CreationTime)
-    .add(
+
+  const CancleFreeDate = moment(
+    data?.OrderByTime ? data?.OrderByTimeFrom : data?.OrderByDateFrom
+  )
+    .subtract(
       data?.OrderByTime
         ? data?.FreeCancelByHour?.match(/\d+/g)[0]
         : data?.FreeCancelByDate?.match(/\d+/g)[0],
       `${data?.OrderByTime ? "hours" : "days"}`
     )
+    .utc()
     .format("DD/MM/YYYY HH:mm A");
   const depositPercent = data?.OrderByTime
     ? data?.CancelPriceByHour
@@ -165,6 +168,44 @@ const Detail = ({ modify = false }) => {
       console.log(error);
       openNotification("error", "Cập nhật thất bại!");
       setLoadingBtn(false);
+    }
+  };
+
+  const handlerPostId = (category) => {
+    switch (Number(category)) {
+      case 1:
+        return `STD-${("0000000000" + data?.StudioRoom?.StudioPostId).slice(
+          -10
+        )}`;
+
+      case 2:
+        return `PTG-${(
+          "0000000000" + data?.PhotographerServicePackage?.PhotographerPostId
+        ).slice(-10)}`;
+
+      case 3:
+        return `CLT-${(
+          "0000000000" + data?.PhotographerServicePackage?.PhotographerPostId
+        ).slice(-10)}`;
+
+      case 4:
+        return `MKP-${(
+          "0000000000" + data?.MakeupServicePackage?.MakeupPostId
+        ).slice(-10)}`;
+
+      case 5:
+        return `DVC-${(
+          "0000000000" + data?.MakeupServicePackage?.MakeupPostId
+        ).slice(-10)}`;
+
+
+      case 6:
+        return `MDL-${(
+          "0000000000" + data?.ModelServicePackage?.ModelPostId
+        ).slice(-10)}`;
+
+      default:
+        break;
     }
   };
   return (
@@ -261,7 +302,7 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              defaultValue={`CUS-${("0000000000" + data.CreatorUserId).slice(
+              defaultValue={`CUS-${("0000000000" + data?.BookingUserId).slice(
                 -10
               )}`}
               style={{ padding: "10px" }}
@@ -278,12 +319,7 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={
-                data?.StudioRoom?.StudioPostId ||
-                data?.PhotographerServicePackage?.PhotographerPostId ||
-                data?.MakeupServicePackage?.MakeupPostId ||
-                data?.ModelServicePackage?.ModelPostId
-              }
+              value={handlerPostId(state.category)}
               style={{ padding: "10px" }}
             />
           </Form.Item>
@@ -469,7 +505,7 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={data?.PromoCodeId}
+              value={data?.SaleCode?.SaleCode}
               style={{ padding: "10px" }}
             />
           </Form.Item>
@@ -484,7 +520,9 @@ const Detail = ({ modify = false }) => {
           >
             <Input
               disabled
-              value={Number(data?.saleValue || 0).toLocaleString("it-IT", {
+              value={Number(
+                data?.BookingValueBeforeDiscount - data?.BookingValue || 0
+              ).toLocaleString("it-IT", {
                 style: "currency",
                 currency: "VND",
               })}
@@ -850,7 +888,11 @@ const Detail = ({ modify = false }) => {
               // name="freeCancelationBefore"
             >
               <Input
-                value={CancleFreeDate}
+                value={
+                  data.OrderByTime
+                    ? data.FreeCancelByHour
+                    : data.FreeCancelByDate
+                }
                 disabled
                 style={{ padding: "10px" }}
               />

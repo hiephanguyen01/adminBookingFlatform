@@ -4,8 +4,8 @@ export class BannerService extends BaseService {
   createBanner = (data) => {
     return this.post(`/api/banner`, data);
   };
-  updateBanner = (id, data) => {
-    return this.patch(`/api/banner/${id}`, data);
+  updateBanner = (id, data, query = "") => {
+    return this.patch(`/api/banner/${id}${query}`, data);
   };
   getAllBanner = () => {
     return this.get(`/api/banner`);

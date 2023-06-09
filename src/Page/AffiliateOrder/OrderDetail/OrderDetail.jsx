@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { handlerNameCategory, statusHandler } from "../../../../utils/category";
 import { affiliateService } from "../../../services/AffiliateService";
 import "./OrderDetail.scss";
+import { commissionPercent, convertTimeUTC } from "../../../../utils/convert";
 const OrderDetail = () => {
   const [data, setData] = useState({});
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const OrderDetail = () => {
       setData(data.data);
     })();
   }, [id]);
+  
   return (
     <div className="OrderDetail">
       <div className="chile" style={{ padding: "20px" }}>
@@ -24,7 +26,8 @@ const OrderDetail = () => {
           <Breadcrumb.Item>
             <p
               style={{ display: "inline", cursor: "pointer" }}
-              onClick={() => navigate("/affiliate/order")}>
+              onClick={() => navigate("/affiliate/order")}
+            >
               Đơn đặt
             </p>
           </Breadcrumb.Item>
@@ -172,7 +175,11 @@ const OrderDetail = () => {
                 <div className="label">% Hoa hồng</div>
               </Col>
               <Col sm={24} xs={24} md={16}>
-                <div className="value">:&emsp;&emsp;&emsp;10%</div>
+                <div className="value">
+                  :&emsp;&emsp;&emsp;
+                  {data.CommissionPercent*100}
+                  %
+                </div>
               </Col>
             </Row>
           </Col>
@@ -228,14 +235,16 @@ const OrderDetail = () => {
               <Col sm={24} xs={24} md={16}>
                 <div className="label">
                   :&emsp;&emsp;&emsp;
-                  {moment(data?.OrderByTimeFrom || data?.OrderByDateFrom)
-                    .utc()
-                    .format("DD-MM-YYYY HH:mm")}{" "}
+                  {convertTimeUTC(
+                    data?.OrderByTimeFrom || data?.OrderByDateFrom,
+                    data?.OrderByTime
+                  )}
                   - <br />
                   &nbsp;&emsp;&emsp;&emsp;
-                  {moment(data?.OrderByTimeTo || data?.OrderByDateTo)
-                    .utc()
-                    .format("DD-MM-YYYY HH:mm")}
+                  {convertTimeUTC(
+                    data?.OrderByTimeTo || data?.OrderByDateTo,
+                    data?.OrderByTime
+                  )}
                 </div>
               </Col>
             </Row>

@@ -1,4 +1,4 @@
-import { LockOutlined } from "@ant-design/icons";
+import { LockOutlined, CustomerServiceOutlined } from "@ant-design/icons";
 import { Breadcrumb, Button, Divider, message, Popconfirm } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -6,9 +6,12 @@ import { affiliateService } from "../../../services/AffiliateService";
 import Session1 from "../Component/Session1/Session1";
 import Session2 from "../Component/Session2/Session2";
 import "./AffiliateDetail.scss";
+import ModalRequired from "../Component/ModalRequired/ModalRequired";
+import { openNotification } from "../../../../../affiliate-booking/components/Notification";
 const AffiliateDetail = () => {
   const [user, setUser] = useState({});
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -28,6 +31,23 @@ const AffiliateDetail = () => {
       })();
     }
   }, [id, confirmLoading]);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = async (text) => {
+    try {
+      await affiliateService.sendRequest({ text }, id);
+      openNotification("success", "Thành công");
+    } catch (error) {
+      openNotification("error", "Vui lòng thử lại sau");
+    }
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="AffiliateDetail">
@@ -75,7 +95,23 @@ const AffiliateDetail = () => {
             {user?.isActivate ? "Khoá tài khoản" : "Mở khoá tài khoản"}
           </Button>
         </Popconfirm>
+        <Button
+          block
+          onClick={showModal}
+          icon={<CustomerServiceOutlined />}
+          size="large"
+          style={{
+            marginRight: "20px",
+            width: "300px",
+          }}>
+          Yêu cầu chỉnh sửa
+        </Button>
       </div>
+      <ModalRequired
+        isModalOpen={isModalOpen}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      />
     </div>
   );
 };

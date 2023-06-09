@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { openNotification } from "../../../utils/Notification";
 import { affiliateService } from "../../services/AffiliateService";
 import "./AffiliateCommission.scss";
+import { commissionPercent } from "../../../utils/convert";
 const { RangePicker } = DatePicker;
 const { Search } = Input;
 
@@ -146,9 +147,9 @@ const AffiliateCommission = () => {
       render: (_, record) => (
         <p>
           {record?.StudioRoom?.StudioPost?.id ||
-            record?.PhotographerServicePackage?.PhotographerPost?.Id ||
-            record?.MakeupServicePackage?.MakeupPost?.Id ||
-            record?.ModelServicePackage?.ModelPost?.Id}
+            record?.PhotographerServicePackage?.PhotographerPost?.id ||
+            record?.MakeupServicePackage?.MakeupPost?.id ||
+            record?.ModelServicePackage?.ModelPost?.id}
         </p>
       ),
     },
@@ -170,8 +171,7 @@ const AffiliateCommission = () => {
       dataIndex: "BookingValue",
       key: "BookingValue",
       sorter: {
-        compare: (a, b) =>
-          a?.BookingValue - b?.BookingValue,
+        compare: (a, b) => a?.BookingValue - b?.BookingValue,
         multiple: 1,
       },
       render: (_, record) => (
@@ -191,7 +191,9 @@ const AffiliateCommission = () => {
       //   compare: (a, b) => a?.percentCommision - b?.percentCommision,
       //   multiple: 1,
       // },
-      render: (_, record) => <p>10%</p>,
+      render: (_, record) => (
+        <p>{_.CommissionPercent*100||5}%</p>
+      ),
     },
     {
       title: "Hoa hồng",
@@ -234,7 +236,8 @@ const AffiliateCommission = () => {
               size="large"
               defaultValue={1}
               style={{ width: 200, marginRight: "20px" }}
-              onChange={onChangeDate}>
+              onChange={onChangeDate}
+            >
               {timeDate.map((item) => (
                 <Option key={item.label} value={item.value}>
                   {item.label}
@@ -301,13 +304,15 @@ function ModalTime({ open, handleOk, setOpen, onChange }) {
           OK
         </Button>,
       ]}
-      onCancel={() => setOpen(false)}>
+      onCancel={() => setOpen(false)}
+    >
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           padding: "20px",
-        }}>
+        }}
+      >
         <RangePicker onChange={onChange} format="DD/MM/YYYY" />
       </div>
     </Modal>

@@ -10,6 +10,9 @@ class Affiliate extends BaseService {
   details = (usedId) => {
     return this.get(`/api/affiliate/details/${usedId}`);
   };
+  sendRequest = (text, usedId) => {
+    return this.post(`/api/affiliate/send-request/${usedId}`, text);
+  };
   me = () => {
     return this.get(`/api/affiliate/me`);
   };
@@ -41,7 +44,7 @@ class Affiliate extends BaseService {
   };
   statisticDataAdmin = (option, date = "") => {
     return this.get(
-      `/api/statistic/get-affiliate-statistic-admin?option=${option}&date=${date}`
+      `/api/statistic/get-affiliate-statistic-admin-2?option=${option}&date=${date}`
     );
   };
   getAllStatisticByPublisher = (option, date = "") => {
@@ -75,6 +78,11 @@ class Affiliate extends BaseService {
   getAdminPublisher = (pid = "", option = "", date = "") => {
     return this.get(
       `/api/affiliate/admin/statistics-publisher?pid=${pid}&option=${option}&date=${date}`
+    );
+  };
+  statisticProductDetail = (id, category = "", option = "", date = "") => {
+    return this.get(
+      `/api/affiliate/admin/statistics-product/${id}?category=${category}&option=${option}&date=${date}`
     );
   };
 }

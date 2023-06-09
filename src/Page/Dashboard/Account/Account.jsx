@@ -143,63 +143,66 @@ const Account = () => {
               </div>
             </Col>
             <Col xs={24}>
-              <PieChartComponent date={date.label} totalCount={totalCount} />
+              {/* <PieChartComponent date={date.label} totalCount={totalCount} /> */}
+              <LineChartComponent
+                model={"Số lượng khách hàng"}
+                date={date.label}
+                data={chartDataCustomer}
+                x1="Số lượng khách hàng"
+                y1="Ngày"
+                amount={amount.amountCustomer}
+              />
             </Col>
           </Row>
         </Col>
 
         <Col lg={12} sm={24} xs={24}>
-          <LineChartComponent
-            model={"Số lượng đối tác"}
-            date={date.label}
-            data={chartDataPartner}
-            x1="Số lượng đối tác"
-            y1="Ngày"
-            amount={amount.amountPartner}
-          />
-        </Col>
-      </Row>
-      <Divider />
-      {/* khách hàng */}
-      <Row gutter={[16, 16]}>
-        <Col lg={12} sm={24} xs={24}>
-          <LineChartComponent
-            model={"Số lượng khách hàng"}
-            date={date.label}
-            data={chartDataCustomer}
-            x1="Số lượng khách hàng"
-            y1="Ngày"
-            amount={amount.amountCustomer}
-          />
-        </Col>
-        <Col lg={12} sm={24} xs={24}>
           <Row gutter={[16, 16]}>
-            <Col lg={12} sm={24} xs={24}>
-              <CountCard model={"khách hàng"} amount={totalCount.customers} />
+            <Col lg={24} sm={24} xs={24}>
+              <LineChartComponent
+                model={"Số lượng đối tác"}
+                date={date.label}
+                data={chartDataPartner}
+                x1="Số lượng đối tác"
+                y1="Ngày"
+                amount={amount.amountPartner}
+              />
             </Col>
-            <Col lg={12} sm={24} xs={24}>
-              <div className="chile">
-                <div className="padding-20">
-                  <p className="margin-bottom">
-                    Khách hàng mới&nbsp;&nbsp;
-                    <Tag color="#d8ffd1" style={{ color: "#29940f" }}>
-                      <ArrowUpOutlined />
-                      &nbsp;
-                      {Math.round(totalCount?.percentCustomer * 100) / 100}%
-                    </Tag>
-                  </p>
-                  <Avatar.Group size="large">
-                    <Avatar style={{ backgroundColor: "#000" }}>D</Avatar>
-                    <Avatar style={{ backgroundColor: "blue" }}>K</Avatar>
-                    <Avatar style={{ backgroundColor: "green" }}>H</Avatar>
-                    <Avatar style={{ backgroundColor: "#f56a00" }}>N</Avatar>
-                    <Avatar
-                      style={{ backgroundColor: "#87d068" }}
-                      icon={<UserOutlined />}
-                    />
-                  </Avatar.Group>
-                </div>
-              </div>
+            <Col lg={24} sm={24} xs={24}>
+              <Row gutter={[16, 16]}>
+                <Col lg={12} sm={24} xs={24}>
+                  <CountCard
+                    model={"khách hàng"}
+                    amount={totalCount.customers}
+                  />
+                </Col>
+                <Col lg={12} sm={24} xs={24}>
+                  <div className="chile">
+                    <div className="padding-20">
+                      <p className="margin-bottom">
+                        Khách hàng mới&nbsp;&nbsp;
+                        <Tag color="#d8ffd1" style={{ color: "#29940f" }}>
+                          <ArrowUpOutlined />
+                          &nbsp;
+                          {Math.round(totalCount?.percentCustomer * 100) / 100}%
+                        </Tag>
+                      </p>
+                      <Avatar.Group size="large">
+                        <Avatar style={{ backgroundColor: "#000" }}>D</Avatar>
+                        <Avatar style={{ backgroundColor: "blue" }}>K</Avatar>
+                        <Avatar style={{ backgroundColor: "green" }}>H</Avatar>
+                        <Avatar style={{ backgroundColor: "#f56a00" }}>
+                          N
+                        </Avatar>
+                        <Avatar
+                          style={{ backgroundColor: "#87d068" }}
+                          icon={<UserOutlined />}
+                        />
+                      </Avatar.Group>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Col>

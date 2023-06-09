@@ -4,9 +4,9 @@ class StudioPostService extends BaseService {
   getFilterStudioPost = (limit, page, filter) => {
     return this.post(`/api/filter/advance?page=${page}&limit=${limit}`, filter);
   };
-  getAllPostAff = (page, limit, category, search) => {
+  getAllPostAff = (page, limit, category, search,IsVisible=true) => {
     return this.get(
-      `/api/studio-post/post-aff?page=${page}&limit=${limit}&category=${category}&search=${search}`
+      `/api/studio-post/post-aff?page=${page}&limit=${limit}&category=${category}&search=${search}&IsVisible=${IsVisible}`
     );
   };
   getAllProvince = () => {
