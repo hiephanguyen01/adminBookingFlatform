@@ -69,6 +69,11 @@ const AdminDetail = () => {
       default: "affiliate",
       value: null,
     },
+    {
+      label: "Chat",
+      default: "chat",
+      value: null,
+    },
   ]);
   const { id } = useParams();
   const columns = [
@@ -87,20 +92,34 @@ const AdminDetail = () => {
             defaultValue={item}
             style={{ width: 150 }}
             onChange={(value) => handleChange(value, record)}
-            options={[
-              {
-                value: 1,
-                label: "Không có quyền",
-              },
-              {
-                value: 2,
-                label: "Chỉ xem",
-              },
-              {
-                value: 3,
-                label: "Toàn quyền",
-              },
-            ]}
+            options={
+              record.label === "Chat" || record.label === "Affiliate"
+                ? [
+                    {
+                      value: 1,
+                      label: "Không có quyền",
+                    },
+
+                    {
+                      value: 3,
+                      label: "Toàn quyền",
+                    },
+                  ]
+                : [
+                    {
+                      value: 1,
+                      label: "Không có quyền",
+                    },
+                    {
+                      value: 2,
+                      label: "Chỉ xem",
+                    },
+                    {
+                      value: 3,
+                      label: "Toàn quyền",
+                    },
+                  ]
+            }
           />
         </>
       ),

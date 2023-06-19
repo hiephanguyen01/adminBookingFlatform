@@ -126,6 +126,7 @@ const LeftNavBar = () => {
         { label: "Từ cấm", key: "/setting/banned-word" },
         { label: "Câu hỏi thường gặp", key: "/setting/question" },
         { label: "Hot key search", key: "/setting/hot-key" },
+        { label: "Key liên quan", key: "/setting/key-relate" },
         { label: "Email Service", key: "/setting/email-service" },
       ],
       disabled: user?.setting < 2,

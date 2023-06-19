@@ -1,9 +1,8 @@
 import { Breadcrumb, Col, Form, Image, Input, Row } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import moment from "moment";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { IMG } from "../../../../../utils/baseURL";
+import { IMG_SIZE } from "../../../../../utils/baseURL";
 import { convertTimeUTC } from "../../../../../utils/convert";
 
 export const InfoGeneral = ({ data }) => {
@@ -39,8 +38,7 @@ export const InfoGeneral = ({ data }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}
-      >
+        style={{ marginTop: "20px" }}>
         <Row gutter={32}>
           <Col span={12}>
             <Form.Item
@@ -63,7 +61,11 @@ export const InfoGeneral = ({ data }) => {
               // name="Id"
             >
               <Input
-                value={`${data.OpenMorningHour||"00"}:${data.OpenMorningMinutes||"00"} am - ${data.CloseMorningHour}:${data.CloseMorningMinutes||"00"} pm`}
+                value={`${data.OpenMorningHour || "00"}:${
+                  data.OpenMorningMinutes || "00"
+                } am - ${data.CloseMorningHour}:${
+                  data.CloseMorningMinutes || "00"
+                } pm`}
                 style={{ padding: "10px" }}
               />
             </Form.Item>{" "}
@@ -72,7 +74,7 @@ export const InfoGeneral = ({ data }) => {
               // name="Id"
             >
               <Input
-                value={`${data.OpenAfternoonHour||"00"}:${
+                value={`${data.OpenAfternoonHour || "00"}:${
                   data.OpenAfternoonMinutes
                 } pm - ${data.CloseAfternoonHour}:${
                   data.CloseAfternoonMinutes || "00"
@@ -104,7 +106,13 @@ export const InfoGeneral = ({ data }) => {
             >
               <div style={{ display: "flex", gap: "1rem" }}>
                 {data.Image.slice(0, 1).map((item) => {
-                  return <Image width={139} height={96} src={IMG(item)} />;
+                  return (
+                    <Image
+                      width={139}
+                      height={96}
+                      src={IMG_SIZE(item, 136, 96)}
+                    />
+                  );
                 })}
               </div>
             </Form.Item>
@@ -119,7 +127,7 @@ export const InfoGeneral = ({ data }) => {
                       style={{ objectFit: "cover" }}
                       width={139}
                       height={96}
-                      src={IMG(item)}
+                      src={IMG_SIZE(item, 136, 96)}
                     />
                   );
                 })}
