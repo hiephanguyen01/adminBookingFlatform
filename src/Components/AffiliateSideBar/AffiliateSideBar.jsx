@@ -5,7 +5,8 @@ import {
   PicLeftOutlined,
   PoundCircleOutlined,
   SolutionOutlined,
-  DatabaseOutlined
+  DatabaseOutlined,
+  DollarOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import React from "react";
@@ -53,7 +54,13 @@ const AffiliateSideBar = () => {
       label: "Data export",
       key: "/affiliate/data-export",
       icon: <DatabaseOutlined />,
-      disabled: user?.export < 2,
+      disabled: user?.affiliate < 2,
+    },
+    {
+      label: "Thanh toán",
+      key: "/affiliate/payment",
+      icon: <DollarOutlined />,
+      disabled: user?.affiliate < 2,
     },
   ];
   const onClick = (e) => {
