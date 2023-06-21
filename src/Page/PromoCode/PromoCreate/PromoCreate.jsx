@@ -142,7 +142,7 @@ const PromoCreate = () => {
       NoOfCode: Number(newPromo.NoOfCode),
       NoOfJoin: Number(newPromo.NoOfJoin),
       Note: newPromo.Note,
-      PartnerApply: partnerApply,
+      PartnerJoin: partnerApply,
       ReduceValue: Number(newPromo.ReduceValue),
       SaleCode: newPromo.SaleCode,
       SpendingBookingStudio: Number(newPromo.SpendingBookingStudio),

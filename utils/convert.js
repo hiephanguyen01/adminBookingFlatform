@@ -38,9 +38,9 @@ export const convertPrice = (price) => {
 
 export const convertTimeUTC = (datetime, date) => {
   if (date) {
-    return moment(datetime).subtract(7, "hours").format("DD-MM-YYYY  HH:mm A");
+    return moment(datetime).utc().format("DD-MM-YYYY  HH:mm A");
   }
-  return moment(datetime).subtract(7, "hours").format("DD-MM-YYYY");
+  return moment(datetime).utc().format("DD-MM-YYYY");
 };
 
 export const converPriceVND = (price = 0) => {

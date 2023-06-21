@@ -92,12 +92,12 @@ const Partner = () => {
     {
       title: "Ngày tạo",
       dataIndex: "CreationTime",
-      render: (item) => convertTimeUTC(item,true),
+      render: (item) => convertTimeUTC(item, true),
     },
     {
       title: "Cập nhật gần nhất",
       dataIndex: "LastModificationTime",
-      render: (item) => convertTimeUTC(item,true),
+      render: (item) => moment(item).format("DD/MM/YYYY HH:mm A"),
     },
     {
       title: "Trạng thái",
