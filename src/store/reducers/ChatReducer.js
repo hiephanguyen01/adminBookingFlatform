@@ -13,6 +13,7 @@ const initState = {
   update: false,
   closeConversation: false,
   toggleState: 1,
+  notiMessage: [],
 };
 export const chatReducer = (state = initState, action) => {
   switch (action.type) {
@@ -46,6 +47,37 @@ export const chatReducer = (state = initState, action) => {
         ...state,
         toggleState: action.payload,
       };
+    case "ADD_NOTIFY_MESS":
+      if (!state.notiMessage.includes(action.payload)) {
+        console.log(
+          !state.notiMessage.includes(action.payload) && [
+            ...state.notiMessage,
+            action.payload,
+          ]
+        );
+        return {
+          ...state,
+          notiMessage: !state.notiMessage.includes(action.payload) && [
+            ...state.notiMessage,
+            action.payload,
+          ],
+        };
+      } else {
+        return { ...state };
+      }
+    case "REMOVE_NOTIFY_MESS":
+      if (state.notiMessage.includes(action.payload)) {
+        return {
+          ...state,
+          notiMessage: state.notiMessage.includes(action.payload) && [
+            ...state.notiMessage.filter((val) => val !== action.payload),
+          ],
+        };
+      } else {
+        return {
+          ...state,
+        };
+      }
     default:
       return state;
   }

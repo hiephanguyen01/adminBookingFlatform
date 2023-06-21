@@ -59,3 +59,25 @@ export function commissionPercent(bl, value) {
   }
   return percent * 100 || 5;
 }
+export const generateYearOptions = () => {
+  const currentYear = moment().year();
+  const currentMonth = moment().month();
+  const startYear = 2023;
+  const years = [];
+
+  for (let year = currentYear; year >= startYear; year--) {
+    let endMonth = 12;
+    if (year === currentYear) {
+      endMonth = currentMonth;
+    }
+    for (let month = endMonth; month >= 1; month--) {
+      const formattedDate = moment()
+        .year(year)
+        .month(month - 1)
+        .format("MM/YYYY");
+      years.push(formattedDate);
+    }
+  }
+
+  return years;
+};

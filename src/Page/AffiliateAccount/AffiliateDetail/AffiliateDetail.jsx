@@ -7,7 +7,7 @@ import Session1 from "../Component/Session1/Session1";
 import Session2 from "../Component/Session2/Session2";
 import "./AffiliateDetail.scss";
 import ModalRequired from "../Component/ModalRequired/ModalRequired";
-// import { openNotification } from "../../../../../affiliate-booking/components/Notification";
+import { openNotification } from "../../../../utils/Notification";
 const AffiliateDetail = () => {
   const [user, setUser] = useState({});
   const [confirmLoading, setConfirmLoading] = useState(false);

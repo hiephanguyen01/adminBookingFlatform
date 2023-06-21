@@ -32,6 +32,7 @@ export const ChatBody = () => {
     return conversation.map((chat) => (
       <ChatUser
         key={chat.id}
+        id={chat.id}
         userInfo={chat}
         toggleState={toggleState}
         toggleClick={(e) => {
@@ -53,10 +54,6 @@ export const ChatBody = () => {
       </div>
     ));
   };
-
-  // useEffect(() => {
-  //   setToggleState(getToggleState);
-  // }, [getToggleState]);
 
   useEffect(() => {
     (async () => {
