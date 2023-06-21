@@ -60,7 +60,7 @@ const DataExportAffiliate = () => {
     } catch (error) {
       setLoadingBtn(false);
       console.log(error);
-      openNotification("error", "Fail!");
+      openNotification("error", "Thất bại!");
     }
   };
   const options = [
@@ -89,7 +89,8 @@ const DataExportAffiliate = () => {
           defaultValue={""}
           style={{ width: 440 }}
           size="large"
-          onChange={handleChange}>
+          onChange={handleChange}
+        >
           <Option value={""}>Chọn...</Option>
           {options.map((item) => (
             <Option value={item.value} key={item.label}>

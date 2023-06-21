@@ -140,9 +140,9 @@ const AdminDetail = () => {
     try {
       setLoading(true);
       await adminService.updateAdmin(user.id, user);
-      openNotification("success", "update succeed");
+      openNotification("success", "Cập nhật thành công!");
     } catch (error) {
-      openNotification("error", "update failed");
+      openNotification("error", "Cập nhật thấy bại!");
     }
     setLoading(false);
   };
@@ -162,7 +162,7 @@ const AdminDetail = () => {
           })
         );
       } catch (error) {
-        openNotification("error", "user not found");
+        openNotification("error", "Không tìm thấy thông tin người dùng");
       }
     })();
   }, [id]);
@@ -200,7 +200,8 @@ const AdminDetail = () => {
           size="large"
           style={{ margin: "20px " }}
           type="primary"
-          onClick={saveChange}>
+          onClick={saveChange}
+        >
           {loading && <LoadingOutlined />}
           &nbsp;Update
         </Button>

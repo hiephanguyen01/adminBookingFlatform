@@ -62,12 +62,24 @@ const PromoCreate = () => {
   useEffect(() => {
     const getPartner = async () => {
       const res = await partnerService.getAllPartnersNotification();
-      setPartners(res.data.map((item) => ({ ...item, value: item.id })));
+      setPartners(
+        res.data.map((item) => ({
+          ...item,
+          value: item?.id,
+          label: item?.PartnerName,
+        }))
+      );
     };
     getPartner();
     const getCustomer = async () => {
       const res = await userService.getAllCustomerNotification();
-      setCustomers(res.data.map((item) => ({ ...item, value: item.id })));
+      setCustomers(
+        res.data.map((item) => ({
+          ...item,
+          value: item.id,
+          label: item?.Username,
+        }))
+      );
     };
     getCustomer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -568,102 +580,106 @@ const PromoCreate = () => {
           </Button>
         </Form.Item>
       </Form>
-      <Modal
-        // title={}
-        className={cx("modal-option")}
-        centered
-        open={modalCusOpen}
-        onOk={() => {
-          setModalCusOpen(false);
-        }}
-        onCancel={() => {
-          setModalCusOpen(false);
-        }}
-        closable={false}
-        bodyStyle={{ height: "350px" }}
-      >
-        <MultiSelect
-          className={""}
-          options={customers}
-          value={selectedCus}
-          onChange={setSelectedCus}
-          labelledBy="selected"
-          // defaultIsOpen={true}
-          isOpen={true}
-          hasSelectAll={false}
-          ItemRenderer={({ checked, option, onClick, disabled }) => {
-            return (
-              <div className={cx("select-item")}>
-                <div className={cx("check-item")}>
-                  <Avatar
-                    size="large"
-                    icon={<UserOutlined />}
-                    src={convertImage(option.Image || "")}
-                  />
-                  <div>{option.Fullname}</div>
-                </div>
-                <input
-                  className="Checkbox-input"
-                  style={{ width: "20px", height: "20px" }}
-                  type="checkbox"
-                  onChange={onClick}
-                  checked={checked}
-                  tabIndex={-1}
-                  disabled={disabled}
-                />
-              </div>
-            );
+      {modalCusOpen && (
+        <Modal
+          // title={}
+          className={cx("modal-option")}
+          centered
+          open={modalCusOpen}
+          onOk={() => {
+            setModalCusOpen(false);
           }}
-        />
-      </Modal>
-      <Modal
-        // title={}
-        className={cx("modal-option")}
-        centered
-        open={modalPartnerOpen}
-        onOk={() => {
-          setModalPartnerOpen(false);
-        }}
-        onCancel={() => {
-          setModalPartnerOpen(false);
-        }}
-        closable={false}
-        bodyStyle={{ height: "350px" }}
-      >
-        <MultiSelect
-          className={""}
-          options={partners}
-          value={selectedPartner}
-          onChange={setSelectedPartner}
-          labelledBy="selected"
-          // defaultIsOpen={true}
-          isOpen={true}
-          hasSelectAll={false}
-          ItemRenderer={({ checked, option, onClick, disabled }) => {
-            return (
-              <div className={cx("select-item")}>
-                <div className={cx("check-item")}>
-                  <Avatar
-                    size="large"
-                    icon={<UserOutlined />}
-                    src={convertImage(option.Image || "")}
-                  />
-                  <div>{option.PartnerName}</div>
-                </div>
-                <input
-                  className="Checkbox-input"
-                  style={{ width: "20px", height: "20px" }}
-                  type="checkbox"
-                  onChange={onClick}
-                  checked={checked}
-                  tabIndex={-1}
-                  disabled={disabled}
-                />
-              </div>
-            );
+          onCancel={() => {
+            setModalCusOpen(false);
           }}
-        />
-      </Modal>
+          closable={false}
+          bodyStyle={{ height: "350px" }}
+        >
+          <MultiSelect
+            className={""}
+            options={customers}
+            value={selectedCus}
+            onChange={setSelectedCus}
+            labelledBy="selected"
+            // defaultIsOpen={true}
+            isOpen={true}
+            hasSelectAll={false}
+            ItemRenderer={({ checked, option, onClick, disabled }) => {
+              return (
+                <div className={cx("select-item")}>
+                  <div className={cx("check-item")}>
+                    <Avatar
+                      size="large"
+                      icon={<UserOutlined />}
+                      src={convertImage(option.Image || "")}
+                    />
+                    <div>{option.Fullname}</div>
+                  </div>
+                  <input
+                    className="Checkbox-input"
+                    style={{ width: "20px", height: "20px" }}
+                    type="checkbox"
+                    onChange={onClick}
+                    checked={checked}
+                    tabIndex={-1}
+                    disabled={disabled}
+                  />
+                </div>
+              );
+            }}
+          />
+        </Modal>
+      )}
+      {modalPartnerOpen && (
+        <Modal
+          // title={}
+          className={cx("modal-option")}
+          centered
+          open={modalPartnerOpen}
+          onOk={() => {
+            setModalPartnerOpen(false);
+          }}
+          onCancel={() => {
+            setModalPartnerOpen(false);
+          }}
+          closable={false}
+          bodyStyle={{ height: "350px" }}
+        >
+          <MultiSelect
+            className={""}
+            options={partners}
+            value={selectedPartner}
+            onChange={setSelectedPartner}
+            labelledBy="selected"
+            // defaultIsOpen={true}
+            isOpen={true}
+            hasSelectAll={false}
+            ItemRenderer={({ checked, option, onClick, disabled }) => {
+              return (
+                <div className={cx("select-item")}>
+                  <div className={cx("check-item")}>
+                    <Avatar
+                      size="large"
+                      icon={<UserOutlined />}
+                      src={convertImage(option.Image || "")}
+                    />
+                    <div>{option.PartnerName}</div>
+                  </div>
+                  <input
+                    className="Checkbox-input"
+                    style={{ width: "20px", height: "20px" }}
+                    type="checkbox"
+                    onChange={onClick}
+                    checked={checked}
+                    tabIndex={-1}
+                    disabled={disabled}
+                  />
+                </div>
+              );
+            }}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

@@ -38,9 +38,9 @@ const AffiliateDetail = () => {
   const handleOk = async (text) => {
     try {
       await affiliateService.sendRequest({ text }, id);
-      openNotification("success", "Thành công");
+      // openNotification("success", "Thành công");
     } catch (error) {
-      openNotification("error", "Vui lòng thử lại sau");
+      // openNotification("error", "Vui lòng thử lại sau");
     }
     setIsModalOpen(false);
   };

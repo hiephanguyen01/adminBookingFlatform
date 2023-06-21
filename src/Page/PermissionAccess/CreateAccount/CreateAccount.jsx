@@ -38,15 +38,15 @@ const CreateAccount = () => {
       "username"
     )} || password:${form.getFieldValue("password")}`;
     navigator.clipboard.writeText(copyText);
-    openNotification("success", "account copied");
+    openNotification("success", "Tài khoản đã được sao chép");
   };
   const onFinish = async (values) => {
     try {
       setLoading(true);
       await adminService.createAdmin(values);
-      openNotification("success", "Create succeed");
+      openNotification("success", "Tạo tài khoản thành công!");
     } catch (error) {
-      openNotification("error", "Create failed, please check again");
+      openNotification("error", "Tạo tài khoản thất bại!");
     }
     setLoading(false);
   };
@@ -58,7 +58,8 @@ const CreateAccount = () => {
         minHeight: "calc(100vh - 200px)",
         display: "flex",
         alignItems: "center",
-      }}>
+      }}
+    >
       <div style={{ width: "min(100vw - 1rem, 500px)", marginInline: "auto" }}>
         <div className="chile" style={{ padding: "20px" }}>
           <Breadcrumb>
@@ -77,7 +78,8 @@ const CreateAccount = () => {
             wrapperCol={{ span: 24 }}
             initialValues={{ remember: true }}
             onFinish={onFinish}
-            autoComplete="off">
+            autoComplete="off"
+          >
             <Form.Item
               label="Name"
               name="name"
@@ -86,7 +88,8 @@ const CreateAccount = () => {
                   required: true,
                   message: "Please input account's name!",
                 },
-              ]}>
+              ]}
+            >
               <Input />
             </Form.Item>
             <Form.Item
@@ -97,7 +100,8 @@ const CreateAccount = () => {
                   required: true,
                   message: "Please input phone number!",
                 },
-              ]}>
+              ]}
+            >
               <Input />
             </Form.Item>
             <Form.Item
@@ -108,7 +112,8 @@ const CreateAccount = () => {
                   required: true,
                   message: "Please input your username!",
                 },
-              ]}>
+              ]}
+            >
               <Input />
             </Form.Item>
             <Form.Item
@@ -116,14 +121,16 @@ const CreateAccount = () => {
               name="password"
               rules={[
                 { required: true, message: "Please input your password!" },
-              ]}>
+              ]}
+            >
               <Input.Password />
             </Form.Item>
             <Form.Item>
               <Button
                 style={{ width: "100%" }}
                 type="dashed"
-                onClick={generateUsername}>
+                onClick={generateUsername}
+              >
                 Generate username
               </Button>
             </Form.Item>
@@ -131,7 +138,8 @@ const CreateAccount = () => {
               <Button
                 style={{ width: "100%" }}
                 type="dashed"
-                onClick={generatePassword}>
+                onClick={generatePassword}
+              >
                 Generate password
               </Button>
             </Form.Item>
@@ -139,7 +147,8 @@ const CreateAccount = () => {
               <Button
                 style={{ width: "100%" }}
                 type="default"
-                onClick={copyToClipboard}>
+                onClick={copyToClipboard}
+              >
                 Copy account
               </Button>
             </Form.Item>
@@ -149,7 +158,8 @@ const CreateAccount = () => {
                 disabled={loading}
                 style={{ width: "100%" }}
                 type="primary"
-                htmlType="submit">
+                htmlType="submit"
+              >
                 {loading && <LoadingOutlined />}
                 &nbsp; Create
               </Button>

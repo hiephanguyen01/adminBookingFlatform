@@ -106,8 +106,8 @@ const Banner = () => {
       title: "Hình",
       dataIndex: "Image",
       key: "Image",
-      render: (text) => (
-        <img style={{ width: "100px" }} src={convertImage(text)} />
+      render: (images) => (
+        <img style={{ width: "100px" }} src={convertImage(images[0])} />
       ),
       width: 200,
     },

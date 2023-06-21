@@ -26,12 +26,17 @@ const EditBanner = () => {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [banner, setBanner] = useState({});
+  const [images, setImages] = useState({});
 
   useEffect(() => {
     const getBannerDetail = async () => {
       try {
         const res = await bannerService.getDetailById(location.state.bannerId);
         setBanner(res.data.data);
+        setImages({
+          Image1: res.data.data?.Image1,
+          Image2: res.data.data?.Image2,
+        });
       } catch (error) {
         console.log(error);
       }
@@ -52,9 +57,15 @@ const EditBanner = () => {
       formData.append("Description", newBanner.Description);
       formData.append(
         "Image",
-        typeof newBanner.Image === "string"
-          ? newBanner.Image
-          : newBanner.Image.file.originFileObj
+        typeof newBanner.Image1 === "string"
+          ? newBanner?.Image1
+          : newBanner?.Image1?.file?.originFileObj || ""
+      );
+      formData.append(
+        "Image",
+        typeof newBanner.Image2 === "string"
+          ? newBanner?.Image2
+          : newBanner?.Image2?.file?.originFileObj || ""
       );
       formData.append("IsVisible", newBanner.IsVisible);
       await bannerService.updateBanner(location.state.bannerId, formData);
@@ -86,7 +97,8 @@ const EditBanner = () => {
           fontSize: "16px",
           marginBottom: "10px",
           fontWeight: "bold",
-        }}>
+        }}
+      >
         <Breadcrumb.Item>
           <Link to={"/setting/banner"} style={{ color: "#10b08a" }}>
             Quản lý banner
@@ -101,7 +113,8 @@ const EditBanner = () => {
             // type="primary"
             // style={{ backgroundColor: "#1677ff" }}
             size="large"
-            onClick={showModal}>
+            onClick={showModal}
+          >
             <DeleteOutlined />
             Xóa
           </Button>
@@ -109,7 +122,8 @@ const EditBanner = () => {
             type="primary"
             style={{ backgroundColor: "#1677ff", marginLeft: "20px" }}
             size="large"
-            onClick={handleOnFinish}>
+            onClick={handleOnFinish}
+          >
             <PlusOutlined />
             Lưu thay đổi
           </Button>
@@ -124,7 +138,8 @@ const EditBanner = () => {
           initialValues={banner}
           // value={form}
           size={"large"}
-          onValuesChange={handleOnChangeForm}>
+          onValuesChange={handleOnChangeForm}
+        >
           <Form.Item label="Tên" name={"Name"}>
             <Input placeholder="Nhập tên banner" />
           </Form.Item>
@@ -132,24 +147,41 @@ const EditBanner = () => {
             <Input placeholder="https://bookingstudio.vn" />
           </Form.Item>
           {/* <div className={cx("update-image")}> */}
-          <Form.Item
-            label="Hình ảnh"
-            // valuePropName="fileList"
-            name={"Image"}
-            // labelCol={{ span: 9 }}
-          >
+          <Form.Item label="Hình ảnh 1" name={"Image1"}>
             <Upload
               defaultFileList={[
-                typeof banner?.Image === "string"
+                typeof banner?.Image1 === "string"
                   ? {
-                      url: convertImage(banner?.Image),
+                      url: convertImage(banner?.Image1),
                     }
                   : {},
               ]}
               listType="picture-card"
-              directory={false}>
-              {typeof banner?.Image === "string" ||
-              banner?.Image?.fileList?.length >= 1 ? null : (
+              directory={false}
+            >
+              {typeof banner?.Image1 === "string" ||
+              banner?.Image1?.fileList?.length >= 1 ? null : (
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
+              )}
+            </Upload>
+          </Form.Item>
+          <Form.Item label="Hình ảnh 2" name={"Image2"}>
+            <Upload
+              defaultFileList={[
+                typeof banner?.Image2 === "string"
+                  ? {
+                      url: convertImage(banner?.Image2),
+                    }
+                  : {},
+              ]}
+              listType="picture-card"
+              directory={false}
+            >
+              {typeof banner?.Image2 === "string" ||
+              banner?.Image2?.fileList?.length >= 1 ? null : (
                 <div>
                   <PlusOutlined />
                   <div style={{ marginTop: 8 }}>Upload</div>
@@ -170,7 +202,8 @@ const EditBanner = () => {
         title="Xác nhận"
         open={isModalOpen}
         onOk={handleDeleteBanner}
-        onCancel={handleCancel}>
+        onCancel={handleCancel}
+      >
         Bạn có muốn xóa banner này không?
       </Modal>
     </div>
