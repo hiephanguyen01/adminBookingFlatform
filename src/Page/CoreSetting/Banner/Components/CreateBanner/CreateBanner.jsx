@@ -14,7 +14,8 @@ const CreateBanner = () => {
   const [banner, setBanner] = useState({
     name: "",
     description: "",
-    image: null,
+    image1: null,
+    image2: null,
     isVisible: true,
   });
   const handleOnChangeForm = (value) => {
@@ -29,7 +30,8 @@ const CreateBanner = () => {
       const formData = new FormData();
       formData.append("Name", newBanner.name);
       formData.append("Description", newBanner.description);
-      formData.append("Image", newBanner.image.file.originFileObj);
+      formData.append("Image", newBanner?.image1?.file?.originFileObj);
+      formData.append("Image", newBanner?.image2?.file?.originFileObj);
       formData.append("IsVisible", newBanner.isVisible);
       await bannerService.createBanner(formData);
       toastMessage("Tạo banner thành công!", "success");
@@ -84,12 +86,26 @@ const CreateBanner = () => {
           <Input placeholder="https://bookingstudio.vn" />
         </Form.Item>
         <Form.Item
-          label="Hình ảnh"
+          label="Hình ảnh 1"
           // valuePropName="fileList"
-          name={"image"}
+          name={"image1"}
         >
           <Upload listType="picture-card" directory={false}>
-            {banner?.image?.fileList.length >= 1 ? null : (
+            {banner?.image1?.fileList.length >= 1 ? null : (
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
+              </div>
+            )}
+          </Upload>
+        </Form.Item>
+        <Form.Item
+          label="Hình ảnh 2"
+          // valuePropName="fileList"
+          name={"image2"}
+        >
+          <Upload listType="picture-card" directory={false}>
+            {banner?.image2?.fileList.length >= 1 ? null : (
               <div>
                 <PlusOutlined />
                 <div style={{ marginTop: 8 }}>Upload</div>

@@ -276,7 +276,10 @@ const App = () => {
                 element={<AffiliateCommission />}
               ></Route>
               <Route path="statistic" element={<AffiliateStatistic />}></Route>
-              <Route path="statistic/:id" element={<AffiliateStatisticDetail />}></Route>
+              <Route
+                path="statistic/:id"
+                element={<AffiliateStatisticDetail />}
+              ></Route>
               <Route
                 path="data-export"
                 element={<DataExportAffiliate />}

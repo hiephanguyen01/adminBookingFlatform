@@ -48,11 +48,11 @@ const Permission = () => {
   const deleteAdmin = async (id) => {
     try {
       await adminService.deleteAdmin(id);
-      openNotification("success", "Delete succeed");
+      openNotification("success", "Xóa thành công!");
       const { data } = await adminService.getAllAdmin(filter);
       setAdminList(data.users);
     } catch (error) {
-      openNotification("error", "You do not have permission");
+      openNotification("error", "Thất bại!");
     }
   };
   useEffect(() => {
@@ -61,7 +61,7 @@ const Permission = () => {
         const { data } = await adminService.getAllAdmin(filter);
         setAdminList(data.users);
       } catch (error) {
-        openNotification("error", "You do not have permission");
+        openNotification("error", "Lấy danh sách thất bại!");
       }
     })();
   }, [filter]);
@@ -77,7 +77,8 @@ const Permission = () => {
         <Button
           size="large"
           type="primary"
-          onClick={() => navigate("/permission/create")}>
+          onClick={() => navigate("/permission/create")}
+        >
           Tạo Admin
         </Button>
       </div>

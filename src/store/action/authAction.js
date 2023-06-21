@@ -11,7 +11,7 @@ export const login = (value) => async (dispatch) => {
     localStorage.setItem("token", data.token);
     dispatch({ type: SET_USER, payload: data });
   } catch (error) {
-    openNotification("error", "Login failed");
+    openNotification("error", "Đăng nhập thất bại!");
   }
   dispatch({ type: SET_LOADING, payload: false });
 };
@@ -19,9 +19,9 @@ export const createAdmin = (value) => async (dispatch) => {
   try {
     dispatch({ type: SET_LOADING, payload: true });
     await adminService.createAdmin(value);
-    openNotification("success", "Create succeed");
+    openNotification("success", "Tạo tài khoản thành công");
   } catch (error) {
-    openNotification("error", "Login failed");
+    openNotification("error", "Tạo tài khoản thất bại!");
   }
   dispatch({ type: SET_LOADING, payload: false });
 };

@@ -59,7 +59,7 @@ const DataExport = () => {
     } catch (error) {
       setLoadingBtn(false);
       console.log(error);
-      openNotification("error", "Fail!");
+      openNotification("error", "Thất bại!");
     }
   };
   const options = [
