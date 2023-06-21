@@ -5,7 +5,7 @@ import "./Rating.scss";
 const Rating = ({ data }) => {
   const [Value, setValue] = useState(1);
   const [renderList, setRenderList] = useState();
-
+  console.log("sạhdsahhjdsa", renderList);
   const optionfn = (option) => {
     switch (option) {
       case 1:
@@ -81,8 +81,13 @@ const Rating = ({ data }) => {
           </Col>
         </Row>
       </div>
-      {renderList &&
-        renderList.map((itm) => <RatingReportCard type={1} data={itm} />)}
+      {renderList?.length > 0 ? (
+        renderList.map((itm) => <RatingReportCard type={1} data={itm} />)
+      ) : (
+        <div className="" style={{ textAlign: "center",marginTop:"1.5rem" }}>
+          Chưa có đánh giá nào!
+        </div>
+      )}
     </div>
   );
 };

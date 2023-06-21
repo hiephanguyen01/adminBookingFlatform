@@ -15,6 +15,7 @@ import { openNotification } from "../../../utils/Notification";
 import { affiliateService } from "../../services/AffiliateService";
 import "./AffiliateCommission.scss";
 import { commissionPercent } from "../../../utils/convert";
+import { baseURL } from "../../../utils/baseURL";
 const { RangePicker } = DatePicker;
 const { Search } = Input;
 
@@ -191,9 +192,7 @@ const AffiliateCommission = () => {
       //   compare: (a, b) => a?.percentCommision - b?.percentCommision,
       //   multiple: 1,
       // },
-      render: (_, record) => (
-        <p>{_.CommissionPercent*100||5}%</p>
-      ),
+      render: (_, record) => <p>{_.CommissionPercent * 100 || 5}%</p>,
     },
     {
       title: "Hoa hồng",
@@ -278,6 +277,22 @@ const AffiliateCommission = () => {
       <Divider />
 
       <div className="chile">
+        <Button
+          style={{ margin: "1rem .5rem 1rem 0", float: "right" }}
+          danger
+          size="large"
+          href={`${baseURL}/api/affiliate/commissions/export?oid=${
+            filter.oid
+          }&pid=${filter.pid}&option=${currentOption}&date=${
+            date.picker &&
+            JSON.stringify({
+              startDate: moment(date.picker[0]).toISOString(),
+              endDate: moment(date.picker[1]).toISOString(),
+            })
+          }`}
+        >
+          Xuất dữ liệu
+        </Button>
         <Table dataSource={dataTable} columns={columns} />
       </div>
 
