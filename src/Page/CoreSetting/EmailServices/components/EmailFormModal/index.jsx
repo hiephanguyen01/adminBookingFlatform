@@ -25,7 +25,6 @@ const EmailFormModal = ({ isModalOpen, handleCancel, data = null }) => {
         ...values,
         ...services.find((val) => val.service === values.service),
       };
-      console.log("🚀 ~ onFinish ~ values:", values);
 
       if (!isEdit) {
         await mailService.create(values);
@@ -45,7 +44,6 @@ const EmailFormModal = ({ isModalOpen, handleCancel, data = null }) => {
     if (data) {
       setIsEdit(true);
       form.setFieldsValue(data);
-      console.log("🚀 ~ useEffect ~ data:", data);
     } else {
       setIsEdit(false);
     }

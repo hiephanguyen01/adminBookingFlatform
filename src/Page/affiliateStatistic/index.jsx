@@ -443,7 +443,6 @@ export const AffiliateStatistic = () => {
   };
   const setDataValueMap = (data) => {
     const groupedData = _.groupBy(data.data, "Date");
-    console.log("🚀 ~ setDataValueMap ~ data:", data);
 
     data = _.map(groupedData, (group) => {
       return _.reduce(
@@ -493,8 +492,7 @@ export const AffiliateStatistic = () => {
               <Select
                 defaultValue={1}
                 style={{ width: "10rem" }}
-                onChange={onChange}
-              >
+                onChange={onChange}>
                 {items.map((item) => (
                   <Option key={item.label} value={item.value}>
                     {item.label}
@@ -514,21 +512,18 @@ export const AffiliateStatistic = () => {
                     onClick={() => setActive(item)}
                     className={`${classes.boxItem} ${
                       active.id === item.id && classes.active
-                    } `}
-                  >
+                    } `}>
                     <div
                       style={{
                         display: "flex",
                         alignItems: "center",
                         gap: ".5rem",
                       }}
-                      className={classes.itemTop}
-                    >
+                      className={classes.itemTop}>
                       <div className={`${classes.icon}`}>{item.icon}</div>
                       <span
                         className={classes.text}
-                        style={{ fontSize: "1.2rem" }}
-                      >
+                        style={{ fontSize: "1.2rem" }}>
                         {item.label}
                       </span>
                       <ExclamationCircleOutlined />
@@ -552,8 +547,7 @@ export const AffiliateStatistic = () => {
                 flex: "1 1 ",
                 alignItems: "start",
                 width: "100%",
-              }}
-            >
+              }}>
               <div
                 style={{
                   // paddingBottom: "1.5rem",
@@ -562,8 +556,7 @@ export const AffiliateStatistic = () => {
                   width: "60%",
                   flexDirection: "column",
                   gap: ".5rem",
-                }}
-              >
+                }}>
                 <h3>TỔNG ĐƠN ĐẶT THEO TỪNG LOẠI DỊCH VỤ/SẢN PHẨM</h3>
                 <p>(Tổng đơn đặt được tạo từ Affiliate Program)</p>
               </div>
@@ -611,8 +604,7 @@ export const AffiliateStatistic = () => {
                 flex: "1 1 ",
                 alignItems: "start",
                 width: "100%",
-              }}
-            >
+              }}>
               <div
                 style={{
                   // paddingBottom: "1.5rem",
@@ -621,8 +613,7 @@ export const AffiliateStatistic = () => {
                   width: "60%",
                   flexDirection: "column",
                   gap: ".5rem",
-                }}
-              >
+                }}>
                 <h3>TỔNG ĐƠN ĐẶT THEO TỪNG TÀI KHOẢN PUBLISHER</h3>
                 <p>(Tổng đơn đặt được tạo từ Affiliate Program)</p>
               </div>
@@ -669,15 +660,13 @@ export const AffiliateStatistic = () => {
               OK
             </Button>,
           ]}
-          onCancel={() => setOpen(false)}
-        >
+          onCancel={() => setOpen(false)}>
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               padding: "20px",
-            }}
-          >
+            }}>
             <RangePicker onChange={onChangeDate} format="DD/MM/YYYY" />
           </div>
         </Modal>

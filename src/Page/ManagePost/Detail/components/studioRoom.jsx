@@ -1,6 +1,6 @@
 import { Checkbox, Col, Divider, Form, Image, Input, Row } from "antd";
 import React from "react";
-import { IMG } from "../../../../../utils/baseURL";
+import { IMG, IMG_SIZE } from "../../../../../utils/baseURL";
 import { converPriceVND } from "../../../../../utils/convert";
 import "../Detail.scss";
 
@@ -69,8 +69,7 @@ export const StudioRoom = ({ data, category }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}
-      >
+        style={{ marginTop: "20px" }}>
         <Row gutter={32}>
           <Col span={12}>
             <Form.Item
@@ -160,8 +159,7 @@ export const StudioRoom = ({ data, category }) => {
                       display: "flex",
                       alignItems: "center",
                       gap: ".5rem",
-                    }}
-                  >
+                    }}>
                     <div style={{ flex: 1 }}>
                       <Checkbox value={data.HasBackground}>
                         Hệ thống đèn
@@ -176,8 +174,7 @@ export const StudioRoom = ({ data, category }) => {
                       display: "flex",
                       alignItems: "center",
                       gap: ".5rem",
-                    }}
-                  >
+                    }}>
                     <div style={{ flex: 1 }}>
                       <Checkbox>Phông nền</Checkbox>
                     </div>
@@ -191,8 +188,7 @@ export const StudioRoom = ({ data, category }) => {
                       flexWrap: "wrap",
                       alignItems: "center",
                       gap: "2rem",
-                    }}
-                  >
+                    }}>
                     <Checkbox checked={data.HasTable}>Bàn</Checkbox>
                     <Checkbox checked={data.HasChair}>Ghế</Checkbox>
                     <Checkbox checked={data.HasSofa}>Sofa</Checkbox>
@@ -202,8 +198,7 @@ export const StudioRoom = ({ data, category }) => {
                         display: "flex",
                         alignItems: "center",
                         gap: ".5rem",
-                      }}
-                    >
+                      }}>
                       <Checkbox checked={data.HasOtherDevice}>Khác</Checkbox>
                       <Input value={data.OtherDeviceDescription} size="large" />
                     </div>
@@ -222,14 +217,12 @@ export const StudioRoom = ({ data, category }) => {
                       flexWrap: "wrap",
                       alignItems: "center",
                       gap: "2rem",
-                    }}
-                  >
+                    }}>
                     {listCheckBox.map((item) => {
                       return (
                         <Checkbox
                           style={{ margin: "0px" }}
-                          checked={item.value}
-                        >
+                          checked={item.value}>
                           {item.label}
                         </Checkbox>
                       );
@@ -279,7 +272,7 @@ export const StudioRoom = ({ data, category }) => {
                       // name="Id"
                     >
                       <Input
-                        value={`${data.DepositByHour||0}%`}
+                        value={`${data.DepositByHour || 0}%`}
                         style={{ padding: "10px" }}
                       />
                     </Form.Item>
@@ -314,7 +307,7 @@ export const StudioRoom = ({ data, category }) => {
                       // name="Id"
                     >
                       <Input
-                        value={`${data.CancelPriceByHour||0}%`}
+                        value={`${data.CancelPriceByHour || 0}%`}
                         style={{ padding: "10px" }}
                       />
                     </Form.Item>
@@ -325,7 +318,7 @@ export const StudioRoom = ({ data, category }) => {
                       // name="Id"
                     >
                       <Input
-                        value={`${data.AbsentPriceByHour||0}%`}
+                        value={`${data.AbsentPriceByHour || 0}%`}
                         style={{ padding: "10px" }}
                       />
                     </Form.Item>
@@ -344,7 +337,7 @@ export const StudioRoom = ({ data, category }) => {
                       // name="Id"
                     >
                       <Input
-                        value={`${data.DepositByDate||0}%`}
+                        value={`${data.DepositByDate || 0}%`}
                         style={{ padding: "10px" }}
                       />
                     </Form.Item>
@@ -379,7 +372,7 @@ export const StudioRoom = ({ data, category }) => {
                       // name="Id"
                     >
                       <Input
-                        value={`${data.CancelPriceByDate||0}%`}
+                        value={`${data.CancelPriceByDate || 0}%`}
                         style={{ padding: "10px" }}
                       />
                     </Form.Item>
@@ -406,8 +399,7 @@ export const StudioRoom = ({ data, category }) => {
             >
               <label className="label">Hình ảnh</label>
               <div
-                style={{ display: "flex", gap: "1rem", alignItems: "stretch" }}
-              >
+                style={{ display: "flex", gap: "1rem", alignItems: "stretch" }}>
                 {data.Image.map((item, idx) => {
                   if (idx === 0) {
                     return (
@@ -416,9 +408,8 @@ export const StudioRoom = ({ data, category }) => {
                           display: "flex",
                           flexDirection: "column",
                           gap: ".5rem",
-                        }}
-                      >
-                        <Image height={100} src={IMG(item)} />
+                        }}>
+                        <Image height={100} src={IMG_SIZE(item)} />
                         <label className="label">Ảnh bìa</label>
                       </div>
                     );
@@ -429,12 +420,11 @@ export const StudioRoom = ({ data, category }) => {
                         display: "flex",
                         flexDirection: "column",
                         gap: ".5rem",
-                      }}
-                    >
+                      }}>
                       <Image
                         style={{ objectFit: "cover" }}
                         height={100}
-                        src={IMG(item)}
+                        src={IMG_SIZE(item)}
                       />
                       <span>Ảnh {idx}</span>
                     </div>
