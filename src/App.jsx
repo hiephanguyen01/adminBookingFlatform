@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.scss";
+import Chat from "./Components/Chat/Chat";
 import { ProtectedRoute } from "./Components/ProtectedRoute/ProtectedRoute";
 import AdminLayout from "./Layouts/AdminLayout/AdminLayout";
 import AffiliateAccount from "./Page/AffiliateAccount/AffiliateAccount";
@@ -11,7 +12,6 @@ import AffiliateLink from "./Page/AffiliateLink/AffiliateLink";
 import LinkDetail from "./Page/AffiliateLink/LinkDetail/LinkDetail";
 import AffiliateOrder from "./Page/AffiliateOrder/AffiliateOrder";
 import OrderDetail from "./Page/AffiliateOrder/OrderDetail/OrderDetail";
-import { AffiliateStatistic } from "./Page/affiliateStatistic";
 import AskedQuestion from "./Page/CoreSetting/AskedQuestion/AskedQuestion";
 import Banks from "./Page/CoreSetting/Banks/Banks";
 import CreateBank from "./Page/CoreSetting/Banks/components/CreateBank/CreateBank";
@@ -23,11 +23,12 @@ import EditBanner from "./Page/CoreSetting/Banner/Components/EditBanner/EditBann
 import City from "./Page/CoreSetting/City/City";
 import CoreSetting from "./Page/CoreSetting/CoreSetting";
 import District from "./Page/CoreSetting/District/District";
+import EmailService from "./Page/CoreSetting/EmailServices";
 import HotKey from "./Page/CoreSetting/HotKey/HotKey";
 import Ward from "./Page/CoreSetting/Ward/Ward";
+import WebHook from "./Page/CoreSetting/webHook/WebHook";
 import CreateWebHook from "./Page/CoreSetting/webHook/components/CreateWebHook/CreateWebHook";
 import EditWebHook from "./Page/CoreSetting/webHook/components/EditWebHook/EditWebHook";
-import WebHook from "./Page/CoreSetting/webHook/WebHook";
 import Dao from "./Page/Dao";
 import AccessTime from "./Page/Dashboard/AccessTime/AccessTime";
 import Account from "./Page/Dashboard/Account/Account";
@@ -52,30 +53,29 @@ import CreateNotification from "./Page/Notification/CreateNotification/CreateNot
 import { Customer as NotiCustomer } from "./Page/Notification/Customer/Customer";
 import CustomerNotificationDetail from "./Page/Notification/Customer/pages/CustomerNotificationDetail";
 import Notification from "./Page/Notification/Notification";
-import PartnerNotificationDetail from "./Page/Notification/Partner/pages/PartnerNotificationDetail";
 import { Partner as NotiPartner } from "./Page/Notification/Partner/Partner";
+import PartnerNotificationDetail from "./Page/Notification/Partner/pages/PartnerNotificationDetail";
 import Setting from "./Page/Notification/Setting/Setting";
 import AdminDetail from "./Page/PermissionAccess/AdminDetail/AdminDetail";
 import CreateAccount from "./Page/PermissionAccess/CreateAccount/CreateAccount";
 import Permission from "./Page/PermissionAccess/Permission";
 import PromoCode from "./Page/PromoCode/PromoCode";
 import PromoCreate from "./Page/PromoCode/PromoCreate/PromoCreate";
-import PromoCustomerDetail from "./Page/PromoCode/PromoCustomer/pages/PromoCustomerDetail";
 import { PromoCustomer } from "./Page/PromoCode/PromoCustomer/PromoCustomer";
-import PromoPartnerDetail from "./Page/PromoCode/PromoPartner/pages/PromoPartnerDetail";
+import PromoCustomerDetail from "./Page/PromoCode/PromoCustomer/pages/PromoCustomerDetail";
 import { PromoPartner } from "./Page/PromoCode/PromoPartner/PromoPartner";
+import PromoPartnerDetail from "./Page/PromoCode/PromoPartner/pages/PromoPartnerDetail";
 import DetailRateReport from "./Page/RankReport/Detail/DetailRateReport";
 import RankReport from "./Page/RankReport/RankReport";
-import { getCurrentUser } from "./store/action/authAction";
-import Chat from "./Components/Chat/Chat";
-import EmailService from "./Page/CoreSetting/EmailServices";
+import { AffiliateStatistic } from "./Page/affiliateStatistic";
 import AffiliateStatisticDetail from "./Page/affiliateStatistic/Detail";
+import { getCurrentUser } from "./store/action/authAction";
 
-import { useState } from "react";
 import AffiliatePayment from "./Page/AffiliatePayment/AffiliatePayment";
 import KeyRelate from "./Page/KeyRelate/KeyRelate";
 
 const App = () => {
+  const [path, setPath] = useState("");
   const user = useSelector((state) => state.userReducer?.currentUser?.user);
   const currentUser = useSelector((state) => state.userReducer?.currentUser);
   const dispatch = useDispatch();
@@ -83,6 +83,13 @@ const App = () => {
   useEffect(() => {
     dispatch(getCurrentUser());
   }, []);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    const currentRoute = location.pathname;
+    setPath(currentRoute);
+  }, [location]);
 
   return (
     <section className="App">
@@ -93,8 +100,7 @@ const App = () => {
             <ProtectedRoute>
               <AdminLayout type="root" />
             </ProtectedRoute>
-          }
-        >
+          }>
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="account" element={<Account />}></Route>
             <Route path="post" element={<Post />}></Route>
@@ -112,8 +118,7 @@ const App = () => {
             {user?.partnerAccount >= 2 && (
               <Route
                 path="partner/edit/:id"
-                element={<DetailEditPartner />}
-              ></Route>
+                element={<DetailEditPartner />}></Route>
             )}
             {user?.customerAccount >= 2 && (
               <Route path="customer" element={<Customer />}></Route>
@@ -124,8 +129,7 @@ const App = () => {
             {user?.customerAccount >= 2 && (
               <Route
                 path="customer/edit/:id"
-                element={<EditCustomer />}
-              ></Route>
+                element={<EditCustomer />}></Route>
             )}
           </Route>
           {user?.report >= 2 && (
@@ -134,8 +138,7 @@ const App = () => {
           {user?.report >= 2 && (
             <Route
               path="rank-report/:id"
-              element={<DetailRateReport />}
-            ></Route>
+              element={<DetailRateReport />}></Route>
           )}
           {user?.booking >= 2 && (
             <Route path="manage-order" element={<ManageOrder />} />
@@ -195,22 +198,18 @@ const App = () => {
               <Route path="" element={<PromoPartner />}></Route>
               <Route
                 path="view-detail"
-                element={<PromoPartnerDetail />}
-              ></Route>
+                element={<PromoPartnerDetail />}></Route>
               <Route
                 path="edit"
-                element={<PromoPartnerDetail edit={true} />}
-              ></Route>
+                element={<PromoPartnerDetail edit={true} />}></Route>
 
               <Route path="customer" element={<PromoCustomer />}></Route>
               <Route
                 path="customer/view-detail"
-                element={<PromoCustomerDetail />}
-              ></Route>
+                element={<PromoCustomerDetail />}></Route>
               <Route
                 path="customer/edit"
-                element={<PromoCustomerDetail edit={true} />}
-              ></Route>
+                element={<PromoCustomerDetail edit={true} />}></Route>
 
               <Route path="create" element={<PromoCreate />}></Route>
             </Route>
@@ -229,8 +228,7 @@ const App = () => {
               <Route path="banner/create" element={<CreateBanner />}></Route>
               <Route
                 path="banner/edit"
-                element={<EditBanner edit={true} />}
-              ></Route>
+                element={<EditBanner edit={true} />}></Route>
               <Route path="banks" element={<Banks />} />
               <Route path="banks/create" element={<CreateBank />} />
               <Route path="banks/edit" element={<EditBank edit={true} />} />
@@ -254,8 +252,7 @@ const App = () => {
             <Route path=":id" element={<PostDetail />}></Route>
             <Route
               path="edit/:id"
-              element={<PostDetail modify={true} />}
-            ></Route>
+              element={<PostDetail modify={true} />}></Route>
           </Route>
         )}
         <Route
@@ -264,8 +261,7 @@ const App = () => {
             <ProtectedRoute type="affiliate">
               <AdminLayout type="affiliate" />
             </ProtectedRoute>
-          }
-        >
+          }>
           {user?.affiliate >= 2 && (
             <>
               <Route path="manage" element={<AffiliateAccount />}></Route>
@@ -276,17 +272,14 @@ const App = () => {
               <Route path="order/:id" element={<OrderDetail />}></Route>
               <Route
                 path="commission"
-                element={<AffiliateCommission />}
-              ></Route>
+                element={<AffiliateCommission />}></Route>
               <Route path="statistic" element={<AffiliateStatistic />}></Route>
               <Route
                 path="statistic/:id"
-                element={<AffiliateStatisticDetail />}
-              ></Route>
+                element={<AffiliateStatisticDetail />}></Route>
               <Route
                 path="data-export"
-                element={<DataExportAffiliate />}
-              ></Route>
+                element={<DataExportAffiliate />}></Route>
               <Route path="payment" element={<AffiliatePayment />}></Route>
             </>
           )}
@@ -294,7 +287,7 @@ const App = () => {
         <Route path="/login" element={<Login />}></Route>
       </Routes>
 
-      {currentUser?.user.chat === 3 && <Chat />}
+      {currentUser?.user.chat === 3 && !path.includes("affiliate") && <Chat />}
     </section>
   );
 };
