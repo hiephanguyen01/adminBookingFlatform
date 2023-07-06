@@ -249,7 +249,21 @@ export const PromoPartner = () => {
       <div className={cx("content-wrapper")}>
         <Button
           size="large"
-          href={`${baseURL}/api/promo-code/export`}
+          href={`${baseURL}/api/promo-code/export?${queryString.stringify({
+            // ...filtersPage,
+            ...filter,
+            dateTimeApply: JSON.stringify({
+              startDate:
+                (filter.dateTimeApply && filter?.dateTimeApply[0]) || "",
+              endDate: (filter.dateTimeApply && filter?.dateTimeApply[1]) || "",
+            }),
+            dateTimeExpire: JSON.stringify({
+              startDate:
+                (filter.dateTimeExpire && filter?.dateTimeExpire[0]) || "",
+              endDate:
+                (filter.dateTimeExpire && filter?.dateTimeExpire[1]) || "",
+            }),
+          })}`}
           style={{ marginBottom: "1rem", marginRight: ".5rem" }}
           danger
         >
