@@ -25,6 +25,7 @@ import { partnerService } from "../../../services/PartnerService";
 import { userService } from "../../../services/UserService";
 import { promoCodeService } from "../../../services/PromoCodeService";
 import toastMessage from "../../../Components/ToastMessage";
+import diacriticless from "diacriticless";
 
 const cx = classNames.bind(styles);
 
@@ -77,7 +78,7 @@ const PromoCreate = () => {
         res.data.map((item) => ({
           ...item,
           value: item.id,
-          label: item?.Username,
+          label: item?.Fullname,
         }))
       );
     };
@@ -604,6 +605,22 @@ const PromoCreate = () => {
             // defaultIsOpen={true}
             isOpen={true}
             hasSelectAll={false}
+            filterOptions={(options, filter) => {
+              if (!filter) {
+                return options;
+              }
+              return options.filter(({ value, label }) => {
+                if (!label) {
+                  return;
+                }
+                return (
+                  value &&
+                  diacriticless(label)
+                    .toUpperCase()
+                    .match(diacriticless(filter.toUpperCase()))
+                );
+              });
+            }}
             ItemRenderer={({ checked, option, onClick, disabled }) => {
               return (
                 <div className={cx("select-item")}>
@@ -652,6 +669,19 @@ const PromoCreate = () => {
             onChange={setSelectedPartner}
             labelledBy="selected"
             // defaultIsOpen={true}
+            filterOptions={(options, filter) => {
+              if (!filter) {
+                return options;
+              }
+              return options.filter(({ value, label }) => {
+                return (
+                  value &&
+                  diacriticless(label)
+                    .toUpperCase()
+                    .match(diacriticless(filter.toUpperCase()))
+                );
+              });
+            }}
             isOpen={true}
             hasSelectAll={false}
             ItemRenderer={({ checked, option, onClick, disabled }) => {
