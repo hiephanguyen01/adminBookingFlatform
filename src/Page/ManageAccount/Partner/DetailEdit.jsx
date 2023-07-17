@@ -20,6 +20,7 @@ import { Loading } from "../../../Components/Loading";
 import { registerPartnerService } from "../../../services/RegisterPartnerService";
 import "./detail.scss";
 import "./Edit.scss";
+import { convertTimeUTC } from "../../../../utils/convert";
 export const DetailEditPartner = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
@@ -213,9 +214,7 @@ export const DetailEditPartner = () => {
                 >
                   <Input
                     disabled
-                    value={moment(data?.CreationTime).format(
-                      "DD-MM-YYYY HH:mm"
-                    )}
+                    value={convertTimeUTC(data?.CreationTime, true)}
                   />
                 </Form.Item>
                 <Form.Item
@@ -231,10 +230,11 @@ export const DetailEditPartner = () => {
 
 "
                 >
+                  
                   <Input
                     disabled
                     value={moment(data?.LastModificationTime).format(
-                      "DD-MM-YYYY HH:mm"
+                      "DD-MM-YYYY HH:mm A"
                     )}
                   />
                 </Form.Item>

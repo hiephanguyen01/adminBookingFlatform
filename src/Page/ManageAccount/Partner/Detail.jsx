@@ -6,6 +6,7 @@ import "./detail.scss";
 import moment from "moment";
 import { baseURL, fallBackImg, IMG } from "../../../../utils/baseURL";
 import { Loading } from "../../../Components/Loading";
+import { convertTimeUTC } from "../../../../utils/convert";
 export const PartnerDetail = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
@@ -81,12 +82,7 @@ export const PartnerDetail = () => {
                   label="Ngày tạo
 "
                 >
-                  <Input
-                    disabled
-                    value={moment(data?.CreationTime).format(
-                      "DD-MM-YYYY HH:mm"
-                    )}
-                  />
+                  <Input disabled value={convertTimeUTC(data?.CreationTime,true)} />
                 </Form.Item>
                 <Form.Item
                   label="Số bài đăng
@@ -155,7 +151,6 @@ export const PartnerDetail = () => {
                   </h5>
                   <Image
                     width={150}
-                    
                     height={100}
                     preview={<i class="fas fa-tablet-rugged    "></i>}
                     src={IMG(data?.ImageGPKD2)}
@@ -166,7 +161,6 @@ export const PartnerDetail = () => {
                   <h5 style={{ textAlign: "center" }}>CMND/CCCD mặt trước</h5>
                   <Image
                     width={150}
-                    
                     height={100}
                     preview={<i class="fas fa-tablet-rugged    "></i>}
                     src={IMG(data?.ImageCCCD1)}
