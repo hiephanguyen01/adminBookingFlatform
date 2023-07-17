@@ -60,6 +60,9 @@ const PromoCreate = () => {
   const [modalCusOpen, setModalCusOpen] = useState(false);
   const [modalPartnerOpen, setModalPartnerOpen] = useState(false);
 
+  const [partnerConfirm, setPartnerConfirm] = useState(true);
+  const [spendingBookingStudio, setSpendingBookingStudio] = useState(0);
+
   useEffect(() => {
     const getPartner = async () => {
       const res = await partnerService.getAllPartnersNotification();
@@ -120,7 +123,7 @@ const PromoCreate = () => {
   };
 
   const handleOnSubmit = async (value) => {
-    const newPromo = { ...promo };
+    const newPromo = { ...promo, SpendingBookingStudio: spendingBookingStudio };
     let customerApply, partnerApply;
     if (newPromo.selectCus === 3) {
       customerApply = selectedCus.map((item) => item.id).join(",");
@@ -201,6 +204,8 @@ const PromoCreate = () => {
       //   PartnerConfirm: 1,
       // });
       form.resetFields();
+      setSpendingBookingStudio(0);
+      setPartnerConfirm(false);
     } catch (error) {
       toastMessage(error.response.data.message, "error");
     }
@@ -291,7 +296,10 @@ const PromoCreate = () => {
                   name="SpendingBookingStudio"
                   rules={[{ required: true }]}
                 >
-                  <Input />
+                  <Input
+                    placeholder="0"
+                    onChange={(e) => setSpendingBookingStudio(e.target.value)}
+                  />
                 </Form.Item>
               </div>
               <div className={cx("w-50")}>
@@ -300,7 +308,7 @@ const PromoCreate = () => {
                   name={"SpendingPartner"}
                   rules={[{ required: true }]}
                 >
-                  <Input />
+                  <Input placeholder="0" />
                 </Form.Item>
               </div>
             </div>
@@ -560,19 +568,24 @@ const PromoCreate = () => {
             <div className={cx("join-object")}>
               YÊU CẦU XÁC NHẬN THAM GIA TỪ ĐỐI TÁC
             </div>
-            <Form.Item name={"PartnerConfirm"} rules={[{ required: true }]}>
-              <Radio.Group className={cx("w-100")}>
-                <Row>
-                  <Col span={12}>
-                    <Radio value={true}>Có</Radio>
-                  </Col>
+            {/* <Form.Item name={"PartnerConfirm"} rules={[{ required: true }]}> */}
+            <Radio.Group
+              className={cx("w-100")}
+              value={partnerConfirm}
+              onChange={(e) => setPartnerConfirm(e.target.value)}
+              disabled={spendingBookingStudio < 100}
+            >
+              <Row>
+                <Col span={12}>
+                  <Radio value={true}>Có</Radio>
+                </Col>
 
-                  <Col span={12}>
-                    <Radio value={false}>Không</Radio>
-                  </Col>
-                </Row>
-              </Radio.Group>
-            </Form.Item>
+                <Col span={12}>
+                  <Radio value={false}>Không</Radio>
+                </Col>
+              </Row>
+            </Radio.Group>
+            {/* </Form.Item> */}
           </Col>
         </Row>
         <Form.Item wrapperCol={{ span: 12 }}>
