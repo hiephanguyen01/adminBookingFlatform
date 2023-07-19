@@ -267,7 +267,8 @@ export const ChatContentAdmin = ({ info }) => {
               setLoadMore(false);
             }
           }
-        }}>
+        }}
+      >
         {loading ? (
           <>
             {!hasMore && (
@@ -295,7 +296,8 @@ export const ChatContentAdmin = ({ info }) => {
                     itm.Chatting?.AdminName === "admin"
                       ? "ChatContent__conversation__other"
                       : "ChatContent__conversation__you"
-                  }>
+                  }
+                >
                   <div
                     className={
                       itm.Chatting?.AdminName === "admin" && itm.Type === "text"
@@ -315,6 +317,19 @@ export const ChatContentAdmin = ({ info }) => {
                     } */
                   >
                     {renderMess(itm)}
+                    <p
+                      style={{
+                        fontSize: "9px",
+                        color: "#808080",
+                        width: "100%",
+                        textAlign:
+                          itm.Chatting.PartnerName !== undefined
+                            ? "left"
+                            : "right",
+                      }}
+                    >
+                      {moment(itm.createdAt).format("hh:mm DD/MM/YY")}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -342,7 +357,8 @@ export const ChatContentAdmin = ({ info }) => {
       </div>
       <div
         className="ChatContent__container"
-        style={{ height: files.length === 0 ? "70px" : "140px" }}>
+        style={{ height: files.length === 0 ? "70px" : "140px" }}
+      >
         <div className="ChatContent__container__upload">
           <UploadImage
             onChangeFile={onChangeFile}
@@ -350,7 +366,8 @@ export const ChatContentAdmin = ({ info }) => {
               width: "30px",
               height: "30px",
             }}
-            multiple={true}>
+            multiple={true}
+          >
             <PictureOutlined style={{ color: "#1FCBA2", fontSize: "30px" }} />
           </UploadImage>
         </div>
@@ -365,7 +382,8 @@ export const ChatContentAdmin = ({ info }) => {
                     width: "40px",
                     marginLeft: "10px",
                     marginBottom: "10px",
-                  }}>
+                  }}
+                >
                   <img
                     alt=""
                     src={item.preview}
@@ -392,7 +410,8 @@ export const ChatContentAdmin = ({ info }) => {
             value={message}
             onKeyDown={onEnterPress}
             onChange={onInputChange}
-            maxLength={2000}></textarea>
+            maxLength={2000}
+          ></textarea>
         </div>
       </div>
     </div>
