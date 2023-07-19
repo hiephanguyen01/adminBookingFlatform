@@ -10,11 +10,11 @@
     padding-right: 10px;
     width: 424px;
     overflow-x: scroll;
-    position:relative;
+    position: relative;
     padding-top: 5px;
     &::-webkit-scrollbar {
       height: 5px !important;
-      background-color:  $neutral-50;
+      background-color: $neutral-50;
     }
     &::-webkit-scrollbar-thumb {
       background: $secondary-700;
@@ -62,7 +62,7 @@
 
   &__conversation {
     position: relative;
-    
+
     width: 100%;
     overflow-y: scroll;
     display: flex;
@@ -109,13 +109,14 @@
       margin: 10px 0;
       display: flex;
       &__content {
+        text-align: right;
         background-color: $secondary-50;
         padding: 7px 10px;
         max-width: 350px;
         border-radius: 8px;
         overflow-wrap: break-word;
       }
-      &__img{
+      &__img {
         border-radius: 8px;
         box-shadow: 0 -4px 20px 5px rgba(0, 0, 0, 0.1);
       }
@@ -126,13 +127,14 @@
       display: flex;
       flex-direction: row-reverse;
       &__content {
+        text-align: left;
         background-color: $neutral-100;
         padding: 7px 10px;
         max-width: 350px;
         border-radius: 8px;
         overflow-wrap: break-word;
       }
-      &__img{
+      &__img {
         border-radius: 8px;
         box-shadow: 0 -4px 20px 5px rgba(0, 0, 0, 0.1);
       }
@@ -143,7 +145,7 @@
     flex-direction: row;
     align-items: center;
     padding: 0 10px;
-    
+
     z-index: 20;
     box-shadow: 0 -4px 20px 5px rgba(0, 0, 0, 0.1);
     bottom: 0px;
