@@ -17,7 +17,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { statusHandler } from "../../../utils/category";
-import { convertTimeUTC } from "../../../utils/convert";
+import { convertTime, convertTimeUTC } from "../../../utils/convert";
 import { Loading } from "../../Components/Loading";
 import { orderService } from "../../services/OrderService";
 import "./manageOrder.scss";
@@ -33,6 +33,10 @@ export const ManageOrder = () => {
   const [filter, setFilter] = useState({
     BookingStatus: "",
     EntryDate: {
+      startDate: "",
+      endDate: "",
+    },
+    CreateDate: {
       startDate: "",
       endDate: "",
     },
@@ -95,6 +99,13 @@ export const ManageOrder = () => {
       },
     },
 
+    {
+      title: "Ngày đặt đơn",
+      // dataIndex: "CreationTime",
+      render: (item) => {
+        return convertTime(item.CreationTime, true);
+      },
+    },
     {
       title: "Ngày Thực hiện",
       // dataIndex: "CreationTime",
@@ -206,6 +217,24 @@ export const ManageOrder = () => {
       }
       // setFilter({ ...filter, EntryDate: obj });
     }
+    if (Object.keys(value)[0] == "CreateDate") {
+      const obj = value?.CreateDate?.reduce((acc, item, index) => {
+        const key = index === 0 ? "startDate" : "endDate";
+        return { ...acc, [key]: moment(item.$d).format() };
+      }, {});
+      if (!obj) {
+        setFilter({
+          ...filter,
+          CreateDate: {
+            startDate: "",
+            endDate: "",
+          },
+        });
+      } else {
+        setFilter({ ...filter, CreateDate: obj });
+      }
+      // setFilter({ ...filter, EntryDate: obj });
+    }
   };
   // *********************
 
@@ -274,6 +303,24 @@ export const ManageOrder = () => {
     {
       label: "Ngày thực hiện",
       name: "EntryDate",
+      style: {
+        width: "22%",
+        display: "inline-block",
+        marginRight: "40px",
+      },
+      el: (
+        <RangePicker
+          format="DD/MM/YYYY"
+          style={{ padding: "8px" }}
+          value={dates || value}
+          onCalendarChange={(val) => setDates(val)}
+          onChange={(val) => setValue(val)}
+        />
+      ),
+    },
+    {
+      label: "Ngày đặt đơn",
+      name: "CreateDate",
       style: {
         width: "22%",
         display: "inline-block",
@@ -451,14 +498,14 @@ export const ManageOrder = () => {
               style={{ float: "right", marginTop: "1rem" }}
               onClick={() => setExpandHeader(!expandHeader)}
             >
-              xem thêm
+              Xem thêm
             </p>
           ) : (
             <p
               style={{ float: "right", marginTop: "1rem" }}
               onClick={() => setExpandHeader(!expandHeader)}
             >
-              thu gọn
+              Thu gọn
             </p>
           )}
         </Form>
