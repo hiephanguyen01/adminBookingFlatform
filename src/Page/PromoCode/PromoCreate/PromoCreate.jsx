@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import dayjs from "dayjs";
 import { MultiSelect } from "react-multi-select-component";
-
+import axios from "axios";
 import styles from "./promoCreate.module.scss";
 import {
   Avatar,
@@ -26,6 +26,9 @@ import { userService } from "../../../services/UserService";
 import { promoCodeService } from "../../../services/PromoCodeService";
 import toastMessage from "../../../Components/ToastMessage";
 import diacriticless from "diacriticless";
+import { baseURL } from "../../../../utils/baseURL";
+import { notifyService } from "../../../services/notifyService";
+import { openNotification } from "../../../../utils/Notification";
 
 const cx = classNames.bind(styles);
 
@@ -137,6 +140,8 @@ const PromoCreate = () => {
         .filter((item) => selectedPartner.some((itm) => itm.id !== item.id))
         .map((item) => item.id)
         .join(",");
+    } else if (newPromo.selectPartner === 1) {
+      partnerApply = partners.map((item) => item.id).join(",");
     }
 
     const newDataSend = {
@@ -424,6 +429,14 @@ const PromoCreate = () => {
                         </div>
                       </Radio>
                     </Space>
+                    <Button
+                      size="large"
+                      href={`${baseURL}/api/promo-code/partners/export?`}
+                      style={{ marginBottom: "1rem", marginRight: ".5rem" }}
+                      danger
+                    >
+                      Xuất dữ liệu
+                    </Button>
                   </Radio.Group>
                 </Form.Item>
               </div>
