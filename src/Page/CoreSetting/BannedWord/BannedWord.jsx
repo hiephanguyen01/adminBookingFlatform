@@ -82,13 +82,18 @@ const BannedWord = () => {
           });
         }
         setFileData([]);
-      } else {
+      } else if (bannedWordList.length > 0) {
         for (let i = 0; i < bannedWordList.length; i++) {
           await bannedWordService.createBannedWord({
             Value: bannedWordList[i],
             IsDeleted: false,
           });
         }
+      } else if (bannedWord !== "") {
+        await bannedWordService.createBannedWord({
+          Value: bannedWord,
+          IsDeleted: false,
+        });
       }
       const res = await bannedWordService.getAllBannedWord(textSearch);
       setBannedWords(res.data.data);
@@ -177,7 +182,6 @@ const BannedWord = () => {
           ],
           []
         );
-        console.log(formatData);
         setFileData(formatData);
       };
     } catch (error) {
