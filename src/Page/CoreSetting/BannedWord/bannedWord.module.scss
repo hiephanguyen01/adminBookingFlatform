@@ -1,4 +1,4 @@
-.district-filter {
+.banned-filter {
     padding: 20px 30px;
     background-color: white;
     margin-bottom: 20px;
@@ -8,12 +8,13 @@
     }
 }
 
-.district-container {
+.banned-container {
     background-color: white;
     padding: 20px 30px;
 
-    .district-header {
+    .banned-header {
         display: flex;
         justify-content: space-between;
+        margin-bottom: 10px;
     }
 }
