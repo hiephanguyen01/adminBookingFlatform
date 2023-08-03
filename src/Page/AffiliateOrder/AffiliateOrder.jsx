@@ -134,6 +134,11 @@ const AffiliateOrder = () => {
       [4, 3, 2].some((item) => item === paymentStatus)
     ) {
       return "Đã hoàn tất";
+    } else if (
+      bookingStatus === 3 &&
+      [4, 3, 2].some((item) => item === paymentStatus)
+    ) {
+      return "Vắng mặt";
     } else if (bookingStatus === 2) {
       return "Đã huỷ";
     }
@@ -271,7 +276,8 @@ const AffiliateOrder = () => {
               size="large"
               defaultValue={1}
               style={{ width: 200, marginRight: "20px" }}
-              onChange={onChangeDate}>
+              onChange={onChangeDate}
+            >
               {timeDate.map((item) => (
                 <Option key={item.label} value={item.value}>
                   {item.label}

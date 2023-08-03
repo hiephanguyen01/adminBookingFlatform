@@ -8,6 +8,9 @@ class PromoCodeService extends BaseService {
   getAllPromoCode = (params) => {
     return this.get(`/api/promo-code?${queryString.stringify(params)}`);
   };
+  getAllPromoCodeByPartner = (params) => {
+    return this.get(`/api/promo-code/byPartner?${queryString.stringify(params)}`);
+  };
   getCustomerJoinedPromo = (PromoteCodeId) => {
     return this.get(
       `/api/promo-code/customer-joined?promoCodeId=${PromoteCodeId}`
