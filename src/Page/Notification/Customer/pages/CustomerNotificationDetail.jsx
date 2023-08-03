@@ -68,7 +68,8 @@ const CustomerNotificationDetail = ({ edit = false }) => {
           fontSize: "16px",
           marginBottom: "10px",
           fontWeight: "bold",
-        }}>
+        }}
+      >
         <Breadcrumb.Item>
           <Link to={"/notification/customer"} style={{ color: "#10b08a" }}>
             Thông báo khách hàng
@@ -112,7 +113,8 @@ const CustomerNotificationDetail = ({ edit = false }) => {
           bordered={false}
           className={cx("card-wrapper")}
           style={{ cursor: "pointer" }}
-          onClick={() => setModalOpen(true)}>
+          onClick={() => setModalOpen(true)}
+        >
           <Space align="center" size={270}>
             <Space direction="vertical" style={{ flex: "1" }}>
               <div className={cx("row-2-item")}>
@@ -157,7 +159,8 @@ const CustomerNotificationDetail = ({ edit = false }) => {
               className={cx("notifi-content")}
               dangerouslySetInnerHTML={{
                 __html: notifyDetail.Content,
-              }}></p>
+              }}
+            ></p>
           </Space>
         </Card>
       </div>
@@ -173,7 +176,8 @@ const CustomerNotificationDetail = ({ edit = false }) => {
           setModalOpen(false);
         }}
         closable={false}
-        bodyStyle={{ height: "350px" }}>
+        bodyStyle={{ height: "350px" }}
+      >
         <MultiSelect
           className={""}
           options={customers}

@@ -9,6 +9,7 @@ import {
   SettingOutlined,
   SketchOutlined,
   SolutionOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import React, { useCallback } from "react";
@@ -28,6 +29,7 @@ const LeftNavBar = () => {
       label: "Dashboard",
       key: "/dashboard",
       icon: <AreaChartOutlined />,
+      disabled: user?.dashboard < 2,
       children: [
         { label: "Tài khoản", key: "/dashboard/account" },
         { label: "Bài đăng", key: "/dashboard/post" },
@@ -131,7 +133,20 @@ const LeftNavBar = () => {
       ],
       disabled: user?.setting < 2,
     },
+    {
+      label: "Partner Hub",
+      key: "/partner-hub",
+      icon: <UsergroupAddOutlined />,
+      children: [
+        { label: "Hỗ trợ", key: "/partner-hub/support" },
+        { label: "Giải pháp", key: "/partner-hub/solution" },
+        { label: "Xu hướng, tin tức", key: "/partner-hub/trend-news" },
+        { label: "Hộp thư", key: "/partner-hub/contact" },
+      ],
+      // disabled: user?.setting < 2,
+    },
   ];
+
   return (
     <div className="LeftNavBar">
       <Menu

@@ -23,7 +23,7 @@ const Order = () => {
   const [AmountBooking, setAmountBooking] = useState(null);
   const [StatusBooking, setStatusBooking] = useState([]);
   const [BookingValue, setSBookingValue] = useState([]);
-  const [amount, setAmount] = useState({ amountPartner: 0, amountCustomer: 0 });
+  const [amount, setAmount] = useState({ amountOrder: 0, bookingValue: 0 });
   const [totalCount, setTotalCount] = useState({ customers: 0, partners: 0 });
 
   useEffect(() => {
@@ -164,8 +164,9 @@ const Order = () => {
           <LineChartComponent
             model={"Giá trị đơn đặt"}
             date={date.label}
-            sub=" "
+            // sub=" "
             data={BookingValue}
+            amount={convertPrice(amount.bookingValue)}
             x1="Giá trị đơn đặt"
             y1="Ngày"
           />

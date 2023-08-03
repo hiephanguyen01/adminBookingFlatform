@@ -14,6 +14,7 @@ const CustomModalFooter = ({
   };
   const props = {
     name: "file",
+    listType: "picture",
     customRequest: dummyRequest,
     onChange(info) {
       setFiles(info.fileList);
@@ -40,7 +41,9 @@ const CustomModalFooter = ({
       }}
     >
       <Upload {...props}>
-        <Button size="large">Thêm Ảnh/Video</Button>
+        <>
+          <Button size="large">Thêm Ảnh/Video</Button>
+        </>
       </Upload>
       <Button
         disabled={disable}

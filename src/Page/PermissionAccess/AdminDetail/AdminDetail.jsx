@@ -74,6 +74,11 @@ const AdminDetail = () => {
       default: "chat",
       value: null,
     },
+    {
+      label: "Dashboard",
+      default: "dashboard",
+      value: null,
+    },
   ]);
   const { id } = useParams();
   const columns = [
@@ -93,7 +98,9 @@ const AdminDetail = () => {
             style={{ width: 150 }}
             onChange={(value) => handleChange(value, record)}
             options={
-              record.label === "Chat" || record.label === "Affiliate"
+              record.label === "Chat" ||
+              record.label === "Affiliate" ||
+              record.label === "Dashboard"
                 ? [
                     {
                       value: 1,
