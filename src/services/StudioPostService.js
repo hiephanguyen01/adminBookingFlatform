@@ -4,7 +4,7 @@ class StudioPostService extends BaseService {
   getFilterStudioPost = (limit, page, filter) => {
     return this.post(`/api/filter/advance?page=${page}&limit=${limit}`, filter);
   };
-  getAllPostAff = (page, limit, category, search,IsVisible=true) => {
+  getAllPostAff = (page, limit, category, search, IsVisible = true) => {
     return this.get(
       `/api/studio-post/post-aff?page=${page}&limit=${limit}&category=${category}&search=${search}&IsVisible=${IsVisible}`
     );
@@ -36,13 +36,17 @@ class StudioPostService extends BaseService {
   getDetailStudioAff = (id, category) => {
     return this.get(`/api/studio-post/detail?id=${id}&category=${category}`);
   };
-  getDetailStudio = (id, category, currentUser = "166") => {
+  getDetailStudio = (id, category, currentUser = "") => {
     if (currentUser.trim !== "") {
       return this.get(
         `/api/studio-post/byid?id=${id}&category=${category}&userId=${currentUser}`
       );
     }
     return this.get(`/api/studio-post/byid?id=${id}&category=${category}`);
+  };
+  getDetailStudioAdmin = (id, category) => {
+    
+    return this.get(`/api/studio-post/byid/${id}?category=${category}`);
   };
   getStudioNear = (id, lat, lng) => {
     return this.get(`/api/studio-post/distance/${id}?lat=${lat}&lng=${lng}`);

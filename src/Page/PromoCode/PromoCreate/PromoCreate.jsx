@@ -437,14 +437,7 @@ const PromoCreate = () => {
                         </div>
                       </Radio>
                     </Space>
-                    <Button
-                      size="large"
-                      href={`${baseURL}/api/promo-code/partners/export?`}
-                      style={{ marginBottom: "1rem", marginRight: ".5rem" }}
-                      danger
-                    >
-                      Xuất dữ liệu
-                    </Button>
+                   
                   </Radio.Group>
                 </Form.Item>
               </div>
