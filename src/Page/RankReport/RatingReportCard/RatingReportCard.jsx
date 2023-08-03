@@ -49,14 +49,17 @@ const RatingReportCard = ({ data, type = 1 }) => {
               background: "#ffeded",
               display: "flex",
               justifyContent: "space-between",
-            }}>
+            }}
+          >
             <p style={{ color: "#e22828" }}>{data.Content}</p>
           </div>
         )}
       </div>
       <div className="rightCard">
         <p style={{ color: "rgba(0,0,0,.5)", marginRight: "20px" }}>
-          {moment(data.CreationTime).format("DD/MM/YYYY HH:MM")}
+          {moment(data?.CreationTime || data?.createdAt).format(
+            "DD/MM/YYYY HH:mm"
+          )}
         </p>
         <Space size="middle">
           <Button

@@ -26,9 +26,9 @@ export const ChatUser = React.memo(
     };
 
     const name = userInfo?.UserId
-      ? userInfo.UserId?.Username
-        ? userInfo.UserId.Username
-        : userInfo.UserId.Fullname
+      ? userInfo.UserId?.Fullname
+        ? userInfo.UserId.Fullname
+        : userInfo.UserId.Username
       : userInfo?.PartnerId?.PartnerName;
 
     // *** set have read newest message or not ***
