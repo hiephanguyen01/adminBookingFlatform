@@ -73,6 +73,11 @@ import { getCurrentUser } from "./store/action/authAction";
 
 import AffiliatePayment from "./Page/AffiliatePayment/AffiliatePayment";
 import KeyRelate from "./Page/KeyRelate/KeyRelate";
+import Contact from "./Page/PartnerHub/Contact/Contact";
+import PartnerHub from "./Page/PartnerHub/PartnerHub";
+import Solution from "./Page/PartnerHub/Solution/Solution";
+import Support from "./Page/PartnerHub/Support/Support";
+import TrendNews from "./Page/PartnerHub/TrendNews/TrendNews";
 
 const App = () => {
   const [path, setPath] = useState("");
@@ -249,6 +254,14 @@ const App = () => {
               <Route path="webhook/edit" element={<EditWebHook />}></Route>
             </Route>
           )}
+          {/* {user?.setting >= 2 && ( */}
+          <Route path="partner-hub" element={<PartnerHub />}>
+            <Route path="support" element={<Support />}></Route>
+            <Route path="solution" element={<Solution />}></Route>
+            <Route path="trend-news" element={<TrendNews />}></Route>
+            <Route path="contact" element={<Contact />}></Route>
+          </Route>
+          {/* )} */}
         </Route>
         {user?.post >= 2 && (
           <Route path="posts">
