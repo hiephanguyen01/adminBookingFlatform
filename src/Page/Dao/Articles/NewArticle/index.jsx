@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Modal, message } from "antd";
 import React, { useState } from "react";
 import CustomModalFooter from "../../../../Components/DaoComponent/CustomModalFooter";
 import logo from "../../../../assets/dao/Iconic-02.svg";
@@ -38,23 +38,30 @@ const NewArticle = (props) => {
     );
   };
   const handleOk = async () => {
-    const formData = new FormData();
-    for (let file of files) {
-      formData.append("image", file.originFileObj);
+    try {
+      const formData = new FormData();
+      if (selectedTag.length > 0) {
+        for (let file of files) {
+          formData.append("image", file.originFileObj);
+        }
+        formData.append("id", 2);
+        formData.append("Description", content);
+        formData.append("Tags", selectedTag.join(","));
+        if (filesDrive.length > 0) {
+          const newImgDrive = filesDrive.reduce(
+            (newImgs, img) => [...newImgs, img.preview],
+            []
+          );
+          formData.append("imageDrive", newImgDrive.join(","));
+        }
+        await postDaoService.createPost(formData);
+        setModal(false);
+      } else {
+        message.warning("Vui lòng gắn hashtag cho bài viết!");
+      }
+    } catch (error) {
+      message.error("Tạo bài viết thất bại!");
     }
-    formData.append("id", 2);
-    formData.append("Description", content);
-    formData.append("Tags", selectedTag.join(","));
-    if (filesDrive.length > 0) {
-      const newImgDrive = filesDrive.reduce(
-        (newImgs, img) => [...newImgs, img.preview],
-        []
-      );
-      formData.append("imageDrive", newImgDrive.join(","));
-    }
-
-    const data = await postDaoService.createPost(formData);
-    setModal(false);
   };
   const handleCancel = () => {
     setModal(false);
@@ -168,6 +175,7 @@ const NewArticle = (props) => {
               height: "141px",
               border: "none",
               padding: "20px 0",
+              resize: "none",
             }}
             placeholder="Nhập nội dung bài viết"
           />
