@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
 import ReactQuill from "react-quill";
 dayjs.extend(customParseFormat);
+import diacriticless from "diacriticless";
 
 import "react-quill/dist/quill.snow.css";
 
@@ -58,14 +59,16 @@ const CreateNotification = () => {
 
   useEffect(() => {
     const getPartner = async () => {
-      const res = await partnerService.getAllPartnersNotification();
-      setPartner(res.data.map((item) => ({ ...item, value: item.id })));
+      const resPartner = await partnerService.getAllPartnersNotification();
+      setPartner(resPartner.data.map((item) => ({ ...item, value: item.id })));
     };
-    getPartner();
+
     const getCustomer = async () => {
-      const res = await userService.getAllCustomerNotification();
-      setCustomer(res.data.map((item) => ({ ...item, value: item.id })));
+      const resCus = await userService.getAllCustomerNotification();
+      setCustomer(resCus.data.map((item) => ({ ...item, value: item.id })));
     };
+
+    getPartner();
     getCustomer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -451,6 +454,7 @@ const CreateNotification = () => {
       >
         <MultiSelect
           className={""}
+          // options={customer}
           options={data.Object === 0 ? partner : customer}
           value={selected}
           onChange={setSelected}
@@ -458,6 +462,19 @@ const CreateNotification = () => {
           // defaultIsOpen={true}
           isOpen={true}
           hasSelectAll={false}
+          filterOptions={(options, filter) => {
+            if (!filter) {
+              return options;
+            }
+            return options.filter((val) => {
+              return (
+                val &&
+                diacriticless(val.Fullname || val.PartnerName || "")
+                  .toUpperCase()
+                  .match(diacriticless(filter.toUpperCase()))
+              );
+            });
+          }}
           ItemRenderer={({ checked, option, onClick, disabled }) => {
             return (
               <div className={cx("select-item")}>

@@ -100,13 +100,16 @@ const App = () => {
             <ProtectedRoute>
               <AdminLayout type="root" />
             </ProtectedRoute>
-          }>
-          <Route path="dashboard" element={<Dashboard />}>
-            <Route path="account" element={<Account />}></Route>
-            <Route path="post" element={<Post />}></Route>
-            <Route path="order" element={<Order />}></Route>
-            <Route path="access-times" element={<AccessTime />}></Route>
-          </Route>
+          }
+        >
+          {user?.dashboard >= 2 && (
+            <Route path="dashboard" element={<Dashboard />}>
+              <Route path="account" element={<Account />}></Route>
+              <Route path="post" element={<Post />}></Route>
+              <Route path="order" element={<Order />}></Route>
+              <Route path="access-times" element={<AccessTime />}></Route>
+            </Route>
+          )}
 
           <Route path="manage" element={<ManageAccount />}>
             {user?.partnerAccount >= 2 && (
@@ -118,7 +121,8 @@ const App = () => {
             {user?.partnerAccount >= 2 && (
               <Route
                 path="partner/edit/:id"
-                element={<DetailEditPartner />}></Route>
+                element={<DetailEditPartner />}
+              ></Route>
             )}
             {user?.customerAccount >= 2 && (
               <Route path="customer" element={<Customer />}></Route>
@@ -129,7 +133,8 @@ const App = () => {
             {user?.customerAccount >= 2 && (
               <Route
                 path="customer/edit/:id"
-                element={<EditCustomer />}></Route>
+                element={<EditCustomer />}
+              ></Route>
             )}
           </Route>
           {user?.report >= 2 && (
@@ -138,7 +143,8 @@ const App = () => {
           {user?.report >= 2 && (
             <Route
               path="rank-report/:id"
-              element={<DetailRateReport />}></Route>
+              element={<DetailRateReport />}
+            ></Route>
           )}
           {user?.booking >= 2 && (
             <Route path="manage-order" element={<ManageOrder />} />
@@ -198,18 +204,22 @@ const App = () => {
               <Route path="" element={<PromoPartner />}></Route>
               <Route
                 path="view-detail"
-                element={<PromoPartnerDetail />}></Route>
+                element={<PromoPartnerDetail />}
+              ></Route>
               <Route
                 path="edit"
-                element={<PromoPartnerDetail edit={true} />}></Route>
+                element={<PromoPartnerDetail edit={true} />}
+              ></Route>
 
               <Route path="customer" element={<PromoCustomer />}></Route>
               <Route
                 path="customer/view-detail"
-                element={<PromoCustomerDetail />}></Route>
+                element={<PromoCustomerDetail />}
+              ></Route>
               <Route
                 path="customer/edit"
-                element={<PromoCustomerDetail edit={true} />}></Route>
+                element={<PromoCustomerDetail edit={true} />}
+              ></Route>
 
               <Route path="create" element={<PromoCreate />}></Route>
             </Route>
@@ -228,7 +238,8 @@ const App = () => {
               <Route path="banner/create" element={<CreateBanner />}></Route>
               <Route
                 path="banner/edit"
-                element={<EditBanner edit={true} />}></Route>
+                element={<EditBanner edit={true} />}
+              ></Route>
               <Route path="banks" element={<Banks />} />
               <Route path="banks/create" element={<CreateBank />} />
               <Route path="banks/edit" element={<EditBank edit={true} />} />
@@ -252,7 +263,8 @@ const App = () => {
             <Route path=":id" element={<PostDetail />}></Route>
             <Route
               path="edit/:id"
-              element={<PostDetail modify={true} />}></Route>
+              element={<PostDetail modify={true} />}
+            ></Route>
           </Route>
         )}
         <Route
@@ -261,7 +273,8 @@ const App = () => {
             <ProtectedRoute type="affiliate">
               <AdminLayout type="affiliate" />
             </ProtectedRoute>
-          }>
+          }
+        >
           {user?.affiliate >= 2 && (
             <>
               <Route path="manage" element={<AffiliateAccount />}></Route>
@@ -272,14 +285,17 @@ const App = () => {
               <Route path="order/:id" element={<OrderDetail />}></Route>
               <Route
                 path="commission"
-                element={<AffiliateCommission />}></Route>
+                element={<AffiliateCommission />}
+              ></Route>
               <Route path="statistic" element={<AffiliateStatistic />}></Route>
               <Route
                 path="statistic/:id"
-                element={<AffiliateStatisticDetail />}></Route>
+                element={<AffiliateStatisticDetail />}
+              ></Route>
               <Route
                 path="data-export"
-                element={<DataExportAffiliate />}></Route>
+                element={<DataExportAffiliate />}
+              ></Route>
               <Route path="payment" element={<AffiliatePayment />}></Route>
             </>
           )}

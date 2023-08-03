@@ -28,6 +28,7 @@ const LeftNavBar = () => {
       label: "Dashboard",
       key: "/dashboard",
       icon: <AreaChartOutlined />,
+      disabled: user?.dashboard < 2,
       children: [
         { label: "Tài khoản", key: "/dashboard/account" },
         { label: "Bài đăng", key: "/dashboard/post" },
