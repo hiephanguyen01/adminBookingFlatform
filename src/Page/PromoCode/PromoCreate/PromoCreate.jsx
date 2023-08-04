@@ -126,7 +126,11 @@ const PromoCreate = () => {
   };
 
   const handleOnSubmit = async (value) => {
-    const newPromo = { ...promo, SpendingBookingStudio: spendingBookingStudio };
+    const newPromo = {
+      ...promo,
+      SpendingBookingStudio: spendingBookingStudio,
+      PartnerConfirm: partnerConfirm,
+    };
     let customerApply, partnerApply;
     if (newPromo.selectCus === 3) {
       customerApply = selectedCus.map((item) => item.id).join(",");
@@ -437,7 +441,6 @@ const PromoCreate = () => {
                         </div>
                       </Radio>
                     </Space>
-                   
                   </Radio.Group>
                 </Form.Item>
               </div>
@@ -578,7 +581,10 @@ const PromoCreate = () => {
             <Radio.Group
               className={cx("w-100")}
               value={partnerConfirm}
-              onChange={(e) => setPartnerConfirm(e.target.value)}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setPartnerConfirm(e.target.value);
+              }}
               disabled={spendingBookingStudio < 100}
             >
               <Row>
