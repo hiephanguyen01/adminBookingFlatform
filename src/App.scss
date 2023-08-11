@@ -3,6 +3,16 @@
 * {
   font-family: "Nunito Sans", sans-serif;
 }
+
+.big {
+  .image-post-uploader {
+    .ant-upload {
+      width: 140px !important;
+      height: 96px !important;
+      overflow: hidden;
+    }
+  }
+}
 // Scrollbar CSS
 
 // //NEUTRAL

@@ -1,14 +1,18 @@
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Table } from "antd";
-import React, { useState } from "react";
+import { DeleteOutlined, EditFilled, PlusOutlined } from "@ant-design/icons";
+import { Button, Popconfirm, Table } from "antd";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { partnerHubTrendNewsService } from "../../../services/PartnerHubTrendNewsService";
+import { openNotification } from "../../../../utils/Notification";
+import { CATEGORIES } from "../../../../utils/category";
 
 const TrendNews = () => {
+  const navigate = useNavigate();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const onSelectChange = (newSelectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
   const rowSelection = {
@@ -20,6 +24,12 @@ const TrendNews = () => {
     {
       title: "Hình ảnh",
       dataIndex: "image",
+      render: (item) => (
+        <img
+          src={item}
+          style={{ width: "84px", height: "54px", borderRadius: "8px" }}
+        />
+      ),
     },
     {
       title: "Tiêu đề",
@@ -28,16 +38,50 @@ const TrendNews = () => {
     {
       title: "Danh mục",
       dataIndex: "category",
-    },
-    {
-      title: "Ngày đăng",
-      dataIndex: "createdAt",
+      render: (id) => <p>{CATEGORIES.find((val) => val.value === id).label}</p>,
     },
     {
       title: "Thao tác",
-      dataIndex: "action",
+      dataIndex: "id",
+      render: (id) => (
+        <Button
+          icon={<EditFilled />}
+          shape="circle"
+          onClick={() => navigate(`form/${id}`)}
+        />
+      ),
     },
   ];
+  const onDelete = async () => {
+    setLoading(true);
+
+    try {
+      await partnerHubTrendNewsService.deletePartnerHubTrendNews({
+        deleteList: selectedRowKeys,
+      });
+      openNotification("success", "Thành công");
+    } catch (error) {
+      openNotification("error", "Vui lòng thử lại sau!");
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data: res } =
+          await partnerHubTrendNewsService.getPartnerHubTrendNews();
+        setData(
+          res.data.map((val) => ({
+            key: val.id,
+            ...val,
+          }))
+        );
+      } catch (error) {
+        openNotification("error", "Vui lòng thử lại sau!");
+      }
+    })();
+  }, [loading]);
   return (
     <div className="chile" style={{ padding: "20px" }}>
       <div
@@ -48,16 +92,33 @@ const TrendNews = () => {
           alignItems: "center",
         }}
       >
-        <h2>Xu hướng, tin tức</h2>
+        <h2>XU HƯỚNG, TIN TỨC</h2>
         <div style={{ display: "flex", gap: "20px" }}>
-          <Button icon={<DeleteOutlined />}>Xoá</Button>
-          <Button type="primary" icon={<PlusOutlined />}>
+          <Popconfirm
+            title="Xoá"
+            description="Xoá những mục đã chọn"
+            onConfirm={onDelete}
+            okText="Đồng ý"
+            cancelText="Huỷ"
+          >
+            <Button icon={<DeleteOutlined />}>Xoá</Button>
+          </Popconfirm>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => navigate("form")}
+          >
             Tạo mới
           </Button>
         </div>
       </div>
 
-      <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+      <Table
+        loading={loading}
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={data}
+      />
     </div>
   );
 };
