@@ -225,7 +225,7 @@ const FormTrendNews = () => {
         </Form.Item>
 
         <Form.Item label="Danh mục" name="category" required={true}>
-          <Select defaultValue={1} options={CATEGORIES} />
+          <Select options={CATEGORIES} />
         </Form.Item>
 
         <Form.Item label="Nội dung" name="content" required={true}>
