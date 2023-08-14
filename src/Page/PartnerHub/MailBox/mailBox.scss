@@ -1,0 +1,16 @@
+.mailBoxContainer {
+  background-color: white;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  h2 {
+    color: #3f3f3f;
+    font-family: Nunito;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+}

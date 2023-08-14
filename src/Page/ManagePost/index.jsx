@@ -93,7 +93,7 @@ export const ManagePost = () => {
     {
       title: "Ngày đăng",
       dataIndex: "CreationTime",
-      render: (item) => convertTimeUTC(item,true),
+      render: (item) => convertTimeUTC(item, true),
     },
     {
       title: "Ngày cập nhật gần nhất",

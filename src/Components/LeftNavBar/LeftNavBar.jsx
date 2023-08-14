@@ -15,6 +15,7 @@ import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./LeftNavBar.scss";
+import { ReactComponent as PartnerHub } from "../../assets/svg/PartnerHub.svg";
 
 const LeftNavBar = () => {
   const user = useSelector((state) => state.userReducer?.currentUser?.user);
@@ -128,6 +129,18 @@ const LeftNavBar = () => {
         { label: "Hot key search", key: "/setting/hot-key" },
         { label: "Key liên quan", key: "/setting/key-relate" },
         { label: "Email Service", key: "/setting/email-service" },
+      ],
+      disabled: user?.setting < 2,
+    },
+    {
+      label: "Partner Hub",
+      key: "/partnerHub",
+      icon: <PartnerHub className="partnerHubIcon" />,
+      children: [
+        { label: "Hỗ trợ", key: "/partnerHub/support" },
+        { label: "Giải pháp", key: "/partnerHub/solution" },
+        { label: "Xu hướng, tin tức", key: "/partnerHub/trend" },
+        { label: "Hộp thư", key: "/partnerHub/mailBox" },
       ],
       disabled: user?.setting < 2,
     },

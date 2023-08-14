@@ -4,6 +4,11 @@
   width: 256px;
   overflow: -moz-scrollbars-none;
   -ms-overflow-style: none;
+
+  .partnerHubIcon {
+    height: 14px;
+    width: 14px;
+  }
 }
 .LeftNavBar::-webkit-scrollbar {
   width: 0 !important;
