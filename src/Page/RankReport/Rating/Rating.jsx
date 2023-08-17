@@ -2,10 +2,9 @@ import { Col, Radio, Rate, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import RatingReportCard from "../RatingReportCard/RatingReportCard";
 import "./Rating.scss";
-const Rating = ({ data }) => {
+const Rating = ({ data, category, postId }) => {
   const [Value, setValue] = useState(1);
   const [renderList, setRenderList] = useState();
-  console.log("sạhdsahhjdsa", renderList);
   const optionfn = (option) => {
     switch (option) {
       case 1:
@@ -82,9 +81,16 @@ const Rating = ({ data }) => {
         </Row>
       </div>
       {renderList?.length > 0 ? (
-        renderList.map((itm) => <RatingReportCard type={1} data={itm} />)
+        renderList.map((itm) => (
+          <RatingReportCard
+            type={1}
+            data={itm}
+            postId={postId}
+            category={category}
+          />
+        ))
       ) : (
-        <div className="" style={{ textAlign: "center",marginTop:"1.5rem" }}>
+        <div className="" style={{ textAlign: "center", marginTop: "1.5rem" }}>
           Chưa có đánh giá nào!
         </div>
       )}
