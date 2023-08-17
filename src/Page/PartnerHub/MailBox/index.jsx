@@ -217,14 +217,13 @@ const Index = () => {
             Hiển thị {(pagination.currentPage - 1) * pagination.limit + 1} -{" "}
             {pagination.hasNextPage
               ? pagination.currentPage * pagination.limit
-              : pagination?.total -
-                (pagination.currentPage - 1) * pagination.limit}
+              : pagination?.total}
             /{pagination.total}
           </span>
           <Pagination
             total={pagination.total}
             current={pagination?.currentPage}
-            pageSize={pagination?.limit || 1}
+            pageSize={pagination?.limit || 10}
             onChange={(page) => getAllMail(page, pagination?.limit)}
           />
           <Select
