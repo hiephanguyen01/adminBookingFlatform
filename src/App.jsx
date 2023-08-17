@@ -74,7 +74,9 @@ import { getCurrentUser } from "./store/action/authAction";
 
 import AffiliatePayment from "./Page/AffiliatePayment/AffiliatePayment";
 import KeyRelate from "./Page/KeyRelate/KeyRelate";
-import Contact from "./Page/PartnerHub/Contact/Contact";
+
+import MailBox from "./Page/PartnerHub/MailBox";
+import MailDetail from "./Page/PartnerHub/MailDetail/MailDetail";
 import PartnerHub from "./Page/PartnerHub/PartnerHub";
 import Solution from "./Page/PartnerHub/Solution/Solution";
 import Support from "./Page/PartnerHub/Support/Support";
@@ -119,7 +121,6 @@ const App = () => {
               <Route path="access-times" element={<AccessTime />}></Route>
             </Route>
           )}
-
           <Route path="manage" element={<ManageAccount />}>
             {user?.partnerAccount >= 2 && (
               <Route path="partner" element={<Partner />}></Route>
@@ -252,11 +253,14 @@ const App = () => {
               <Route path="banks" element={<Banks />} />
               <Route path="banks/create" element={<CreateBank />} />
               <Route path="banks/edit" element={<EditBank edit={true} />} />
-
-              <Route path="webhook" element={<WebHook />}></Route>
-              <Route path="webhook/create" element={<CreateWebHook />}></Route>
-              <Route path="webhook/edit" element={<EditWebHook />}></Route>
-            </Route>
+                <Route path="webhook" element={<WebHook />}></Route>
+                <Route
+                  path="webhook/create"
+                  element={<CreateWebHook />}
+                ></Route>
+                <Route path="webhook/edit" element={<EditWebHook />}></Route>
+              </Route>
+            </>
           )}
           {/* {user?.setting >= 2 && ( */}
           <Route path="partner-hub" element={<PartnerHub />}>
@@ -270,6 +274,9 @@ const App = () => {
 
             <Route path="trend-news" element={<TrendNews />}></Route>
             <Route path="trend-news/form" element={<FormTrendNews />}></Route>
+
+            <Route path="mailBox" element={<MailBox />}></Route>
+            <Route path="mailBox/:id" element={<MailDetail />}></Route>
             <Route
               path="trend-news/form/:id"
               element={<FormTrendNews />}

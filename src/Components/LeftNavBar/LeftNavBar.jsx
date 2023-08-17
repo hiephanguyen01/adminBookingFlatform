@@ -16,6 +16,7 @@ import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./LeftNavBar.scss";
+import { ReactComponent as PartnerHub } from "../../assets/svg/PartnerHub.svg";
 
 const LeftNavBar = () => {
   const user = useSelector((state) => state.userReducer?.currentUser?.user);
@@ -136,12 +137,12 @@ const LeftNavBar = () => {
     {
       label: "Partner Hub",
       key: "/partner-hub",
-      icon: <UsergroupAddOutlined />,
+      icon: <PartnerHub className="partnerHubIcon",
       children: [
         { label: "Hỗ trợ", key: "/partner-hub/support" },
         { label: "Giải pháp", key: "/partner-hub/solution" },
         { label: "Xu hướng, tin tức", key: "/partner-hub/trend-news" },
-        { label: "Hộp thư", key: "/partner-hub/contact" },
+        { label: "Hộp thư", key: "/partner-hub/mailBox" },
       ],
       // disabled: user?.setting < 2,
     },
