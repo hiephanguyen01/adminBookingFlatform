@@ -29,6 +29,7 @@ import { userService } from "../../../../services/UserService";
 import { promoCodeService } from "../../../../services/PromoCodeService";
 import toastMessage from "../../../../Components/ToastMessage";
 import { Link, useLocation } from "react-router-dom";
+import { baseURL } from "../../../../../utils/baseURL";
 
 const cx = classNames.bind(styles);
 
@@ -556,6 +557,14 @@ const PromoPartnerDetail = ({ edit = false }) => {
                         </div>
                       </Radio>
                     </Space>
+                    <Button
+                      size="large"
+                      href={`${baseURL}/api/promo-code/partners/export/${location?.state?.promoId}`}
+                      style={{ marginBottom: "1rem", marginRight: ".5rem" }}
+                      danger
+                    >
+                      Xuất dữ liệu
+                    </Button>
                   </Radio.Group>
                 </Form.Item>
               </div>

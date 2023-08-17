@@ -149,7 +149,7 @@ const OrderDetail = () => {
               <Col sm={24} xs={24} md={16}>
                 <div className="label" style={{ color: "red" }}>
                   :&emsp;&emsp;&emsp;
-                  {data?.BookingValueBeforeDiscount?.toLocaleString("it-IT", {
+                  {data?.BookingValue?.toLocaleString("it-IT", {
                     style: "currency",
                     currency: "VND",
                   }) || 0}

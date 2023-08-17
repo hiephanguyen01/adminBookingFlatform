@@ -126,7 +126,7 @@ export const ChatAdmin = React.memo(({ toggleState, toggleClick, info }) => {
               >
                 <div>
                   Bạn:{" "}
-                  {lastMessage.Type === "text" ? (
+                  {lastMessage?.Type === "text" ? (
                     <>
                       {lastMessage.Content.toString().length <= 9
                         ? lastMessage.Content
@@ -136,7 +136,7 @@ export const ChatAdmin = React.memo(({ toggleState, toggleClick, info }) => {
                     <>Ảnh</>
                   )}
                 </div>
-                <div>{moment(lastMessage.createdAt).format("HH:mm")}</div>
+                <div>{moment(lastMessage?.createdAt).format("HH:mm")}</div>
               </div>
             ) : (
               <div
@@ -148,7 +148,7 @@ export const ChatAdmin = React.memo(({ toggleState, toggleClick, info }) => {
                 }}
               >
                 <div>
-                  {lastMessage.Type === "text" ? (
+                  {lastMessage?.Type === "text" ? (
                     <>
                       {lastMessage.Content.toString().length <= 12
                         ? lastMessage.Content
@@ -158,7 +158,7 @@ export const ChatAdmin = React.memo(({ toggleState, toggleClick, info }) => {
                     <>Ảnh</>
                   )}
                 </div>
-                <div>{moment(lastMessage.createdAt).format("HH:mm")}</div>
+                <div>{moment(lastMessage?.createdAt).format("HH:mm")}</div>
               </div>
             ))}
         </div>

@@ -49,9 +49,9 @@ export const ChatContent = ({ chatInfo }) => {
   const [files, setFiles] = useState([]);
 
   const name = chatInfo?.UserId
-    ? chatInfo.UserId?.Username
-      ? chatInfo.UserId.Username
-      : chatInfo.UserId.Fullname
+    ? chatInfo.UserId?.Fullname
+      ? chatInfo.UserId.Fullname
+      : chatInfo.UserId.Username
     : chatInfo?.PartnerId?.PartnerName;
 
   const scrollToBottom = () => {
@@ -432,6 +432,19 @@ export const ChatContent = ({ chatInfo }) => {
                     }
                   >
                     {renderMess(itm)}
+                    <p
+                      style={{
+                        fontSize: "9px",
+                        color: "#808080",
+                        width: "100%",
+                        textAlign:
+                          itm.Chatting.PartnerName !== undefined
+                            ? "left"
+                            : "right",
+                      }}
+                    >
+                      {moment(itm.createdAt).format("HH:mm DD/MM/YY")}
+                    </p>
                   </div>
                 </div>
               ))}

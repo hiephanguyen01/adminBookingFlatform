@@ -12,6 +12,8 @@ import {
 } from "../../../store/selector/ChatSelector";
 import { updateMAction } from "../../../store/action/ChatAction";
 import { TOGGLE_STATE } from "../../../store/types/messType";
+import { Input } from "antd";
+import unorm from "unorm";
 
 export const ChatBody = () => {
   const UserMe = useSelector((state) => state.userReducer.currentUser.user);
@@ -25,6 +27,9 @@ export const ChatBody = () => {
   const initMountStateUser = useRef([]);
   const [infoChatAdmin, setInfoChatAdmin] = useState();
   const [conversation, setConversation] = useState(initMountStateUser.current);
+  const [searchConversation, setConversationSearch] = useState(
+    initMountStateUser.current
+  );
   const [hasMore, setHasMore] = useState(true);
   const [loadMore, setLoadMore] = useState(false);
 
@@ -43,6 +48,9 @@ export const ChatBody = () => {
       />
     ));
   };
+  const removeAccents = (str) => {
+    return unorm.nfd(str).replace(/[\u0300-\u036f]/g, "");
+  };
 
   const contentChat = () => {
     return conversation.map((chat) => (
@@ -54,12 +62,54 @@ export const ChatBody = () => {
       </div>
     ));
   };
+  const scrollChatList = async (e, search = "") => {
+    const { data } = await chatService.getConversation(
+      8,
+      Math.floor(conversation.length / 8) + 1,
+      UserMe.id,
+      0
+    );
+
+    if (data.data.length !== 0) {
+      let newListConversation = [...conversation];
+      for (let i = 0; i < data.data.length; i++) {
+        let filterConversation = [...conversation];
+        if (
+          filterConversation.filter((itm) => itm.id === data.data[i].id)
+            .length === 0
+        ) {
+          newListConversation.push(data.data[i]);
+        }
+      }
+      initMountStateUser.current = newListConversation;
+      setConversation(newListConversation);
+      setConversationSearch(newListConversation);
+      if (data.pagination.hasNextPage === false) {
+        setHasMore(false);
+        setLoadMore(false);
+      }
+    } else {
+      setHasMore(false);
+      setLoadMore(false);
+    }
+  };
+
+  const onChangeSearch = (e) => {
+    setConversation(
+      searchConversation.filter((val) =>
+        removeAccents(val.UserId.Fullname.toLowerCase()).includes(
+          e.target.value.toLowerCase()
+        )
+      )
+    );
+  };
 
   useEffect(() => {
     (async () => {
       const res = await chatService.getConversation(10, 1, UserMe.id);
       initMountStateUser.current = res.data.data;
       setConversation(res.data.data);
+      setConversationSearch(res.data.data);
       setToggleState(res.data.data[0].id);
       dispatch({ type: TOGGLE_STATE, payload: res.data.data[0].id });
     })();
@@ -88,11 +138,13 @@ export const ChatBody = () => {
             newConversationUser.splice(indexOf, 1);
             initMountStateUser.current = [data.data, ...newConversationUser];
             setConversation(initMountStateUser.current);
+            setConversationSearch(initMountStateUser.current);
             setToggleState(data.data.id);
             dispatch({ type: TOGGLE_STATE, payload: data.data.id });
           } else {
             initMountStateUser.current = [data.data, ...newConversationUser];
             setConversation(initMountStateUser.current);
+            setConversationSearch(initMountStateUser.current);
             setToggleState(data.data.id);
             dispatch({ type: TOGGLE_STATE, payload: data.data.id });
           }
@@ -128,9 +180,11 @@ export const ChatBody = () => {
             }
             initMountStateUser.current = [data.data[0], ...newConversationUser];
             setConversation(initMountStateUser.current);
+            setConversationSearch(initMountStateUser.current);
           } else {
             initMountStateUser.current = [data.data[0], ...newConversationUser];
             setConversation(initMountStateUser.current);
+            setConversationSearch(initMountStateUser.current);
           }
         })();
       });
@@ -146,6 +200,7 @@ export const ChatBody = () => {
             const res = await chatService.getConversation(10, 1, UserMe.id);
             initMountStateUser.current = res.data.data;
             setConversation(res.data.data);
+            setConversationSearch(res.data.data);
             // setToggleState(res.data.data[0].id);
             dispatch({ type: TOGGLE_STATE, payload: res.data.data[0].id });
           })();
@@ -166,47 +221,12 @@ export const ChatBody = () => {
   return (
     <div className="Chat__body">
       <div className="Chat__body__user">
-        <div
-          className="Chat__body__userlist"
-          onScroll={async (e) => {
-            if (
-              e.target.scrollHeight - e.target.scrollTop ===
-                e.target.offsetHeight &&
-              hasMore
-            ) {
-              setLoadMore(true);
-              const { data } = await chatService.getConversation(
-                8,
-                Math.floor(conversation.length / 8) + 1,
-                UserMe.id,
-                0
-              );
-
-              if (data.data.length !== 0) {
-                let newListConversation = [...conversation];
-                for (let i = 0; i < data.data.length; i++) {
-                  let filterConversation = [...conversation];
-                  if (
-                    filterConversation.filter(
-                      (itm) => itm.id === data.data[i].id
-                    ).length === 0
-                  ) {
-                    newListConversation.push(data.data[i]);
-                  }
-                }
-                initMountStateUser.current = newListConversation;
-                setConversation(newListConversation);
-                if (data.pagination.hasNextPage === false) {
-                  setHasMore(false);
-                  setLoadMore(false);
-                }
-              } else {
-                setHasMore(false);
-                setLoadMore(false);
-              }
-            }
-          }}
-        >
+        <Input
+          style={{ margin: "0 0 10px" }}
+          placeholder="search"
+          onChange={onChangeSearch}
+        />
+        <div className="Chat__body__userlist" onScroll={scrollChatList}>
           {userChat()}
           {!hasMore && (
             <div className="Chat__body__userlist__no-more">

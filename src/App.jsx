@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.scss";
+import "react-quill/dist/quill.snow.css";
 import Chat from "./Components/Chat/Chat";
 import { ProtectedRoute } from "./Components/ProtectedRoute/ProtectedRoute";
 import AdminLayout from "./Layouts/AdminLayout/AdminLayout";
@@ -73,12 +74,16 @@ import { getCurrentUser } from "./store/action/authAction";
 
 import AffiliatePayment from "./Page/AffiliatePayment/AffiliatePayment";
 import KeyRelate from "./Page/KeyRelate/KeyRelate";
-import PartnerHub from "./Page/PartnerHub/PartnerHub";
-import Support from "./Page/PartnerHub/Support";
-import Solution from "./Page/PartnerHub/Solution";
-import Trend from "./Page/PartnerHub/Trend";
+
 import MailBox from "./Page/PartnerHub/MailBox";
 import MailDetail from "./Page/PartnerHub/MailDetail/MailDetail";
+import PartnerHub from "./Page/PartnerHub/PartnerHub";
+import Solution from "./Page/PartnerHub/Solution/Solution";
+import Support from "./Page/PartnerHub/Support/Support";
+import TrendNews from "./Page/PartnerHub/TrendNews/TrendNews";
+import FormSupport from "./Page/PartnerHub/Support/components/FormSupport/FormSupport";
+import FormSolution from "./Page/PartnerHub/Solution/components/FormSolution";
+import FormTrendNews from "./Page/PartnerHub/TrendNews/components/FormTrendNews";
 
 const App = () => {
   const [path, setPath] = useState("");
@@ -108,13 +113,14 @@ const App = () => {
             </ProtectedRoute>
           }
         >
-          <Route path="dashboard" element={<Dashboard />}>
-            <Route path="account" element={<Account />}></Route>
-            <Route path="post" element={<Post />}></Route>
-            <Route path="order" element={<Order />}></Route>
-            <Route path="access-times" element={<AccessTime />}></Route>
-          </Route>
-
+          {user?.dashboard >= 2 && (
+            <Route path="dashboard" element={<Dashboard />}>
+              <Route path="account" element={<Account />}></Route>
+              <Route path="post" element={<Post />}></Route>
+              <Route path="order" element={<Order />}></Route>
+              <Route path="access-times" element={<AccessTime />}></Route>
+            </Route>
+          )}
           <Route path="manage" element={<ManageAccount />}>
             {user?.partnerAccount >= 2 && (
               <Route path="partner" element={<Partner />}></Route>
@@ -229,26 +235,24 @@ const App = () => {
             </Route>
           )}
           {user?.setting >= 2 && (
-            <>
-              <Route path="setting" element={<CoreSetting />}>
-                <Route path="city" element={<City />}></Route>
-                <Route path="district" element={<District />}></Route>
-                <Route path="ward" element={<Ward />}></Route>
-                <Route path="banned-word" element={<BannedWord />}></Route>
-                <Route path="question" element={<AskedQuestion />}></Route>
-                <Route path="hot-key" element={<HotKey />}></Route>
-                <Route path="key-relate" element={<KeyRelate />}></Route>
-                <Route path="banner" element={<Banner />}></Route>
-                <Route path="email-service" element={<EmailService />}></Route>
-                <Route path="banner/create" element={<CreateBanner />}></Route>
-                <Route
-                  path="banner/edit"
-                  element={<EditBanner edit={true} />}
-                ></Route>
-                <Route path="banks" element={<Banks />} />
-                <Route path="banks/create" element={<CreateBank />} />
-                <Route path="banks/edit" element={<EditBank edit={true} />} />
-
+            <Route path="setting" element={<CoreSetting />}>
+              <Route path="city" element={<City />}></Route>
+              <Route path="district" element={<District />}></Route>
+              <Route path="ward" element={<Ward />}></Route>
+              <Route path="banned-word" element={<BannedWord />}></Route>
+              <Route path="question" element={<AskedQuestion />}></Route>
+              <Route path="hot-key" element={<HotKey />}></Route>
+              <Route path="key-relate" element={<KeyRelate />}></Route>
+              <Route path="banner" element={<Banner />}></Route>
+              <Route path="email-service" element={<EmailService />}></Route>
+              <Route path="banner/create" element={<CreateBanner />}></Route>
+              <Route
+                path="banner/edit"
+                element={<EditBanner edit={true} />}
+              ></Route>
+              <Route path="banks" element={<Banks />} />
+              <Route path="banks/create" element={<CreateBank />} />
+              <Route path="banks/edit" element={<EditBank edit={true} />} />
                 <Route path="webhook" element={<WebHook />}></Route>
                 <Route
                   path="webhook/create"
@@ -256,15 +260,30 @@ const App = () => {
                 ></Route>
                 <Route path="webhook/edit" element={<EditWebHook />}></Route>
               </Route>
-              <Route path="/partnerHub" element={<PartnerHub />}>
-                <Route path="support" element={<Support />}></Route>
-                <Route path="solution" element={<Solution />}></Route>
-                <Route path="trend" element={<Trend />}></Route>
-                <Route path="mailBox" element={<MailBox />}></Route>
-                <Route path="mailBox/:id" element={<MailDetail />}></Route>
-              </Route>
             </>
           )}
+          {/* {user?.setting >= 2 && ( */}
+          <Route path="partner-hub" element={<PartnerHub />}>
+            <Route path="support" element={<Support />}></Route>
+            <Route path="support/form" element={<FormSupport />}></Route>
+            <Route path="support/form/:id" element={<FormSupport />}></Route>
+
+            <Route path="solution" element={<Solution />}></Route>
+            <Route path="solution/form" element={<FormSolution />}></Route>
+            <Route path="solution/form/:id" element={<FormSolution />}></Route>
+
+            <Route path="trend-news" element={<TrendNews />}></Route>
+            <Route path="trend-news/form" element={<FormTrendNews />}></Route>
+
+            <Route path="mailBox" element={<MailBox />}></Route>
+            <Route path="mailBox/:id" element={<MailDetail />}></Route>
+            <Route
+              path="trend-news/form/:id"
+              element={<FormTrendNews />}
+            ></Route>
+            <Route path="contact" element={<Contact />}></Route>
+          </Route>
+          {/* )} */}
         </Route>
         {user?.post >= 2 && (
           <Route path="posts">
