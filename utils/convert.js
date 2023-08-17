@@ -42,6 +42,12 @@ export const convertTimeUTC = (datetime, date) => {
   }
   return moment(datetime).utc().format("DD-MM-YYYY");
 };
+export const convertTimeNormal = (datetime, date) => {
+  if (date) {
+    return moment(datetime).format("DD-MM-YYYY  HH:mm A");
+  }
+  return moment(datetime).format("DD-MM-YYYY");
+};
 
 export const converPriceVND = (price = 0) => {
   return Number(price).toLocaleString("it-IT", {

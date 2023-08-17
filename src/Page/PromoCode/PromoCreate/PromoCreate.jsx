@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import dayjs from "dayjs";
 import { MultiSelect } from "react-multi-select-component";
-
+import axios from "axios";
 import styles from "./promoCreate.module.scss";
 import {
   Avatar,
@@ -26,6 +26,9 @@ import { userService } from "../../../services/UserService";
 import { promoCodeService } from "../../../services/PromoCodeService";
 import toastMessage from "../../../Components/ToastMessage";
 import diacriticless from "diacriticless";
+import { baseURL } from "../../../../utils/baseURL";
+import { notifyService } from "../../../services/notifyService";
+import { openNotification } from "../../../../utils/Notification";
 
 const cx = classNames.bind(styles);
 
@@ -123,7 +126,11 @@ const PromoCreate = () => {
   };
 
   const handleOnSubmit = async (value) => {
-    const newPromo = { ...promo, SpendingBookingStudio: spendingBookingStudio };
+    const newPromo = {
+      ...promo,
+      SpendingBookingStudio: spendingBookingStudio,
+      PartnerConfirm: partnerConfirm,
+    };
     let customerApply, partnerApply;
     if (newPromo.selectCus === 3) {
       customerApply = selectedCus.map((item) => item.id).join(",");
@@ -140,6 +147,8 @@ const PromoCreate = () => {
         .filter((item) => selectedPartner.some((itm) => itm.id !== item.id))
         .map((item) => item.id)
         .join(",");
+    } else if (newPromo.selectPartner === 1) {
+      partnerApply = partners.map((item) => item.id).join(",");
     }
 
     const newDataSend = {
@@ -572,7 +581,10 @@ const PromoCreate = () => {
             <Radio.Group
               className={cx("w-100")}
               value={partnerConfirm}
-              onChange={(e) => setPartnerConfirm(e.target.value)}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setPartnerConfirm(e.target.value);
+              }}
               disabled={spendingBookingStudio < 100}
             >
               <Row>

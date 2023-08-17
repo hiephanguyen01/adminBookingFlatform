@@ -1,0 +1,55 @@
+.container {
+    background-color: rgb(246, 246, 246);
+
+    .filter-wrapper {
+        margin-bottom: 10px;
+        background-color: white;
+        padding: 10px 0 20px 0;
+
+        // .ant-picker-large {
+        //     .ant-picker-input {
+        //         &>input {
+        //             font-size: 13px !important;
+        //         }
+        //     }
+        // }
+
+        .form-custom {
+            .ant-form-item-label {
+                padding: 0 !important;
+            }
+
+            label {
+                height: auto !important;
+            }
+        }
+    }
+
+    .content-wrapper {
+        min-height: 100%;
+        background-color: white;
+        text-align: end;
+        padding: 10px 0;
+    }
+}
+
+.w-25 {
+    width: 25%;
+}
+
+.action_more {
+    padding: 5px;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.5 ease-in-out;
+    display: block;
+
+    &:hover {
+        background-color: #ccc;
+        color: #000;
+    }
+
+    &_icon {
+        margin-right: 5px;
+    }
+}

@@ -5,30 +5,39 @@ import { reportService } from "../../../services/ReportService";
 import Rating from "../Rating/Rating";
 import RatingReportCard from "../RatingReportCard/RatingReportCard";
 import "./DetailRateReport.scss";
+import { useMemo } from "react";
 
 const DetailRateReport = () => {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const [info, setInfo] = useState();
+  const category = searchParams.get("category");
 
-  const tabs = [
-    {
-      key: 1,
-      label: "Xếp hạng đánh giá",
-      children: <Rating data={info} />,
-    },
-    {
-      key: 2,
-      label: "Báo cáo vi phạm",
-      children: (
-        <>
-          {info?.reports.map((itm) => (
-            <RatingReportCard type={2} data={itm} />
-          ))}
-        </>
-      ),
-    },
-  ];
+  const tabs = useMemo(() => {
+    return [
+      {
+        key: 1,
+        label: "Xếp hạng đánh giá",
+        children: <Rating data={info} postId={info?.id} category={category} />,
+      },
+      {
+        key: 2,
+        label: "Báo cáo vi phạm",
+        children: (
+          <>
+            {info?.reports.map((itm) => (
+              <RatingReportCard
+                type={2}
+                data={itm}
+                postId={info?.id}
+                category={category}
+              />
+            ))}
+          </>
+        ),
+      },
+    ];
+  }, [id, category, info]);
 
   useEffect(() => {
     (async () => {
@@ -65,7 +74,8 @@ const DetailRateReport = () => {
                   style={{ margin: "20px" }}
                   name="id"
                   label="Số định danh"
-                  initialValue={info?.IdentifyCode}>
+                  initialValue={info?.IdentifyCode}
+                >
                   <Input disabled size="large" />
                 </Form.Item>
               </Col>
