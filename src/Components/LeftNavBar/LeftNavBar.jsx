@@ -137,7 +137,7 @@ const LeftNavBar = () => {
     {
       label: "Partner Hub",
       key: "/partner-hub",
-      icon: <PartnerHub className="partnerHubIcon",
+      icon: <PartnerHub className="partnerHubIcon" />,
       children: [
         { label: "Hỗ trợ", key: "/partner-hub/support" },
         { label: "Giải pháp", key: "/partner-hub/solution" },

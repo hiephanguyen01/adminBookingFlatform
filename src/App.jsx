@@ -253,14 +253,10 @@ const App = () => {
               <Route path="banks" element={<Banks />} />
               <Route path="banks/create" element={<CreateBank />} />
               <Route path="banks/edit" element={<EditBank edit={true} />} />
-                <Route path="webhook" element={<WebHook />}></Route>
-                <Route
-                  path="webhook/create"
-                  element={<CreateWebHook />}
-                ></Route>
-                <Route path="webhook/edit" element={<EditWebHook />}></Route>
-              </Route>
-            </>
+              <Route path="webhook" element={<WebHook />}></Route>
+              <Route path="webhook/create" element={<CreateWebHook />}></Route>
+              <Route path="webhook/edit" element={<EditWebHook />}></Route>
+            </Route>
           )}
           {/* {user?.setting >= 2 && ( */}
           <Route path="partner-hub" element={<PartnerHub />}>
@@ -281,7 +277,6 @@ const App = () => {
               path="trend-news/form/:id"
               element={<FormTrendNews />}
             ></Route>
-            <Route path="contact" element={<Contact />}></Route>
           </Route>
           {/* )} */}
         </Route>
