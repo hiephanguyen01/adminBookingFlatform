@@ -13,6 +13,13 @@ import { partnerHubTrendNewsService } from "../../../../services/PartnerHubTrend
 import { openNotification } from "../../../../../utils/Notification";
 import { useParams } from "react-router-dom";
 import { CATEGORIES } from "../../../../../utils/category";
+
+let Quill = ReactQuill.Quill;
+var Image = Quill.import("formats/image");
+
+Image.className = "img-fluid";
+Quill.register(Image, true);
+
 const FormTrendNews = () => {
   const { id } = useParams();
   const [isEdit, setIsEdit] = useState(false);
