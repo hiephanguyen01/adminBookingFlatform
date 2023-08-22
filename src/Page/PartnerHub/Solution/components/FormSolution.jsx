@@ -12,6 +12,13 @@ import { uploadImage } from "../../../../../utils/uploadImage";
 import { partnerHubSolutionService } from "../../../../services/PartnerHubSolutionService";
 import { openNotification } from "../../../../../utils/Notification";
 import { useParams } from "react-router-dom";
+
+let Quill = ReactQuill.Quill;
+var Image = Quill.import("formats/image");
+
+Image.className = "img-fluid";
+Quill.register(Image, true);
+
 const FormSolution = () => {
   const { id } = useParams();
   const [isEdit, setIsEdit] = useState(false);
@@ -78,6 +85,7 @@ const FormSolution = () => {
   const imageHandler = useCallback((e) => {
     const editor = quillRef.current.getEditor();
     const input = document.createElement("input");
+
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
     input.click();

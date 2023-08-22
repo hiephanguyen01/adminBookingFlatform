@@ -12,6 +12,13 @@ import { uploadImage } from "../../../../../../utils/uploadImage";
 import { partnerHubSupportService } from "../../../../../services/PartnerHubSupportService";
 import { openNotification } from "../../../../../../utils/Notification";
 import { useParams } from "react-router-dom";
+
+let Quill = ReactQuill.Quill;
+var Image = Quill.import("formats/image");
+
+Image.className = "img-fluid";
+Quill.register(Image, true);
+
 const FormSupport = () => {
   const { id } = useParams();
   const [isEdit, setIsEdit] = useState(false);
