@@ -108,7 +108,7 @@ const Index = () => {
       },
     },
     {
-      title: "Ngày gửi",
+      title: "Ngày nhận",
       dataIndex: "createdAt",
       key: "CreateAt",
       width: 250,
