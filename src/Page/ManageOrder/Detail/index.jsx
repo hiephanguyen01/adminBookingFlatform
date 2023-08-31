@@ -27,9 +27,9 @@ function priceAbsent(data) {
   let value = "";
   if (data?.BookingStatus === 3) {
     if (data?.OrderByTime) {
-      value = (data?.BookingValue * data?.AbsentPriceByHour) / 100;
+      value = (data?.DepositValue * data?.AbsentPriceByHour) / 100;
     } else {
-      value = (data?.BookingValue * data?.AbsentPriceByDate) / 100;
+      value = (data?.DepositValue * data?.AbsentPriceByDate) / 100;
     }
   }
   console.log(value);
