@@ -1,5 +1,11 @@
-import { DeleteOutlined, EditFilled, PlusOutlined } from "@ant-design/icons";
-import { Button, Popconfirm, Table } from "antd";
+import {
+  DeleteOutlined,
+  DislikeOutlined,
+  EditFilled,
+  LikeOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import { Button, Popconfirm, Space, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { partnerHubTrendNewsService } from "../../../services/PartnerHubTrendNewsService";
@@ -39,6 +45,20 @@ const TrendNews = () => {
       title: "Danh mục",
       dataIndex: "category",
       render: (id) => <p>{CATEGORIES.find((val) => val.value === id).label}</p>,
+    },
+    {
+      title: "Đánh giá hữu ích",
+      dataIndex: "like",
+      render: (item, _) => (
+        <Space size="middle">
+          <div>
+            <LikeOutlined /> {item}
+          </div>
+          <div>
+            <DislikeOutlined /> {_.dislike}
+          </div>
+        </Space>
+      ),
     },
     {
       title: "Thao tác",

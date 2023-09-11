@@ -1,5 +1,11 @@
-import { DeleteOutlined, EditFilled, PlusOutlined } from "@ant-design/icons";
-import { Button, Popconfirm, Table } from "antd";
+import {
+  DeleteOutlined,
+  DislikeOutlined,
+  EditFilled,
+  LikeOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import { Button, Popconfirm, Space, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { partnerHubSolutionService } from "../../../services/PartnerHubSolutionService";
@@ -33,6 +39,20 @@ const Solution = () => {
     {
       title: "Tiêu đề",
       dataIndex: "title",
+    },
+    {
+      title: "Đánh giá hữu ích",
+      dataIndex: "like",
+      render: (item, _) => (
+        <Space size="middle">
+          <div>
+            <LikeOutlined /> {item}
+          </div>
+          <div>
+            <DislikeOutlined /> {_.dislike}
+          </div>
+        </Space>
+      ),
     },
     {
       title: "Thao tác",
