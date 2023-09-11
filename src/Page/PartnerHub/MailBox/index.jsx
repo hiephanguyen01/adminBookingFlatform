@@ -108,7 +108,7 @@ const Index = () => {
       },
     },
     {
-      title: "Ngày gửi",
+      title: "Ngày nhận",
       dataIndex: "createdAt",
       key: "CreateAt",
       width: 250,
@@ -178,7 +178,6 @@ const Index = () => {
       getAllMail(pagination?.currentPage, pagination?.limit, values);
     } catch (error) {}
   };
-  console.log(pagination);
   return (
     <div className="mailBoxContainer">
       <h2>Quản lý hộp thư</h2>
