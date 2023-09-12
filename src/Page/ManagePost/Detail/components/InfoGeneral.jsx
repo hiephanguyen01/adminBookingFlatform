@@ -3,7 +3,7 @@ import TextArea from "antd/es/input/TextArea";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IMG_SIZE } from "../../../../../utils/baseURL";
-import { convertTimeUTC } from "../../../../../utils/convert";
+import { convertTimeNormal, convertTimeUTC } from "../../../../../utils/convert";
 
 export const InfoGeneral = ({ data }) => {
   if (!data) return null;
@@ -38,7 +38,8 @@ export const InfoGeneral = ({ data }) => {
         }}
         onFinish={(e) => onFinish(e)}
         autoComplete="off"
-        style={{ marginTop: "20px" }}>
+        style={{ marginTop: "20px" }}
+      >
         <Row gutter={32}>
           <Col span={12}>
             <Form.Item
@@ -86,7 +87,7 @@ export const InfoGeneral = ({ data }) => {
               <Col span={12}>
                 <Form.Item label="Ngày đăng">
                   <Input
-                    value={convertTimeUTC(data?.CreationTime)}
+                    value={convertTimeUTC(data?.CreationTime,true)}
                     style={{ padding: "10px" }}
                   />
                 </Form.Item>
@@ -94,7 +95,7 @@ export const InfoGeneral = ({ data }) => {
               <Col span={12}>
                 <Form.Item label="Ngày cập nhật">
                   <Input
-                    value={convertTimeUTC(data?.LastModificationTime)}
+                    value={convertTimeNormal(data?.LastModificationTime, true)}
                     style={{ padding: "10px" }}
                   />
                 </Form.Item>

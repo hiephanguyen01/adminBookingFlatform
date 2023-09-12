@@ -22,6 +22,18 @@ import "./detail.scss";
 import { useSelector } from "react-redux";
 import { chatService } from "../../../services/ChatService";
 
+function priceAbsent(data) {
+  let value = "";
+  if (data?.BookingStatus === 3) {
+    if (data?.OrderByTime) {
+      value = (data?.DepositValue * data?.AbsentPriceByHour) / 100;
+    } else {
+      value = (data?.DepositValue * data?.AbsentPriceByDate) / 100;
+    }
+  }
+  console.log(value);
+  return value;
+}
 const Detail = ({ modify = false }) => {
   const socket = useSelector((state) => state.userReducer.socket);
 
@@ -1074,7 +1086,10 @@ const Detail = ({ modify = false }) => {
               label="Phí vắng mặt"
               // name="absentFee"
             >
-              <Input style={{ padding: "10px" }} />
+              <Input
+                value={converPriceVND(priceAbsent(data && data))}
+                style={{ padding: "10px" }}
+              />
             </Form.Item>
             {modify && (
               <Form.Item

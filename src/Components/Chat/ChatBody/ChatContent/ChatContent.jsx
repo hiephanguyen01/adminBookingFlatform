@@ -49,9 +49,9 @@ export const ChatContent = ({ chatInfo }) => {
   const [files, setFiles] = useState([]);
 
   const name = chatInfo?.UserId
-    ? chatInfo.UserId?.Username
-      ? chatInfo.UserId.Username
-      : chatInfo.UserId.Fullname
+    ? chatInfo.UserId?.Fullname
+      ? chatInfo.UserId.Fullname
+      : chatInfo.UserId.Username
     : chatInfo?.PartnerId?.PartnerName;
 
   const scrollToBottom = () => {
@@ -443,7 +443,7 @@ export const ChatContent = ({ chatInfo }) => {
                             : "right",
                       }}
                     >
-                      {moment(itm.createdAt).format("hh:mm DD/MM/YY")}
+                      {moment(itm.createdAt).format("HH:mm DD/MM/YY")}
                     </p>
                   </div>
                 </div>

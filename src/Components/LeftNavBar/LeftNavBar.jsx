@@ -9,12 +9,14 @@ import {
   SettingOutlined,
   SketchOutlined,
   SolutionOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./LeftNavBar.scss";
+import { ReactComponent as PartnerHub } from "../../assets/svg/PartnerHub.svg";
 
 const LeftNavBar = () => {
   const user = useSelector((state) => state.userReducer?.currentUser?.user);
@@ -28,6 +30,7 @@ const LeftNavBar = () => {
       label: "Dashboard",
       key: "/dashboard",
       icon: <AreaChartOutlined />,
+      disabled: user?.dashboard < 2,
       children: [
         { label: "Tài khoản", key: "/dashboard/account" },
         { label: "Bài đăng", key: "/dashboard/post" },
@@ -131,7 +134,20 @@ const LeftNavBar = () => {
       ],
       disabled: user?.setting < 2,
     },
+    {
+      label: "Partner Hub",
+      key: "/partner-hub",
+      icon: <PartnerHub className="partnerHubIcon" />,
+      children: [
+        { label: "Hỗ trợ", key: "/partner-hub/support" },
+        { label: "Giải pháp", key: "/partner-hub/solution" },
+        { label: "Xu hướng, tin tức", key: "/partner-hub/trend-news" },
+        { label: "Hộp thư", key: "/partner-hub/mailBox" },
+      ],
+      // disabled: user?.setting < 2,
+    },
   ];
+
   return (
     <div className="LeftNavBar">
       <Menu
