@@ -19,9 +19,8 @@ import { openNotification } from "../../../../utils/Notification";
 import { Loading } from "../../../Components/Loading";
 import { orderService } from "../../../services/OrderService";
 import "./detail.scss";
-
-import "./detail.scss";
 import { useSelector } from "react-redux";
+import { chatService } from "../../../services/ChatService";
 
 const Detail = ({ modify = false }) => {
   const socket = useSelector((state) => state.userReducer.socket);
@@ -76,7 +75,7 @@ const Detail = ({ modify = false }) => {
       value: data?.HasSupporter,
     },
   ];
-  console.log(data);
+  // console.log(data);
   const refundValue = (booking) => {
     let refundValue = 0;
     let bookingStatus = "";
@@ -147,6 +146,29 @@ const Detail = ({ modify = false }) => {
     }
   };
 
+  const createConversationBetweenUserAndPartner = async () => {
+    try {
+      const temp = await chatService.createConversation(
+        data?.TenantId, //partnerID
+        data?.user?.id //userId
+      );
+
+      //Pointing conversationData constant to temp.data object
+      const conversationData = temp?.payload;
+
+      if (conversationData) {
+        // Request User and Partner join a same chat room
+        socket.emit("requestUserAndPartnerJoinRoom", {
+          roomId: conversationData?.id,
+          userId: data?.user?.id,
+          partnerId: data?.TenantId,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   if (loading) return <Loading />;
   const onFinish = async (value) => {
     setLoadingBtn(true);
@@ -162,12 +184,21 @@ const Detail = ({ modify = false }) => {
         data.PaymentStatus !== value.PaymentStatus &&
         (value.PaymentStatus === 2 || value.PaymentStatus === 3)
       ) {
+        // Check if the previous payment status equal 1
+        // IF it is: create a chat room
+        // ELSE: don't create a chat room
+        if (data.PaymentStatus === 1) {
+          // ****** Create chat room socket event ******
+          createConversationBetweenUserAndPartner();
+        }
+        // ****** Notify to admin socket event ******
         socket?.emit("manualChangeBookingStatusByAdmin", {
           ...value,
           TenantId: data.TenantId,
           IdentifyCode: data.IdentifyCode,
         });
       }
+
       openNotification("success", "Cập nhật thành công!");
       setLoadingBtn(false);
     } catch (error) {
