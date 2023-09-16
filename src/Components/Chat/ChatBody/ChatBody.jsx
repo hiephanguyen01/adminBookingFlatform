@@ -3,8 +3,6 @@ import { ChatUser } from "./ChatUser/ChatUser";
 import { ChatContent } from "./ChatContent/ChatContent";
 import { ChatUserFilter } from "./ChatUserFilter/ChatUserFilter";
 import { chatService } from "../../../services/ChatService";
-import { ChatAdmin } from "./ChatAdmin/ChatAdmin";
-import { ChatContentAdmin } from "./ChatContent/ChatContentAdmin";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createConverFlagSelector,
@@ -25,7 +23,6 @@ export const ChatBody = () => {
   const dispatch = useDispatch();
   const [toggleState, setToggleState] = useState(getToggleState);
   const initMountStateUser = useRef([]);
-  const [infoChatAdmin, setInfoChatAdmin] = useState();
   const [conversation, setConversation] = useState(initMountStateUser.current);
   const [searchConversation, setConversationSearch] = useState(
     initMountStateUser.current
@@ -53,14 +50,14 @@ export const ChatBody = () => {
   };
 
   const contentChat = () => {
-    return conversation.map((chat) => (
-      <div
-        className={toggleState === chat.id ? "Chat__body__content" : "d-none"}
-        key={chat.id}
-      >
-        <ChatContent chatInfo={chat} />
+    let toggleConversation = conversation.filter((el) => el.id === toggleState);
+    return toggleConversation.length > 0 ? (
+      <div className={"Chat__body__content"} key={toggleState}>
+        <ChatContent chatInfo={toggleConversation[0]} />
       </div>
-    ));
+    ) : (
+      <></>
+    );
   };
   const scrollChatList = async (e, search = "") => {
     const { data } = await chatService.getConversation(
@@ -209,22 +206,13 @@ export const ChatBody = () => {
     }
   });
 
-  //******* Call API to retrieve the ConversationId with Admin *******
-  // useEffect(() => {
-  //   (async () => {
-  //     const res = await chatService.getConversationVsAdmin(UserMe.id, 0, 10);
-  //     setInfoChatAdmin(res?.data?.data);
-  //     // console.log(res?.data?.data);
-  //   })();
-  // }, [UserMe?.id]);
-
   return (
     <div className="Chat__body">
       <div className="Chat__body__user">
-        <Input
-          style={{ margin: "0 0 10px" }}
-          placeholder="search"
-          onChange={onChangeSearch}
+        <ChatUserFilter
+          initMountStateUser={initMountStateUser}
+          setToggleState={setToggleState}
+          setConversation={setConversation}
         />
         <div className="Chat__body__userlist" onScroll={scrollChatList}>
           {userChat()}
@@ -243,12 +231,6 @@ export const ChatBody = () => {
         </div>
       </div>
       <div className="Chat__body__divider"></div>
-      {/* <div
-        className={toggleState === 1000000 ? "Chat__body__content" : "d-none"}
-        key={1000000}
-      >
-        <ChatContentAdmin info={infoChatAdmin} />
-      </div> */}
       {contentChat()}
     </div>
   );

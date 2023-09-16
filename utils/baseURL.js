@@ -1,6 +1,6 @@
 import md5 from "md5";
 import moment from "moment";
-export const baseURL = "http://localhost:3003";
+export const baseURL = `${import.meta.env.VITE_DB_BASE_URL}`;
 export const IMG = (imageId) => {
   const secrect = md5(
     imageId +

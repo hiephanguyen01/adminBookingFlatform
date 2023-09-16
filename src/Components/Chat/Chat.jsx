@@ -55,7 +55,7 @@ const Chat = () => {
     getTotalAmountOfConversationHasNewMess();
     if (!socket) {
       // socket.emit("connect");
-      dispatch(setupSocket());
+      dispatch(setupSocket(UserMe.user.id));
     }
   }, []);
 
@@ -80,6 +80,15 @@ const Chat = () => {
     };
 
     if (socket) {
+      socket.on(
+        "requestUserAndPartnerJoinRoom",
+        ({ roomId, userId, partnerId }) => {
+          if (userId === UserMe.user.id) {
+            socket.emit("joinChatRoom", { roomId, memberId: UserMe?.user?.id });
+          }
+        }
+      );
+
       socket.emit("login_user", {
         userId: UserMe.id,
       });
@@ -167,6 +176,7 @@ const Chat = () => {
         width={750}
         onClose={() => dispatch({ type: SHOW_CHAT })}
         open={showChat}
+        bodyStyle={{ overflowY: "hidden" }}
       >
         <div className="Chat__container__header">
           <div className="Chat__container__header__left">

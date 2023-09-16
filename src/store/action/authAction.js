@@ -3,6 +3,7 @@ import { baseURL } from "../../../utils/baseURL";
 import { openNotification } from "../../../utils/Notification";
 import { adminService } from "../../services/AdminService";
 import { AUTHING, SET_LOADING, SET_SOCKET, SET_USER } from "../types/authTypes";
+import { chatService } from "../../services/ChatService";
 
 export const login = (value) => async (dispatch) => {
   try {
@@ -48,14 +49,26 @@ export const logOut = (navigate, pathname) => async (dispatch) => {
   }
 };
 
-export const setupSocket = () => (dispatch) => {
-  // window.location.protocol + "//" + window.location.host,http://localhost:3003
-  const newSocket = io(baseURL);
-  newSocket.on("disconnect", () => {
-    dispatch({ type: SET_SOCKET, payload: null });
-    setTimeout(setupSocket, 3000);
-  });
-  newSocket.on("connect", (e) => {
-    dispatch({ type: SET_SOCKET, payload: newSocket });
-  });
-};
+export const setupSocket =
+  (adminId = null) =>
+  async (dispatch) => {
+    const newSocket = io(baseURL);
+    if (newSocket) {
+      newSocket.on("disconnect", () => {
+        dispatch({ type: SET_SOCKET, payload: null });
+        setTimeout(setupSocket, 3000);
+      });
+      newSocket.on("connect", (e) => {
+        dispatch({ type: SET_SOCKET, payload: newSocket });
+      });
+
+      /**
+       * Get all conversation
+       * Make all users in that conversation to join into rooms
+       */
+      const { data } = await chatService.getAllConversationId(adminId, "admin");
+      data?.payload.forEach((el) => {
+        newSocket.emit("joinChatRoom", { roomId: el, memberId: adminId });
+      });
+    }
+  };

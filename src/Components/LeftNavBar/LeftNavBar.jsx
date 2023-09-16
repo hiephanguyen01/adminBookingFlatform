@@ -108,7 +108,7 @@ const LeftNavBar = () => {
       key: "/promo-code",
       icon: <SketchOutlined />,
       children: [
-        { label: "Mã khuyến mãi", key: "/promo-code" },
+        { label: "Mã khuyến mãi", key: "/promo-code/list" },
         // { label: "Đối tác", key: "/promo-code/partner" },
         // { label: "Khách hàng", key: "/promo-code/customer" },
         { label: "Tạo khuyến mãi", key: "/promo-code/create" },
@@ -155,11 +155,6 @@ const LeftNavBar = () => {
         mode="inline"
         items={items}
         defaultSelectedKeys={[`${location.pathname && location.pathname}`]}
-        // defaultOpenKeys={`${
-        //   location.pathname &&
-        //   location?.pathname.split("/").length >= 3 &&
-        //   location?.pathname.split("/")[1]
-        // }`}
         defaultOpenKeys={[
           `/${
             location.pathname &&

@@ -42,17 +42,7 @@ export const ChatUser = React.memo(
         setLastMessage(userInfo.newestMessage);
       }
     }, [userInfo]);
-    useEffect(() => {
-      //   setIsOnline(onlinePartnerList.includes(userInfo?.AdminId?.id));
-      // }, [onlinePartnerList]);
-      // useEffect(() => {
-      //   setIsOnline(offlinePartnerList.includes(userInfo?.AdminId?.id));
-      // }, [offlinePartnerList]);
-      // useEffect(() => {
-      //   return () => {
-      //     setToggleState(1);
-      //   };
-    }, []);
+
     return (
       <div
         style={{
@@ -69,7 +59,7 @@ export const ChatUser = React.memo(
           readMessage();
           dispatch({ type: "REMOVE_NOTIFY_MESS", payload: id });
           if (
-            userInfo.newestMessage.UserId === -1 &&
+            userInfo.newestMessage.UserId.id === -1 &&
             userInfo.newestMessage.IsRead === false
           ) {
             (async () => {
@@ -97,24 +87,10 @@ export const ChatUser = React.memo(
                   ? name
                   : `${name.toString().slice(0, 15)}...`}
               </p>
-              {/* {isOnline ? (
-                <span className="User__isOnline"></span>
-              ) : (
-                <span className="User__isOffline"></span>
-              )} */}
             </div>
             {lastMessage ? (
               lastMessage?.UserId === userInfo?.UserId?.id ? (
-                <div
-                  className=" d-flex justify-content-between"
-                  // style={{
-                  //   width: "100%",
-                  //   display: "flex",
-                  //   justifyContent: "space-between",
-                  //   color: "#828282",
-                  //   fontSize: "13px",
-                  // }}
-                >
+                <div className=" d-flex justify-content-between">
                   <div>
                     Bạn:{" "}
                     {lastMessage?.Type === "text" ? (

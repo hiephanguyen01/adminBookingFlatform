@@ -38,6 +38,7 @@ export const ChatContent = ({ chatInfo }) => {
   const { id } = chatInfo;
   const [messageList, setMessageList] = useState([]);
   const [message, setMessage] = useState("");
+  const [renderMessageList, setRenderMessageList] = useState([]);
   const typingTimeOutRef = useRef(null);
   const [isTyping, setIsTyping] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -80,19 +81,6 @@ export const ChatContent = ({ chatInfo }) => {
   };
   const onInputChange = async (event) => {
     setMessage(event.target.value);
-    // socket.emit("typing", {
-    //   ConversationId: id,
-    //   typing: true,
-    // });
-    // if (typingTimeOutRef.current) {
-    //   clearTimeout(typingTimeOutRef.current);
-    // }
-    // typingTimeOutRef.current = setTimeout(() => {
-    //   socket.emit("typing", {
-    //     ConversationId: id,
-    //     typing: false,
-    //   });
-    // }, 1000);
   };
   const onEnterPress = async (e) => {
     const messText = {
@@ -101,7 +89,7 @@ export const ChatContent = ({ chatInfo }) => {
         ConversationId: id,
         createdAt: moment().toISOString(),
         Content: message,
-        Chatting: UserMe,
+        Chatting: UserMe.user,
         Type: "text",
       },
       From: "admin",
@@ -110,21 +98,10 @@ export const ChatContent = ({ chatInfo }) => {
 
     if (e.keyCode === 13 && e.shiftKey === false) {
       if (message.trim() !== "" && files.length === 0) {
-        console.log("ENter !!");
+        // console.log("ENter !!");
         e.preventDefault();
         setMessage("");
         socket.emit("send_message_admin", messText);
-        // setMessageList([
-        //   ...messageList,
-        //   {
-        //     id: messText.messageContent.id,
-        //     ConversationId: id,
-        //     createdAt: moment().toISOString(),
-        //     Content: message,
-        //     Chatting: UserMe,
-        //     Type: "text",
-        //   },
-        // ]);
       } else if (message.trim() === "" && files.length !== 0) {
         e.preventDefault();
         for (let file of files) {
@@ -143,36 +120,13 @@ export const ChatContent = ({ chatInfo }) => {
             From: "admin",
             With: "user||partner",
           });
-          // setMessageList([
-          //   ...messageList,
-          //   {
-          //     id: Math.random(),
-          //     ConversationId: id,
-          //     createdAt: moment().toISOString(),
-          //     Content: file,
-          //     Chatting: UserMe,
-          //     Type: "file",
-          //     mineType: file.type,
-          //     fileName: file.name,
-          //   },
-          // ]);
         }
         setFiles([]);
       } else if (message.trim() !== "" && files.length !== 0) {
         e.preventDefault();
         setMessage("");
         socket.emit("send_message_admin", messText);
-        // setMessageList([
-        //   ...messageList,
-        //   {
-        //     id: Math.random(),
-        //     ConversationId: id,
-        //     createdAt: moment().toISOString(),
-        //     Content: message,
-        //     Chatting: UserMe,
-        //     Type: "text",
-        //   },
-        // ]);
+
         for (let file of files) {
           delete file.preview;
           socket.emit("send_message_admin", {
@@ -189,19 +143,6 @@ export const ChatContent = ({ chatInfo }) => {
             From: "admin",
             With: "user||partner",
           });
-          // setMessageList([
-          //   ...messageList,
-          //   {
-          //     id: Math.random(),
-          //     ConversationId: id,
-          //     createdAt: moment().toISOString(),
-          //     Content: file,
-          //     Chatting: UserMe,
-          //     Type: "file",
-          //     mineType: file.type,
-          //     fileName: file.name,
-          //   },
-          // ]);
         }
 
         setFiles([]);
@@ -228,34 +169,6 @@ export const ChatContent = ({ chatInfo }) => {
     }
   };
 
-  const cleanUpDuplicateMessageList = () => {
-    setMessageList((list) => {
-      let newList = [];
-      list.forEach((item) => {
-        // Check if the item already exists in the newList
-        const exists = newList.some((x) => x.id === item.id);
-        if (!exists) {
-          newList.push(item);
-        }
-      });
-      return newList;
-    });
-  };
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const { data } = await orderService.getAllOrderByUserId({});
-  //       const filterBooking = data.data.filter(
-  //         (item) => item.TenantId === chatInfo.AdminId?.id
-  //       );
-  //       setBooking(filterBooking);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   })();
-  // }, []);
-
   // ******* UseEffect Scroll to bottom *******
   useEffect(() => {
     if (flag) {
@@ -277,39 +190,30 @@ export const ChatContent = ({ chatInfo }) => {
   useEffect(() => {
     if (socket) {
       socket.on("receive_message_admin", (data) => {
-        // console.log(data.messageContent.ConversationId + " " + moment());
-        if (data.messageContent.ConversationId === id) {
-          setMessageList((list) => {
-            let duplicateFlag = false;
-            // console.log(messageList);
-            messageList.every((el) => {
-              if (el?.id === data.messageContent?.id) {
-                duplicateFlag = true;
-                return false;
-              }
-              return true;
-            });
-            if (!duplicateFlag) {
-              return [...list, data.messageContent];
-            }
-          });
-          setFlag(true);
-          cleanUpDuplicateMessageList();
-        } else {
-          return false;
-        }
+        setMessageList((list) => [...list, data.messageContent]);
+        setFlag(true);
       });
     }
-    // socket.on("isTyping", (data) => {
-    //   if (data.ConversationId === id && data.typing === true) {
-    //     setIsTyping(true);
-    //     scrollToBottom();
-    //   } else {
-    //     setIsTyping(false);
-    //     scrollToBottom();
-    //   }
-    // });
-  }, [socket, id]);
+  });
+
+  useEffect(() => {
+    setRenderMessageList(() => {
+      const uniqueIds = [];
+      const unique = messageList.filter((element) => {
+        const isDuplicate = uniqueIds.includes(element.id);
+
+        if (!isDuplicate) {
+          uniqueIds.push(element.id);
+
+          return true;
+        }
+
+        return false;
+      });
+
+      return [...unique];
+    });
+  }, [messageList]);
 
   return (
     <div className="ChatContent">
@@ -325,29 +229,6 @@ export const ChatContent = ({ chatInfo }) => {
             <div>{name}</div>
           </div>
         </div>
-        {/* {booking.length > 0 && (
-          <button
-            onClick={() => {
-              navigate("user/orderStatus");
-              dispatch(closeConversationAction());
-            }}
-            className="ChatContent__header__order"
-          >
-            <div className="d-flex flex-column align-items-center">
-              <div style={{ fontSize: "14px", fontWeight: "600" }}>
-                Bạn đang có {booking.length} đơn đặt hàng
-              </div>
-              <div style={{ fontSize: "10px", fontWeight: "900" }}>
-                XEM CHI TIẾT
-              </div>
-            </div>
-            <img
-              src={demopic1}
-              alt=""
-              className="ChatContent__header__order__pic"
-            />
-          </button>
-        )} */}
       </div>
       <div
         className="ChatContent__conversation"
@@ -401,7 +282,7 @@ export const ChatContent = ({ chatInfo }) => {
                 </div>
               </div>
             )}
-            {messageList
+            {renderMessageList
               .sort((a, b) => {
                 const a1 = /* new Date(a.createdAt) */ a.id;
                 const b1 = /* new Date(b.createdAt) */ b.id;
@@ -411,24 +292,20 @@ export const ChatContent = ({ chatInfo }) => {
                 <div
                   key={index}
                   className={
-                    itm.Chatting["AdminName"] || itm.Chatting?.user?.name
+                    itm["sender"] === "admin"
                       ? "ChatContent__conversation__you"
                       : "ChatContent__conversation__other"
                   }
                 >
                   <div
                     className={
-                      itm.Chatting["AdminName"] ||
-                      (itm.Chatting?.user?.name && itm.Type === "text")
-                        ? "ChatContent__conversation__other__content"
-                        : itm.Chatting["AdminName"] ||
-                          (itm.Chatting?.user?.name && itm.Type !== "text")
-                        ? "ChatContent__conversation__other__img"
-                        : !itm.Chatting["AdminName"] &&
-                          !itm.Chatting?.user?.name &&
-                          itm.Type === "text"
+                      itm["sender"] === "admin" && itm.Type === "text"
                         ? "ChatContent__conversation__you__content"
-                        : "ChatContent__conversation__you__img"
+                        : itm["sender"] === "admin" && itm.Type !== "text"
+                        ? "ChatContent__conversation__you__img"
+                        : itm["sender"] !== "admin" && itm.Type === "text"
+                        ? "ChatContent__conversation__other__content"
+                        : "ChatContent__conversation__other__img"
                     }
                   >
                     {renderMess(itm)}
@@ -437,10 +314,7 @@ export const ChatContent = ({ chatInfo }) => {
                         fontSize: "9px",
                         color: "#808080",
                         width: "100%",
-                        textAlign:
-                          itm.Chatting.PartnerName !== undefined
-                            ? "left"
-                            : "right",
+                        textAlign: itm["sender"] === "admin" ? "right" : "left",
                       }}
                     >
                       {moment(itm.createdAt).format("HH:mm DD/MM/YY")}
@@ -448,14 +322,7 @@ export const ChatContent = ({ chatInfo }) => {
                   </div>
                 </div>
               ))}
-            {/* {isTyping && (
-              <div className="ChatContent__conversation__typing">
-                <div className="ChatContent__conversation__typing__content">
-                  {chatInfo.AdminId?.name}
-                </div>{" "}
-                <div className="dot-typing" />
-              </div>
-            )} */}
+            <div ref={messageEndRef}></div>
           </>
         ) : (
           <div className="w-100 h-100 d-flex justify-content-center align-items-center">
@@ -466,7 +333,6 @@ export const ChatContent = ({ chatInfo }) => {
             </div>
           </div>
         )}
-        <div ref={messageEndRef}></div>
       </div>
 
       {/* ******* Upload Image, File + Text Area Edit Section ******* */}

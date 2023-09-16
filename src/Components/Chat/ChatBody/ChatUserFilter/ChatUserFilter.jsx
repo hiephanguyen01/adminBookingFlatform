@@ -21,6 +21,7 @@ export const ChatUserFilter = () => {
   const [value, setValue] = useState(null);
 
   const onChange = (value, option) => {
+    console.log(option);
     setValue(option.children.props.info.PartnerName);
     (async () => {
       try {
@@ -49,21 +50,8 @@ export const ChatUserFilter = () => {
   };
 
   const onSearch = async (value) => {
-    const { data } = await registerPartnerService.searchForRegisterPartner(
-      value
-    );
-    // console.log(data.payload);
-    if (data.payload.length > 0) {
-      const fetchedData = data.payload.reduce(
-        (total, curr) => {
-          total = total.filter((val) => val.id !== curr.id);
-
-          return [...total, curr];
-        },
-        [...partnerList]
-      );
-      setPartnerList([...fetchedData]);
-    }
+    const { data } = await registerPartnerService.searchPartner(null, value);
+    setPartnerList(data.payload);
   };
 
   return (

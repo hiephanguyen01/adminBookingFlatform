@@ -7,20 +7,32 @@ class RegisterPartnerService extends BaseService {
   getPartnerByTenantId = (tenantId) => {
     return this.get(`/api/register-partner/byTenant/${tenantId}`);
   };
-  getAllPartner = (page, limit,data) => {
-    return this.post(`/api/register-partner/filter?page=${page}&limit=${limit}`,data);
+  getAllPartner = (page, limit, data) => {
+    return this.post(
+      `/api/register-partner/filter?page=${page}&limit=${limit}`,
+      data
+    );
   };
   updatePartner = (id, data) => {
     return this.patch(`/api/register-partner/update/${id}`, data);
   };
-  getAllCustomer = (page, limit,data) => {
-    return this.post(`/api/booking-user/filter?page=${page}&limit=${limit}`,data);
+  getAllCustomer = (page, limit, data) => {
+    return this.post(
+      `/api/booking-user/filter?page=${page}&limit=${limit}`,
+      data
+    );
   };
   getCustomerById = (id) => {
     return this.get(`/api/booking-user/${id}`);
   };
   updateCustomer = (id, data) => {
     return this.patch(`/api/booking-user/${id}`, data);
+  };
+
+  searchPartner = (id, name) => {
+    return this.get(
+      `/api/register-partner/search?id=${id}&keyword=${name}&forAdmin=1`
+    );
   };
 }
 
