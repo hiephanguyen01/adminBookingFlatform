@@ -188,14 +188,14 @@ export const ManageOrder = () => {
   const onFinish = () => {};
 
   // ****Date select******
-  const disabledDate = (current) => {
-    if (!dates) {
-      return false;
-    }
-    const tooLate = dates[0] && current.diff(dates[0], "days") > 7;
-    const tooEarly = dates[1] && dates[1].diff(current, "days") > 7;
-    return !!tooEarly || !!tooLate;
-  };
+  // const disabledDate = (current) => {
+  //   if (!dates) {
+  //     return false;
+  //   }
+  //   const tooLate = dates[0] && current.diff(dates[0], "days") > 7;
+  //   const tooEarly = dates[1] && dates[1].diff(current, "days") > 7;
+  //   return !!tooEarly || !!tooLate;
+  // };
 
   const onChangeFilter = (value) => {
     setFilter({ ...filter, ...value });
@@ -215,7 +215,6 @@ export const ManageOrder = () => {
       } else {
         setFilter({ ...filter, EntryDate: obj });
       }
-      // setFilter({ ...filter, EntryDate: obj });
     }
     if (Object.keys(value)[0] == "CreateDate") {
       const obj = value?.CreateDate?.reduce((acc, item, index) => {
@@ -462,32 +461,21 @@ export const ManageOrder = () => {
           initialValues={{
             remember: true,
           }}
-          // onFinish={onFinish}
           onValuesChange={(e) => onChangeFilter(e)}
           autoComplete="off"
         >
           <Row gutter={[16, 16]}>
             {expandHeader
               ? formItem.map((item, idx) => (
-                  <Col span={6}>
-                    <Form.Item
-                      key={idx}
-                      name={item.name}
-                      label={item.label}
-                      // style={item.style}
-                    >
+                  <Col key={idx} span={6}>
+                    <Form.Item key={idx} name={item.name} label={item.label}>
                       {item.el}
                     </Form.Item>
                   </Col>
                 ))
               : formItem.slice(0, 4).map((item, idx) => (
-                  <Col span={6}>
-                    <Form.Item
-                      key={idx}
-                      name={item.name}
-                      label={item.label}
-                      // style={item.style}
-                    >
+                  <Col key={idx} span={6}>
+                    <Form.Item key={idx} name={item.name} label={item.label}>
                       {item.el}
                     </Form.Item>
                   </Col>

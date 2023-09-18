@@ -166,16 +166,16 @@ const Detail = ({ modify = false }) => {
       );
 
       //Pointing conversationData constant to temp.data object
-      const conversationData = temp?.payload;
+      // const conversationData = temp?.payload;
 
-      if (conversationData) {
-        // Request User and Partner join a same chat room
-        socket.emit("requestUserAndPartnerJoinRoom", {
-          roomId: conversationData?.id,
-          userId: data?.user?.id,
-          partnerId: data?.TenantId,
-        });
-      }
+      // if (conversationData) {
+      //   // Request User and Partner join a same chat room
+      //   socket.emit("requestUserAndPartnerJoinRoom", {
+      //     roomId: conversationData?.id,
+      //     userId: data?.user?.id,
+      //     partnerId: data?.TenantId,
+      //   });
+      // }
     } catch (error) {
       console.error(error);
     }
@@ -199,15 +199,17 @@ const Detail = ({ modify = false }) => {
         // Check if the previous payment status equal 1
         // IF it is: create a chat room
         // ELSE: don't create a chat room
-        if (data.PaymentStatus === 1) {
-          // ****** Create chat room socket event ******
-          createConversationBetweenUserAndPartner();
-        }
+        // if (data.PaymentStatus === 1) {
+        //   // ****** Create chat room socket event ******
+        //   createConversationBetweenUserAndPartner();
+        // }
         // ****** Notify to admin socket event ******
         socket?.emit("manualChangeBookingStatusByAdmin", {
           ...value,
           TenantId: data.TenantId,
           IdentifyCode: data.IdentifyCode,
+          BookingUserId: data?.BookingUserId,
+          id: data?.id,
         });
       }
 
@@ -331,7 +333,6 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
             }}
             label="Mã đơn đặt"
-            // name="Id"
           >
             <Input
               disabled
@@ -363,7 +364,6 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
             }}
             label="Mã bài đăng"
-            // name="StudioPostId"
           >
             <Input
               disabled
@@ -392,7 +392,6 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
             }}
             label="Tên phòng"
-            // name="Name"
           >
             <Input
               disabled
@@ -426,7 +425,6 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
             }}
             label="Ngày đặt đơn"
-            // name="CreationTime"
           >
             <Input
               disabled
@@ -484,7 +482,6 @@ const Detail = ({ modify = false }) => {
             <Select
               disabled={modify ? false : true}
               size="large"
-              // onChange={handleChange}
               options={[
                 {
                   value: 1,
@@ -509,13 +506,11 @@ const Detail = ({ modify = false }) => {
             style={{
               width: "49%",
               display: "inline-block",
-              // marginRight: "15px",
             }}
             label="Lời nhắn"
             name="OrderNote"
           >
             <Input
-              // value={data.Note}
               disabled={modify ? false : true}
               style={{ padding: "10px" }}
             />
@@ -528,7 +523,6 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
             }}
             label="Tổng tạm tính"
-            // name="BookingValueBeforeDiscount"
           >
             <Input
               disabled
@@ -549,7 +543,6 @@ const Detail = ({ modify = false }) => {
               marginLeft: "15px",
             }}
             label="Mã khuyến mãi"
-            // name="PromoCodeId"
           >
             <Input
               disabled
@@ -883,7 +876,6 @@ const Detail = ({ modify = false }) => {
               display: "inline-block",
             }}
             label="Cổng thanh toán"
-            // name=""
           >
             <Input disabled style={{ padding: "10px" }} />
           </Form.Item>
@@ -895,7 +887,6 @@ const Detail = ({ modify = false }) => {
             }}
             disabled
             label="Tiền cọc"
-            // name="deposit"
           >
             <Input
               disabled
@@ -914,7 +905,6 @@ const Detail = ({ modify = false }) => {
                 display: "inline-block",
               }}
               label="Ngày hủy"
-              // name="cancelDate"
             >
               <Input
                 disabled
@@ -933,7 +923,6 @@ const Detail = ({ modify = false }) => {
                 marginLeft: "15px",
               }}
               label="Hủy đơn miễn phí"
-              // name="freeCancelationBefore"
             >
               <Input
                 value={
