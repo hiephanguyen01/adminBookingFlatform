@@ -52,6 +52,7 @@ export const logOut = (navigate, pathname) => async (dispatch) => {
 export const setupSocket =
   (adminId = null) =>
   async (dispatch) => {
+    // window.location.protocol + "//" + window.location.host,http://localhost:3003
     const newSocket = io(baseURL);
     if (newSocket) {
       newSocket.on("disconnect", () => {
