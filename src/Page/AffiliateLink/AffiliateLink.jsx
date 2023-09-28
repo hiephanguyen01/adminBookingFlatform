@@ -33,8 +33,8 @@ const AffiliateLink = () => {
       dataIndex: "english",
       render: (filed, _) => (
         <p>
-          {_?.AffiliateCommissionByDate * 100 || 0} % <br />{" "}
-          {_?.AffiliateCommissionByHour * 100 || 0} %{" "}
+          {Math.round(_?.AffiliateCommissionByDate * 100) || 0} % <br />{" "}
+          {Math.round(_?.AffiliateCommissionByHour * 100) || 0} %{" "}
         </p>
       ),
     },
@@ -115,7 +115,8 @@ const AffiliateLink = () => {
       <div className="chile">
         <Table columns={columns} dataSource={service} pagination={false} />
         <div
-          style={{ width: "fit-content", margin: "0 auto", padding: "20px 0" }}>
+          style={{ width: "fit-content", margin: "0 auto", padding: "20px 0" }}
+        >
           {paginate && (
             <Pagination
               disabled={loading}

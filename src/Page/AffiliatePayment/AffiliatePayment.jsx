@@ -1,4 +1,4 @@
-import { Button, Select, Table, Tag, Switch, Input } from "antd";
+import { Button, Select, Table, Tag, Switch, Input, Popconfirm } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 
@@ -88,13 +88,20 @@ const AffiliatePayment = () => {
       dataIndex: "payStatus",
       key: "payStatus",
       render: (_, record) => (
-        <Switch
-          checkedChildren="rồi"
-          unCheckedChildren="chưa"
-          disabled={onLoadingSwitch}
-          checked={_}
-          onChange={() => onChangeCheck(record)}
-        />
+        <Popconfirm
+          title="Xác nhận"
+          description="Bạn có đồng ý thay đổi trạng thái?"
+          onConfirm={() => onChangeCheck(record)}
+          okText="Đồng ý"
+          cancelText="Huỷ"
+        >
+          <Switch
+            checkedChildren="rồi"
+            unCheckedChildren="chưa"
+            disabled={onLoadingSwitch}
+            checked={_}
+          />
+        </Popconfirm>
       ),
     },
   ];
@@ -134,7 +141,8 @@ const AffiliatePayment = () => {
             <Select
               defaultValue={moment().subtract(1, "month").format("MM/YYYY")}
               style={{ width: 120 }}
-              onChange={(value) => setOption(value)}>
+              onChange={(value) => setOption(value)}
+            >
               {years.map((year) => (
                 <Option key={year} value={year}>
                   {year}
@@ -149,7 +157,8 @@ const AffiliatePayment = () => {
                 href={
                   baseURL +
                   `/api/affiliate-payment/admin-export?option=${optionFill}`
-                }>
+                }
+              >
                 Tải báo cáo
               </Button>
             )}
@@ -157,7 +166,8 @@ const AffiliatePayment = () => {
               <Button
                 type="primary"
                 disabled={true}
-                icon={<DownloadOutlined />}>
+                icon={<DownloadOutlined />}
+              >
                 Tải báo cáo
               </Button>
             )}

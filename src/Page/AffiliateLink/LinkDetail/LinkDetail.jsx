@@ -43,7 +43,6 @@ const LinkDetail = () => {
             style={{ width: "80px" }}
             step={0.01}
             onChange={(e) => handleChange(e, record)}
-            onBlur={handleBlur}
             defaultValue={_ || 0}
             min={0}
             max={1}
@@ -58,6 +57,7 @@ const LinkDetail = () => {
   // </p>
   const handleChange = (e, record) => {
     const value = e.target.value;
+
     setPageData((data) => {
       if (record.key === "1") {
         return {
@@ -80,6 +80,14 @@ const LinkDetail = () => {
   };
 
   const handleBlur = async () => {
+    if (
+      pageData.post.AffiliateCommissionByHour > 1 ||
+      pageData.post.AffiliateCommissionByHour < 0 ||
+      pageData.post.AffiliateCommissionByDate > 1 ||
+      pageData.post.AffiliateCommissionByDate < 0
+    ) {
+      return openNotification("error", "Giá trị nhỏ hơn 1 và lớn hơn 0");
+    }
     try {
       await roomService.updateService(id, category, pageData.post);
       openNotification("success", "Cập nhật thành công");
@@ -114,7 +122,8 @@ const LinkDetail = () => {
           <Breadcrumb.Item>
             <p
               style={{ display: "inline", cursor: "pointer" }}
-              onClick={() => navigate("/affiliate/link")}>
+              onClick={() => navigate("/affiliate/link")}
+            >
               Quản lý link
             </p>
           </Breadcrumb.Item>
@@ -177,7 +186,8 @@ const LinkDetail = () => {
                       target="_blank"
                       href={`https://bookingstudio.vn/home/${pageData?.label?.toLowerCase()}/${
                         pageData?.post?.id
-                      }`}>
+                      }`}
+                    >
                       {`https://bookingstudio.vn/home/${pageData?.label?.toLowerCase()}/${
                         pageData?.post?.id
                       }`}
@@ -188,7 +198,19 @@ const LinkDetail = () => {
             </Col>
           </Col>
           <Col sm={12}>
-            <Table dataSource={dataSource} columns={columns} />
+            <Table
+              dataSource={dataSource}
+              columns={columns}
+              pagination={false}
+            />
+            <Button
+              type="primary"
+              style={{ marginTop: "24px" }}
+              block
+              onClick={handleBlur}
+            >
+              Lưu
+            </Button>
           </Col>
         </Row>
       </div>
