@@ -14,6 +14,7 @@ import { notificationService } from "../../services/notificationService";
 import { logOut } from "../../store/action/authAction";
 import NotiCard from "../NotiCard";
 import "./Header.scss";
+import LogoHeaderIcon from "../../assets/logo";
 const Header = () => {
   const location = useLocation();
   const [time, setTime] = useState();
@@ -107,7 +108,8 @@ const Header = () => {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        footer={false}>
+        footer={false}
+      >
         <Tabs
           defaultActiveKey={1}
           type="card"
@@ -159,7 +161,8 @@ const Header = () => {
       <Row style={{ width: "100%" }}>
         <Col md={4} sm={4} xs={4} style={{ textAlign: "start" }}>
           <Link to={"/dashboard/account"}>
-            <img src={logo} alt="logo" style={{ paddingLeft: "20px" }} />
+            {/* <img src={logo} alt="logo" style={{ paddingLeft: "20px" }} /> */}
+            <LogoHeaderIcon style={{ paddingLeft: "20px" }} />
           </Link>
         </Col>
         <Col
@@ -170,7 +173,8 @@ const Header = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-          }}>
+          }}
+        >
           <p>{time}</p>
         </Col>
         <Col
@@ -181,12 +185,14 @@ const Header = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "end",
-          }}>
+          }}
+        >
           <Button
             shape="circle"
             size="large"
             style={{ marginRight: "20px" }}
-            onClick={showModal}>
+            onClick={showModal}
+          >
             <BellOutlined />
           </Button>
           <Popover
@@ -197,12 +203,14 @@ const Header = () => {
                 Log out
               </Button>
             }
-            trigger="click">
+            trigger="click"
+          >
             <div style={{ cursor: "pointer", marginRight: "20px" }}>
               <Tag
                 style={{ fontSize: "18px", padding: "10px" }}
                 icon={<AliwangwangOutlined />}
-                color="magenta">
+                color="magenta"
+              >
                 {currentUser?.user
                   ? currentUser?.user?.name
                   : currentUser?.name}

@@ -30,7 +30,8 @@ const renderCustomizedLabel = ({
       y={y}
       fill="white"
       textAnchor={x > cx ? "start" : "end"}
-      dominantBaseline="central">
+      dominantBaseline="central"
+    >
       {`${(percent * 100).toFixed(0)}%`}
     </text>
   );
@@ -48,7 +49,7 @@ const PieChartComponent = ({ date, totalCount }) => {
   return (
     <div className="chile">
       <div className="padding-20">
-        <p className="title">Số lượng đối tác phân theo danh mục</p>
+        <p className="title">Số lượng bài đăng phân theo danh mục</p>
         <p className="date">{date}</p>
       </div>
       <Row align="middle" justify="center">
@@ -57,37 +58,43 @@ const PieChartComponent = ({ date, totalCount }) => {
             <div className="item">
               <div
                 className="color"
-                style={{ backgroundColor: "#0088FE" }}></div>{" "}
+                style={{ backgroundColor: "#0088FE" }}
+              ></div>{" "}
               Studio
             </div>
             <div className="item">
               <div
                 className="color"
-                style={{ backgroundColor: "#E97777" }}></div>{" "}
+                style={{ backgroundColor: "#E97777" }}
+              ></div>{" "}
               Trang phục
             </div>
             <div className="item">
               <div
                 className="color"
-                style={{ backgroundColor: "#00C49F" }}></div>{" "}
+                style={{ backgroundColor: "#00C49F" }}
+              ></div>{" "}
               Nhiếp ảnh
             </div>
             <div className="item">
               <div
                 className="color"
-                style={{ backgroundColor: "#F675A8" }}></div>{" "}
+                style={{ backgroundColor: "#F675A8" }}
+              ></div>{" "}
               Makeup
             </div>
             <div className="item">
               <div
                 className="color"
-                style={{ backgroundColor: "#FFBB28" }}></div>{" "}
+                style={{ backgroundColor: "#FFBB28" }}
+              ></div>{" "}
               Thiết bị
             </div>
             <div className="item">
               <div
                 className="color"
-                style={{ backgroundColor: "#F2D388" }}></div>{" "}
+                style={{ backgroundColor: "#F2D388" }}
+              ></div>{" "}
               Người mẫu
             </div>
           </div>
@@ -95,7 +102,8 @@ const PieChartComponent = ({ date, totalCount }) => {
         <Col
           lg={12}
           xs={24}
-          style={{ padding: " 0 0 20px 20px", textAlign: "center" }}>
+          style={{ padding: " 0 0 20px 20px", textAlign: "center" }}
+        >
           <div style={{ justifyContent: "center", display: "flex" }}>
             <PieChart width={200} height={200}>
               <Pie
@@ -106,7 +114,8 @@ const PieChartComponent = ({ date, totalCount }) => {
                 label={renderCustomizedLabel}
                 outerRadius={100}
                 fill="#8884d8"
-                dataKey="value">
+                dataKey="value"
+              >
                 {data.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
